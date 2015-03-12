@@ -12,6 +12,7 @@
 .project
 
 */build/
+*/bin/
 
 # Package Files #
 *.jar
