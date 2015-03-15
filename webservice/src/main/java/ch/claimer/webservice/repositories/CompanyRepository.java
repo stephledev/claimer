@@ -1,5 +1,7 @@
 package ch.claimer.webservice.repositories;
 
-public interface CompanyRepository<Id> {
+import ch.claimer.shared.models.Company;
+
+public interface CompanyRepository extends Dao<Company, Integer> {
 
 }

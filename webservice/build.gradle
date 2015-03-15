@@ -13,4 +13,5 @@ apply plugin: 'flyway'
 dependencies {
     compile project(':shared')
     compile 'mysql:mysql-connector-java:5.1.34'
+    compile 'org.jboss.resteasy:resteasy-jaxrs:3.0.10.Final'
 }
