@@ -7,7 +7,8 @@ buildscript {
       classpath 'mysql:mysql-connector-java:5.1.34'
       classpath 'org.flywaydb:flyway-gradle-plugin:3.1'
       classpath 'com.bmuschko:gradle-tomcat-plugin:2.1'
-
+      classpath 'com.fasterxml.jackson.core:jackson-core:2.5.1'
+      classpath 'com.fasterxml.jackson.core:jackson-databind:2.5.1'
     }
 
 }
