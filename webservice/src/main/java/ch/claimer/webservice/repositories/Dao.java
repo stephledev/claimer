@@ -5,10 +5,10 @@ import java.util.List;
 
 public interface Dao<T, Id extends Serializable> {
 	
-    T create(T t);
+    T store(T t);
     T getById(Id id);
     List<T> getAll();
     T update(T t);
-    void delete(T t);
+    void destroy(T t);
     
 }

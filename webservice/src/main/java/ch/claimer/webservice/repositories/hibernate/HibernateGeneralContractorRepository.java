@@ -10,8 +10,8 @@ public class HibernateGeneralContractorRepository implements GeneralContractorRe
 	private final HibernateDao<GeneralContractor, Integer> dao = new HibernateDao<GeneralContractor, Integer>(GeneralContractor.class);
 	
 	@Override
-	public GeneralContractor create(GeneralContractor generalContractor) {
-		return dao.create(generalContractor);
+	public GeneralContractor store(GeneralContractor generalContractor) {
+		return dao.store(generalContractor);
 	}
 
 	@Override
@@ -30,7 +30,7 @@ public class HibernateGeneralContractorRepository implements GeneralContractorRe
 	}
 
 	@Override
-	public void delete(GeneralContractor generalContractor) {
-		dao.delete(generalContractor);
+	public void destroy(GeneralContractor generalContractor) {
+		dao.destroy(generalContractor);
 	}
 }

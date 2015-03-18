@@ -6,61 +6,48 @@ import com.google.inject.Inject;
 
 import ch.claimer.shared.models.GeneralContractor;
 import ch.claimer.webservice.repositories.GeneralContractorRepository;
+import ch.claimer.webservice.service.JsonDataProcessorService;
 
 public class GeneralContractorController implements Controller<Integer> {
 
 	@Inject
-	GeneralContractorRepository repo;
-	
-	public void create() {
-		
-		GeneralContractor company = new GeneralContractor();
-	    company.setName("Beeler GmbH");
-	    company.setStreet("Neustadtstrasse 31");
-	    company.setZip("6003");
-	    company.setPlace("Luzern");
-	    
-	    repo.create(company);
+	private GeneralContractorRepository repo;
+	private final JsonDataProcessorService<GeneralContractor> processor = new JsonDataProcessorService<GeneralContractor>(GeneralContractor.class);
+
+	@Override
+	public Response index() {
+		String gcs = processor.write(repo.getAll());
+		return Response.status(200).entity(gcs).build();
 		
 	}
 
 	@Override
-	public void index() {
-		// TODO Auto-generated method stub
+	public Response show(Integer id) {	
+		String gc = processor.write(repo.getById(id));
+		return Response.status(200).entity(gc).build();
+	}
+
+	@Override
+	public Response store(String gcString) {
+		GeneralContractor gc = processor.read(gcString);
+		repo.store(gc);
+		return Response.status(200).entity("General Contractor has been created: " + gcString).build();
 		
 	}
 
 	@Override
-	public Response show(Integer id) {
-		JsonFactory factory = objectMapper.getFactory();
-		repo.getById(id);
-		return Response.status(200).entity("test").build();
-
+	public Response update(String gcString) {
+		GeneralContractor gc = processor.read(gcString);
+		repo.update(gc);
+		return Response.status(200).entity("General Contractor has been updated: " + gcString).build();
 		
 	}
 
 	@Override
-	public void store() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void edit(Integer id) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void update(Integer id) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void destroy(Integer id) {
-		// TODO Auto-generated method stub
-		
+	public Response destroy(String gcString) {
+		GeneralContractor gc = processor.read(gcString);
+		repo.destroy(gc);
+		return Response.status(200).entity("General Contractor has been deleted: " + gcString).build();		
 	}
 	
 }

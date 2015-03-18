@@ -41,7 +41,7 @@ public class HibernateDao<T, Id extends Serializable> implements Dao<T, Id> {
 	}	
 
 	@Override
-	public T create(T t) {
+	public T store(T t) {
 		openCurrentSessionwithTransaction();
 		currentSession.save(t);
 		closeCurrentSessionwithTransaction();
@@ -75,7 +75,7 @@ public class HibernateDao<T, Id extends Serializable> implements Dao<T, Id> {
 	}
 
 	@Override
-	public void delete(T t) {
+	public void destroy(T t) {
 		openCurrentSessionwithTransaction();
 		currentSession.delete(t);
 		closeCurrentSessionwithTransaction();

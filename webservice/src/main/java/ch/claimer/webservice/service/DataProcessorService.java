@@ -1,0 +1,9 @@
+package ch.claimer.webservice.service;
+
+import java.util.List;
+
+public interface DataProcessorService<T> {
+	public T read(String data);
+	public String write(T t);
+	public String write(List<T> list);
+}

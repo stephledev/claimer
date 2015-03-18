@@ -4,13 +4,11 @@ import javax.ws.rs.core.Response;
 
 public interface Controller<Id> {
 	
-	public void index();
+	public Response index();
 	public Response show(Id id);
-	public void create();
-	public void store();
-	public void edit(Id id);
-	public void update(Id id);
-	public void destroy(Id id);
+	public Response store(String data);
+	public Response update(String data);
+	public Response destroy(String data);
 	
 	
 
