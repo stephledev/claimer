@@ -2,7 +2,7 @@ package ch.claimer.webservice.repositories.hibernate;
 
 import java.util.List;
 
-import ch.claimer.shared.models.GeneralContractor;
+import ch.claimer.shared.entities.GeneralContractor;
 import ch.claimer.webservice.repositories.GeneralContractorRepository;
 
 public class HibernateGeneralContractorRepository implements GeneralContractorRepository {

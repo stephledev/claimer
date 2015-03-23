@@ -4,7 +4,7 @@ import javax.ws.rs.core.Response;
 
 import com.google.inject.Inject;
 
-import ch.claimer.shared.models.GeneralContractor;
+import ch.claimer.shared.entities.GeneralContractor;
 import ch.claimer.webservice.repositories.GeneralContractorRepository;
 import ch.claimer.webservice.service.JsonDataProcessorService;
 
