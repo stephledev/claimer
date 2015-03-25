@@ -14,6 +14,7 @@ import java.net.URISyntaxException;
 import java.util.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.MediaType;
  
 /**
  * @author Stephan Beeler
@@ -22,6 +23,8 @@ import javax.servlet.http.HttpServletResponse;
 public class TestSCEmployeeRoute {
 	
 	private static Dispatcher dispatcher;
+	private static MockHttpResponse response;
+	private static MockHttpRequest request;
     
  
     @BeforeClass
@@ -34,31 +37,50 @@ public class TestSCEmployeeRoute {
     	System.out.println(dispatcher);
     }
  
-    @AfterClass
-    public static void oneTimeTearDown() {
-        // one-time cleanup code
-    	System.out.println("@AfterClass - oneTimeTearDown");
-    }
- 
     @Before
     public void setUp() {
-        System.out.println("@Before - setUp");
+    	response = new MockHttpResponse();
     }
  
     @After
     public void tearDown() {
-        System.out.println("@After - tearDown");
+    	request = null;
+        response = null;
     }
  
     @Test
-    public void testEmptyCollection() throws URISyntaxException {
+    public void testIndexRoute() throws URISyntaxException {
     	MockHttpRequest request = MockHttpRequest.get("/scemployee");
-        MockHttpResponse response = new MockHttpResponse();
+        
         dispatcher.invoke(request, response);
+        
+        Assert.assertEquals(HttpServletResponse.SC_OK, response.getStatus()); 
+    }
+    
+    @Test
+    public void testShowRoute() throws URISyntaxException {
+    	MockHttpRequest request = MockHttpRequest.get("/scemployee/1");
+        
+        dispatcher.invoke(request, response);
+        
+        Assert.assertEquals(HttpServletResponse.SC_OK, response.getStatus()); 
+    }
+    
+    @Test
+    public void testUpdateRoute() throws URISyntaxException {
+    	MockHttpRequest request = MockHttpRequest.post("/scemployee");
+    	
+    	request.accept(MediaType.APPLICATION_JSON);
+        request.contentType(MediaType.APPLICATION_JSON_TYPE);
 
-
-        Assert.assertEquals(HttpServletResponse.SC_OK, response.getStatus());
-        Assert.assertEquals("basic", response.getContentAsString());    }
+        request.content(res.toJSONString().getBytes());
+        
+        dispatcher.invoke(request, response);
+        
+        Assert.assertEquals(HttpServletResponse.SC_OK, response.getStatus()); 
+        
+        
+    }
  
 
 }
