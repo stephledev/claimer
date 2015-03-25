@@ -10,6 +10,13 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToOne;
 
+/**
+  * Represents the base person, providing access to the person's lastname
+  * firstname, telephone, email and login.
+  * 
+  * @author Stephan Beeler
+  */
+
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
 public class Person implements Serializable {

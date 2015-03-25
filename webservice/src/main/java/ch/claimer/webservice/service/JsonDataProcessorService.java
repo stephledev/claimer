@@ -5,12 +5,16 @@ import java.util.List;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+
 public class JsonDataProcessorService<T> implements DataProcessorService<T> {
 	
 	private final ObjectMapper mapper = new ObjectMapper();
 	private final Class<T> clazz;
 	
-	public JsonDataProcessorService(Class<T> clazz) {
+	@Inject
+	public JsonDataProcessorService(@Assisted Class<T> clazz) {
         this.clazz = clazz;
     }
 

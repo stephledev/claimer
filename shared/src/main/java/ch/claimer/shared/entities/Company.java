@@ -1,8 +1,8 @@
 package ch.claimer.shared.entities;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
@@ -10,13 +10,13 @@ import javax.persistence.InheritanceType;
 
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
-public abstract class Company extends Model {
+public abstract class Company implements Serializable {
+	
+	private static final long serialVersionUID = 5886589973590812526L;
 	
 	@Id
 	@GeneratedValue
 	private int id;
-	@Enumerated(EnumType.STRING)
-	private CompanyType type;
 	private String name;
 	private String street;
 	private String zip;
@@ -29,12 +29,6 @@ public abstract class Company extends Model {
 	}
 	public void setId(int id) {
 		this.id = id;
-	}
-	public CompanyType getType() {
-		return type;
-	}
-	public void setType(CompanyType type) {
-		this.type = type;
 	}
 	public String getName() {
 		return name;

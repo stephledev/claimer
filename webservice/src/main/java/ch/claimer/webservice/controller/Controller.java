@@ -10,6 +10,4 @@ public interface Controller<Id> {
 	public Response update(String data);
 	public Response destroy(String data);
 	
-	
-
 }
