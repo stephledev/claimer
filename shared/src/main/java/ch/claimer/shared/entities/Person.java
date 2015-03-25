@@ -23,10 +23,6 @@ public class Person implements Serializable {
 
 	private static final long serialVersionUID = -7793558619197649513L;
 	
-	public Person() {
-		
-	}
-	
 	@Id
 	@GeneratedValue
 	private int id;
@@ -36,6 +32,10 @@ public class Person implements Serializable {
 	private String email;
 	@OneToOne(cascade=CascadeType.ALL)
 	private Login login;
+	
+	public Person() {
+		
+	}
 
 	public int getId() {
 		return id;

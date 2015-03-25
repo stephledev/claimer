@@ -5,21 +5,12 @@ import java.util.List;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
-
 public class JsonDataProcessorService<T> implements DataProcessorService<T> {
 	
 	private final ObjectMapper mapper = new ObjectMapper();
-	private final Class<T> clazz;
-	
-	@Inject
-	public JsonDataProcessorService(@Assisted Class<T> clazz) {
-        this.clazz = clazz;
-    }
 
 	@Override
-	public T read(String data) {
+	public T read(String data, Class<T> clazz) {
 		T t = null;
 		try {
 			t = mapper.readValue(data, clazz);

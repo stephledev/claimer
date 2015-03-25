@@ -14,6 +14,7 @@ public class SCEmployeeControllerInjector extends AbstractModule {
 	@Override
 	protected void configure() {
 		bind(SCEmployeeRepository.class).to(HibernateSCEmployeeRepository.class);
+		bind(new TypeLiteral<DataProcessorService<SCEmployee>>(){}).to(new TypeLiteral<JsonDataProcessorService<SCEmployee>>(){});
 	}
 
 }

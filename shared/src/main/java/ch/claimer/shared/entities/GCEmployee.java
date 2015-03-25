@@ -3,8 +3,9 @@ package ch.claimer.shared.entities;
 import javax.persistence.Entity;
 
 /**
- * Extends the base person, providing access to employee specific 
- * relations. Is also used to determine the permissions.
+ * Extends the base person, providing access to general contractor
+ * employee specific relations. Is also used to determine the 
+ * permissions.
  * 
  * @author Stephan Beeler
  */

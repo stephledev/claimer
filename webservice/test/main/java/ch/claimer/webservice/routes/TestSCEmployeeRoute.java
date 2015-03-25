@@ -50,7 +50,7 @@ public class TestSCEmployeeRoute {
  
     @Test
     public void testIndexRoute() throws URISyntaxException {
-    	MockHttpRequest request = MockHttpRequest.get("/scemployee");
+    	request = MockHttpRequest.get("/scemployee");
         
         dispatcher.invoke(request, response);
         
@@ -59,7 +59,7 @@ public class TestSCEmployeeRoute {
     
     @Test
     public void testShowRoute() throws URISyntaxException {
-    	MockHttpRequest request = MockHttpRequest.get("/scemployee/1");
+    	request = MockHttpRequest.get("/scemployee/1");
         
         dispatcher.invoke(request, response);
         
@@ -68,12 +68,12 @@ public class TestSCEmployeeRoute {
     
     @Test
     public void testUpdateRoute() throws URISyntaxException {
-    	MockHttpRequest request = MockHttpRequest.post("/scemployee");
+    	request = MockHttpRequest.post("/scemployee");
     	
     	request.accept(MediaType.APPLICATION_JSON);
         request.contentType(MediaType.APPLICATION_JSON_TYPE);
 
-        request.content(res.toJSONString().getBytes());
+        //request.content(res.toJSONString().getBytes());
         
         dispatcher.invoke(request, response);
         

@@ -11,8 +11,7 @@
    <property name="hibernate.connection.password">claimer</property>
    <property name="show_sql">true</property>
    <property name="hibernate.current_session_context_class">thread</property>
-   <property name="hbm2ddl.auto">create</property>
-   <mapping class="ch.claimer.shared.entities.SCEmployee"/>
-   <mapping class="ch.claimer.shared.entities.Login"/>
+   <property name="hbm2ddl.auto">update</property>
+   <mapping class="ch.claimer.shared.entities.*"/>
 </session-factory>
 </hibernate-configuration>

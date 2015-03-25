@@ -5,20 +5,18 @@ import javax.ws.rs.core.Response;
 import com.google.inject.Inject;
 
 import ch.claimer.shared.entities.SCEmployee;
-import ch.claimer.webservice.injector.DataProcessorServiceFactory;
 import ch.claimer.webservice.repositories.SCEmployeeRepository;
 import ch.claimer.webservice.service.DataProcessorService;
-import ch.claimer.webservice.service.JsonDataProcessorService;
 
 public class SCEmployeeController implements Controller<Integer> {
 
 	private final SCEmployeeRepository repo;
-	private final JsonDataProcessorService<SCEmployee> processor;
+	private final DataProcessorService<SCEmployee> processor;
 	
 	@Inject
-	public SCEmployeeController(SCEmployeeRepository repo) {
+	public SCEmployeeController(SCEmployeeRepository repo, DataProcessorService<SCEmployee> processor) {
 		this.repo = repo;
-		this.processor = new JsonDataProcessorService<SCEmployee>(SCEmployee.class);
+		this.processor = processor;
 	}
 
 	@Override
@@ -36,25 +34,25 @@ public class SCEmployeeController implements Controller<Integer> {
 
 	@Override
 	public Response store(String entityString) {
-		SCEmployee entity = processor.read(entityString);
+		SCEmployee entity = processor.read(entityString, SCEmployee.class);
 		repo.store(entity);
-		return Response.status(200).entity("General Contractor has been created: " + entityString).build();
+		return Response.status(200).entity("Subcontractor employee has been created: " + entityString).build();
 		
 	}
 
 	@Override
 	public Response update(String entityString) {
-		SCEmployee entity = processor.read(entityString);
+		SCEmployee entity = processor.read(entityString, SCEmployee.class);
 		repo.update(entity);
-		return Response.status(200).entity("General Contractor has been updated: " + entityString).build();
+		return Response.status(200).entity("Subcontractor employee has been updated: " + entityString).build();
 		
 	}
 
 	@Override
 	public Response destroy(String entityString) {
-		SCEmployee entity = processor.read(entityString);
+		SCEmployee entity = processor.read(entityString, SCEmployee.class);
 		repo.destroy(entity);
-		return Response.status(200).entity("General Contractor has been deleted: " + entityString).build();		
+		return Response.status(200).entity("Subcontractor employee has been deleted: " + entityString).build();		
 	}
 	
 }
