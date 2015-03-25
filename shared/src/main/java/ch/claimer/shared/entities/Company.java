@@ -8,6 +8,13 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
+/**
+ * Represents the base company, providing access to the company's name,
+ * street, zip, place, phone and email.
+ * 
+ * @author Stephan Beeler
+ */
+
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
 public abstract class Company implements Serializable {

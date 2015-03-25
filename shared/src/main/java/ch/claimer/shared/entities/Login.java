@@ -16,6 +16,7 @@ public class Login implements Serializable {
 	private int id;
 	private String username;
 	private String password;
+	private boolean isAdmin;
 
 	public int getId() {
 		return id;
@@ -39,6 +40,14 @@ public class Login implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public boolean isAdmin() {
+		return isAdmin;
+	}
+
+	public void setAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
 	}
 
 	public Login() {

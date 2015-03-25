@@ -2,6 +2,13 @@ package ch.claimer.shared.entities;
 
 import javax.persistence.Entity;
 
+/**
+ * Extends the base company, providing access to subcontractor
+ * specific relations. Is also used to determine the permissions.
+ * 
+ * @author Stephan Beeler
+ */
+
 @Entity
 public class Subcontractor extends Company {
 	
