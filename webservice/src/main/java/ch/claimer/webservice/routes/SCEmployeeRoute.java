@@ -27,7 +27,7 @@ public class SCEmployeeRoute {
 	
 	//Get an injected instance of the controller
 	Injector injector = Guice.createInjector(new SCEmployeeControllerInjector());
-	SCEmployeeController sec = injector.getInstance(SCEmployeeController.class);
+	SCEmployeeController controller = injector.getInstance(SCEmployeeController.class);
  
 	/**
 	 * Maps the controller to show all subcontractor employees
@@ -37,7 +37,7 @@ public class SCEmployeeRoute {
     @GET
 	@Path("/scemployee")
 	public Response getAllSCEmployees() {
-		return sec.index();
+		return controller.index();
 	} 
     
     /**
@@ -52,7 +52,21 @@ public class SCEmployeeRoute {
 	@GET
 	@Path("/scemployee/{id}")
 	public Response getSCEmployeeById(@PathParam("id") int id) {
-		return sec.show(id);
+		return controller.show(id);
+	}
+	
+	/**
+	 * Maps the controller to get a specific subcontractor employee by his
+	 * subcontractor
+	 * 
+	 * @param id subcontractor of the subcontractor employee to show supplied by the URL
+	 * 
+	 * @return Response from the controller
+	 */
+	@GET
+	@Path("/scemployee/subcontractor/{id}")
+	public Response getSCEmployeeBySubcontractor(@PathParam("id") int id) {
+		return controller.show(id);
 	}
 	
 	/**
@@ -67,7 +81,7 @@ public class SCEmployeeRoute {
 	@POST
 	@Path("/scemployee")
 	public Response storeSCEmployee(@FormParam("data") String data) {
-		return sec.store(data);
+		return controller.store(data);
 	} 
 	
 	/**
@@ -82,7 +96,7 @@ public class SCEmployeeRoute {
 	@PUT
 	@Path("/scemployee")
 	public Response updateSCEmployee(@FormParam("data") String data) {
-		return sec.update(data);
+		return controller.update(data);
 	} 
 	
 	/**
@@ -97,6 +111,6 @@ public class SCEmployeeRoute {
 	@DELETE
 	@Path("/scemployee")
 	public Response destroySCEmployee(@FormParam("data") String data) {
-		return sec.destroy(data);
+		return controller.destroy(data);
 	}  
 }
