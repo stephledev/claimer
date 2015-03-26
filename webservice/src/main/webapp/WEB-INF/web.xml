@@ -11,7 +11,7 @@
 
 	<context-param>
 		<param-name>resteasy.resources</param-name>
-		<param-value>ch.claimer.webservice.routes.SCEmployeeRoute</param-value>
+		<param-value>ch.claimer.webservice.routes.DefaultRoute</param-value>
 	</context-param>
 
 	<listener>

@@ -1,4 +1,4 @@
-package ch.claimer.webservice.service;
+package ch.claimer.webservice.services;
 
 import java.util.List;
 

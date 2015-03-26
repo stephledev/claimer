@@ -2,7 +2,7 @@ package ch.claimer.webservice.controller;
 
 import javax.ws.rs.core.Response;
 
-public interface Controller<Id> {
+public interface Controller<T, Id> {
 	
 	public Response index();
 	public Response show(Id id);
