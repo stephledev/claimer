@@ -9,9 +9,9 @@ import ch.claimer.webservice.services.JsonDataProcessorService;
 
 public class DefaultController<T> implements Controller<T, Integer> {
 
-	private final Class<T> clazz;
+	protected final Class<T> clazz;
 	private final DefaultRepository<T, Integer> repository;
-	private final DataProcessorService<T> processor;
+	protected final DataProcessorService<T> processor;
 	
 	public DefaultController(Class<T> clazz) {
 		this.clazz = clazz;
