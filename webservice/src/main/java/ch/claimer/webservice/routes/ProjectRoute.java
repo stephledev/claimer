@@ -15,7 +15,7 @@ import ch.claimer.webservice.controller.ProjectController;
  * Defines RESTful routes for project specific 
  * interactions. Maps the controller according to the URL pattern
  * 
- * @author Momcilo Bekcic
+ * @author Momcilo Bekcic 
  */
 @Path("/")
 public class ProjectRoute {
@@ -23,7 +23,7 @@ public class ProjectRoute {
 	private ProjectController controller;
 
 	public ProjectRoute() {
-		this.controller = new ProjectController();
+		this.controller = new ProjectController(); //check
 	}
 	
 	/**
