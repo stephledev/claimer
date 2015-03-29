@@ -106,7 +106,11 @@ public class DefaultRoute {
 	@PUT
 	@Path("{model}")
 	public Response updateModel(@PathParam("model") String model, @FormParam("data") String data) {
-		return mapper.get(model).update(data);
+		if((controller = mapper.get(model)) != null) {
+			return controller.update(data);
+		} else {
+			return Response.status(404).entity("Entity doesn't exist").build();
+		}
 	} 
 	
 	/**
@@ -119,6 +123,10 @@ public class DefaultRoute {
 	@DELETE
 	@Path("{model}")
 	public Response destroyModel(@PathParam("model") String model, @FormParam("data") String data) {
-		return mapper.get(model).destroy(data);
+		if((controller = mapper.get(model)) != null) {
+			return controller.destroy(data);
+		} else {
+			return Response.status(404).entity("Entity doesn't exist").build();
+		}
 	} 
 }
