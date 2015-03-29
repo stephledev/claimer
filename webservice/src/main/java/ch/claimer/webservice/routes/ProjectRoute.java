@@ -23,7 +23,7 @@ public class ProjectRoute {
 	private ProjectController controller;
 
 	public ProjectRoute() {
-		this.controller = new ProjectController(); //check
+		this.controller = new ProjectController();
 	}
 	
 	/**

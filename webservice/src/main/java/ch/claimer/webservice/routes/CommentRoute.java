@@ -36,6 +36,6 @@ public class CommentRoute {
 	@GET
 	@Path("/comment/issue/{id}")
 	public Response showCommentsByIssue(@PathParam("id") int id) {
-		return controller.showByCategory(id);
+		return controller.showByIssue(id);
 	} 
 }
