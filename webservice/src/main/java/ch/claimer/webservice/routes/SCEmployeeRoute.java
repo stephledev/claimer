@@ -5,9 +5,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-
+import ch.claimer.shared.models.SCEmployee;
 import ch.claimer.webservice.controller.SCEmployeeController;
 
 
@@ -15,16 +13,15 @@ import ch.claimer.webservice.controller.SCEmployeeController;
  * Defines RESTful routes for subcontractor employee specific 
  * interactions. Maps the controller according to the URL pattern
  * 
- * @author Momcilo Bekcic
- * @author Raoul Ackermann
+ * @author Stephan Beeler
  */
 @Path("/")
 public class SCEmployeeRoute {
 	
-	private SCEmployeeController controller;
+	private SCEmployeeController<SCEmployee> controller;
 
 	public SCEmployeeRoute() {
-		this.controller = new SCEmployeeController();
+		this.controller = new SCEmployeeController<SCEmployee>();
 	}
 	
 	/**
@@ -36,7 +33,7 @@ public class SCEmployeeRoute {
 	 */
 	@GET
 	@Path("/scemployee/subcontractor/{id}")
-	public Response showSCEmployeeBySubcontractor(@PathParam("id") int id) {
+	public Response showSCEmployeesBySubcontractor(@PathParam("id") int id) {
 		return controller.show(id);
 	} 
 }

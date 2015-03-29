@@ -9,7 +9,7 @@ public class ClassFinder {
 	
 	public static void main(String[] args) {
 		
-		List<Class<?>> classes = find("ch.claimer.shared.entities");
+		List<Class<?>> classes = find("ch.claimer.shared.models");
 		for(Object clazz : classes) {
 			System.out.println(clazz);
 		}

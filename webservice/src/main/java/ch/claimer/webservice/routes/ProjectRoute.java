@@ -62,7 +62,7 @@ public class ProjectRoute {
 	 */
 	@GET
 	@Path("/project/supervisor/{id}")
-	public Response showProjecstBySupervisor(@PathParam("id") int id) {
+	public Response showProjectsBySupervisor(@PathParam("id") int id) {
 		return controller.showBySupervisor(id);
 	}
 	
@@ -87,9 +87,9 @@ public class ProjectRoute {
 	  * @return Response from the controller
 	  */
 	 @GET
-	 @Path("/project/gcEmployee/{id}")
-	 public Response showProjectsByGcEmployee(@PathParam("id") int id) {
-	  return controller.showByEmployee(id);
+	 @Path("/project/gcemployee/{id}")
+	 public Response showProjectsByGCEmployee(@PathParam("id") int id) {
+	  return controller.showByGCEmployee(id);
 	 } 
 	
 	

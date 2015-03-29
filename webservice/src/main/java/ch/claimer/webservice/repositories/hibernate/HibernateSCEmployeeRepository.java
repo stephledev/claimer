@@ -1,6 +1,5 @@
 package ch.claimer.webservice.repositories.hibernate;
 
-import java.io.Serializable;
 import java.util.List;
 
 import ch.claimer.shared.models.SCEmployee;

@@ -11,8 +11,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
-import ch.claimer.shared.models.GCEmployee;
-import ch.claimer.shared.models.SCEmployee;
+import ch.claimer.shared.models.*;
+
 import ch.claimer.webservice.controller.DefaultController;
 
 /**
@@ -27,11 +27,23 @@ import ch.claimer.webservice.controller.DefaultController;
 public class DefaultRoute {
 	
 	private HashMap<String, DefaultController<?>> mapper;
+	private DefaultController<?> controller;
 
 	public DefaultRoute() {
 		mapper = new HashMap<String, DefaultController<?>>();
+		mapper.put("category", new DefaultController<Category>(Category.class));
+		mapper.put("comment", new DefaultController<Comment>(Comment.class));
+		mapper.put("contact", new DefaultController<Contact>(Contact.class));
+		mapper.put("image", new DefaultController<Image>(Image.class));
+		mapper.put("issue", new DefaultController<Issue>(Issue.class));
+		mapper.put("LogEntry", new DefaultController<LogEntry>(LogEntry.class));
+		mapper.put("Login", new DefaultController<Login>(Login.class));
+		mapper.put("Project", new DefaultController<Project>(Project.class));
 		mapper.put("scemployee", new DefaultController<SCEmployee>(SCEmployee.class));
-		mapper.put("gcemployee", new DefaultController<GCEmployee>(GCEmployee.class));
+		mapper.put("state", new DefaultController<State>(State.class));
+		mapper.put("subcontractor", new DefaultController<Subcontractor>(Subcontractor.class));
+		mapper.put("supervisor", new DefaultController<Supervisor>(Supervisor.class));
+		mapper.put("type", new DefaultController<Type>(Type.class));
 	}
 	
 	/**
@@ -42,7 +54,12 @@ public class DefaultRoute {
 	@GET
 	@Path("{model}")
 	public Response showAllModels(@PathParam("model") String model) {
-		return mapper.get(model).index();
+		if((controller = mapper.get(model)) != null) {
+			return controller.index();
+		} else {
+			return Response.status(404).entity("Entity doesn't exist").build();
+		}
+		
 	} 
 	
 	/**
@@ -55,7 +72,11 @@ public class DefaultRoute {
 	@GET
 	@Path("{model}/{id}")
 	public Response showModelById(@PathParam("model") String model, @PathParam("id") int id) {
-		return mapper.get(model).show(id);
+		if((controller = mapper.get(model)) != null) {
+			return controller.show(id);
+		} else {
+			return Response.status(404).entity("Entity doesn't exist").build();
+		}
 	} 
 	
 	/**
@@ -67,8 +88,12 @@ public class DefaultRoute {
 	 */
 	@POST
 	@Path("{model}")
-	public Response storeGCEmployee(@PathParam("model") String model, @FormParam("data") String data) {
-		return mapper.get(model).store(data);
+	public Response storeModel(@PathParam("model") String model, @FormParam("data") String data) {
+		if((controller = mapper.get(model)) != null) {
+			return controller.store(data);
+		} else {
+			return Response.status(404).entity("Entity doesn't exist").build();
+		}
 	} 
 	
 	/**
@@ -80,7 +105,7 @@ public class DefaultRoute {
 	 */
 	@PUT
 	@Path("{model}")
-	public Response updateGCEmployee(@PathParam("model") String model, @FormParam("data") String data) {
+	public Response updateModel(@PathParam("model") String model, @FormParam("data") String data) {
 		return mapper.get(model).update(data);
 	} 
 	
@@ -93,7 +118,7 @@ public class DefaultRoute {
 	 */
 	@DELETE
 	@Path("{model}")
-	public Response destroyGCEmployee(@PathParam("model") String model, @FormParam("data") String data) {
+	public Response destroyModel(@PathParam("model") String model, @FormParam("data") String data) {
 		return mapper.get(model).destroy(data);
 	} 
 }
