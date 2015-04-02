@@ -22,7 +22,12 @@ public class SCEmployee extends Person {
 	public SCEmployee() {
 		
 	}
-	
-	
-	
+
+	public Subcontractor getSubcontractor() {
+		return subcontractor;
+	}
+
+	public void setSubcontractor(Subcontractor subcontractor) {
+		this.subcontractor = subcontractor;
+	}	
 }

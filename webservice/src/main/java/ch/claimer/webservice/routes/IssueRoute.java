@@ -5,9 +5,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-
+import ch.claimer.shared.models.Issue;
 import ch.claimer.webservice.controller.IssueController;
 
 
@@ -20,10 +18,10 @@ import ch.claimer.webservice.controller.IssueController;
 @Path("/")
 public class IssueRoute {
 	
-	private IssueController controller;
+	private IssueController<Issue> controller;
 
 	public IssueRoute() {
-		this.controller = new IssueController();
+		this.controller = new IssueController<Issue>();
 	}
 	
 	/**

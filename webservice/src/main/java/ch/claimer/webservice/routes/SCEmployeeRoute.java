@@ -13,7 +13,7 @@ import ch.claimer.webservice.controller.SCEmployeeController;
  * Defines RESTful routes for subcontractor employee specific 
  * interactions. Maps the controller according to the URL pattern
  * 
- * @author Stephan Beeler
+ * @author Momcilo Bekcic 
  */
 @Path("/")
 public class SCEmployeeRoute {

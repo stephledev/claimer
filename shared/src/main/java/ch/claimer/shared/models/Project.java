@@ -32,11 +32,13 @@ public class Project implements Serializable, Model {
 	@OneToMany(cascade=CascadeType.ALL)
 	private List<LogEntry> logEntries;
 	@OneToOne
-	private State state;
+	private Supervisor supervisor;
+	@OneToOne
+	private Category category;
 	@OneToOne
 	private Type type;
 	@OneToOne
-	private Category category;
+	private State state;
 	
 	public Project() {
 		
@@ -106,12 +108,20 @@ public class Project implements Serializable, Model {
 		this.logEntries = logEntries;
 	}
 
-	public State getState() {
-		return state;
+	public Supervisor getSupervisor() {
+		return supervisor;
 	}
 
-	public void setState(State state) {
-		this.state = state;
+	public void setSupervisor(Supervisor supervisor) {
+		this.supervisor = supervisor;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 
 	public Type getType() {
@@ -122,12 +132,12 @@ public class Project implements Serializable, Model {
 		this.type = type;
 	}
 
-	public Category getCategory() {
-		return category;
+	public State getState() {
+		return state;
 	}
 
-	public void setCategory(Category category) {
-		this.category = category;
+	public void setState(State state) {
+		this.state = state;
 	}
 	
 }

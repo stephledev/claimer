@@ -11,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
+
 /**
  * @author Stephan Beeler
  */
@@ -24,14 +27,17 @@ public class Issue implements Serializable, Model {
 	@GeneratedValue
 	private int id;
 	private String description;
+	@Generated(value=GenerationTime.INSERT)
 	private Date created;
 	private Date solved;
 	@OneToMany(cascade=CascadeType.ALL)
 	private List<Image> images;
 	@OneToMany(cascade=CascadeType.ALL)
-	private List<Comment> comments;
-	@OneToMany(cascade=CascadeType.ALL)
 	private List<LogEntry> logEntries;
+	@OneToMany(cascade=CascadeType.ALL)
+	private List<Comment> comments;
+	@OneToOne
+	private Project project;
 	@OneToOne
 	private State state;
 	@OneToOne
@@ -44,13 +50,9 @@ public class Issue implements Serializable, Model {
 	public Issue() {
 		
 	}
-
+	
 	public int getId() {
 		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public String getDescription() {
@@ -60,13 +62,9 @@ public class Issue implements Serializable, Model {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
+	
 	public Date getCreated() {
 		return created;
-	}
-
-	public void setCreated(Date created) {
-		this.created = created;
 	}
 
 	public Date getSolved() {
@@ -83,6 +81,30 @@ public class Issue implements Serializable, Model {
 
 	public void setImages(List<Image> images) {
 		this.images = images;
+	}
+
+	public List<LogEntry> getLogEntries() {
+		return logEntries;
+	}
+
+	public void setLogEntries(List<LogEntry> logEntries) {
+		this.logEntries = logEntries;
+	}
+
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+
+	public Project getProject() {
+		return project;
+	}
+
+	public void setProject(Project project) {
+		this.project = project;
 	}
 
 	public State getState() {
@@ -116,5 +138,5 @@ public class Issue implements Serializable, Model {
 	public void setSubcontractor(Subcontractor subcontractor) {
 		this.subcontractor = subcontractor;
 	}
-	
+
 }

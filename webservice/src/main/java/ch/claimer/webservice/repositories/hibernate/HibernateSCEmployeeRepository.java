@@ -2,6 +2,8 @@ package ch.claimer.webservice.repositories.hibernate;
 
 import java.util.List;
 
+import org.hibernate.Query;
+
 import ch.claimer.shared.models.SCEmployee;
 import ch.claimer.webservice.repositories.SCEmployeeRepository;
 import ch.claimer.webservice.services.HibernateService;
@@ -17,12 +19,10 @@ public class HibernateSCEmployeeRepository implements SCEmployeeRepository {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<SCEmployee> getBySubcontractor(Integer id) {
-		List<SCEmployee> list = (List<SCEmployee>) hibernate.openSession().createQuery("from " + SCEmployee.class).list();
+		Query query = hibernate.openSession().createQuery("select e from SCEmployee e inner join e.subcontractor s where s.id = "+ id);
+		List<SCEmployee> list = query.list();
 		hibernate.closeSession();
 		return list;
 	}
-	
-	
-
 
 }

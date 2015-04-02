@@ -2,7 +2,7 @@ package ch.claimer.webservice.controller;
 
 import javax.ws.rs.core.Response;
 
-import ch.claimer.shared.models.SCEmployee;
+import ch.claimer.shared.models.Project;
 import ch.claimer.webservice.repositories.ProjectRepository;
 import ch.claimer.webservice.repositories.hibernate.HibernateProjectRepository;
 

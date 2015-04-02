@@ -5,9 +5,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-
+import ch.claimer.shared.models.Project;
 import ch.claimer.webservice.controller.ProjectController;
 
 
@@ -20,10 +18,10 @@ import ch.claimer.webservice.controller.ProjectController;
 @Path("/")
 public class ProjectRoute {
 	
-	private ProjectController controller;
+	private ProjectController<Project> controller;
 
 	public ProjectRoute() {
-		this.controller = new ProjectController();
+		this.controller = new ProjectController<Project>();
 	}
 	
 	/**

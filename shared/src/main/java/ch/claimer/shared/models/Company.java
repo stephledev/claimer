@@ -34,43 +34,53 @@ public abstract class Company implements Serializable, Model {
 	public int getId() {
 		return id;
 	}
-	public void setId(int id) {
-		this.id = id;
-	}
+
 	public String getName() {
 		return name;
 	}
+	
 	public void setName(String name) {
 		this.name = name;
 	}
+	
 	public String getStreet() {
 		return street;
 	}
+	
 	public void setStreet(String street) {
 		this.street = street;
 	}
+	
 	public String getZip() {
 		return zip;
 	}
+	
 	public void setZip(String zip) {
 		this.zip = zip;
 	}
+	
 	public String getPlace() {
 		return place;
 	}
+	
 	public void setPlace(String place) {
 		this.place = place;
 	}
+	
 	public String getPhone() {
 		return phone;
 	}
+	
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
+	
 	public String getEmail() {
 		return email;
 	}
+	
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
 }

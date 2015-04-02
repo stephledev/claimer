@@ -11,7 +11,7 @@ import ch.claimer.webservice.repositories.hibernate.HibernateSCEmployeeRepositor
  * interactions. Retrieves and persists the data via repositories.
  * Generates responses with the model data in String format.
  * 
- * @author Stephan Beeler
+ * @author Momcilo Bekcic
  * {@link ch.claimer.webservice.repositories}
  */
 public class SCEmployeeController<T> extends DefaultController<SCEmployee> {

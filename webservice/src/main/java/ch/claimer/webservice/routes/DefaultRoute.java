@@ -12,7 +12,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
 import ch.claimer.shared.models.*;
-
 import ch.claimer.webservice.controller.DefaultController;
 
 /**

@@ -5,9 +5,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-
+import ch.claimer.shared.models.Contact;
 import ch.claimer.webservice.controller.ContactController;
 
 
@@ -20,10 +18,10 @@ import ch.claimer.webservice.controller.ContactController;
 @Path("/")
 public class ContactRoute {
 	
-	private ContactController controller;
+	private ContactController<Contact> controller;
 
 	public ContactRoute() {
-		this.controller = new ContactController();
+		this.controller = new ContactController<Contact>();
 	}
 	
 	/**

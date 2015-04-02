@@ -17,13 +17,13 @@ public class Login implements Serializable, Model {
 	private String username;
 	private String password;
 	private boolean isAdmin;
+	
+	public Login() {
+		
+	}
 
 	public int getId() {
 		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public String getUsername() {
@@ -49,11 +49,4 @@ public class Login implements Serializable, Model {
 	public void setAdmin(boolean isAdmin) {
 		this.isAdmin = isAdmin;
 	}
-
-	public Login() {
-		
-	}
-	
-	
-
 }

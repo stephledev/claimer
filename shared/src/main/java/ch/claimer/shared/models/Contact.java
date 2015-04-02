@@ -20,5 +20,14 @@ public class Contact extends Person {
 	
 	public Contact() {
 		
+	}
+
+	public Subcontractor getSubcontractor() {
+		return subcontractor;
+	}
+
+	public void setSubcontractor(Subcontractor subcontractor) {
+		this.subcontractor = subcontractor;
 	}	
+	
 }
