@@ -1,5 +1,6 @@
 package ch.claimer.webservice.controller;
 
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import ch.claimer.webservice.repositories.DefaultRepository;
@@ -20,6 +21,7 @@ public class DefaultController<T> implements Controller<T, Integer> {
 	protected final Class<T> clazz;
 	private final DefaultRepository<T, Integer> repository;
 	protected final DataProcessorService<T> processor;
+	protected final String type = MediaType.APPLICATION_JSON;
 	
 	public DefaultController(Class<T> clazz) {
 		this.clazz = clazz;
@@ -36,7 +38,7 @@ public class DefaultController<T> implements Controller<T, Integer> {
 	@Override
 	public Response index() {
 		String entitiesString = processor.write(repository.getAll());
-		return Response.status(200).entity(entitiesString).build();
+		return Response.status(200).entity(entitiesString).type(type).build();
 		
 	}
 
@@ -51,7 +53,7 @@ public class DefaultController<T> implements Controller<T, Integer> {
 	@Override
 	public Response show(Integer id) {	
 		String entityString = processor.write(repository.getById(id));
-		return Response.status(200).entity(entityString).build();
+		return Response.status(200).entity(entityString).type(type).build();
 	}
 
 	/**
@@ -65,7 +67,7 @@ public class DefaultController<T> implements Controller<T, Integer> {
 	public Response store(String entityString) {
 		T entity = processor.read(entityString, clazz);
 		repository.store(entity);
-		return Response.status(200).entity(entityString).build();
+		return Response.status(200).entity(entityString).type(type).build();
 		
 	}
 
@@ -80,7 +82,7 @@ public class DefaultController<T> implements Controller<T, Integer> {
 	public Response update(String entityString) {
 		T entity = processor.read(entityString, clazz);
 		repository.update(entity);
-		return Response.status(200).entity(entityString).build();
+		return Response.status(200).entity(entityString).type(type).build();
 		
 	}
 

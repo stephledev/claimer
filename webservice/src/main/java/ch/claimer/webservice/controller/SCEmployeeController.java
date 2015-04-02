@@ -33,7 +33,7 @@ public class SCEmployeeController<T> extends DefaultController<SCEmployee> {
 	 */
 	public Response showBySubcontractor(int id) {
 		String entityString = processor.write(repository.getBySubcontractor(id));
-		return Response.status(200).entity(entityString).build();
+		return Response.status(200).entity(entityString).type(type).build();
 	}
 
 }

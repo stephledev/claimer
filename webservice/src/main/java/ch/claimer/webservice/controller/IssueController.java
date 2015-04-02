@@ -33,7 +33,7 @@ public class IssueController<T> extends DefaultController<Issue> {
 	 */
 	public Response showByContact(int id) {
 		String entityString = processor.write(repository.getByContact(id));
-		return Response.status(200).entity(entityString).build();
+		return Response.status(200).entity(entityString).type(type).build();
 	}
 
 	/**
@@ -46,7 +46,7 @@ public class IssueController<T> extends DefaultController<Issue> {
 	 */
 	public Response showBySupervisor(int id) {
 		String entityString = processor.write(repository.getBySupervisor(id));
-		return Response.status(200).entity(entityString).build();
+		return Response.status(200).entity(entityString).type(type).build();
 	}
 	
 	/**
@@ -59,7 +59,7 @@ public class IssueController<T> extends DefaultController<Issue> {
 	 */
 	public Response showByState(int id) {
 		String entityString = processor.write(repository.getByState(id));
-		return Response.status(200).entity(entityString).build();
+		return Response.status(200).entity(entityString).type(type).build();
 	}
 	
 	/**
@@ -72,7 +72,7 @@ public class IssueController<T> extends DefaultController<Issue> {
 	 */
 	public Response showByProject(int id) {
 		String entityString = processor.write(repository.getByProject(id));
-		return Response.status(200).entity(entityString).build();
+		return Response.status(200).entity(entityString).type(type).build();
 	}
 	
 }

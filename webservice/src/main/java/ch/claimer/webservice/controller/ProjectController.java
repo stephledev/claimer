@@ -33,7 +33,7 @@ public class ProjectController<T> extends DefaultController<Project> {
 	 */
 	public Response showByCategory(int id) {
 		String entityString = processor.write(repository.getByCategory(id));
-		return Response.status(200).entity(entityString).build();
+		return Response.status(200).entity(entityString).type(type).build();
 	}
 	
 	/**
@@ -46,7 +46,7 @@ public class ProjectController<T> extends DefaultController<Project> {
 	 */
 	public Response showByType(int id) {
 		String entityString = processor.write(repository.getByType(id));
-		return Response.status(200).entity(entityString).build();
+		return Response.status(200).entity(entityString).type(type).build();
 	}
 	
 	/**
@@ -59,7 +59,7 @@ public class ProjectController<T> extends DefaultController<Project> {
 	 */
 	public Response showBySupervisor(int id) {
 		String entityString = processor.write(repository.getBySupervisor(id));
-		return Response.status(200).entity(entityString).build();
+		return Response.status(200).entity(entityString).type(type).build();
 	}
 	
 	/**
@@ -72,7 +72,7 @@ public class ProjectController<T> extends DefaultController<Project> {
 	 */
 	public Response showByState(int id) {
 		String entityString = processor.write(repository.getByState(id));
-		return Response.status(200).entity(entityString).build();
+		return Response.status(200).entity(entityString).type(type).build();
 	}
 	
 	/**
@@ -85,7 +85,7 @@ public class ProjectController<T> extends DefaultController<Project> {
 	 */
 	public Response showByGCEmployee(int id) {
 		String entityString = processor.write(repository.getByGCEmployee(id));
-		return Response.status(200).entity(entityString).build();
+		return Response.status(200).entity(entityString).type(type).build();
 	}
 	
 	
