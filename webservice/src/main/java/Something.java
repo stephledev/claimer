@@ -13,7 +13,8 @@ public class Something {
 		Map<String, ClassMetadata> map = session.getAllClassMetadata();
 		
 		for(ClassMetadata metadata : map.values()){
-			System.out.println(metadata.getEntityName());
+			String e = metadata.getEntityName();
+			System.out.println(e.substring(e.lastIndexOf(".")+1));
 			System.out.println(metadata.getMappedClass());
 		}
 		

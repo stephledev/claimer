@@ -3,6 +3,8 @@ package ch.claimer.webservice.repositories.hibernate;
 import java.io.Serializable;
 import java.util.List;
 
+import org.hibernate.Session;
+
 import ch.claimer.webservice.repositories.DefaultRepository;
 import ch.claimer.webservice.services.HibernateService;
 
@@ -46,10 +48,13 @@ public class HibernateDefaultRepository<T, Id extends Serializable> implements D
 		return t;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public void destroy(T t) {
-		hibernate.openSessionwithTransaction().delete(t);
-		hibernate.closeSessionwithTransaction();		
+	public void destroy(Id id) {
+		Session session = hibernate.openSessionwithTransaction();
+		T t = (T) session.get(clazz, id);		
+		session.delete(t);
+		hibernate.closeSessionwithTransaction();	
 	}
 
 }

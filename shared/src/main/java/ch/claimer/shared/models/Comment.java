@@ -38,6 +38,10 @@ public class Comment implements Serializable, Model {
 		return id;
 	}
 
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public Date getCreated() {
 		return created;
 	}

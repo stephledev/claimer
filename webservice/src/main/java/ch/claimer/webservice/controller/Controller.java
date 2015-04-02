@@ -8,6 +8,6 @@ public interface Controller<T, Id> {
 	public Response show(Id id);
 	public Response store(String data);
 	public Response update(String data);
-	public Response destroy(String data);
+	public Response destroy(Id id);
 	
 }

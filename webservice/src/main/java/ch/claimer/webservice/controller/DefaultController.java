@@ -92,10 +92,9 @@ public class DefaultController<T> implements Controller<T, Integer> {
 	 * @return Response with HTTP Status and model data
 	 */
 	@Override
-	public Response destroy(String entityString) {
-		T entity = processor.read(entityString, clazz);
-		repository.destroy(entity);
-		return Response.status(200).entity(entityString).build();		
+	public Response destroy(Integer id) {
+		repository.destroy(id);
+		return Response.status(200).entity(id.toString()).build();		
 	}
 	
 }

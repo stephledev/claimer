@@ -1,6 +1,7 @@
 package ch.claimer.webservice.routes;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
@@ -11,8 +12,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
+import org.hibernate.SessionFactory;
+import org.hibernate.metadata.ClassMetadata;
+
 import ch.claimer.shared.models.*;
 import ch.claimer.webservice.controller.DefaultController;
+import ch.claimer.webservice.util.HibernateUtil;
 
 /**
  * Defines default CRUD routes for RESTful interactions with
@@ -28,21 +33,18 @@ public class DefaultRoute {
 	private HashMap<String, DefaultController<?>> mapper;
 	private DefaultController<?> controller;
 
+	
+	@SuppressWarnings("unchecked")
 	public DefaultRoute() {
+		SessionFactory session = HibernateUtil.getSessionFactory();
+		Map<String, ClassMetadata> map = session.getAllClassMetadata();
 		mapper = new HashMap<String, DefaultController<?>>();
-		mapper.put("category", new DefaultController<Category>(Category.class));
-		mapper.put("comment", new DefaultController<Comment>(Comment.class));
-		mapper.put("contact", new DefaultController<Contact>(Contact.class));
-		mapper.put("image", new DefaultController<Image>(Image.class));
-		mapper.put("issue", new DefaultController<Issue>(Issue.class));
-		mapper.put("LogEntry", new DefaultController<LogEntry>(LogEntry.class));
-		mapper.put("Login", new DefaultController<Login>(Login.class));
-		mapper.put("Project", new DefaultController<Project>(Project.class));
-		mapper.put("scemployee", new DefaultController<SCEmployee>(SCEmployee.class));
-		mapper.put("state", new DefaultController<State>(State.class));
-		mapper.put("subcontractor", new DefaultController<Subcontractor>(Subcontractor.class));
-		mapper.put("supervisor", new DefaultController<Supervisor>(Supervisor.class));
-		mapper.put("type", new DefaultController<Type>(Type.class));
+		
+		for(ClassMetadata metadata : map.values()){
+			String entityName = metadata.getEntityName();
+			entityName = entityName.substring(entityName.lastIndexOf(".")+1);
+			mapper.put(entityName.toLowerCase(), new DefaultController<Model>(metadata.getMappedClass()));
+		}
 	}
 	
 	/**
@@ -120,10 +122,10 @@ public class DefaultRoute {
 	 * @return Response from the controller
 	 */
 	@DELETE
-	@Path("{model}")
-	public Response destroyModel(@PathParam("model") String model, @FormParam("data") String data) {
+	@Path("{model}/{id}")
+	public Response destroyModel(@PathParam("model") String model, @PathParam("id") int id) {
 		if((controller = mapper.get(model)) != null) {
-			return controller.destroy(data);
+			return controller.destroy(id);
 		} else {
 			return Response.status(404).entity("Entity doesn't exist").build();
 		}

@@ -9,6 +9,6 @@ public interface DefaultRepository<T, Id extends Serializable> {
     T getById(Id id);
     List<T> getAll();
     T update(T t);
-    void destroy(T t);
+    void destroy(Id id);
     
 }
