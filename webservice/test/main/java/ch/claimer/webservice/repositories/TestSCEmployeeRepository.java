@@ -3,8 +3,6 @@ package ch.claimer.webservice.repositories;
 import org.hibernate.Session;
 import org.junit.*;
 
-import com.github.javafaker.Faker;
-
 import ch.claimer.shared.models.SCEmployee;
 import ch.claimer.shared.models.Subcontractor;
 import ch.claimer.webservice.repositories.hibernate.HibernateSCEmployeeRepository;

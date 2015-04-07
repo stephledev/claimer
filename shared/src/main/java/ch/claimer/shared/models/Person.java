@@ -19,7 +19,7 @@ import javax.persistence.OneToOne;
 
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
-public class Person implements Serializable, Model {
+public abstract class Person implements Serializable, Model {
 
 	private static final long serialVersionUID = -7793558619197649513L;
 	
@@ -28,7 +28,7 @@ public class Person implements Serializable, Model {
 	private int id;
 	private String lastname;
 	private String firstname;
-	private String telephone;
+	private String phone;
 	private String email;
 	@OneToOne(cascade=CascadeType.ALL)
 	private Login login;
@@ -61,11 +61,11 @@ public class Person implements Serializable, Model {
 		this.firstname = firstname;
 	}
 	
-	public String getTelephone() {
-		return telephone;
+	public String getPhone() {
+		return phone;
 	}
-	public void setTelephone(String telephone) {
-		this.telephone = telephone;
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 	
 	public String getEmail() {
@@ -83,5 +83,5 @@ public class Person implements Serializable, Model {
 	public void setLogin(Login login) {
 		this.login = login;
 	}
-	
+
 }

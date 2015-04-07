@@ -3,25 +3,25 @@ package ch.claimer.webservice.repositories.hibernate;
 import java.util.List;
 
 import org.hibernate.Query;
+import org.hibernate.Session;
 
 import ch.claimer.shared.models.SCEmployee;
 import ch.claimer.webservice.repositories.SCEmployeeRepository;
-import ch.claimer.webservice.services.HibernateService;
+import ch.claimer.webservice.util.HibernateUtil;
 
 public class HibernateSCEmployeeRepository implements SCEmployeeRepository {
 	
-	private final HibernateService hibernate;
+	private Session session;
 	
 	public HibernateSCEmployeeRepository() {
-        this.hibernate = new HibernateService();
+		this.session = HibernateUtil.getSessionFactory().getCurrentSession();
     }
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<SCEmployee> getBySubcontractor(Integer id) {
-		Query query = hibernate.openSession().createQuery("select e from SCEmployee e inner join e.subcontractor s where s.id = "+ id);
+		Query query = session.createQuery("select e from SCEmployee e inner join e.subcontractor s where s.id = "+ id);
 		List<SCEmployee> list = query.list();
-		hibernate.closeSession();
 		return list;
 	}
 

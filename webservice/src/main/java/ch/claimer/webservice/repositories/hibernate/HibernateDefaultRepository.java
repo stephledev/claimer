@@ -6,55 +6,48 @@ import java.util.List;
 import org.hibernate.Session;
 
 import ch.claimer.webservice.repositories.DefaultRepository;
-import ch.claimer.webservice.services.HibernateService;
+import ch.claimer.webservice.util.HibernateUtil;
 
 public class HibernateDefaultRepository<T, Id extends Serializable> implements DefaultRepository<T, Id> {
 	
-	private final HibernateService hibernate;
+	private Session session;
 	private final Class<T> clazz;
 	
 	public HibernateDefaultRepository(Class<T> clazz) {
         this.clazz = clazz;
-        this.hibernate = new HibernateService();
+        this.session = HibernateUtil.getSessionFactory().getCurrentSession();
     }
 
 	@Override
 	public T store(T t) {
-		hibernate.openSessionwithTransaction().save(t);
-		hibernate.closeSessionwithTransaction();
+		session.save(t);
 		return t;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public T getById(Id id) {
-		T t = (T) hibernate.openSession().get(clazz, id);
-		hibernate.closeSession();
+		T t = (T) session.get(clazz, id);
 		return t;
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<T> getAll() {
-		List<T> list = (List<T>) hibernate.openSession().createQuery("from " + clazz.getName()).list();
-		hibernate.closeSession();
+		List<T> list = (List<T>) session.createQuery("from " + clazz.getName()).list();
 		return list;
 	}
 
 	@Override
 	public T update(T t) {
-		hibernate.openSessionwithTransaction().update(t);
-		hibernate.closeSessionwithTransaction();
+		session.update(t);
 		return t;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void destroy(Id id) {
-		Session session = hibernate.openSessionwithTransaction();
-		T t = (T) session.get(clazz, id);		
+		T t = (T) getById(id)	;
 		session.delete(t);
-		hibernate.closeSessionwithTransaction();	
 	}
 
 }

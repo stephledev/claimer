@@ -1,10 +1,13 @@
 package ch.claimer.shared.models;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class Login implements Serializable, Model {
@@ -14,9 +17,11 @@ public class Login implements Serializable, Model {
 	@Id
 	@GeneratedValue
 	private int id;
+	@Column(unique = true)
 	private String username;
 	private String password;
-	private boolean isAdmin;
+	@ManyToMany
+	private List<Role> roles;
 	
 	public Login() {
 		
@@ -46,11 +51,12 @@ public class Login implements Serializable, Model {
 		this.password = password;
 	}
 
-	public boolean isAdmin() {
-		return isAdmin;
+	public List<Role> getRoles() {
+		return roles;
 	}
 
-	public void setAdmin(boolean isAdmin) {
-		this.isAdmin = isAdmin;
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
 	}
+	
 }

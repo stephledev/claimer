@@ -25,10 +25,12 @@
    <mapping class="ch.claimer.shared.models.Model"/>
    <mapping class="ch.claimer.shared.models.Person"/>
    <mapping class="ch.claimer.shared.models.Project"/>
+   <mapping class="ch.claimer.shared.models.Role"/>
    <mapping class="ch.claimer.shared.models.SCEmployee"/>
    <mapping class="ch.claimer.shared.models.State"/>
    <mapping class="ch.claimer.shared.models.Subcontractor"/>
    <mapping class="ch.claimer.shared.models.Supervisor"/>
    <mapping class="ch.claimer.shared.models.Type"/>
+   
 </session-factory>
 </hibernate-configuration>

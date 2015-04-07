@@ -3,10 +3,13 @@ package ch.claimer.webservice.controller;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.hibernate.Session;
+
 import ch.claimer.webservice.repositories.DefaultRepository;
 import ch.claimer.webservice.repositories.hibernate.HibernateDefaultRepository;
 import ch.claimer.webservice.services.DataProcessorService;
 import ch.claimer.webservice.services.JsonDataProcessorService;
+import ch.claimer.webservice.util.HibernateUtil;
 
 /**
  * Handles default CRUD operations for RESTful interactions with
@@ -22,11 +25,13 @@ public class DefaultController<T> implements Controller<T, Integer> {
 	private final DefaultRepository<T, Integer> repository;
 	protected final DataProcessorService<T> processor;
 	protected final String type = MediaType.APPLICATION_JSON;
+	protected Session session;
 	
 	public DefaultController(Class<T> clazz) {
 		this.clazz = clazz;
 		this.repository = new HibernateDefaultRepository<T, Integer>(clazz);
 		this.processor = new JsonDataProcessorService<T>();
+		session = HibernateUtil.getSessionFactory().getCurrentSession();
 	}
 
 	/**
@@ -37,7 +42,9 @@ public class DefaultController<T> implements Controller<T, Integer> {
 	 */
 	@Override
 	public Response index() {
+		session.beginTransaction();
 		String entitiesString = processor.write(repository.getAll());
+		session.getTransaction().commit();
 		return Response.status(200).entity(entitiesString).type(type).build();
 		
 	}
@@ -52,7 +59,9 @@ public class DefaultController<T> implements Controller<T, Integer> {
 	 */
 	@Override
 	public Response show(Integer id) {	
+		session.beginTransaction();
 		String entityString = processor.write(repository.getById(id));
+		session.getTransaction().commit();
 		return Response.status(200).entity(entityString).type(type).build();
 	}
 
@@ -65,8 +74,10 @@ public class DefaultController<T> implements Controller<T, Integer> {
 	 */
 	@Override
 	public Response store(String entityString) {
+		session.beginTransaction();
 		T entity = processor.read(entityString, clazz);
 		repository.store(entity);
+		session.getTransaction().commit();
 		return Response.status(200).entity(entityString).type(type).build();
 		
 	}
@@ -80,8 +91,10 @@ public class DefaultController<T> implements Controller<T, Integer> {
 	 */
 	@Override
 	public Response update(String entityString) {
+		session.beginTransaction();
 		T entity = processor.read(entityString, clazz);
 		repository.update(entity);
+		session.getTransaction().commit();
 		return Response.status(200).entity(entityString).type(type).build();
 		
 	}
@@ -95,7 +108,9 @@ public class DefaultController<T> implements Controller<T, Integer> {
 	 */
 	@Override
 	public Response destroy(Integer id) {
+		session.beginTransaction();
 		repository.destroy(id);
+		session.getTransaction().commit();
 		return Response.status(200).entity(id.toString()).build();		
 	}
 	

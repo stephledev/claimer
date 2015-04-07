@@ -41,7 +41,7 @@ public class TestDefaultRoute {
     public static void oneTimeSetUp() {
     	dispatcher = MockDispatcherFactory.createDispatcher();
 
-        POJOResourceFactory noDefaults = new POJOResourceFactory(DefaultRoute.class);
+        POJOResourceFactory noDefaults = new POJOResourceFactory(InternRoute.class);
         dispatcher.getRegistry().addResourceFactory(noDefaults);
         
         processor = new JsonDataProcessorService<Type>();

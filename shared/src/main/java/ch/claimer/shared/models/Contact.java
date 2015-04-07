@@ -28,6 +28,6 @@ public class Contact extends Person {
 
 	public void setSubcontractor(Subcontractor subcontractor) {
 		this.subcontractor = subcontractor;
-	}	
-	
+	}
+
 }
