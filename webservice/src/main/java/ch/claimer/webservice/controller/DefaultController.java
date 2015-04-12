@@ -1,14 +1,12 @@
 package ch.claimer.webservice.controller;
 
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
 import org.hibernate.Session;
 
 import ch.claimer.webservice.repositories.DefaultRepository;
 import ch.claimer.webservice.repositories.hibernate.HibernateDefaultRepository;
 import ch.claimer.webservice.services.DataProcessorService;
 import ch.claimer.webservice.services.JsonDataProcessorService;
+import ch.claimer.webservice.services.ResponseHandlerService;
 import ch.claimer.webservice.util.HibernateUtil;
 
 /**
@@ -19,18 +17,19 @@ import ch.claimer.webservice.util.HibernateUtil;
  * @author Stephan Beeler
  * {@link ch.claimer.webservice.repositories}
  */
-public class DefaultController<T> implements Controller<T, Integer> {
+public class DefaultController<T, V> implements Controller<T, V> {
 
-	protected final Class<T> clazz;
-	private final DefaultRepository<T, Integer> repository;
+	protected final Class<T> type;
+	private final DefaultRepository<T> repository;
 	protected final DataProcessorService<T> processor;
-	protected final String type = MediaType.APPLICATION_JSON;
+	protected final ResponseHandlerService<V> response;
 	protected Session session;
 	
-	public DefaultController(Class<T> clazz) {
-		this.clazz = clazz;
-		this.repository = new HibernateDefaultRepository<T, Integer>(clazz);
+	public DefaultController(Class<T> type, ResponseHandlerService<V> response) {
+		this.type = type;
+		this.repository = new HibernateDefaultRepository<T>(type);
 		this.processor = new JsonDataProcessorService<T>();
+		this.response = response;
 		session = HibernateUtil.getSessionFactory().getCurrentSession();
 	}
 
@@ -41,12 +40,11 @@ public class DefaultController<T> implements Controller<T, Integer> {
 	 * @return Response with HTTP Status and model data
 	 */
 	@Override
-	public Response index() {
+	public V index() {
 		session.beginTransaction();
 		String entitiesString = processor.write(repository.getAll());
 		session.getTransaction().commit();
-		return Response.status(200).entity(entitiesString).type(type).build();
-		
+		return response.success().entity(entitiesString).build();
 	}
 
 	/**
@@ -58,11 +56,11 @@ public class DefaultController<T> implements Controller<T, Integer> {
 	 * @return Response with HTTP Status and model data
 	 */
 	@Override
-	public Response show(Integer id) {	
+	public V show(Integer id) {	
 		session.beginTransaction();
 		String entityString = processor.write(repository.getById(id));
 		session.getTransaction().commit();
-		return Response.status(200).entity(entityString).type(type).build();
+		return response.success().entity(entityString).build();
 	}
 
 	/**
@@ -73,12 +71,12 @@ public class DefaultController<T> implements Controller<T, Integer> {
 	 * @return Response with HTTP Status and model data
 	 */
 	@Override
-	public Response store(String entityString) {
+	public V store(String entityString) {
 		session.beginTransaction();
-		T entity = processor.read(entityString, clazz);
+		T entity = processor.read(entityString, type);
 		repository.store(entity);
 		session.getTransaction().commit();
-		return Response.status(200).entity(entityString).type(type).build();
+		return response.success().entity(entityString).build();
 		
 	}
 
@@ -90,12 +88,12 @@ public class DefaultController<T> implements Controller<T, Integer> {
 	 * @return Response with HTTP Status and model data
 	 */
 	@Override
-	public Response update(String entityString) {
+	public V update(String entityString) {
 		session.beginTransaction();
-		T entity = processor.read(entityString, clazz);
+		T entity = processor.read(entityString, type);
 		repository.update(entity);
 		session.getTransaction().commit();
-		return Response.status(200).entity(entityString).type(type).build();
+		return response.success().entity(entityString).build();
 		
 	}
 
@@ -107,11 +105,11 @@ public class DefaultController<T> implements Controller<T, Integer> {
 	 * @return Response with HTTP Status and model data
 	 */
 	@Override
-	public Response destroy(Integer id) {
+	public V destroy(Integer id) {
 		session.beginTransaction();
 		repository.destroy(id);
 		session.getTransaction().commit();
-		return Response.status(200).entity(id.toString()).build();		
+		return response.success().entity(id.toString()).build();	
 	}
 	
 }

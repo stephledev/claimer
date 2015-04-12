@@ -27,8 +27,8 @@ public class HibernateIssueRepository implements IssueRepository {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Issue> getBySupervisor(Integer id) {
-		Query query = session.createQuery("select i from Issue i inner join i.supervisor s where s.id = "+ id);  
+	public List<Issue> getBySubcontractor(Integer id) {
+		Query query = session.createQuery("select i from Issue i inner join i.subcontractor s where s.id = "+ id);  
 		List<Issue> list = query.list();
 		return list;
 	}

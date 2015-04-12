@@ -41,8 +41,6 @@ public class Issue implements Serializable, Model {
 	@OneToOne
 	private State state;
 	@OneToOne
-	private Supervisor supervisor;
-	@OneToOne
 	private Contact contact;
 	@OneToOne
 	private Subcontractor subcontractor;
@@ -117,14 +115,6 @@ public class Issue implements Serializable, Model {
 
 	public void setState(State state) {
 		this.state = state;
-	}
-
-	public Supervisor getSupervisor() {
-		return supervisor;
-	}
-
-	public void setSupervisor(Supervisor supervisor) {
-		this.supervisor = supervisor;
 	}
 
 	public Contact getContact() {

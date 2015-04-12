@@ -1,39 +1,36 @@
 package ch.claimer.webservice.controller;
 
-import javax.ws.rs.core.Response;
-
 import ch.claimer.shared.models.Contact;
 import ch.claimer.webservice.repositories.ContactRepository;
 import ch.claimer.webservice.repositories.hibernate.HibernateContactRepository;
+import ch.claimer.webservice.services.ResponseHandlerService;
 
 /**
- * Handles contact specific operations for RESTful 
- * interactions. Retrieves and persists the data via repositories.
+ * Handles comment specific operations for RESTful  interactions. 
+ * Retrieves and persists the data via repositories.
  * Generates responses with the model data in String format.
  * 
- * @author Raoul Ackermann
+ * @author Stephan Beeler
  * {@link ch.claimer.webservice.repositories}
  */
-public class ContactController<T> extends DefaultController<Contact> {
+public class ContactController<V> extends DefaultController<Contact, V> {
 	
 	private final ContactRepository repository;
 
-	public ContactController() {
-		super(Contact.class);
+	public ContactController(ResponseHandlerService<V> response) {
+		super(Contact.class, response);
 		this.repository = new HibernateContactRepository();
 	}
 
 	/**
-	 * Gets the contact instance by his subcontractor from the repository
-	 * and returns it.
+	 * Gets comment(s) by its supervisor from the repository and returns it.
 	 * 
-	 * @param id primary key of the contact instance to show
+	 * @param id subcontractor identifier of contact(s) to show
 	 * 
-	 * @return Response with HTTP Status and contact data
+	 * @return Response with status and comment data
 	 */
-	public Response showBySubcontractor(int id) {
+	public V showBySubcontractor(int id) {
 		String entityString = processor.write(repository.getBySubcontractor(id));
-		return Response.status(200).entity(entityString).type(type).build();
+		return response.success().entity(entityString).build();
 	}
-
 }

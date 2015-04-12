@@ -8,6 +8,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -33,6 +34,8 @@ public class Project implements Serializable, Model {
 	private List<LogEntry> logEntries;
 	@OneToOne
 	private Supervisor supervisor;
+	@ManyToMany
+	private List<Contact> contacts;
 	@OneToOne
 	private Category category;
 	@OneToOne
@@ -139,5 +142,15 @@ public class Project implements Serializable, Model {
 	public void setState(State state) {
 		this.state = state;
 	}
+
+	public List<Contact> getContacts() {
+		return contacts;
+	}
+
+	public void setContacts(List<Contact> contacts) {
+		this.contacts = contacts;
+	}
+	
+	
 	
 }

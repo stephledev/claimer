@@ -7,7 +7,7 @@ import ch.claimer.shared.models.Issue;
 public interface IssueRepository {
 	
 	List<Issue> getByContact(Integer id);
-	List<Issue> getBySupervisor(Integer id);
+	List<Issue> getBySubcontractor(Integer id);
 	List<Issue> getByState(Integer id);
 	List<Issue> getByProject(Integer id);
 	

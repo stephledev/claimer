@@ -1,10 +1,9 @@
 package ch.claimer.webservice.controller;
 
-import javax.ws.rs.core.Response;
-
 import ch.claimer.shared.models.Issue;
 import ch.claimer.webservice.repositories.IssueRepository;
 import ch.claimer.webservice.repositories.hibernate.HibernateIssueRepository;
+import ch.claimer.webservice.services.ResponseHandlerService;
 
 /**
  * Handles issue specific operations for RESTful 
@@ -14,65 +13,49 @@ import ch.claimer.webservice.repositories.hibernate.HibernateIssueRepository;
  * @author Raoul Ackermann
  * {@link ch.claimer.webservice.repositories}
  */
-public class IssueController<T> extends DefaultController<Issue> {
+public class IssueController<V> extends DefaultController<Issue, V> {
 	
 	private final IssueRepository repository;
-
-	public IssueController() {
-		super(Issue.class);
+	
+	public IssueController(ResponseHandlerService<V> response) {
+		super(Issue.class, response);
 		this.repository = new HibernateIssueRepository();
 	}
 
 	/**
-	 * Gets the issue instance by his contact from the repository
-	 * and returns it.
+	 * Gets issue(s) by its project from the repository and returns it.
 	 * 
-	 * @param id primary key of the issue instance to show
+	 * @param id project identifier of issue(s) to show
 	 * 
-	 * @return Response with HTTP Status and issue data
+	 * @return Response with status and issue data
 	 */
-	public Response showByContact(int id) {
-		String entityString = processor.write(repository.getByContact(id));
-		return Response.status(200).entity(entityString).type(type).build();
-	}
-
-	/**
-	 * Gets the issue instance by his supervisor from the repository
-	 * and returns it.
-	 * 
-	 * @param id primary key of the issue instance to show
-	 * 
-	 * @return Response with HTTP Status and issue data
-	 */
-	public Response showBySupervisor(int id) {
-		String entityString = processor.write(repository.getBySupervisor(id));
-		return Response.status(200).entity(entityString).type(type).build();
-	}
-	
-	/**
-	 * Gets the issue instance by his state from the repository
-	 * and returns it.
-	 * 
-	 * @param id primary key of the issue instance to show
-	 * 
-	 * @return Response with HTTP Status and issue data
-	 */
-	public Response showByState(int id) {
-		String entityString = processor.write(repository.getByState(id));
-		return Response.status(200).entity(entityString).type(type).build();
-	}
-	
-	/**
-	 * Gets the issue instance by his project from the repository
-	 * and returns it.
-	 * 
-	 * @param id primary key of the issue instance to show
-	 * 
-	 * @return Response with HTTP Status and issue data
-	 */
-	public Response showByProject(int id) {
+	public V showByProject(int id) {
 		String entityString = processor.write(repository.getByProject(id));
-		return Response.status(200).entity(entityString).type(type).build();
+		return response.success().entity(entityString).build();
+	}
+	
+	/**
+	 * Gets issue(s) by its contact from the repository and returns it.
+	 * 
+	 * @param id contact identifier of issue(s) to show
+	 * 
+	 * @return Response with status and issue data
+	 */
+	public V showByContact(int id) {
+		String entityString = processor.write(repository.getByContact(id));
+		return response.success().entity(entityString).build();
+	}
+	
+	/**
+	 * Gets issue(s) by its subcontractor from the repository and returns it.
+	 * 
+	 * @param id subcontractor identifier of issue(s) to show
+	 * 
+	 * @return Response with status and issue data
+	 */
+	public V showBySubcontractor(int id) {
+		String entityString = processor.write(repository.getBySubcontractor(id));
+		return response.success().entity(entityString).build();
 	}
 	
 }

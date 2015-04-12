@@ -1,56 +1,54 @@
 package ch.claimer.webservice.routes;
 
 import javax.annotation.security.RolesAllowed;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
+import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
-import ch.claimer.shared.models.Comment;
-import ch.claimer.webservice.controller.DefaultController;
+import ch.claimer.webservice.controller.CommentController;
+import ch.claimer.webservice.services.RouteResponseHandlerService;
 
 
 /**
- * Defines RESTful routes for comment specific interactions. 
- * Maps the controller according to the URL pattern
+ * Defines RESTful routes for comment specific interactions. Maps the controller according to the URL pattern
  * 
  * @author Stephan Beeler
  */
 @Path("/")
 public class CommentRoute {
 	
-	private DefaultController<Comment> controller;
+	private CommentController<Response> controller;
 
 	public CommentRoute() {
-		this.controller = new DefaultController<Comment>(Comment.class);
+		this.controller = new CommentController<Response>(new RouteResponseHandlerService());
 	}
 	
 	/**
-	 * Maps the controller to store the specified comment instance
+	 * Maps the controller to show comment(s) of a supervisor
 	 * 
-	 * @param data data of the comment instance to store supplied by a form
+	 * @param id supervisor identifier of comment(s) to show supplied by the URL
 	 * 
 	 * @return Response from the controller
 	 */
-	@POST
-	@RolesAllowed("basic")
-	@Path("comment")
-	public Response storeComment(@FormParam("data") String data) {
-		return controller.store(data);
-	} 
+	@GET
+	@RolesAllowed({"EDITOR","INTERN"})
+	@Path("/comment/supervisor/{id}")
+	public Response showCommentsBySupervisor(@PathParam("id") int id) {
+		return controller.showBySupervisor(id);
+	}
 	
 	/**
-	 * Maps the controller to update the specified comment instance
+	 * Maps the controller to show comment(s) of a contact
 	 * 
-	 * @param data data of the comment instance to update supplied by a form
-	 * 		  
+	 * @param id contact identifier of comment(s) to show supplied by the URL
+	 * 
 	 * @return Response from the controller
 	 */
-	@PUT
-	@RolesAllowed("basic")
-	@Path("comment")
-	public Response updateComment(@FormParam("data") String data) {
-		return controller.update(data);
-	} 
+	@GET
+	@RolesAllowed({"EDITOR","EXTERN"})
+	@Path("/comment/contact/{id}")
+	public Response showCommentsByContact(@PathParam("id") int id) {
+		return controller.showByContact(id);
+	}
 }

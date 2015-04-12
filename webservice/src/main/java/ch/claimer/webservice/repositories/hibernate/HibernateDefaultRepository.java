@@ -1,6 +1,5 @@
 package ch.claimer.webservice.repositories.hibernate;
 
-import java.io.Serializable;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -8,7 +7,7 @@ import org.hibernate.Session;
 import ch.claimer.webservice.repositories.DefaultRepository;
 import ch.claimer.webservice.util.HibernateUtil;
 
-public class HibernateDefaultRepository<T, Id extends Serializable> implements DefaultRepository<T, Id> {
+public class HibernateDefaultRepository<T> implements DefaultRepository<T> {
 	
 	private Session session;
 	private final Class<T> clazz;
@@ -26,7 +25,7 @@ public class HibernateDefaultRepository<T, Id extends Serializable> implements D
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public T getById(Id id) {
+	public T getById(Integer id) {
 		T t = (T) session.get(clazz, id);
 		return t;
 	}
@@ -45,7 +44,7 @@ public class HibernateDefaultRepository<T, Id extends Serializable> implements D
 	}
 
 	@Override
-	public void destroy(Id id) {
+	public void destroy(Integer id) {
 		T t = (T) getById(id)	;
 		session.delete(t);
 	}

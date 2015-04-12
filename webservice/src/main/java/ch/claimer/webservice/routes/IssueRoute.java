@@ -1,7 +1,6 @@
 package ch.claimer.webservice.routes;
 
 import javax.annotation.security.RolesAllowed;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -10,8 +9,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
-import ch.claimer.shared.models.Issue;
 import ch.claimer.webservice.controller.IssueController;
+import ch.claimer.webservice.services.RouteResponseHandlerService;
 
 
 /**
@@ -21,69 +20,55 @@ import ch.claimer.webservice.controller.IssueController;
  * @author Raoul Ackermann
  */
 @Path("/")
-public class IssueRoute {
+public class IssueRoute {	
 	
-	private IssueController<Issue> controller;
+	private IssueController<Response> controller;
 
 	public IssueRoute() {
-		this.controller = new IssueController<Issue>();
+		this.controller = new IssueController<Response>(new RouteResponseHandlerService());
 	}
 	
 	/**
-	 * Maps the controller to get a specific issue of a contact
+	 * Maps the controller to show issue(s) of a project
 	 * 
-	 * @param id issue of a contact to show supplied by the URL
-	 * 
-	 * @return Response from the controller
-	 */
-	@GET
-	@RolesAllowed("basic")
-	@Path("/issue/contact/{id}")
-	public Response showIssueByContact(@PathParam("id") int id) {
-		return controller.showByContact(id);
-	} 
-	
-	/**
-	 * Maps the controller to get a specific issue of a supervisor
-	 * 
-	 * @param id issue of a supervisor to show supplied by the URL
+	 * @param id project identifier of issue(s) to show supplied by the URL
 	 * 
 	 * @return Response from the controller
 	 */
 	@GET
-	@RolesAllowed("basic")
-	@Path("/issue/supervisor/{id}")
-	public Response showIssueBySupervisor(@PathParam("id") int id) {
-		return controller.showBySupervisor(id);
-	} 
-	
-	/**
-	 * Maps the controller to get a specific issue of a state
-	 * 
-	 * @param id issue of a state to show supplied by the URL
-	 * 
-	 * @return Response from the controller
-	 */
-	@GET
-	@RolesAllowed("basic")
-	@Path("/issue/state/{id}")
-	public Response showIssueByState(@PathParam("id") int id) {
-		return controller.showByState(id);
-	} 
-	
-	/**
-	 * Maps the controller to get a specific issue of a project
-	 * 
-	 * @param id issue of a project to show supplied by the URL
-	 * 
-	 * @return Response from the controller
-	 */
-	@GET
-	@RolesAllowed("basic")
+	@RolesAllowed({"EDITOR","INTERN"})
 	@Path("/issue/project/{id}")
-	public Response showIssueByProject(@PathParam("id") int id) {
+	public Response showIssuesByProject(@PathParam("id") int id) {
 		return controller.showByProject(id);
-	} 
+	}
+	
+	/**
+	 * Maps the controller to show issue(s) of a contact
+	 * 
+	 * @param id contact identifier of issue(s) to show supplied by the URL
+	 * 
+	 * @return Response from the controller
+	 */
+	@GET
+	@RolesAllowed({"EDITOR","EXTERN"})
+	@Path("/issue/contact/{id}")
+	public Response showIssuesByContact(@PathParam("id") int id) {
+		return controller.showByContact(id);
+	}
+	
+	/**
+	 * Maps the controller to show issue(s) of a subcontractor
+	 * 
+	 * @param id subcontractor identifier of issue(s) to show supplied by the URL
+	 * 
+	 * @return Response from the controller
+	 */
+	@GET
+	@RolesAllowed({"POWER","EXTERN"})
+	@Path("/issue/subcontractor/{id}")
+	public Response showIssuesBySubcontractor(@PathParam("id") int id) {
+		return controller.showBySubcontractor(id);
+	}
 	
 	/**
 	 * Maps the controller to store the specified issue instance
@@ -93,7 +78,7 @@ public class IssueRoute {
 	 * @return Response from the controller
 	 */
 	@POST
-	@RolesAllowed("supervisor")
+	@RolesAllowed({"EDITOR","INTERN"})
 	@Path("issue")
 	public Response storeIssue(@FormParam("data") String data) {
 		return controller.store(data);
@@ -107,23 +92,9 @@ public class IssueRoute {
 	 * @return Response from the controller
 	 */
 	@PUT
-	@RolesAllowed("contact")
+	@RolesAllowed({"EDITOR","INTERN"})
 	@Path("issue")
 	public Response updateIssue(@FormParam("data") String data) {
 		return controller.update(data);
-	} 
-	
-	/**
-	 * Maps the controller to destroy the specified issue instance
-	 * 
-	 * @param data data of the issue instance to destroy supplied by a form
-	 * 		  
-	 * @return Response from the controller
-	 */
-	@DELETE
-	@RolesAllowed("supervisor")
-	@Path("issue/{id}")
-	public Response destroyIssue(@PathParam("id") int id) {
-		return controller.destroy(id);
 	} 
 }

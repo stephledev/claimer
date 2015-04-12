@@ -1,13 +1,11 @@
 package ch.claimer.webservice.controller;
 
-import javax.ws.rs.core.Response;
-
-public interface Controller<T, Id> {
+public interface Controller<T, V> {
 	
-	public Response index();
-	public Response show(Id id);
-	public Response store(String data);
-	public Response update(String data);
-	public Response destroy(Id id);
+	public V index();
+	public V show(Integer id);
+	public V store(String data);
+	public V update(String data);
+	public V destroy(Integer id);
 	
 }

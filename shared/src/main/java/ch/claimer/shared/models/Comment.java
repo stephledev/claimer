@@ -28,7 +28,7 @@ public class Comment implements Serializable, Model {
 	private Date created;
 	private String content;
 	@ManyToOne
-	private Supervisor supervisor;
+	private Person person;
 	
 	public Comment() {
 		
@@ -54,12 +54,12 @@ public class Comment implements Serializable, Model {
 		this.content = content;
 	}
 
-	public Supervisor getSupervisor() {
-		return supervisor;
+	public Person getPerson() {
+		return person;
 	}
 
-	public void setSupervisor(Supervisor supervisor) {
-		this.supervisor = supervisor;
+	public void setPerson(Person person) {
+		this.person = person;
 	}
 	
 }
