@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="body" prefHeight="488.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.layout.LayoutController">
+   <children>
+      <HBox prefHeight="63.0" prefWidth="821.0">
+         <children>
+            <Pane prefHeight="63.0" prefWidth="600.0">
+               <children>
+                  <Label fx:id="lblOutput" layoutX="482.0" layoutY="21.0" text="Admin" />
+                  <ImageView fitHeight="57.0" fitWidth="75.0" layoutX="391.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../../Users/Alexander.lenovo/Desktop/IMG_3680.JPG" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="14.0" layoutY="11.0" text="Mängelmanager" />
+               </children>
+            </Pane>
+         </children>
+      </HBox>
+      <HBox layoutY="79.0" prefHeight="63.0" prefWidth="821.0">
+         <children>
+            <Button fx:id="btnHome" mnemonicParsing="false" onAction="#loadHomeView" prefHeight="66.0" prefWidth="91.0" text="Home" />
+            <Button fx:id="btnProjects" mnemonicParsing="false" onAction="#loadProjectsMainView" prefHeight="76.0" prefWidth="109.0" text="Projekte" />
+            <Button fx:id="btnSupervisor" mnemonicParsing="false" onAction="#loadSupervisorMainView" prefHeight="65.0" prefWidth="115.0" text="Bauleiter" />
+         </children>
+      </HBox>
+      <Pane fx:id="mainContent" layoutY="168.0" prefHeight="318.0" prefWidth="569.0" />
+   </children>
+</AnchorPane>

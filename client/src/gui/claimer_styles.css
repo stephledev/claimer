@@ -1,0 +1,7 @@
+#body {
+	-fx-background-color: red;
+}
+
+#headerBackground {
+	-fx-arc-width: 100%;
+}

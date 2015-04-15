@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="body" prefHeight="488.0" prefWidth="809.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Button layoutX="636.0" layoutY="403.0" mnemonicParsing="false" text="Anmelden" />
+      <Label layoutX="245.0" layoutY="142.0" text="Bitte melden Sie sich an" />
+      <Label layoutX="201.0" layoutY="189.0" text="Benutzername:" />
+      <Label layoutX="201.0" layoutY="239.0" text="Passwort:" />
+      <TextField layoutX="367.0" layoutY="184.0" />
+      <TextField layoutX="367.0" layoutY="234.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#76746f" height="66.0" layoutX="-12.0" layoutY="27.0" stroke="TRANSPARENT" strokeType="INSIDE" strokeWidth="0.0" width="926.0" />
+      <Label layoutX="317.0" layoutY="36.0" text="Mängelmanager" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="33.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
