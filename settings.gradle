@@ -1,2 +1,2 @@
 
-include "shared", "client", "webservice"
+include "shared", "client", "webservice", "appserver"
