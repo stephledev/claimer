@@ -1,16 +1,59 @@
+.root{
+	-fx-font-size: 12pt;
+	-fx-text-fill: #777777;
+	-fx-font-family: "Arial";
+	-fx-base: #E6E2E1;
+	-fx-background: #E6E2E1;
+	-fx-focus-color: #E6E2E1;
+	}
+
+.button {
+	-fx-background-color: #777777;
+    -fx-background-radius: 2,2,2;
+    -fx-background-insets: 0,1,2;
+    -fx-text-fill: #E6E2E1;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.3) , 1, 0.0 , 0 , 1 );
+   }
+   .button:hover {
+    -fx-background-color: linear-gradient(#929292, #929292);
+	}
+   
+.label{
+	-fx-background: #E6E2E1;
+	-fx-text-fill: #777777;
+	}
+	
+#lbl_mangelmanager{
+	-fx-background-color: #777777;
+	-fx-text-fill: #E6E2E1;
+	-fx-font-weight: bold;
+    -fx-font-size: 32px;
+    -fx-text-alignment: center;
+    -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.3) , 1, 0.0 , 0 , 0 );
+    -fx-padding:0.0px 
+}
+#lbl_warnung{
+	-fx-text-fill: #B70F0A;
+	-fx-font-size: 10px;
+	-fx-text-alignment: center;
+	
+}
+
+
+
 #body {
-	-fx-background-color: #e9e3df;
+	-fx-background-color: #E6E2E1;
 }
 
 #navigation {
-	-fx-background-color: #76746f;
+	-fx-background-color: #777777;
 }
 
 #navigation .navButton {
-	-fx-background-color: #76746f;
+	-fx-background-color: #777777;
 	-fx-background-radius: 0, 0, 0;
 	-fx-background-insets: 0,0,0;
-	-fx-text-fill: #fff;
+	-fx-text-fill: #E6E2E1;
 	-fx-font-size: 13px;
 	-fx-font-weight: bold;
 }

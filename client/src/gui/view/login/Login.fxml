@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.login.LoginController">
+   <children>
+      <Button fx:id="button_anmelden" layoutX="342.0" layoutY="259.0" mnemonicParsing="false" onAction="#warnung" text="Anmelden" />
+      <Label fx:id="lbl_mangelmanager" layoutY="60.0" prefHeight="17.0" prefWidth="600.0" text="Mängelmanager" />
+      <PasswordField fx:id="psw" layoutX="264.0" layoutY="214.0" />
+      <TextField fx:id="txt_benutzer" layoutX="264.0" layoutY="171.0" />
+      <Label fx:id="lbl_benutzer" layoutX="160.0" layoutY="175.0" text="Benutzer:" />
+      <Label fx:id="lbl_passwort" layoutX="160.0" layoutY="218.0" text="Passwort:" />
+      <Label fx:id="lbl_text1" layoutX="237.0" layoutY="117.0" text="Bitte melden Sie sich an" />
+      <Label fx:id="lbl_warnung" layoutX="197.0" layoutY="134.0" prefHeight="17.0" prefWidth="206.0" />
+   </children>
+</AnchorPane>
