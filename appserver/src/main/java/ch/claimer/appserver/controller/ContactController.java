@@ -18,36 +18,10 @@ public class ContactController extends Controller<Contact> implements ContactMet
 		this.contactRepository = new HibernateContactRepository();
 	}
 	
-	public List<Contact> getByAll() {
-		session.beginTransaction();
-		List<Contact> contacts = repository.getAll();
-		session.getTransaction().commit();
-		return contacts;
-	}
-	
-	public Contact getById(Integer id) {
-		session.beginTransaction();
-		Contact contact = repository.getById(id);
-		session.getTransaction().commit();
-		return contact;
-	}
-	
 	public List<Contact> getBySubcontractor(Integer id) {
 		session.beginTransaction();
 		List<Contact> contacts = contactRepository.getBySubcontractor(id);
 		session.getTransaction().commit();
 		return contacts;
-	}
-	public Contact create(Contact contact) {
-		session.beginTransaction();
-		repository.create(contact);
-		session.getTransaction().commit();
-		return contact;
-	}
-	public Contact update(Contact contact) {
-		session.beginTransaction();
-		repository.update(contact);
-		session.getTransaction().commit();
-		return contact;
 	}
 }
