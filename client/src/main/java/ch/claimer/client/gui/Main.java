@@ -1,9 +1,8 @@
-package gui;
-
-import gui.controller.login.LoginController;
+package ch.claimer.client.gui;
 
 import java.io.IOException;
 
+import ch.claimer.client.gui.controller.LoginController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
@@ -23,15 +22,15 @@ public class Main extends Application {
 
 		primaryStage.setTitle("Mängelmanager");
 		FXMLLoader myLoader = new FXMLLoader(getClass().getResource(
-				"view/login/Login.fxml")); // FXML File kann von myLoader geladen werden
+				"view/RootLayout.fxml")); // FXML File kann von myLoader geladen werden
 									
 
 		try {
 			Pane pane = (Pane) myLoader.load(); // FXML File wird auf das login-Pane geladen
 
-			LoginController controller = (LoginController) myLoader
+			/*LoginController controller = (LoginController) myLoader
 					.getController();
-			controller.setPrevStage(primaryStage); // übergibt die primaryStage der LoginController Klasse
+			controller.setPrevStage(primaryStage); // übergibt die primaryStage der LoginController Klasse*/
 			Scene login = new Scene(pane);
 			login.getStylesheets().add(
 					getClass().getResource("claimer_styles.css").toExternalForm()); // CSS-File wird geladen

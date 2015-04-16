@@ -10,7 +10,7 @@
 
 <AnchorPane id="body" prefHeight="488.0" prefWidth="800.0"
 	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="gui.controller.rootLayout.RootLayoutController">
+	fx:controller="ch.claimer.client.gui.controller.RootLayoutController">
 	<children>
 		<GridPane prefHeight="488.0" prefWidth="821.0"
 			AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
