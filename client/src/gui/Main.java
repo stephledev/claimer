@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 
-public class Login extends Application {
+public class Main extends Application {
 
 	Scene scene;
 
@@ -37,6 +37,7 @@ public class Login extends Application {
 					getClass().getResource("claimer_styles.css").toExternalForm()); // CSS-File wird geladen
 			primaryStage.setScene(login);
 			primaryStage.show();
+			primaryStage.setResizable(false);
 		}
 
 		catch (IOException e) {

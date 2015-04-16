@@ -1,6 +1,6 @@
 package gui.controller.login;
 
-import gui.Login;
+import gui.Main;
 
 import java.io.IOException;
 import java.net.URL;
@@ -18,7 +18,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class LoginController extends Login implements Initializable {
+public class LoginController extends Main implements Initializable {
 
 	Stage prevStage;
 
@@ -82,7 +82,7 @@ public class LoginController extends Login implements Initializable {
 		Stage stage = new Stage();
 		stage.setTitle("Home");
 		Pane myPane = null;
-		myPane = FXMLLoader.load(getClass().getResource("view/login/Home.fxml"));
+		myPane = FXMLLoader.load(getClass().getResource("../../view/rootLayout/RootLayout.fxml"));
 
 		Scene scene = new Scene(myPane);
 		stage.setScene(scene);
