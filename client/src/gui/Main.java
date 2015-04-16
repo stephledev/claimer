@@ -37,7 +37,6 @@ public class Main extends Application {
 					getClass().getResource("claimer_styles.css").toExternalForm()); // CSS-File wird geladen
 			primaryStage.setScene(login);
 			primaryStage.show();
-			primaryStage.setResizable(false);
 		}
 
 		catch (IOException e) {

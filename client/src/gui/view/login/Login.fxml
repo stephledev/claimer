@@ -10,6 +10,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.login.LoginController">
    <children>
+      <Button fx:id="button_anmelden" layoutX="702.0" layoutY="358.0" mnemonicParsing="false" onAction="#anmelden" prefHeight="25.0" prefWidth="103.0" text="Anmelden" />
       <Label fx:id="lbl_mangelmanager" layoutY="60.0" prefHeight="17.0" prefWidth="1280.0" text="Mängelmanager" />
       <PasswordField fx:id="psw" layoutX="641.0" layoutY="310.0" prefHeight="31.0" prefWidth="161.0" />
       <TextField fx:id="txt_benutzer" layoutX="641.0" layoutY="252.0" prefHeight="31.0" prefWidth="161.0" />

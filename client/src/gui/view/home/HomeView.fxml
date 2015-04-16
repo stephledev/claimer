@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="341.0" prefWidth="402.0"
-	xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+<AnchorPane prefHeight="600" prefWidth="800" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
 	<children>
-		<Label layoutY="4.0" text="Das ist der Home-View" />
+		<Label layoutX="8.0" layoutY="22.0" text="Posteingang" />
+      <TextField layoutX="640.0" layoutY="19.0" text="Suche..." />
+      <TableView layoutX="6.0" layoutY="53.0" prefHeight="541.0" prefWidth="763.0">
+        <columns>
+          <TableColumn prefWidth="191.0" text="Projekt" />
+          <TableColumn prefWidth="318.0" text="Mangel" />
+            <TableColumn prefWidth="108.0" text="Status" />
+            <TableColumn prefWidth="167.0" text="Zu erledigen bis" />
+        </columns>
+      </TableView>
+      <Slider layoutX="779.0" layoutY="53.0" orientation="VERTICAL" prefHeight="541.0" prefWidth="14.0" />
 	</children>
 </AnchorPane>
