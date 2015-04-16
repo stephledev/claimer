@@ -1,8 +1,8 @@
 package gui.controller.login;
 
-import java.io.BufferedReader;
+import gui.Login;
+
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -10,7 +10,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -19,7 +18,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class LoginController extends App implements Initializable {
+public class LoginController extends Login implements Initializable {
 
 	Stage prevStage;
 
@@ -52,7 +51,7 @@ public class LoginController extends App implements Initializable {
 	// If Passwort und Benutzer richtig --> Weiterleiten zu "Home"
 	// If Passwort und Benutzer falsch --> Warnung(Text) erscheint
 	@FXML
-	private void warnung(ActionEvent event) {
+	private void anmelden(ActionEvent event) {
 		
 			
 		// Passwort oder Benutzer richtig
@@ -83,7 +82,7 @@ public class LoginController extends App implements Initializable {
 		Stage stage = new Stage();
 		stage.setTitle("Home");
 		Pane myPane = null;
-		myPane = FXMLLoader.load(getClass().getResource("/fxml/Home.fxml"));
+		myPane = FXMLLoader.load(getClass().getResource("view/login/Home.fxml"));
 
 		Scene scene = new Scene(myPane);
 		stage.setScene(scene);

@@ -1,11 +1,12 @@
 package gui;
 
+import gui.controller.login.LoginController;
+
 import java.io.IOException;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 
@@ -33,7 +34,7 @@ public class Login extends Application {
 			controller.setPrevStage(primaryStage); // übergibt die primaryStage der LoginController Klasse
 			Scene login = new Scene(pane);
 			login.getStylesheets().add(
-					getClass().getResource("application.css").toExternalForm()); // CSS-File wird geladen
+					getClass().getResource("claimer_styles.css").toExternalForm()); // CSS-File wird geladen
 			primaryStage.setScene(login);
 			primaryStage.show();
 		}
