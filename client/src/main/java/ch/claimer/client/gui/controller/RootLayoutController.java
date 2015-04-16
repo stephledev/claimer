@@ -16,14 +16,14 @@ import javafx.scene.layout.Pane;
 
 public class RootLayoutController {
 
-	//Maincontent, hierhin werden die verschiedenen View geladen
+	//Maincontent, hierhin werden die verschiedenen Views geladen
 	@FXML
 	private Pane mainContent;
 
 	//Zur Home-Ansicht wechseln (mainView.xml)
 	@FXML
 	private void loadHomeView(ActionEvent event) throws IOException {
-		Pane myPane = FXMLLoader.load(getClass().getResource("../../view/home/homeView.fxml"));
+		Pane myPane = FXMLLoader.load(getClass().getResource("../view/homeView.fxml"));
 		mainContent.getChildren().setAll(myPane);
 		
 	}
@@ -31,35 +31,35 @@ public class RootLayoutController {
 	//Zur Projekte-Hauptansicht (projectsMainView.xml) wechseln
 	@FXML
 	private void loadProjectsMainView(ActionEvent event) throws IOException {
-		Pane myPane = FXMLLoader.load(getClass().getResource("../../view/projects/ProjectsMainView.fxml"));
+		Pane myPane = FXMLLoader.load(getClass().getResource("../view/ProjectsMainView.fxml"));
 		mainContent.getChildren().setAll(myPane);
 	}
 	
 	//Zur Bauleiter-Hauptansicht wechseln (supervisorMainView.xml)
 	@FXML
 	private void loadSupervisorMainView(ActionEvent event) throws IOException {
-		Pane myPane = FXMLLoader.load(getClass().getResource("../../view/supervisor/SupervisorMainView.fxml"));
+		Pane myPane = FXMLLoader.load(getClass().getResource("../view/SupervisorMainView.fxml"));
 		mainContent.getChildren().setAll(myPane);
 	}
 	
 	//Zur Subunternehmen-Hauptansicht wechseln (supervisorMainView.xml)
 		@FXML
 		private void loadSubcontractorMainView(ActionEvent event) throws IOException {
-			Pane myPane = FXMLLoader.load(getClass().getResource("../../view/subcontractor/SubcontractorMainView.fxml"));
+			Pane myPane = FXMLLoader.load(getClass().getResource("../view/SubcontractorMainView.fxml"));
 			mainContent.getChildren().setAll(myPane);
 		}
 	
 	//Zur Kunden-Hauptansicht wechseln  (principalMainView.xml)
 	@FXML
 	private void loadPrincipalMainView(ActionEvent event) throws IOException {
-		Pane myPane = FXMLLoader.load(getClass().getResource("../../view/principal/PrincipalMainView.fxml"));
+		Pane myPane = FXMLLoader.load(getClass().getResource("../view/PrincipalMainView.fxml"));
 		mainContent.getChildren().setAll(myPane);
 	}
 	
 	//Zur Benutzer-Hauptansicht wechseln  (userMainView.xml)
 	@FXML
 	private void loadUserMainView(ActionEvent event) throws IOException {
-		Pane myPane = FXMLLoader.load(getClass().getResource("../../view/user/UserMainView.fxml"));
+		Pane myPane = FXMLLoader.load(getClass().getResource("../view/UserMainView.fxml"));
 		mainContent.getChildren().setAll(myPane);
 	}
 
