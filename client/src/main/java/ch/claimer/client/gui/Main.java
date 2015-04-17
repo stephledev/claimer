@@ -1,8 +1,8 @@
-package ch.claimer.client.gui;
+package main.java.ch.claimer.client.gui;
 
 import java.io.IOException;
 
-import ch.claimer.client.gui.controller.LoginController;
+import main.java.ch.claimer.client.gui.controller.LoginController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
@@ -22,7 +22,7 @@ public class Main extends Application {
 
 		primaryStage.setTitle("Mängelmanager");
 		FXMLLoader myLoader = new FXMLLoader(getClass().getResource(
-				"view/RootLayout.fxml")); // FXML File kann von myLoader geladen werden
+				"view/Login.fxml")); // FXML File kann von myLoader geladen werden
 									
 
 		try {
@@ -36,10 +36,7 @@ public class Main extends Application {
 					getClass().getResource("claimer_styles.css").toExternalForm()); // CSS-File wird geladen
 			primaryStage.setScene(login);
 			primaryStage.show();
-<<<<<<< HEAD
-=======
-			//primaryStage.setResizable(false);
->>>>>>> f9effc36b7d2cbb0bae39f4d51fbf4d94569d997
+
 		}
 
 		catch (IOException e) {
