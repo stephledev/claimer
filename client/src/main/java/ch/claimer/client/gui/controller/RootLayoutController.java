@@ -1,4 +1,4 @@
-package gui.controller.rootLayout;
+package ch.claimer.client.gui.controller;
 
 import java.io.IOException;
 
