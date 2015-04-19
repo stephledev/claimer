@@ -12,9 +12,11 @@
           <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" minWidth="10.0" prefWidth="521.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" valignment="CENTER" vgrow="NEVER" />
+          <RowConstraints valignment="CENTER" vgrow="NEVER" />
+            <RowConstraints fillHeight="false" maxHeight="20.0" minHeight="20.0" prefHeight="20.0" valignment="CENTER" vgrow="NEVER" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" valignment="CENTER" vgrow="NEVER" />
+            <RowConstraints fillHeight="false" maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="NEVER" />
+          <RowConstraints fillHeight="false" valignment="CENTER" vgrow="NEVER" />
         </rowConstraints>
          <children>
             <GridPane prefWidth="600.0">
@@ -27,10 +29,10 @@
               </rowConstraints>
                <children>
                   <Label text="Übersicht" />
-                  <TextField GridPane.columnIndex="1" />
+                  <TextField promptText="Suche..." GridPane.columnIndex="1" />
                </children>
             </GridPane>
-            <TableView prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+            <TableView prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
               <columns>
                 <TableColumn prefWidth="75.0" text="Firma" />
                 <TableColumn prefWidth="75.0" text="Tätigkeit" />
@@ -42,7 +44,7 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <Button mnemonicParsing="false" onAction="#loadSubcontracotrAddView" text="Subunternhemen hinzufügen" GridPane.rowIndex="2" />
+            <Button mnemonicParsing="false" onAction="#loadSubcontracotrAddView" text="Subunternhemen hinzufügen" GridPane.rowIndex="4" />
          </children>
       </GridPane>
    </children>
