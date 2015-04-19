@@ -40,17 +40,21 @@
                      <children>
                         <ImageView fitHeight="41.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../../../resource/IMG_3680.JPG" />
+                              <Image url="@../../../../../../resource/IMG_3680.jpg" />
                            </image>
+                           <HBox.margin>
+                              <Insets right="20.0" />
+                           </HBox.margin>
                         </ImageView>
-                        <Label text="Max Muster">
-                           <opaqueInsets>
-                              <Insets />
-                           </opaqueInsets>
-                           <padding>
-                              <Insets left="10.0" right="20.0" />
-                           </padding>
-                        </Label>
+                        <SplitMenuButton mnemonicParsing="false" style="-fx-color: transparent; -fx-background-color: transparent;" styleClass=".split-menu-button" text="Max Muster" textFill="#9e0e0e">
+                          <items>
+                            <MenuItem mnemonicParsing="false" text="Profildaten bearbeiten" />
+                            <MenuItem mnemonicParsing="false" text="Abmelden" />
+                          </items>
+                           <HBox.margin>
+                              <Insets right="20.0" />
+                           </HBox.margin>
+                        </SplitMenuButton>
                      </children>
                   </HBox>
                </children>

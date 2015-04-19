@@ -28,7 +28,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="TOP" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label text="Übersicht" />
+                  <Label text="Subunternehmen Übersicht" />
                   <TextField promptText="Suche..." GridPane.columnIndex="1" />
                </children>
             </GridPane>
