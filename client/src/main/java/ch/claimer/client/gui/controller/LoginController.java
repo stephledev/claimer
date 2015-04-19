@@ -1,10 +1,10 @@
-package main.java.ch.claimer.client.gui.controller;
+package ch.claimer.client.gui.controller;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import main.java.ch.claimer.client.gui.Main;
+import ch.claimer.client.gui.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -60,6 +60,7 @@ public class LoginController extends Main implements Initializable {
 				go(event);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
+				System.out.println("fail");
 				e.printStackTrace();
 			}
 		}
@@ -81,7 +82,7 @@ public class LoginController extends Main implements Initializable {
 		Stage stage = new Stage();
 		stage.setTitle("Home");
 		Pane myPane = null;
-		myPane = FXMLLoader.load(getClass().getResource("../../view/rootLayout/RootLayout.fxml"));
+		myPane = FXMLLoader.load(getClass().getResource("../view/rootLayout/RootLayout.fxml"));
 
 		Scene scene = new Scene(myPane);
 		stage.setScene(scene);
