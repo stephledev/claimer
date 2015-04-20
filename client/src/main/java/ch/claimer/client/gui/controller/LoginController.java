@@ -82,7 +82,7 @@ public class LoginController extends Main implements Initializable {
 		Stage stage = new Stage();
 		stage.setTitle("Home");
 		Pane myPane = null;
-		myPane = FXMLLoader.load(getClass().getResource("../view/rootLayout/RootLayout.fxml"));
+		myPane = FXMLLoader.load(getClass().getResource("view/Login.fxml"));
 
 		Scene scene = new Scene(myPane);
 		stage.setScene(scene);

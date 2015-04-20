@@ -41,7 +41,7 @@ public class Main extends Application {
 
 		primaryStage.setTitle("Mängelmanager");
 		FXMLLoader myLoader = new FXMLLoader(getClass().getResource(
-				"client/gui/view/Login.fxml")); // FXML File kann von myLoader geladen werden
+				"view/Login.fxml")); // FXML File kann von myLoader geladen werden
 									
 
 		try {
