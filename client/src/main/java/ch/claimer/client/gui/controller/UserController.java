@@ -9,21 +9,21 @@ import javafx.scene.layout.Pane;
 
 /**
  * @author Alexander Hauck
- * @since 16.04.2015
+ * @since 20.04.2015
  * @version 1.0
  *
  */
 
-public class SubcontractorController {
+public class UserController {
 	
 	//Maincontent, hierhin werden die verschiedenen Views geladen
 	@FXML
 	private Pane mainContent;
 
-	//Zur Home-Ansicht wechseln (mainView.xml)
+	//Zum User Add/Change View wechseln (UserAddView.xml)
 	@FXML
-	private void loadSubcontracotrAddView(ActionEvent event) throws IOException {
-		Pane myPane = FXMLLoader.load(getClass().getResource("../view/SubcontractorAddView.fxml"));
+	private void loadUserAddView(ActionEvent event) throws IOException {
+		Pane myPane = FXMLLoader.load(getClass().getResource("../view/UserAddView.fxml"));
 		mainContent.getChildren().clear();
 		mainContent.getChildren().setAll(myPane);
 		
