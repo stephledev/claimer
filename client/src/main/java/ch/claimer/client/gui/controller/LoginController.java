@@ -1,10 +1,10 @@
-package ch.claimer.client.gui.controller;
+package main.java.ch.claimer.client.gui.controller;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import ch.claimer.client.gui.Main;
+import main.java.ch.claimer.client.gui.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

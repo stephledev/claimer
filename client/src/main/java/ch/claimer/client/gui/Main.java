@@ -1,8 +1,8 @@
-package ch.claimer.client.gui;
+package main.java.ch.claimer.client.gui;
 
 import java.io.IOException;
 
-import ch.claimer.client.gui.controller.LoginController;
+import main.java.ch.claimer.client.gui.controller.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
