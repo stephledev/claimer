@@ -40,13 +40,13 @@
                      <children>
                         <ImageView fitHeight="41.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../../../resource/IMG_3680.jpg" />
+                              <Image url="@../../../../../img3680.jpg" />
                            </image>
                            <HBox.margin>
                               <Insets right="20.0" />
                            </HBox.margin>
                         </ImageView>
-                        <SplitMenuButton mnemonicParsing="false" style="-fx-color: transparent; -fx-background-color: transparent;" styleClass=".split-menu-button" text="Max Muster" textFill="#9e0e0e">
+                        <SplitMenuButton mnemonicParsing="false" style="-fx-color: transparent; -fx-background-color: transparent;" styleClass=".split-menu-button" text="Max Muster">
                           <items>
                             <MenuItem mnemonicParsing="false" text="Profildaten bearbeiten" />
                             <MenuItem mnemonicParsing="false" text="Abmelden" />

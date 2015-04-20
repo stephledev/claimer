@@ -24,6 +24,7 @@ public class RootLayoutController {
 	@FXML
 	private void loadHomeView(ActionEvent event) throws IOException {
 		Pane myPane = FXMLLoader.load(getClass().getResource("../view/homeView.fxml"));
+		mainContent.getChildren().clear();
 		mainContent.getChildren().setAll(myPane);
 		
 	}
@@ -32,6 +33,7 @@ public class RootLayoutController {
 	@FXML
 	private void loadProjectsMainView(ActionEvent event) throws IOException {
 		Pane myPane = FXMLLoader.load(getClass().getResource("../view/ProjectsMainView.fxml"));
+		mainContent.getChildren().clear();
 		mainContent.getChildren().setAll(myPane);
 	}
 	
@@ -39,6 +41,7 @@ public class RootLayoutController {
 	@FXML
 	private void loadSupervisorMainView(ActionEvent event) throws IOException {
 		Pane myPane = FXMLLoader.load(getClass().getResource("../view/SupervisorMainView.fxml"));
+		mainContent.getChildren().clear();
 		mainContent.getChildren().setAll(myPane);
 	}
 	
@@ -46,6 +49,7 @@ public class RootLayoutController {
 		@FXML
 		private void loadSubcontractorMainView(ActionEvent event) throws IOException {
 			Pane myPane = FXMLLoader.load(getClass().getResource("../view/SubcontractorMainView.fxml"));
+			mainContent.getChildren().clear();
 			mainContent.getChildren().setAll(myPane);
 		}
 	
@@ -53,6 +57,7 @@ public class RootLayoutController {
 	@FXML
 	private void loadPrincipalMainView(ActionEvent event) throws IOException {
 		Pane myPane = FXMLLoader.load(getClass().getResource("../view/PrincipalMainView.fxml"));
+		mainContent.getChildren().clear();
 		mainContent.getChildren().setAll(myPane);
 	}
 	
@@ -60,6 +65,7 @@ public class RootLayoutController {
 	@FXML
 	private void loadUserMainView(ActionEvent event) throws IOException {
 		Pane myPane = FXMLLoader.load(getClass().getResource("../view/UserMainView.fxml"));
+		mainContent.getChildren().clear();
 		mainContent.getChildren().setAll(myPane);
 	}
 

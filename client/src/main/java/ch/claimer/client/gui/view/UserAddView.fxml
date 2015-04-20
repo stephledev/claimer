@@ -48,12 +48,17 @@
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                     </columnConstraints>
                     <rowConstraints>
-                      <RowConstraints fillHeight="false" maxHeight="170.0" minHeight="10.0" prefHeight="170.0" valignment="TOP" vgrow="NEVER" />
+                      <RowConstraints fillHeight="false" valignment="TOP" vgrow="NEVER" />
+                        <RowConstraints fillHeight="false" maxHeight="10.0" minHeight="10.0" prefHeight="10.0" valignment="TOP" vgrow="NEVER" />
                       <RowConstraints fillHeight="false" minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
                     </rowConstraints>
                      <children>
-                        <Button mnemonicParsing="false" text="Upload" GridPane.rowIndex="1" />
-                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="150.0" stroke="BLACK" strokeType="INSIDE" width="150.0" />
+                        <Button mnemonicParsing="false" text="Upload" GridPane.rowIndex="2" />
+                        <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../img3680.jpg" />
+                           </image>
+                        </ImageView>
                      </children>
                   </GridPane>
                   <GridPane>
