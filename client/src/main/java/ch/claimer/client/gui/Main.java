@@ -19,30 +19,29 @@ public class Main extends Application {
 	}
 
 	@Override
+//	public void start(Stage primaryStage) {
+//
+//		try {
+//			
+//			primaryStage.setTitle("Mängelmanager");
+//			Parent root = FXMLLoader.load(getClass().getResource("view/RootLayout.fxml"));
+//			Scene scene = new Scene(root,800,400);
+//			scene.getStylesheets().add(getClass().getResource("claimer_styles.css").toExternalForm());
+//			primaryStage.setScene(scene);
+//			primaryStage.show();
+//			
+//		} catch(Exception e) {
+//			e.printStackTrace();
+//		}
+//
+//	}
 	
-	public void start(Stage primaryStage) {
 
-		try {
-			
-			primaryStage.setTitle("Mängelmanager");
-			Parent root = FXMLLoader.load(getClass().getResource("view/RootLayout.fxml"));
-			Scene scene = new Scene(root,800,400);
-			scene.getStylesheets().add(getClass().getResource("claimer_styles.css").toExternalForm());
-			primaryStage.setScene(scene);
-			primaryStage.show();
-			
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-
-	}
-	
-	/*
 	public void start(Stage primaryStage) {
 
 		primaryStage.setTitle("Mängelmanager");
 		FXMLLoader myLoader = new FXMLLoader(getClass().getResource(
-				"view/Login.fxml")); // FXML File kann von myLoader geladen werden
+				"client/gui/view/Login.fxml")); // FXML File kann von myLoader geladen werden
 									
 
 		try {
@@ -65,6 +64,6 @@ public class Main extends Application {
 		}
 
 	}
-	*/
+	
 
 }
