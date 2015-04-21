@@ -4,15 +4,16 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
-import ch.claimer.appserver.controller.CategoryController;
-import ch.claimer.appserver.methods.CategoryMethod;
+import ch.claimer.appserver.controller.Controller;
+import ch.claimer.appserver.methods.Method;
+import ch.claimer.shared.models.Category;
 
 public class RMIService {
 
 	public static void main(String[] args) {
 		try {
 
-			CategoryMethod category = new CategoryController();
+			Method<Category> category = new Controller<Category>(Category.class);
 
 			Registry reg = LocateRegistry.createRegistry(9090);
 

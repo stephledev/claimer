@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+
+	<persistence-unit name="claimer" transaction-type="RESOURCE_LOCAL">
+		
+		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+			
+			<class>ch.claimer.shared.models.Category</class>
+			<class>ch.claimer.shared.models.Comment</class>
+			<class>ch.claimer.shared.models.Company</class>
+			<class>ch.claimer.shared.models.Contact</class>
+			<class>ch.claimer.shared.models.GCEmployee</class>
+			<class>ch.claimer.shared.models.GeneralContractor</class>
+			<class>ch.claimer.shared.models.Image</class>
+			<class>ch.claimer.shared.models.Issue</class>
+			<class>ch.claimer.shared.models.LogEntry</class>
+			<class>ch.claimer.shared.models.Login</class>
+			<class>ch.claimer.shared.models.Model</class>
+			<class>ch.claimer.shared.models.Person</class>
+			<class>ch.claimer.shared.models.Project</class>
+			<class>ch.claimer.shared.models.Role</class>
+			<class>ch.claimer.shared.models.SCEmployee</class>
+			<class>ch.claimer.shared.models.State</class>
+			<class>ch.claimer.shared.models.Subcontractor</class>
+			<class>ch.claimer.shared.models.Supervisor</class>
+			<class>ch.claimer.shared.models.Type</class>
+			
+			<properties>
+				
+				<property name="javax.persistence.driver.class" value="com.mysql.jdbc.Driver" />
+				<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/claimer" />
+				<property name="javax.persistence.jdbc.user" value="claimer" />
+				<property name="javax.persistence.jdbc.password" value="claimer" />
+				<property name="eclipselink.ddl-generation.output-mode" value="database" />
+				<property name="eclipselink.ddl-generation" value="create-tables" />
+				<property name="eclipselink.logging.level" value="FINE" />
+				
+			</properties>
+			
+	</persistence-unit>
+	
+</persistence>
+
+
+
