@@ -44,7 +44,7 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <Button mnemonicParsing="false" onAction="#loadSubcontracotrAddView" text="Projekt hinzufügen" GridPane.rowIndex="4" />
+            <Button mnemonicParsing="false" onAction="#loadSubcontracotrAddView" styleClass="add-button" text="Projekt hinzufügen" GridPane.rowIndex="4" />
          </children>
       </GridPane>
    </children>

@@ -25,8 +25,8 @@
             <Label text="Benutzer verwalten / hinzufügen" />
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="4">
                <children>
-                  <Button mnemonicParsing="false" text="Speichern" />
-                  <Button mnemonicParsing="false" text="Abbrechen">
+                  <Button mnemonicParsing="false" styleClass="save-button" text="Speichern" />
+                  <Button mnemonicParsing="false" styleClass="delete-button" text="Abbrechen">
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>
@@ -53,7 +53,7 @@
                       <RowConstraints fillHeight="false" minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
                     </rowConstraints>
                      <children>
-                        <Button mnemonicParsing="false" text="Upload" GridPane.rowIndex="2" />
+                        <Button mnemonicParsing="false" styleClass="upload-button" text="Upload" GridPane.rowIndex="2" />
                         <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../../../../img3680.jpg" />
