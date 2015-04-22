@@ -82,9 +82,11 @@ public class LoginController extends Main implements Initializable {
 		Stage stage = new Stage();
 		stage.setTitle("Home");
 		Pane myPane = null;
-		myPane = FXMLLoader.load(getClass().getResource("view/Login.fxml"));
-
+		myPane = FXMLLoader.load(getClass().getResource("../view/RootLayout.fxml"));
+	
 		Scene scene = new Scene(myPane);
+		scene.getStylesheets().add(
+				getClass().getResource("../claimer_styles.css").toExternalForm()); // CSS-File wird geladen
 		stage.setScene(scene);
 		prevStage.close();
 		stage.show();
