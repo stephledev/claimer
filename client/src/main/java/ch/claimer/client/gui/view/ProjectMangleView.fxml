@@ -199,7 +199,8 @@
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="558.6666564941406" minWidth="10.0" prefWidth="557.3333282470703" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="388.0" minHeight="10.0" prefHeight="381.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="197.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
                   <TableView GridPane.columnIndex="1">
@@ -209,6 +210,20 @@
                         <TableColumn prefWidth="95.0" text="Erstellt am:" />
                     </columns>
                   </TableView>
+                  <GridPane GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="339.0" minWidth="10.0" prefWidth="339.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="257.0" minWidth="10.0" prefWidth="58.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="180.0" minWidth="10.0" prefWidth="121.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="159.0" text="Kommentar hinzufügen" GridPane.columnIndex="2" />
+                        <Button mnemonicParsing="false" text="Speichern" GridPane.columnIndex="1" />
+                     </children>
+                  </GridPane>
                </children>
             </GridPane>
          </children>
