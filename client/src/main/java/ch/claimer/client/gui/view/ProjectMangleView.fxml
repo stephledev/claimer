@@ -82,7 +82,7 @@
                     </rowConstraints>
                      <children>
                         <Label text="Kunde:" />
-                        <ComboBox prefHeight="25.0" prefWidth="175.0" GridPane.columnIndex="1" />
+                        <ComboBox prefHeight="25.0" prefWidth="287.0" GridPane.columnIndex="1" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" left="25.0" top="5.0" />
@@ -195,15 +195,15 @@
             </GridPane>
             <GridPane prefHeight="404.0" prefWidth="800.0" GridPane.rowIndex="2">
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="393.3333435058594" minWidth="10.0" prefWidth="242.6666717529297" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="558.6666564941406" minWidth="10.0" prefWidth="557.3333282470703" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="200.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints maxHeight="388.0" minHeight="10.0" prefHeight="381.0" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="197.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <TableView GridPane.columnIndex="1">
+                  <TableView prefHeight="378.0" prefWidth="497.0" GridPane.columnIndex="1">
                     <columns>
                       <TableColumn prefWidth="330.66668701171875" text="Kommentar:" />
                       <TableColumn prefWidth="80.33331298828125" text="Autor:" />
@@ -222,6 +222,99 @@
                      <children>
                         <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="159.0" text="Kommentar hinzufügen" GridPane.columnIndex="2" />
                         <Button mnemonicParsing="false" text="Speichern" GridPane.columnIndex="1" />
+                     </children>
+                  </GridPane>
+                  <GridPane>
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints maxHeight="117.0" minHeight="10.0" prefHeight="58.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="308.0" minHeight="10.0" prefHeight="97.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="308.0" minHeight="0.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="317.0" minHeight="0.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="317.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="317.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <GridPane prefHeight="44.0" prefWidth="242.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="10.0" prefWidth="90.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <TextField prefHeight="25.0" prefWidth="151.0" GridPane.columnIndex="1" />
+                           </children>
+                        </GridPane>
+                        <Label text="Bereich:" />
+                        <GridPane GridPane.rowIndex="1">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="10.0" prefWidth="90.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label text="Mangelbeschrieb:" />
+                              <TextField GridPane.columnIndex="1" />
+                           </children>
+                        </GridPane>
+                        <GridPane GridPane.rowIndex="2">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="10.0" prefWidth="90.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label text="Festgestellt am:" />
+                              <DatePicker GridPane.columnIndex="1" />
+                           </children>
+                        </GridPane>
+                        <GridPane prefHeight="58.0" prefWidth="242.0" GridPane.rowIndex="3">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="10.0" prefWidth="90.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label text="Erledigen bis:" />
+                              <DatePicker GridPane.columnIndex="1" />
+                           </children>
+                        </GridPane>
+                        <GridPane prefHeight="124.0" prefWidth="242.0" GridPane.rowIndex="4">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="10.0" prefWidth="90.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label text="Status:" />
+                              <ComboBox prefHeight="25.0" prefWidth="183.0" GridPane.columnIndex="1" />
+                           </children>
+                        </GridPane>
+                        <GridPane GridPane.rowIndex="5">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="10.0" prefWidth="90.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <ComboBox prefHeight="25.0" prefWidth="169.0" GridPane.columnIndex="1" />
+                              <Label text="Erledigen durch:" />
+                           </children>
+                        </GridPane>
                      </children>
                   </GridPane>
                </children>
