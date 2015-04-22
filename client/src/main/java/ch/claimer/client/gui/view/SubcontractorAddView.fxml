@@ -237,9 +237,9 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Button mnemonicParsing="false" text="Abbrechen" />
-                  <Button mnemonicParsing="false" text="Speichern" GridPane.columnIndex="1" />
-                  <Button mnemonicParsing="false" text="Ansprechperson hinzufügen" GridPane.columnIndex="2" />
+                  <Button mnemonicParsing="false" styleClass="delete-button" text="Abbrechen" />
+                  <Button mnemonicParsing="false" styleClass="save-button" text="Speichern" GridPane.columnIndex="1" />
+                  <Button mnemonicParsing="false" styleClass="add-button" text="Ansprechperson hinzufügen" GridPane.columnIndex="2" />
                </children>
             </GridPane>
          </children>

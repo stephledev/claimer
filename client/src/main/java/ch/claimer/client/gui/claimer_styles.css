@@ -18,6 +18,26 @@
 .button:hover {
     -fx-background-color: linear-gradient(#929292, #929292);
 }
+
+.add-button {
+	  -fx-graphic: url('../../../../add.png');
+	  -fx-graphic-text-gap: 10px;
+}
+
+.delete-button {
+	-fx-graphic: url('../../../../delete.png');
+	-fx-graphic-text-gap: 10px;
+}
+
+.upload-button {
+	-fx-graphic: url('../../../../upload.png');
+	-fx-graphic-text-gap: 10px;
+}
+
+.save-button {
+	-fx-graphic: url('../../../../save.png');
+	-fx-graphic-text-gap: 10px;
+}
    
 .label{
 	-fx-background: #E6E2E1;

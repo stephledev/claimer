@@ -17,6 +17,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+/**
+ * @author Michael Lötscher
+ * @since 21.04.2015
+ * @version 1.1
+ *
+ */
+
 public class LoginController extends Main implements Initializable {
 
 	Stage prevStage;
@@ -46,15 +53,14 @@ public class LoginController extends Main implements Initializable {
 	private Button button_anmelden;
 	
 
-	// Klick auf "Anmelden Button ruft folgende Methode auf...
-	// If Passwort und Benutzer richtig --> Weiterleiten zu "Home"
-	// If Passwort und Benutzer falsch --> Warnung(Text) erscheint
+	
 	@FXML
 	private void anmelden(ActionEvent event) {
-		
+	
+	
 			
-		// Passwort oder Benutzer richtig
-		if (psw.toString() != "" || txt_benutzer.toString() != "") {
+		// Passwort und Benutzer werden geprüft
+		if (psw.getText().equals("") && txt_benutzer.getText().equals("")) {
 
 			try {
 				go(event);

@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="333.0" prefWidth="652.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="mainContent" prefHeight="333.0" prefWidth="652.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.claimer.client.gui.controller.UserController">
    <children>
       <GridPane layoutX="243.0" layoutY="58.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -25,8 +25,8 @@
             <Label text="Benutzer verwalten / hinzufügen" />
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="4">
                <children>
-                  <Button mnemonicParsing="false" text="Speichern" />
-                  <Button mnemonicParsing="false" text="Abbrechen">
+                  <Button mnemonicParsing="false" onAction="#addUser" styleClass="save-button" text="Speichern" />
+                  <Button mnemonicParsing="false" onAction="#loadUserMainView" styleClass="delete-button" text="Abbrechen">
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>
@@ -53,7 +53,7 @@
                       <RowConstraints fillHeight="false" minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
                     </rowConstraints>
                      <children>
-                        <Button mnemonicParsing="false" text="Upload" GridPane.rowIndex="2" />
+                        <Button mnemonicParsing="false" onAction="#uploadImage" styleClass="upload-button" text="Upload" GridPane.rowIndex="2" />
                         <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../../../../img3680.jpg" />
