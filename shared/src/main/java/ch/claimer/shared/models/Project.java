@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * @author Stephan Beeler
@@ -25,7 +27,9 @@ public class Project implements Serializable, Model {
 	@GeneratedValue
 	private int id;
 	private String name;
+	@Temporal(TemporalType.DATE)
 	private Date start;
+	@Temporal(TemporalType.DATE)
 	private Date end;
 	private String street;
 	private String zip;

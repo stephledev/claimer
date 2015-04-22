@@ -10,9 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-
-import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GenerationTime;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * @author Stephan Beeler
@@ -27,8 +26,9 @@ public class Issue implements Serializable, Model {
 	@GeneratedValue
 	private int id;
 	private String description;
-	@Generated(value=GenerationTime.INSERT)
+	@Temporal(TemporalType.DATE)
 	private Date created;
+	@Temporal(TemporalType.DATE)
 	private Date solved;
 	@OneToMany(cascade=CascadeType.ALL)
 	private List<Image> images;

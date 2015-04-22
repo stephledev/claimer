@@ -6,6 +6,8 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class LogEntry implements Serializable, Model {
@@ -15,6 +17,7 @@ public class LogEntry implements Serializable, Model {
 	@Id
 	@GeneratedValue
 	private int id;
+	@Temporal(TemporalType.DATE)
 	private Date date;
 	private String description;
 
