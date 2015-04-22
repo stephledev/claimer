@@ -19,7 +19,7 @@ public class EclipseLinkRepository<T> implements Repository<T> {
     }
 
 	@Override
-	public T getById(Integer id) {
+	public T getById(int id) {
 		EntityManager em = factory.createEntityManager();
 		T t = em.find(clazz, id);
 		em.close();
@@ -66,7 +66,7 @@ public class EclipseLinkRepository<T> implements Repository<T> {
 	}
 
 	@Override
-	public void delete(Integer id) {
+	public void delete(int id) {
 		EntityManager em = factory.createEntityManager();
 		em.getTransaction().begin();
 		em.remove(id);

@@ -3,18 +3,22 @@ package ch.claimer.appserver.seeds;
 import java.util.List;
 
 import ch.claimer.appserver.repositories.Repository;
-import ch.claimer.appserver.repositories.eclipselink.EclipseLinkRepository;
-import ch.claimer.shared.models.Model;
 
-public abstract class Seed {
+public abstract class Seed<T> {
 	
-	protected List<? extends Model> list;
-	protected Repository<? extends Model> repository;
+	protected List<T> list;
+	protected Repository<T> repository;
+	
+	public static void main(String[] args) {
+		CategorySeed categorySeed = new CategorySeed();
+		categorySeed.setup();
+		categorySeed.execute();
+	}
 	
 	public abstract void setup();
 	public void execute() {
-		for(Model model : list) {
-			repository.create(model);
+		for(T t : list) {
+			repository.create(t);
 		}
 	}
 }

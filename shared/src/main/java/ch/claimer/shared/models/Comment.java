@@ -10,9 +10,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GenerationTime;
-
 /**
  * @author Stephan Beeler
  */
@@ -26,7 +23,6 @@ public class Comment implements Serializable, Model {
 	@Id
 	@GeneratedValue
 	private int id;
-	@Generated(value=GenerationTime.INSERT)
 	@Temporal(TemporalType.DATE)
 	private Date created;
 	private String content;

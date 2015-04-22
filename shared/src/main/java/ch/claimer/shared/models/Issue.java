@@ -13,9 +13,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GenerationTime;
-
 /**
  * @author Stephan Beeler
  */
@@ -29,7 +26,6 @@ public class Issue implements Serializable, Model {
 	@GeneratedValue
 	private int id;
 	private String description;
-	@Generated(value=GenerationTime.INSERT)
 	@Temporal(TemporalType.DATE)
 	private Date created;
 	@Temporal(TemporalType.DATE)

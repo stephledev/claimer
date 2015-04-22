@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
-public class JsonDataProcessorService<T> implements DataProcessorService<T> {
+public class JsonConverterService<T> implements ConverterService<T> {
 	
 	private final ObjectMapper mapper = new ObjectMapper();
 

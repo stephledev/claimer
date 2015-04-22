@@ -4,9 +4,9 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
-import ch.claimer.appserver.methods.Method;
 import ch.claimer.appserver.repositories.Repository;
 import ch.claimer.appserver.repositories.eclipselink.EclipseLinkRepository;
+import ch.claimer.shared.methods.Method;
 
 public class Controller<T> extends UnicastRemoteObject implements Method<T> {
 
@@ -25,7 +25,7 @@ public class Controller<T> extends UnicastRemoteObject implements Method<T> {
 	}	
 
 	@Override
-	public T getById(Integer id) {
+	public T getById(int id) {
 		return repository.getById(id);
 	}
 	
@@ -48,7 +48,7 @@ public class Controller<T> extends UnicastRemoteObject implements Method<T> {
 	}
 
 	@Override
-	public Integer delete(Integer id) {
+	public Integer delete(int id) {
 		repository.delete(id);
 		return id;
 	}
