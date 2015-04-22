@@ -5,6 +5,7 @@ import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.Pane;
 
 /**
@@ -16,6 +17,9 @@ import javafx.scene.layout.Pane;
 
 public class RootLayoutController {
 
+	@FXML
+	private MenuItem logoutButton;
+	
 	//Maincontent, hierhin werden die verschiedenen Views geladen
 	@FXML
 	private Pane mainContent;
@@ -68,5 +72,10 @@ public class RootLayoutController {
 		mainContent.getChildren().clear();
 		mainContent.getChildren().setAll(myPane);
 	}
-
+	
+	//GUI schliessen
+	@FXML
+	private void closeClaimer(ActionEvent event) throws IOException {
+		System.exit(0);
+	}
 }

@@ -80,7 +80,7 @@ public class LoginController extends Main implements Initializable {
 	public void go(ActionEvent event) throws IOException {
 
 		Stage stage = new Stage();
-		stage.setTitle("Home");
+		stage.setTitle("Mängelmanager");
 		Pane myPane = null;
 		myPane = FXMLLoader.load(getClass().getResource("../view/RootLayout.fxml"));
 	
@@ -88,7 +88,12 @@ public class LoginController extends Main implements Initializable {
 		scene.getStylesheets().add(
 				getClass().getResource("../claimer_styles.css").toExternalForm()); // CSS-File wird geladen
 		stage.setScene(scene);
-		prevStage.close();
+		
+		//Close previous Stage:
+		Stage prevStage = (Stage) button_anmelden.getScene().getWindow();
+	    prevStage.close();
+	    
+	    //Open new Stage
 		stage.show();
 	}
 	
