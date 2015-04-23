@@ -46,7 +46,7 @@ public class Controller<T extends Model> {
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-		return Response.status(Status.OK).entity(converter.write(models)).build();
+		return Response.status(Status.).entity(converter.write(models)).build();
 	}
 	
 	public Response showById(int id) {
@@ -60,13 +60,13 @@ public class Controller<T extends Model> {
 	}
 	
 	public Response showByProperty(String name, Object value) {
-		T model = null;
+		List<T> models = null;
 		try {
-			model = method.getByProperty(name, value);
+			models = method.getByProperty(name, value);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-		return Response.status(Status.OK).entity(converter.write(model)).build();
+		return Response.status(Status.OK).entity(converter.write(models)).build();
 	}
 	
 	public Response update(String modelString) {

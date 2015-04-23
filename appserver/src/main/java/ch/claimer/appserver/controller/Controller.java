@@ -30,8 +30,8 @@ public class Controller<T> extends UnicastRemoteObject implements Method<T> {
 	}
 	
 	@Override
-	public List<T> getByProperty(String name, List<?> values) {
-		return repository.getByProperty(name, values);
+	public List<T> getByProperty(String name, Object value) {
+		return repository.getByProperty(name, value);
 	}
 	
 
