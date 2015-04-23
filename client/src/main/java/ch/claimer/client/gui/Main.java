@@ -7,6 +7,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Font;
+
 
 public class Main extends Application {
 
@@ -18,6 +20,10 @@ public class Main extends Application {
 
 	
 	public void start(Stage primaryStage) {
+		
+//		Font.loadFont(
+//			      CustomFontApp.class.getResource("xxx.TTF").toExternalForm(), 
+//			      10);
 
 		primaryStage.setTitle("Mängelmanager");
 		FXMLLoader myLoader = new FXMLLoader(getClass().getResource(
