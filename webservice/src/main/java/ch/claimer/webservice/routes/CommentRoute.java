@@ -38,7 +38,7 @@ public class CommentRoute {
 	@GET
 	@Path("/comment/supervisor/{id}")
 	public Response showBySupervisor(@PathParam("id") int id) {
-		return controller.showBySupervisor(id);
+		return controller.showByProperty("person_id", id);
 	}
 
 	/**
