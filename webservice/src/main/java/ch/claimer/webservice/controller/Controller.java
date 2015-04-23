@@ -59,6 +59,16 @@ public class Controller<T extends Model> {
 		return Response.status(Status.OK).entity(converter.write(model)).build();
 	}
 	
+	public Response showByProperty(String name, Object value) {
+		T model = null;
+		try {
+			model = method.getByProperty(name, value);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return Response.status(Status.OK).entity(converter.write(model)).build();
+	}
+	
 	public Response update(String modelString) {
 		T model = converter.read(modelString, clazz);
 		try {
