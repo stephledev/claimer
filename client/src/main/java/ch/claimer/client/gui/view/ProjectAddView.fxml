@@ -80,7 +80,7 @@
                     </rowConstraints>
                      <children>
                         <Label text="Kunde:" />
-                        <ComboBox prefHeight="25.0" prefWidth="175.0" GridPane.columnIndex="1" />
+                        <ComboBox GridPane.columnIndex="1" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" left="25.0" top="5.0" />
@@ -160,9 +160,9 @@
                   </GridPane>
                   <GridPane GridPane.columnIndex="1" GridPane.rowIndex="2">
                     <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="74.0" minWidth="10.0" prefWidth="51.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="68.0" minWidth="10.0" prefWidth="47.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="60.0" prefWidth="60.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="55.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="39.0" />
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="65.0" minWidth="10.0" prefWidth="65.0" />
                     </columnConstraints>
                     <rowConstraints>
@@ -173,7 +173,7 @@
                            <GridPane.margin>
                               <Insets />
                            </GridPane.margin></Label>
-                        <TextField prefHeight="25.0" prefWidth="33.0" GridPane.columnIndex="1">
+                        <TextField prefHeight="25.0" prefWidth="57.0" GridPane.columnIndex="1">
                            <GridPane.margin>
                               <Insets />
                            </GridPane.margin></TextField>
