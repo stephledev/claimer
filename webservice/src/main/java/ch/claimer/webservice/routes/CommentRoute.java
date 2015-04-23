@@ -1,21 +1,20 @@
 package ch.claimer.webservice.routes;
 
-import javax.annotation.security.RolesAllowed;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
-import ch.claimer.shared.models.Category;
 import ch.claimer.shared.models.Comment;
 import ch.claimer.webservice.controller.Controller;
-import ch.claimer.webservice.services.RouteResponseHandlerService;
+
 
 /**
- * Defines RESTful routes for comment specific interactions. Maps the controller
+ * Definiert die RESTfull Routes der Kommentare. Maps the controller
  * according to the URL pattern
  * 
- * @author Stephan Beeler
+ * @author Raoul Ackermann / Momcilo Bekcic
  */
 @Path("/")
 public class CommentRoute {
@@ -50,9 +49,8 @@ public class CommentRoute {
 	 * @return Response from the controller
 	 */
 	@GET
-	@RolesAllowed({ "EDITOR", "EXTERN" })
 	@Path("/comment/contact/{id}")
-	public Response showCommentsByContact(@PathParam("id") int id) {
-		return controller.showByContact(id);
+	public Response showByContact(@PathParam("id") int id) {
+		return controller.showByProperty("person_id", id);
 	}
 }
