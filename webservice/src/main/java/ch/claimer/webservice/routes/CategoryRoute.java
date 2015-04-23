@@ -1,7 +1,6 @@
 package ch.claimer.webservice.routes;
 
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
@@ -28,11 +27,5 @@ public class CategoryRoute {
 	@Path("/category/{id}")
 	public Response showById(@PathParam("id") int id) {
 		return controller.showById(id);
-	}
-	
-	@POST
-	@Path("/category")
-	public Response store(String categoryString) {
-		return controller.store(categoryString);
 	}
 }
