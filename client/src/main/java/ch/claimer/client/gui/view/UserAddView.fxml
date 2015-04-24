@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="mainContent" prefHeight="333.0" prefWidth="652.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.claimer.client.gui.controller.UserController">
+<AnchorPane fx:id="mainContent" prefHeight="333.0" prefWidth="652.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.claimer.client.gui.controller.UserAddController">
    <children>
       <GridPane layoutX="243.0" layoutY="58.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -40,7 +40,7 @@
                 <ColumnConstraints hgrow="NEVER" maxWidth="150.0" minWidth="10.0" prefWidth="150.0" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints vgrow="ALWAYS" />
+                <RowConstraints fillHeight="false" minHeight="200.0" valignment="TOP" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
                   <GridPane GridPane.columnIndex="2">
@@ -64,10 +64,10 @@
                   <GridPane>
                     <columnConstraints>
                         <ColumnConstraints hgrow="NEVER" maxWidth="110.0" minWidth="110.0" prefWidth="110.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="NEVER" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
                       <ColumnConstraints hgrow="NEVER" maxWidth="110.0" minWidth="110.0" prefWidth="110.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
                     </columnConstraints>
                     <rowConstraints>
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
@@ -98,7 +98,7 @@
                         <TextField GridPane.columnIndex="1" GridPane.rowIndex="8" />
                         <TextField GridPane.columnIndex="4" />
                         <TextField GridPane.columnIndex="4" GridPane.rowIndex="2" />
-                        <ComboBox prefWidth="150.0" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+                        <ComboBox maxWidth="5000.0" GridPane.columnIndex="4" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS" />
                         <TextField GridPane.columnIndex="4" GridPane.rowIndex="6" />
                         <TextField GridPane.columnIndex="4" GridPane.rowIndex="8" />
                      </children>

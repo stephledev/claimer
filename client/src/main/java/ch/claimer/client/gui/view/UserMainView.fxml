@@ -32,13 +32,13 @@
                   <TextField promptText="Suche..." GridPane.columnIndex="1" />
                </children>
             </GridPane>
-            <TableView prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
+            <TableView fx:id="userTableView" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
               <columns>
-                <TableColumn prefWidth="75.0" text="Funktion" />
-                <TableColumn prefWidth="75.0" text="Name" />
-                  <TableColumn prefWidth="75.0" text="Vorname" />
+                <TableColumn fx:id="colFunction" prefWidth="75.0" text="Funktion" />
+                <TableColumn fx:id="colLastname" prefWidth="75.0" text="Name" />
+                  <TableColumn fx:id="colName" prefWidth="75.0" text="Vorname" />
                   <TableColumn prefWidth="75.0" text="Benutzername" />
-                  <TableColumn prefWidth="75.0" text="E-Mail" />
+                  <TableColumn fx:id="colEmail" prefWidth="75.0" text="E-Mail" />
                   <TableColumn prefWidth="75.0" text="Aktiv" />
               </columns>
                <columnResizePolicy>
