@@ -22,11 +22,14 @@ public class CategorySeed extends Seed<Category> {
 		c3.setName("Bürogebäude");
 		Category c4 = new Category();
 		c4.setName("Geschäftshaus");
+		Category c5 = new Category();
+		c5.setName("Lagerhaus");
 		
 		list.add(c1);
 		list.add(c2);
 		list.add(c3);
 		list.add(c4);
+		list.add(c5);
 	}
 
 }
