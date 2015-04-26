@@ -2,5 +2,6 @@ dependencies {
     compile 'com.typesafe:config:1.2.1'
 
     compile 'org.eclipse.persistence:javax.persistence:2.1.0'
+    compile 'org.eclipse.persistence:eclipselink:2.5.0'
 
 }

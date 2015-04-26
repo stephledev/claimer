@@ -13,6 +13,14 @@ public abstract class Seed<T> {
 		CategorySeed categorySeed = new CategorySeed();
 		categorySeed.setup();
 		categorySeed.execute();
+		
+		StateSeed stateSeed = new StateSeed();
+		stateSeed.setup();
+		stateSeed.execute();
+		
+		TypeSeed typeSeed = new TypeSeed();
+		typeSeed.setup();
+		typeSeed.execute();
 	}
 	
 	public abstract void setup();

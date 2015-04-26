@@ -14,13 +14,14 @@ import com.typesafe.config.ConfigFactory;
 
 import ch.claimer.shared.methods.Method;
 import ch.claimer.shared.models.Model;
+import ch.claimer.webservice.services.AuthenticationService;
 import ch.claimer.webservice.services.ConverterService;
 import ch.claimer.webservice.services.JsonConverterService;
 
 public class Controller<T extends Model> {
 
 	protected final Class<T> clazz;
-	//protected final AuthenticationService authentication;
+	protected final AuthenticationService authentication;
 	protected final ConverterService<T> converter;
 	//protected final ResponseHandlerService responseHandler;
 	protected Method<T> method;
@@ -30,9 +31,11 @@ public class Controller<T extends Model> {
 	public Controller(Class<T> clazz) {
 		this.clazz = clazz;
 		this.converter = new JsonConverterService<T>();
+		this.authentication = new AuthenticationService();
 		
 		Config config = ConfigFactory.load();
 		try {
+			System.out.println(clazz.getSimpleName());
 			this.method = (Method<T>) Naming.lookup(config.getString("rmi.url") + clazz.getSimpleName());
 		} catch (MalformedURLException | RemoteException | NotBoundException e) {
 			e.printStackTrace();
@@ -40,13 +43,14 @@ public class Controller<T extends Model> {
 	}
 	
 	public Response showAll() {
+		String test = authentication.authenticate("Test", "Test");
 		List<T> models = null;
 		try {
 			models = method.getAll();
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-		return Response.status(Status.).entity(converter.write(models)).build();
+		return Response.status(Status.OK).entity(test).build();
 	}
 	
 	public Response showById(int id) {
@@ -66,7 +70,7 @@ public class Controller<T extends Model> {
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-		return Response.status(Status.OK).entity(converter.write(models)).build();
+		return Response.status(Status.OK).entity(models).build();
 	}
 	
 	public Response update(String modelString) {
