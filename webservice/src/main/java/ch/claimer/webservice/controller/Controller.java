@@ -6,6 +6,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -21,7 +22,7 @@ import ch.claimer.webservice.services.JsonConverterService;
 public class Controller<T extends Model> {
 
 	protected final Class<T> clazz;
-	protected final AuthenticationService authentication;
+	protected AuthenticationService authentication;
 	protected final ConverterService<T> converter;
 	//protected final ResponseHandlerService responseHandler;
 	protected Method<T> method;
@@ -31,7 +32,6 @@ public class Controller<T extends Model> {
 	public Controller(Class<T> clazz) {
 		this.clazz = clazz;
 		this.converter = new JsonConverterService<T>();
-		this.authentication = new AuthenticationService();
 		
 		Config config = ConfigFactory.load();
 		try {
@@ -42,15 +42,16 @@ public class Controller<T extends Model> {
 		}
 	}
 	
-	public Response showAll() {
-		String test = authentication.authenticate("Test", "Test");
+	public Response showAll(HttpServletRequest request) {
+		authentication = new AuthenticationService(request);
+		authentication.authenticate();
 		List<T> models = null;
 		try {
 			models = method.getAll();
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-		return Response.status(Status.OK).entity(test).build();
+		return Response.status(Status.OK).entity(models).build();
 	}
 	
 	public Response showById(int id) {

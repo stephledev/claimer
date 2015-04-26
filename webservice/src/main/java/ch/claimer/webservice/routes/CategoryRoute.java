@@ -30,10 +30,7 @@ public class CategoryRoute {
 	@GET
 	@Path("/category") 
 	public Response show(@Context HttpServletRequest request) {
-		String auth = request.getHeader("Authorization").replaceFirst("Basic ", "");
-		auth = new String(Base64.getDecoder().decode(auth));
-		System.out.println(auth);
-		return controller.showAll();
+		return controller.showAll(request);
 	}
 	
 	@GET

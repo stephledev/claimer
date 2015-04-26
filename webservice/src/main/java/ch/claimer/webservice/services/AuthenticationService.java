@@ -6,6 +6,8 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.Base64;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 
@@ -16,9 +18,11 @@ public class AuthenticationService {
 
 	private Login login;
 	protected Method<Login> method;
+	protected final HttpServletRequest request;
 
 	@SuppressWarnings("unchecked")
-	public AuthenticationService() {
+	public AuthenticationService(HttpServletRequest request) {
+		this.request = request;
 		Config config = ConfigFactory.load();
 		try {
 			this.method = (Method<Login>) Naming.lookup(config
@@ -29,12 +33,14 @@ public class AuthenticationService {
 		
 	}
 
-	public String authenticate(String username, String password) {
+	public String authenticate() {
 		String auth = request.getHeader("Authorization").replaceFirst("Basic ", "");
 		auth = new String(Base64.getDecoder().decode(auth));
-		System.out.println(auth);
+		String[] usernamePassword = auth.split(":");
+		String username = usernamePassword[0]; 
+		String password = usernamePassword[1];
 		try {
-			Login login = method.getAll().get(0);
+			login = method.getByProperty("username", username).get(0);
 			return login.getUsername();
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
