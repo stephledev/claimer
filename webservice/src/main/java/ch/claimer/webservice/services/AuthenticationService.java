@@ -5,8 +5,7 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.Base64;
-
-import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
@@ -18,11 +17,9 @@ public class AuthenticationService {
 
 	private Login login;
 	protected Method<Login> method;
-	protected final HttpServletRequest request;
 
 	@SuppressWarnings("unchecked")
-	public AuthenticationService(HttpServletRequest request) {
-		this.request = request;
+	public AuthenticationService() {
 		Config config = ConfigFactory.load();
 		try {
 			this.method = (Method<Login>) Naming.lookup(config
@@ -33,25 +30,28 @@ public class AuthenticationService {
 		
 	}
 
-	public String authenticate() {
-		String auth = request.getHeader("Authorization").replaceFirst("Basic ", "");
-		auth = new String(Base64.getDecoder().decode(auth));
-		String[] usernamePassword = auth.split(":");
+	public boolean authenticate(String basic) {
+		basic = basic.replaceFirst("Basic ", "");
+		basic = new String(Base64.getDecoder().decode(basic));
+		String[] usernamePassword = basic.split(":");
 		String username = usernamePassword[0]; 
 		String password = usernamePassword[1];
-		try {
+		try { 
 			login = method.getByProperty("username", username).get(0);
-			return login.getUsername();
+			if(login.getPassword() == password) {
+				return true;
+			} else {
+				return false;
+			}
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
+		return false;
 
 	}
 
-	public void authorize(String[] roles) {
-		login.getRoles();
+	public boolean authorize(List<String> roles) {
+		return roles.containsAll(login.getRoles());
 	}
 
 }

@@ -33,6 +33,7 @@ public class CategorySeed extends Seed<Category> {
 		list.add(c5);
 		
 		this.seeds.put("Category", list);
+		
 	}
 
 }

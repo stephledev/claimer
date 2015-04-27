@@ -1,7 +1,7 @@
 package ch.claimer.shared.models;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -27,10 +27,10 @@ public class Project implements Serializable, Model {
 	@GeneratedValue
 	private int id;
 	private String name;
-	@Temporal(TemporalType.DATE)
-	private Date start;
-	@Temporal(TemporalType.DATE)
-	private Date end;
+	@Temporal(TemporalType.TIMESTAMP)
+	private GregorianCalendar start;
+	@Temporal(TemporalType.TIMESTAMP)
+	private GregorianCalendar end;
 	private String street;
 	private String zip;
 	private String place;
@@ -67,19 +67,19 @@ public class Project implements Serializable, Model {
 		this.name = name;
 	}
 
-	public Date getStart() {
+	public GregorianCalendar getStart() {
 		return start;
 	}
 
-	public void setStart(Date start) {
+	public void setStart(GregorianCalendar start) {
 		this.start = start;
 	}
 
-	public Date getEnd() {
+	public GregorianCalendar getEnd() {
 		return end;
 	}
 
-	public void setEnd(Date end) {
+	public void setEnd(GregorianCalendar end) {
 		this.end = end;
 	}
 

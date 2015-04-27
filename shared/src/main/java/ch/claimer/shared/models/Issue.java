@@ -1,7 +1,7 @@
 package ch.claimer.shared.models;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -26,10 +26,10 @@ public class Issue implements Serializable, Model {
 	@GeneratedValue
 	private int id;
 	private String description;
-	@Temporal(TemporalType.DATE)
-	private Date created;
-	@Temporal(TemporalType.DATE)
-	private Date solved;
+	@Temporal(TemporalType.TIMESTAMP)
+	private GregorianCalendar created;
+	@Temporal(TemporalType.TIMESTAMP)
+	private GregorianCalendar solved;
 	@OneToMany(cascade=CascadeType.ALL)
 	private List<Image> images;
 	@OneToMany(cascade=CascadeType.ALL)
@@ -65,15 +65,15 @@ public class Issue implements Serializable, Model {
 		this.description = description;
 	}
 	
-	public Date getCreated() {
+	public GregorianCalendar getCreated() {
 		return created;
 	}
 
-	public Date getSolved() {
+	public GregorianCalendar getSolved() {
 		return solved;
 	}
 
-	public void setSolved(Date solved) {
+	public void setSolved(GregorianCalendar solved) {
 		this.solved = solved;
 	}
 
