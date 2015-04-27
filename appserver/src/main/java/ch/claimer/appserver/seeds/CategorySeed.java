@@ -2,7 +2,10 @@ package ch.claimer.appserver.seeds;
 
 import ch.claimer.appserver.repositories.eclipselink.EclipseLinkRepository;
 import ch.claimer.shared.models.Category;
-
+/** 
+ * @author Raoul Ackermann
+ * @author Fabio Baviera
+ */
 public class CategorySeed extends Seed<Category> {
 	
 	public CategorySeed() {
