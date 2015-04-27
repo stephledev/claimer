@@ -30,8 +30,8 @@ public class Issue implements Serializable, Model {
 	private Date created;
 	@Temporal(TemporalType.DATE)
 	private Date solved;
-	@OneToMany(cascade=CascadeType.ALL)
-	private List<Image> images;
+//	@OneToMany(cascade=CascadeType.ALL)
+//	private List<Image> images;
 	@OneToMany(cascade=CascadeType.ALL)
 	private List<LogEntry> logEntries;
 	@OneToMany(cascade=CascadeType.ALL)
@@ -65,6 +65,10 @@ public class Issue implements Serializable, Model {
 		this.description = description;
 	}
 	
+	public void setCreated(Date created){
+		this.created = created;
+	}
+	
 	public Date getCreated() {
 		return created;
 	}
@@ -77,13 +81,13 @@ public class Issue implements Serializable, Model {
 		this.solved = solved;
 	}
 
-	public List<Image> getImages() {
-		return images;
-	}
-
-	public void setImages(List<Image> images) {
-		this.images = images;
-	}
+//	public List<Image> getImages() {
+//		return images;
+//	}
+//
+//	public void setImages(List<Image> images) {
+//		this.images = images;
+//	}
 
 	public List<LogEntry> getLogEntries() {
 		return logEntries;

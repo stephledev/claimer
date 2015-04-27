@@ -193,12 +193,12 @@
                   </GridPane>
                </children>
             </GridPane>
-            <TableView prefHeight="375.0" prefWidth="737.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS">
+            <TableView fx:id="mangleTableView" prefHeight="375.0" prefWidth="737.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS">
               <columns>
-                <TableColumn prefWidth="75.0" text="Mangel" />
-                <TableColumn prefWidth="75.0" text="Subunternehmen" />
-                  <TableColumn prefWidth="75.0" text="Deadline" />
-                  <TableColumn prefWidth="75.0" text="Status" />
+                <TableColumn fx:id="colMangle" prefWidth="75.0" text="Mangel" />
+                <TableColumn fx:id="colSubcontractor" prefWidth="75.0" text="Subunternehmen" />
+                  <TableColumn fx:id="colDeadline" prefWidth="75.0" text="Deadline" />
+                  <TableColumn fx:id="colStatus" prefWidth="75.0" text="Status" />
               </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
