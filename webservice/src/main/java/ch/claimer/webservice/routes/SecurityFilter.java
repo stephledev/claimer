@@ -21,7 +21,10 @@ public class SecurityFilter implements ContainerRequestFilter {
 	
     @Override
     public void filter( ContainerRequestContext requestContext ) throws IOException {
+    	
+    	
     	String basic = requestContext.getHeaderString("Authorization");
+    	System.out.print(basic);
     	
     	AuthenticationService authentication = new AuthenticationService();
     	if(!authentication.authenticate(basic)) {

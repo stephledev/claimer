@@ -35,7 +35,6 @@ public class Controller<T extends Model> {
 		
 		Config config = ConfigFactory.load();
 		try {
-			System.out.println(clazz.getSimpleName());
 			this.method = (Method<T>) Naming.lookup(config.getString("rmi.url") + clazz.getSimpleName());
 		} catch (MalformedURLException | RemoteException | NotBoundException e) {
 			e.printStackTrace();
@@ -49,7 +48,7 @@ public class Controller<T extends Model> {
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-		return Response.status(Status.OK).entity(models).build();
+		return Response.status(Status.OK).entity(converter.write(models)).build();
 	}
 	
 	public Response showById(int id) {

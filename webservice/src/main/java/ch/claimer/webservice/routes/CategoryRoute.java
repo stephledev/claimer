@@ -31,8 +31,8 @@ public class CategoryRoute {
 	@GET
 	@RolesAllowed({"intern", "admin"})
 	@Path("/category") 
-	public Response show(@Context HttpServletRequest request) {
-		return controller.showAll(request);
+	public Response show() {
+		return controller.showAll();
 	}
 	
 	@GET
