@@ -12,8 +12,8 @@ import ch.claimer.webservice.controller.Controller;
 
 
 /**
- * Definiert die RESTfull Routes der Kommentare. Maps the controller
- * according to the URL pattern
+ * Definiert die RESTfull Routes der Mängel.
+ * Zeigt den Controller gemäss der URL-pattern
  * 
  * @author Raoul Ackermann / Momcilo Bekcic
  */

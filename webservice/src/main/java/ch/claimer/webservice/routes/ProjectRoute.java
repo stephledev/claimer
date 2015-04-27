@@ -49,7 +49,7 @@ public class ProjectRoute {
 	@GET
 	@Path("/project/category/{id}")
 	public Response showByCategory(@PathParam("id") int id) {
-		return controller.showByProperty("person_id", id);
+		return controller.showByProperty("category_id", id);
 	}
 	
 	/**
@@ -76,7 +76,7 @@ public class ProjectRoute {
 	@GET
 	@Path("/project/type/{id}")
 	public Response showByType(@PathParam("id") int id) {
-		return controller.showByProperty("person_id", id);
+		return controller.showByProperty("type_id", id);
 	}
 	
 	
@@ -103,7 +103,7 @@ public class ProjectRoute {
 	@GET
 	@Path("/project/contact/{id}")
 	public Response showContact(@PathParam("id") int id) {
-		return controller.showByProperty("person_id", id);
+		return controller.showByProperty("contact_id", id);
 	}
 	
 	/**
@@ -116,7 +116,7 @@ public class ProjectRoute {
 	@GET
 	@Path("/project/logEntry/{id}")
 	public Response showlogEntry(@PathParam("id") int id) {
-		return controller.showByProperty("person_id", id);
+		return controller.showByProperty("logEntry_id", id);
 	}
 	
 }
