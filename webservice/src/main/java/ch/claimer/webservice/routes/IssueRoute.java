@@ -14,8 +14,13 @@ import ch.claimer.webservice.controller.Controller;
 
 
 /**
+<<<<<<< HEAD
  * Definiert die REST-Routes der Maengel. Zeigt den Controller gemäss der URL-Pattern.
  * Diese Klasse wird gemäss dem Dokument "Rollen und Rechte" erstellt
+=======
+ * Definiert die RESTfull Routes der Mängel.
+ * Zeigt den Controller gemäss der URL-pattern
+>>>>>>> origin/master
  * 
  * @author Raoul Ackermann / Momcilo Bekcic
  */
