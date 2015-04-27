@@ -37,7 +37,7 @@ public class EclipseLinkRepository<T> implements Repository<T> {
 	@Override
 	public List<T> getByProperty(String name, Object value) {
 		EntityManager em = factory.createEntityManager();
-		List<T> list = em.createQuery("SELECT t FROM " + clazz.getName() + " t WHERE t."+name + " = value", clazz)
+		List<T> list = em.createQuery("SELECT t FROM " + clazz.getName() + " t WHERE t."+name + " = :value", clazz)
 			.setParameter("value", value)
 			.getResultList();
 		em.close();

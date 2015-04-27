@@ -8,24 +8,31 @@ import java.util.List;
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.Provider;
 
 import org.jboss.resteasy.core.ResourceMethodInvoker;
 
 import ch.claimer.webservice.services.AuthenticationService;
+import ch.claimer.webservice.services.ResponseHandlerService;
  
 @Provider
 public class SecurityFilter implements ContainerRequestFilter {
 	
     @Override
     public void filter( ContainerRequestContext requestContext ) throws IOException {
-    	String basic = requestContext.getHeaderString("Authorization");
+    	
+    	if(requestContext.getHeaders().get("Authorization") == null) {
+    		requestContext.abortWith(ResponseHandlerService.badRequest("Authorization header not found"));
+    		return;
+    	} 
+    	System.out.println(requestContext.getHeaders().get("Authorization"));
+    	
+    	String basic = requestContext.getHeaders().get("Authorization").get(0);
     	
     	AuthenticationService authentication = new AuthenticationService();
     	if(!authentication.authenticate(basic)) {
-    		requestContext.abortWith(Response.status(Status.UNAUTHORIZED).build());
+    		requestContext.abortWith(ResponseHandlerService.unauthorized("Login not valid"));
+    		return;
     	}
     	
     	ResourceMethodInvoker methodInvoker = (ResourceMethodInvoker) requestContext.getProperty("org.jboss.resteasy.core.ResourceMethodInvoker");
@@ -35,7 +42,7 @@ public class SecurityFilter implements ContainerRequestFilter {
 			RolesAllowed rolesAnnotation = method.getAnnotation(RolesAllowed.class);
 			List<String> roles = Arrays.asList(rolesAnnotation.value());
 			if(!authentication.authorize(roles)) {
-				requestContext.abortWith(Response.status(Status.UNAUTHORIZED).build());
+				requestContext.abortWith(ResponseHandlerService.unauthorized("Not granted the required roles"));
 			}
     	}
     }

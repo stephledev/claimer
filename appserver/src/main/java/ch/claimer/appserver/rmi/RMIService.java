@@ -3,8 +3,6 @@ package ch.claimer.appserver.rmi;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.ArrayList;
-import java.util.List;
 
 import ch.claimer.appserver.controller.Controller;
 import ch.claimer.shared.methods.Method;
@@ -49,11 +47,20 @@ public class RMIService {
 
 			if (reg != null) {
 				reg.rebind("Category", categoryMethod);
-				reg.rebind("State", stateMethod);
-				reg.rebind("Type", typeMethod);
-				reg.rebind("Login", loginMethod);
+				reg.rebind("Comment", commentMethod);
 				reg.rebind("Contact", contactMethod);
-				
+				reg.rebind("GCEmployee", gcEmployeeMethod);
+				reg.rebind("Image", imageMethod);
+				reg.rebind("Issue", issueMethod);
+				reg.rebind("LogEntry", logEntryMethod);
+				reg.rebind("Login", loginMethod);
+				reg.rebind("Project", projectMethod);
+				reg.rebind("Role", roleMethod);
+				reg.rebind("SCEmployee", scEmployeeMethod);
+				reg.rebind("State", stateMethod);
+				reg.rebind("Subcontractor", subcontractorMethod);
+				reg.rebind("Supervisor", supervisorMethod);
+				reg.rebind("Type", typeMethod);			
 				
 			}
 		} catch (RemoteException re) {

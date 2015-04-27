@@ -4,6 +4,7 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import com.typesafe.config.ConfigFactory;
 
 import ch.claimer.shared.methods.Method;
 import ch.claimer.shared.models.Login;
+import ch.claimer.shared.models.Role;
 
 public class AuthenticationService {
 
@@ -37,12 +39,13 @@ public class AuthenticationService {
 		String username = usernamePassword[0]; 
 		String password = usernamePassword[1];
 		try { 
-			login = method.getByProperty("username", username).get(0);
-			if(login.getPassword() == password) {
-				return true;
-			} else {
+			if(method.getByProperty("username", username).isEmpty()) {
 				return false;
 			}
+			login = method.getByProperty("username", username).get(0);
+			if(login.getPassword().equals(password)) {
+				return true;
+			} 
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -51,7 +54,11 @@ public class AuthenticationService {
 	}
 
 	public boolean authorize(List<String> roles) {
-		return roles.containsAll(login.getRoles());
+		List<String> userRoles = new ArrayList<String>();
+		for(Role role : login.getRoles()) {
+			userRoles.add(role.getName());
+		}
+		return userRoles.containsAll(roles);
 	}
 
 }
