@@ -1,7 +1,5 @@
 package ch.claimer.appserver.seeds;
 
-import java.util.ArrayList;
-
 import ch.claimer.appserver.repositories.eclipselink.EclipseLinkRepository;
 import ch.claimer.shared.models.Category;
 
@@ -9,7 +7,7 @@ public class CategorySeed extends Seed<Category> {
 	
 	public CategorySeed() {
 		this.repository = new EclipseLinkRepository<Category>(Category.class);
-		this.list = new ArrayList<Category>();
+		
 	}
 
 	@Override
@@ -30,6 +28,8 @@ public class CategorySeed extends Seed<Category> {
 		list.add(c3);
 		list.add(c4);
 		list.add(c5);
+		
+		this.seeds.put("Category", list);
 	}
 
 }
