@@ -1,7 +1,5 @@
 package ch.claimer.client.gui.controller;
 
-import java.awt.Desktop;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,18 +8,17 @@ import ch.claimer.shared.models.GCEmployee;
 import ch.claimer.shared.models.Login;
 import ch.claimer.shared.models.Person;
 import ch.claimer.shared.models.Role;
-import ch.claimer.shared.models.Subcontractor;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
 /**
  * @author Alexander Hauck
@@ -32,6 +29,10 @@ import javafx.stage.Stage;
 
 public class UserController {
 
+	
+	ObservableList<Person> data =
+			FXCollections.observableArrayList(
+			);
 	
 	//Maincontent, hierhin werden die verschiedenen Views geladen
 	@FXML
@@ -53,13 +54,34 @@ public class UserController {
 	private TableColumn<Person, String> colFunction;
 	
 	@FXML
-	private void loadUserMainView(ActionEvent event) throws IOException {
-		Pane myPane = FXMLLoader.load(getClass().getResource("../view/UserMainView.fxml"));
-		mainContent.getChildren().clear();
-		mainContent.getChildren().setAll(myPane);	
+	private TableColumn<Person, String> colId;
+	
+	@FXML
+	private void editUser(MouseEvent t) throws IOException {
+		
+		//Wenn Doppelklick auf Person
+		if(t.getClickCount() == 2) {
+			//Angeklickte Person laden
+			Person person = userTableView.getSelectionModel().getSelectedItem();
+
+			
+			/*FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../view/UserAddView.fxml"));
+			UserAddController ctrl2 = fxmlLoader.<UserAddController>getController();
+			fxmlLoader.setController(ctrl2);*/
+			
+			UserAddController ctrl2 = new UserAddController();
+			ctrl2.start(person);
+
+			Pane myPane = FXMLLoader.load(getClass().getResource("../view/UserAddView.fxml"));
+	
+			
+			mainContent.getChildren().clear();
+			mainContent.getChildren().setAll(myPane);	
+		
+		}
 	}
 	
-	//Zum User Add/Change View wechseln (UserAddView.xml)
+	//Zum User AddView wechseln (UserAddView.xml)
 	@FXML
 	private void loadUserAddView(ActionEvent event) throws IOException {
 		Pane myPane = FXMLLoader.load(getClass().getResource("../view/UserAddView.fxml"));
@@ -67,13 +89,10 @@ public class UserController {
 		mainContent.getChildren().setAll(myPane);
 		
 	}
-	
+
 	public void initialize() {
-		ObservableList<Person> data =
-				FXCollections.observableArrayList(
-				);
-		
-		
+
+			
 		//Platzhalter-Daten generieren
 		Role r1 = new Role();
 		r1.setId(1);
@@ -89,6 +108,7 @@ public class UserController {
 		l1.setRoles(loginRoles);
 		
 		GCEmployee p1 = new GCEmployee();
+		p1.setId(1);
 		p1.setEmail("alexander.hauck@stud.hslu.ch");
 		p1.setFirstname("Alexander");
 		p1.setLastname("Hauck");
@@ -132,10 +152,13 @@ public class UserController {
 		colName.setCellValueFactory(new PropertyValueFactory<Person, String>("firstname"));
 		colEmail.setCellValueFactory(new PropertyValueFactory<Person, String>("email"));
 		colFunction.setCellValueFactory(new PropertyValueFactory<Person, String>("login"));
+		colId.setCellValueFactory(new PropertyValueFactory<Person, String>("id"));
 		//colLastname.setSortType(dascending);
 
 		//Observable-List, welche die Daten beinhaltet, an die Tabelle übergeben
 		userTableView.setItems(data);
+
+		
 		
 	}
 	
