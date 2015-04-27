@@ -1,7 +1,6 @@
 package ch.claimer.appserver.seeds;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 import ch.claimer.appserver.repositories.eclipselink.EclipseLinkRepository;
@@ -27,10 +26,11 @@ public class ProjectSeed extends Seed<Project> {
 		p1.setStreet("Schlossgasse 2");
 		p1.setZip("5600");
 		p1.setPlace("Lenzburg");
-		p1.setStart();
-		p1.setEnd(null);
+		p1.setStart(new GregorianCalendar());
+		p1.setEnd(new GregorianCalendar());
 		p1.setCategory(null);
-		seeds.get("Category").get(0);
+		seeds.get("LogEntry").get(0);
+	
 		
 		
 		Project p2 = new Project();
@@ -41,6 +41,7 @@ public class ProjectSeed extends Seed<Project> {
 		p2.setStart(null);
 		p2.setEnd(null);
 		p2.setCategory(null);
+		seeds.get("LogEntry").get(1);
 		
 		
 		

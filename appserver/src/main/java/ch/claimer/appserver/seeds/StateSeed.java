@@ -8,7 +8,8 @@ import ch.claimer.shared.models.State;
 /**
  * 
  * 
- * @author Fabio Baviera / Raoul Ackermann
+ * @author Fabio Baviera
+ * @author Raoul Ackermann
  */
 
 public class StateSeed extends Seed<State> {
