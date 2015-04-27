@@ -2,9 +2,11 @@ package ch.claimer.webservice.routes;
 
 
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
+
 
 
 import ch.claimer.shared.models.Issue;
@@ -12,8 +14,8 @@ import ch.claimer.webservice.controller.Controller;
 
 
 /**
- * Definiert die RESTfull Routes der Kommentare. Maps the controller
- * according to the URL pattern
+ * Definiert die REST-Routes der Maengel. Zeigt den Controller gemäss der URL-Pattern.
+ * Diese Klasse wird gemäss dem Dokument "Rollen und Rechte" erstellt
  * 
  * @author Raoul Ackermann / Momcilo Bekcic
  */
@@ -27,13 +29,11 @@ public class IssueRoute {
 	}
 
 	/**
-	 * Maps the controller to show comment(s) of a supervisor
+	 * Benutzt den Controller um die Projekte zu lesen
 	 * 
-	 * @param id
-	 *            supervisor identifier of comment(s) to show supplied by the
-	 *            URL
+	 * @param id Projekt-Identifizierer um diese gemäss der URL anzuzeigen
 	 * 
-	 * @return Response from the controller
+	 * @return Anwort vom Controller
 	 */
 	@GET
 	@Path("/issue/project/{id}")
@@ -42,12 +42,11 @@ public class IssueRoute {
 	}
 
 	/**
-	 * Maps the controller to show comment(s) of a contact
+	 * Benutzt den Controller um die Ansprechpersonen zu lesen
 	 * 
-	 * @param id
-	 *            contact identifier of comment(s) to show supplied by the URL
+	 * @param id Ansprechperson-Identifizierer um diese gemäss der URL anzuzeigen
 	 * 
-	 * @return Response from the controller
+	 * @return Anwort vom Controller
 	 */
 	@GET
 	@Path("/issue/contact/{id}")
@@ -56,18 +55,32 @@ public class IssueRoute {
 	}
 	
 	/**
-	 * Maps the controller to show comment(s) of a contact
+	 * Benutzt den Controller um die Subunternehmen zu lesen
 	 * 
-	 * @param id
-	 *            contact identifier of comment(s) to show supplied by the URL
+	 * @param id Subunternehmen-Identifizierer um diese gemäss der URL anzuzeigen
 	 * 
-	 * @return Response from the controller
+	 * @return Anwort vom Controller
 	 */
 	
 	@GET
 	@Path("/issue/subcontractor/{id}")
 	public Response showBySubcontractor(@PathParam("id") int id) {
 		return controller.showByProperty("person_id", id);
+	
+	}
+	
+	/**
+	 * Benutzt den Controller um die Projekte zu aktualisieren
+	 * 
+	 * @param id Projekt-Identifizierer um diese gemäss der URL anzuzeigen
+	 * 
+	 * @return Anwort vom Controller
+	 */
+	
+	@PUT
+	@Path("/issue/project/{id}")
+	public Response updateByProject(@PathParam("id") int id) {
+		return controller.showByProperty("project_id", id);
 	
 	}
 	
