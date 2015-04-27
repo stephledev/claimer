@@ -21,7 +21,7 @@
             <RowConstraints fillHeight="false" minHeight="10.0" prefHeight="30.0" valignment="TOP" vgrow="NEVER" />
         </rowConstraints>
          <children>
-            <Label text="Projekt verwalten" />
+            <Label fx:id="lbl_title" text="Projekt verwalten" />
             <GridPane GridPane.rowIndex="1">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -44,7 +44,7 @@
                     </rowConstraints>
                      <children>
                         <Label text="Projektname:" />
-                        <TextField prefWidth="250.0" GridPane.columnIndex="1">
+                        <TextField fx:id="txt_projectName" prefWidth="250.0" GridPane.columnIndex="1">
                            <GridPane.margin>
                               <Insets />
                            </GridPane.margin>
@@ -64,7 +64,7 @@
                     </rowConstraints>
                      <children>
                         <Label text="Beginn:" />
-                        <DatePicker prefWidth="250.0" GridPane.columnIndex="1" />
+                        <DatePicker fx:id="date_start" prefWidth="250.0" GridPane.columnIndex="1" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" left="25.0" right="25.0" top="5.0" />
@@ -80,7 +80,7 @@
                     </rowConstraints>
                      <children>
                         <Label text="Kunde:" />
-                        <ComboBox prefWidth="250.0" GridPane.columnIndex="1" />
+                        <ComboBox fx:id="combo_principal" prefWidth="250.0" GridPane.columnIndex="1" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" left="25.0" top="5.0" />
@@ -96,7 +96,7 @@
                     </rowConstraints>
                      <children>
                         <Label text="Bauleiter:" />
-                        <ComboBox prefWidth="250.0" GridPane.columnIndex="1" />
+                        <ComboBox fx:id="combo_supervisor" prefWidth="250.0" GridPane.columnIndex="1" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" right="25.0" top="5.0" />
@@ -112,7 +112,7 @@
                     </rowConstraints>
                      <children>
                         <Label text="Ende:" />
-                        <DatePicker prefWidth="250.0" GridPane.columnIndex="1" />
+                        <DatePicker fx:id="date_end" prefWidth="250.0" GridPane.columnIndex="1" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" left="25.0" right="25.0" top="5.0" />
@@ -128,7 +128,7 @@
                     </rowConstraints>
                      <children>
                         <Label text="Telefon:" />
-                        <TextField prefWidth="250.0" GridPane.columnIndex="1">
+                        <TextField fx:id="txt_principalPhone" prefWidth="250.0" GridPane.columnIndex="1">
                            <GridPane.margin>
                               <Insets />
                            </GridPane.margin>
@@ -147,7 +147,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <TextField prefWidth="250.0" GridPane.columnIndex="1">
+                        <TextField fx:id="txt_street" prefWidth="250.0" GridPane.columnIndex="1">
                            <GridPane.margin>
                               <Insets />
                            </GridPane.margin>
@@ -173,7 +173,7 @@
                            <GridPane.margin>
                               <Insets />
                            </GridPane.margin></Label>
-                        <TextField prefWidth="60.0" GridPane.columnIndex="1">
+                        <TextField fx:id="txt_plz" prefWidth="60.0" GridPane.columnIndex="1">
                            <GridPane.margin>
                               <Insets />
                            </GridPane.margin></TextField>
@@ -182,7 +182,7 @@
                               <Insets left="10.0" />
                            </padding>
                         </Label>
-                        <TextField prefWidth="130.0" GridPane.columnIndex="3" />
+                        <TextField fx:id="txt_place" prefWidth="130.0" GridPane.columnIndex="3" />
                      </children>
                      <GridPane.margin>
                         <Insets />
@@ -213,11 +213,11 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Button mnemonicParsing="false" onAction="#loadProjectMangleView" styleClass="add-button" text="Mangel hinzufügen" GridPane.columnIndex="1" />
+                  <Button fx:id="bttn_addMangle" mnemonicParsing="false" onAction="#loadProjectMangleView" styleClass="add-button" text="Mangel hinzufügen" GridPane.columnIndex="1" />
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#addUser" styleClass="save-button" text="Speichern" />
-                        <Button mnemonicParsing="false" onAction="#loadUserMainView" styleClass="delete-button" text="Abbrechen">
+                        <Button fx:id="bttn_saveProject" mnemonicParsing="false" styleClass="save-button" text="Speichern" />
+                        <Button fx:id="bttn_quitProject" mnemonicParsing="false" onAction="#loadProjectMainView" styleClass="delete-button" text="Abbrechen">
                            <HBox.margin>
                               <Insets left="20.0" />
                            </HBox.margin>

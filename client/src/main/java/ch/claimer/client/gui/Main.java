@@ -28,11 +28,11 @@ public class Main extends Application {
 		primaryStage.setTitle("Mängelmanager");
 		FXMLLoader myLoader = new FXMLLoader(getClass().getResource(
 				"view/Login.fxml")); // FXML File kann von myLoader geladen werden
-									
-
+		
 		try {
 			Pane pane = (Pane) myLoader.load(); // FXML File wird auf das login-Pane geladen
 			Scene login = new Scene(pane);
+			login.getStylesheets().add("http://fonts.googleapis.com/css?family=Roboto+Condensed");
 			login.getStylesheets().add(
 					getClass().getResource("claimer_styles.css").toExternalForm()); // CSS-File wird geladen
 			primaryStage.setScene(login);
