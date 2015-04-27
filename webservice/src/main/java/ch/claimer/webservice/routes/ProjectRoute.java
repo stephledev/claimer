@@ -1,10 +1,12 @@
 package ch.claimer.webservice.routes;
 
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
+
 
 
 import ch.claimer.shared.models.Project;
@@ -25,6 +27,20 @@ public class ProjectRoute {
 	public ProjectRoute() {
 		this.controller = new Controller<Project>(Project.class);
 	}
+	
+	/**
+	 * Benutzt den Controller um das Projekt zu lesen
+	 * 
+	 * @param id-Identifizierer um diese gemäss der URL anzuzeigen
+	 * 
+	 * @return Antwort vom "controller"
+	 */
+	@GET
+	@RolesAllowed({"admin", "intern"})
+	@Path("/project/{id}")
+	public Response showById(@PathParam("id") int id) {
+		return controller.showById(id);
+	}
 
 	/**
 	 * Benutzt den Controller um die Bauleiter zu lesen
@@ -34,6 +50,7 @@ public class ProjectRoute {
 	 * @return Antwort vom "controller"
 	 */
 	@GET
+	@RolesAllowed({"editor", "intern"})
 	@Path("/project/supervisor/{id}")
 	public Response showBySupervisor(@PathParam("id") int id) {
 		return controller.showByProperty("person_id", id);
@@ -79,32 +96,6 @@ public class ProjectRoute {
 		return controller.showByProperty("type_id", id);
 	}
 	
-	
-	/**
-	 * Benutzt den Controller nur um den Bauleiter anzuzeigen
-	 * 
-	 * @param id-Bauleiter-Identifizierer um dieses gemäss der URL anzuzeigen
-	 * 
-	 * @return Antwort vom Controller
-	 */
-	@GET
-	@Path("/project/supervisor/{id}")
-	public Response showSupervisor(@PathParam("id") int id) {
-		return controller.showByProperty("person_id", id);
-	}
-	
-	/**
-	 * Benutzt den Controller nur um die Ansprechperson
-	 * 
-	 * @param id-Ansprechperson-Identifizierer um dieses gemäss der URL anzuzeigen
-	 * 
-	 * @return Antwort vom Controller
-	 */
-	@GET
-	@Path("/project/contact/{id}")
-	public Response showContact(@PathParam("id") int id) {
-		return controller.showByProperty("contact_id", id);
-	}
 	
 	/**
 	 * Benutzt den Controller nur um den Logeintrag anzuzeigen

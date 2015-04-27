@@ -9,33 +9,35 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 
 import ch.claimer.shared.models.Category;
+import ch.claimer.shared.models.Supervisor;
 import ch.claimer.webservice.controller.Controller;
 
 /**
+ * Definiert die REST-Routes der Bauleiter. Zeigt den Controller gemäss der URL-Pattern.
+ * Diese Klasse wird gemäss dem Dokument "Rollen und Rechte" erstellt
  * 
- * @author Stephan Beeler
- *
+ * @author Momcilo Bekcic
  */
 
 @Path("/")
-public class CategoryRoute {	
+public class SupervisorRoute {	
 	
-	private Controller<Category> controller;
+	private Controller<Supervisor> controller;
 
-	public CategoryRoute() {
-		this.controller = new Controller<Category>(Category.class);
+	public SupervisorRoute() {
+		this.controller = new Controller<Supervisor>(Supervisor.class);
 	}
 	
 	@GET
 	@RolesAllowed({"intern", "admin"})
-	@Path("/category") 
+	@Path("/supervisor") 
 	public Response show(@Context HttpServletRequest request) {
 		return controller.showAll(request);
 	}
 	
 	@GET
 	@RolesAllowed({"intern", "admin"})
-	@Path("/category/{id}")
+	@Path("/supervisor/{id}")
 	public Response showById(@PathParam("id") int id) {
 		return controller.showById(id);
 	}

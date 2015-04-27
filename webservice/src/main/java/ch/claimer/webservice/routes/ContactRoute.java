@@ -1,10 +1,12 @@
 package ch.claimer.webservice.routes;
 
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
+
 
 
 import ch.claimer.shared.models.Contact;
@@ -16,6 +18,7 @@ import ch.claimer.webservice.controller.Controller;
  * Diese Klasse wird gemäss dem Dokument "Rollen und Rechte" erstellt
  * 
  * @author Raoul Ackermann
+ * @author Momcilo Bekcic
  */
 @Path("/")
 public class ContactRoute {
@@ -31,9 +34,10 @@ public class ContactRoute {
 	 * 
 	 * @param id Ansprechperson-Identifizierer um diese gemäss der URL anzuzeigen
 	 * 
-	 * @return Anwort vom Controller
+	 * @return Antwort vom Controller
 	 */
 	@GET
+	@RolesAllowed({"editor", "extern"})
 	@Path("/contact/subcontractor/{id}")
 	public Response showBySubcontractor(@PathParam("id") int id) {
 		return controller.showByProperty("person_id", id);

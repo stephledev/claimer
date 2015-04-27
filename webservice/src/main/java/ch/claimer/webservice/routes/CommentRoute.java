@@ -1,6 +1,7 @@
 package ch.claimer.webservice.routes;
 
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -11,8 +12,8 @@ import ch.claimer.webservice.controller.Controller;
 
 
 /**
- * Definiert die RESTfull Routes der Kommentare. Maps the controller
- * according to the URL pattern
+ * Definiert die REST-Routes der Kommentare.
+ * Zeigt den "Controller" gemäss der URL-Pattern
  * 
  * @author Raoul Ackermann / Momcilo Bekcic
  */
@@ -26,29 +27,30 @@ public class CommentRoute {
 	}
 
 	/**
-	 * Maps the controller to show comment(s) of a supervisor
+	 * Zeigt auf den Controller um die Kommentare eines Bauleiters anzuzeigen
 	 * 
-	 * @param id
-	 *            supervisor identifier of comment(s) to show supplied by the
-	 *            URL
+	 * @param id Bauleiter-Identifizierer der Kommentare um die, von der URL, 
+	 * unterstützen anzuzeigen
 	 * 
-	 * @return Response from the controller
+	 * @return Antwort vom Controller
 	 */
 	@GET
+	@RolesAllowed({"editor", "intern"})
 	@Path("/comment/supervisor/{id}")
 	public Response showBySupervisor(@PathParam("id") int id) {
 		return controller.showByProperty("person_id", id);
 	}
 
 	/**
-	 * Maps the controller to show comment(s) of a contact
+	 * Zeigt den Controller um die Kommentare einer Ansprechsperson zu zeigen
+	 *            
+	 * @param id Kontakt-Identifizierer eines Kommentars um die, von der URL unterstützten,
+	 * anzuzeigen
 	 * 
-	 * @param id
-	 *            contact identifier of comment(s) to show supplied by the URL
-	 * 
-	 * @return Response from the controller
+	 * @return Antwort vom Controller
 	 */
 	@GET
+	@RolesAllowed({"editor", "extern"})
 	@Path("/comment/contact/{id}")
 	public Response showByContact(@PathParam("id") int id) {
 		return controller.showByProperty("person_id", id);
