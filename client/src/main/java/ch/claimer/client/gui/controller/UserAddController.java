@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import ch.claimer.shared.models.GCEmployee;
 import ch.claimer.shared.models.Person;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,10 +18,12 @@ import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class UserAddController implements Initializable {
-
-	public void initialize(URL url, ResourceBundle rb) {
-		
+public class UserAddController implements Initializable{
+	
+	private Context context;
+	
+	public void setContext(Context context) {
+		this.context = context;
 	}
 	
 	@FXML
@@ -71,16 +74,33 @@ public class UserAddController implements Initializable {
 	} 
 	
 	//Wenn Person zum Ändern angeklickt wurde:
-	public void start(Person person) {
+	public void getPersonFromDB(Integer personId) {
+	
+		//Personen-Objekt aus DB holen (get Person by ID xy)
+		Person personToEdit = new GCEmployee();
+		personToEdit.setId(personId);
+		personToEdit.setEmail("max.muster@stud.hslu.ch");
 		
+		//Personen-Objekt weitergeben
+		editThisPerson(personToEdit);
+		
+		
+	}
+	
+	public void editThisPerson(Person person) {
 		String email = person.getEmail();
-		System.out.println(email);
-		txtEmail = new TextField("asfd");
-		txtEmail.setText("asdfasdf");
+		txtEmail.setText(email);
+	}
+
+	public void initData(Integer personID) {
+		// TODO Auto-generated method stub
+		System.out.println("hehe");
 		
-		
-		//lblTitel.setText("asdf");
-		//System.out.println(id);
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		// TODO Auto-generated method stub
 		
 	}
 
