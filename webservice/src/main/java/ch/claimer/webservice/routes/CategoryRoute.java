@@ -2,6 +2,7 @@ package ch.claimer.webservice.routes;
 
 import java.util.Base64;
 
+import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -28,6 +29,7 @@ public class CategoryRoute {
 	}
 	
 	@GET
+	@RolesAllowed({"intern", "admin"})
 	@Path("/category") 
 	public Response show(@Context HttpServletRequest request) {
 		return controller.showAll(request);

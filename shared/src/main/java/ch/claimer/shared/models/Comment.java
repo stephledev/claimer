@@ -1,7 +1,7 @@
 package ch.claimer.shared.models;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.GregorianCalendar;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,8 +23,8 @@ public class Comment implements Serializable, Model {
 	@Id
 	@GeneratedValue
 	private int id;
-	@Temporal(TemporalType.DATE)
-	private Date created;
+	@Temporal(TemporalType.TIMESTAMP)
+	private GregorianCalendar created;
 	private String content;
 	@ManyToOne
 	private Person person;
@@ -41,7 +41,7 @@ public class Comment implements Serializable, Model {
 		this.id = id;
 	}
 
-	public Date getCreated() {
+	public GregorianCalendar getCreated() {
 		return created;
 	}
 

@@ -8,7 +8,8 @@ import ch.claimer.shared.models.State;
 /**
  * 
  * 
- * @author Fabio Baviera / Raoul Ackermann
+ * @author Fabio Baviera
+ * @author Raoul Ackermann
  */
 
 public class StateSeed extends Seed<State> {
@@ -31,6 +32,9 @@ public class StateSeed extends Seed<State> {
 		State s5 = new State();
 		s5.setName("Weitere Arbeiten vornehmen");
 		
+
+		seeds.get("Category").get(0);
+
 		list.add(s1);
 		list.add(s2);
 		list.add(s3);

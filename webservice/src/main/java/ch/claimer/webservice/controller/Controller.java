@@ -42,9 +42,7 @@ public class Controller<T extends Model> {
 		}
 	}
 	
-	public Response showAll(HttpServletRequest request) {
-		authentication = new AuthenticationService(request);
-		authentication.authenticate();
+	public Response showAll() {
 		List<T> models = null;
 		try {
 			models = method.getAll();
