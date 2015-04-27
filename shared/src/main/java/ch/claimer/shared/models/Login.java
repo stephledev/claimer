@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -20,7 +21,7 @@ public class Login implements Serializable, Model {
 	@Column(unique = true)
 	private String username;
 	private String password;
-	@ManyToMany
+	@ManyToMany(fetch=FetchType.EAGER)
 	private List<Role> roles;
 	
 	public Login() {

@@ -6,9 +6,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
@@ -18,13 +16,13 @@ import ch.claimer.shared.models.Model;
 import ch.claimer.webservice.services.AuthenticationService;
 import ch.claimer.webservice.services.ConverterService;
 import ch.claimer.webservice.services.JsonConverterService;
+import ch.claimer.webservice.services.ResponseHandlerService;
 
 public class Controller<T extends Model> {
 
 	protected final Class<T> clazz;
 	protected AuthenticationService authentication;
 	protected final ConverterService<T> converter;
-	//protected final ResponseHandlerService responseHandler;
 	protected Method<T> method;
 	
 	
@@ -48,7 +46,7 @@ public class Controller<T extends Model> {
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-		return Response.status(Status.OK).entity(converter.write(models)).build();
+		return ResponseHandlerService.success(converter.write(models));
 	}
 	
 	public Response showById(int id) {
@@ -58,7 +56,7 @@ public class Controller<T extends Model> {
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-		return Response.status(Status.OK).entity(converter.write(model)).build();
+		return ResponseHandlerService.success(converter.write(model));
 	}
 	
 	public Response showByProperty(String name, Object value) {
@@ -68,7 +66,7 @@ public class Controller<T extends Model> {
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-		return Response.status(Status.OK).entity(models).build();
+		return ResponseHandlerService.success(converter.write(models));
 	}
 	
 	public Response update(String modelString) {
@@ -78,7 +76,7 @@ public class Controller<T extends Model> {
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-		return Response.status(Status.OK).entity(modelString).build();
+		return ResponseHandlerService.success(modelString);
 	}
 	
 	public Response store(String modelString) {
@@ -88,7 +86,7 @@ public class Controller<T extends Model> {
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-		return Response.status(Status.OK).entity(modelString).build();
+		return ResponseHandlerService.success(modelString);
 	}
 	
 	public Response destroy(int id) {
@@ -97,6 +95,6 @@ public class Controller<T extends Model> {
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-		return Response.status(Status.OK).entity(id).build();
+		return ResponseHandlerService.success(String.valueOf(id));
 	}
 }
