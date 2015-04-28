@@ -10,6 +10,8 @@ import ch.claimer.shared.models.GCEmployee;
 import ch.claimer.shared.models.Login;
 import ch.claimer.shared.models.Person;
 import ch.claimer.shared.models.Role;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,10 +19,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.util.Callback;
+
+
 
 /**
  * User-Übersicht erstellen (als TableView)
@@ -56,7 +63,7 @@ public class UserController implements Initializable {
 	private TableColumn<Person, String> colFunction;
 	
 	@FXML
-	private TableColumn<Person, String> colId;
+	private TableColumn colUsername;
 	
 	
 	/**
@@ -71,7 +78,7 @@ public class UserController implements Initializable {
 		if(t.getClickCount() == 2) {
 			
 			//Angeklickte Person laden
-			Person personID = userTableView.getSelectionModel().getSelectedItem();
+			Person personID = (Person) userTableView.getSelectionModel().getSelectedItem();
 
 			//FXMLLoader erstelen
 			FXMLLoader loader = new FXMLLoader(
@@ -172,7 +179,37 @@ public class UserController implements Initializable {
 	colName.setCellValueFactory(new PropertyValueFactory<Person, String>("firstname"));
 	colEmail.setCellValueFactory(new PropertyValueFactory<Person, String>("email"));
 	colFunction.setCellValueFactory(new PropertyValueFactory<Person, String>("login"));
-	colId.setCellValueFactory(new PropertyValueFactory<Person, String>("id"));
+	
+	//TableColumn<Person,String> firstNameCol = new TableColumn<Person,String>("First Name");
+	//colUsername.setCellValueFactory(new PropertyValueFactory<Person, Login>("username"));
+
+/*	
+	colUsername.setCellValueFactory(new Callback<CellDataFeatures<Person, String>, ObservableValue<String>>() {
+
+		@Override
+		public ObservableValue<String> call(
+				CellDataFeatures<Person, String> data) {
+			return new SimpleStringProperty(data.getValue().getLogin().getUsername());
+		}
+	  });
+	 
+	
+	/*colUsername.setCellValueFactory(new PropertyValueFactory<Login, String>"username");
+	colUsername.setCellFactory(new Callback<TableColum<Person, Login>, TableCell<Person, Login>>() {
+		
+		public TableCell<Person, Login> call(TableColum<Person, Login> param) {
+				TableCell<Person, Login> cellUsername = new TableCell<Person, Login>() {
+					protected void updateItem(Login item, booleam empty) {
+						if(item != null) {
+							Label cityLabel = new Label(item.getUsername());
+							setGraphic(cityLabel)
+						}
+					}
+				}
+		};
+		
+		
+	});*/
 	//colLastname.setSortType(dascending);
 
 	//Observable-List, welche die Daten beinhaltet, an die Tabelle übergeben
@@ -180,6 +217,7 @@ public class UserController implements Initializable {
 		
 		
 	}
+
 	
 }
 
