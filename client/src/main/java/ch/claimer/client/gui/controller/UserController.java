@@ -23,6 +23,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 /**
+ * User-Übersicht erstellen (als TableView)
  * @author Alexander Hauck
  * @since 20.04.2015
  * @version 1.0
@@ -57,6 +58,12 @@ public class UserController implements Initializable {
 	@FXML
 	private TableColumn<Person, String> colId;
 	
+	
+	/**
+	 * Öffnet die Detailansicht für einen User, um diesen zu bearbeiten.
+	 * @param t
+	 * @throws IOException
+	 */
 	@FXML
 	private void editUser(MouseEvent t) throws IOException {
 		
@@ -66,20 +73,21 @@ public class UserController implements Initializable {
 			//Angeklickte Person laden
 			Person personID = userTableView.getSelectionModel().getSelectedItem();
 
+			//FXMLLoader erstelen
 			FXMLLoader loader = new FXMLLoader(
 					getClass().getResource("../view/UserAddView.fxml")
 				);
 			
-			//Inhalt laden
+			//Neuen View laden
 			Pane myPane = loader.load();
 
 			//UserAddController holen
 			UserAddController controller = loader.<UserAddController>getController();
 			
-			//Controlsler starten
+			//Controller starten
 			controller.initData(personID);			
 			
-			//Neuen View laden
+			//Neuen View einfügen
 			mainContent.getChildren().clear();
 			mainContent.getChildren().setAll(myPane);
 			
@@ -87,7 +95,11 @@ public class UserController implements Initializable {
 		}
 	}
 	
-	//Zum User AddView wechseln (UserAddView.xml)
+	/**
+	 * Zum UserAddView wechseln. Bei Klick auf Button "Neuen Benutzer erstellen"
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	private void loadUserAddView(ActionEvent event) throws IOException {
 		Pane myPane = FXMLLoader.load(getClass().getResource("../view/UserAddView.fxml"));

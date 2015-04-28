@@ -27,6 +27,12 @@ public class UserAddController implements Initializable{
 	private Label lblTitel;
 	
 	@FXML
+	private TextField txtFirstname;
+	
+	@FXML
+	private TextField txtLastname;
+	
+	@FXML
 	private TextField txtEmail;
 	
 	@FXML
@@ -68,10 +74,15 @@ public class UserAddController implements Initializable{
 	} 
 	
 
-	//Wenn Person zum Ändern angeklickt wurde:
-	public void initData(Person personID) {
-
-		txtEmail.setText(personID.getEmail());
+	/**
+	 * Detailansicht mit allen Daten der angeklickten Person füllen
+	 * @param personToEdit
+	 */
+	public void initData(Person personToEdit) {
+		lblTitel.setText("Benutzer bearbeiten");
+		txtFirstname.setText(personToEdit.getFirstname());
+		txtLastname.setText(personToEdit.getLastname());
+		txtEmail.setText(personToEdit.getEmail());
 		
 		
 	}

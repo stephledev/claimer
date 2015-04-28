@@ -15,14 +15,14 @@
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+          <RowConstraints vgrow="NEVER" />
             <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="NEVER" />
           <RowConstraints vgrow="NEVER" />
             <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="NEVER" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
         </rowConstraints>
          <children>
-            <Label fx:id="lblTitel" text="Benutzer verwalten / hinzufügen" />
+            <Label fx:id="lblTitel" text="Neuen Benutzer hinzufügen" />
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="4">
                <children>
                   <Button mnemonicParsing="false" onAction="#addUser" styleClass="save-button" text="Speichern" />
@@ -63,7 +63,7 @@
                   </GridPane>
                   <GridPane>
                     <columnConstraints>
-                        <ColumnConstraints hgrow="NEVER" maxWidth="110.0" minWidth="110.0" prefWidth="110.0" />
+                        <ColumnConstraints hgrow="NEVER" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" />
                         <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="NEVER" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
                       <ColumnConstraints hgrow="NEVER" maxWidth="110.0" minWidth="110.0" prefWidth="110.0" />
@@ -91,8 +91,8 @@
                         <Label text="Funktion:" GridPane.columnIndex="3" GridPane.rowIndex="4" />
                         <Label text="Benutzer:" GridPane.columnIndex="3" GridPane.rowIndex="6" />
                         <Label text="Passwort:" GridPane.columnIndex="3" GridPane.rowIndex="8" />
-                        <TextField GridPane.columnIndex="1" />
-                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <TextField fx:id="txtLastname" GridPane.columnIndex="1" />
+                        <TextField fx:id="txtFirstname" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                         <TextField fx:id="txtEmail" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                         <TextField GridPane.columnIndex="1" GridPane.rowIndex="6" />
                         <TextField GridPane.columnIndex="1" GridPane.rowIndex="8" />
