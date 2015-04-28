@@ -16,8 +16,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.fxml.JavaFXBuilderFactory;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -32,9 +30,6 @@ import javafx.scene.layout.Pane;
  */
 
 public class UserController implements Initializable {
-
-	
-	Context currentContext = new Context();
 	
 	ObservableList<Person> data =
 			FXCollections.observableArrayList(
@@ -67,31 +62,26 @@ public class UserController implements Initializable {
 		
 		//Wenn Doppelklick auf Person
 		if(t.getClickCount() == 2) {
-			//Id von angeklickter Person laden
-			Integer personID = userTableView.getSelectionModel().getSelectedItem().getId();
+			
+			//Angeklickte Person laden
+			Person personID = userTableView.getSelectionModel().getSelectedItem();
 
-			//ID an den UserAddController übergeben
-			//UserAddController ctrl2 = new UserAddController();
-			//ctrl2.getPersonFromDB(personID);
-			/*
 			FXMLLoader loader = new FXMLLoader(
 					getClass().getResource("../view/UserAddView.fxml")
 				);
 			
+			//Inhalt laden
+			Pane myPane = loader.load();
+
+			//UserAddController holen
 			UserAddController controller = loader.<UserAddController>getController();
-			controller.initData(personID);
-			*/
-			//UserAddView laden
 			
-			FXMLLoader fxmlloader = new FXMLLoader();
-			fxmlloader.setLocation(getClass().getResource("../view/RootLayout.fxml"));
-			fxmlloader.setBuilderFactory(new JavaFXBuilderFactory());
-			//((Object) fxmlloader.getController())).setContext(currentContext);
+			//Controlsler starten
+			controller.initData(personID);			
 			
-			Pane myPane = FXMLLoader.load(getClass().getResource("../view/UserAddView.fxml"));
+			//Neuen View laden
 			mainContent.getChildren().clear();
-			mainContent.getChildren().setAll(myPane);	
-			myPane.setUserData(personID);
+			mainContent.getChildren().setAll(myPane);
 			
 		
 		}
@@ -109,7 +99,6 @@ public class UserController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		currentContext.getPerson().setId(10);
 		
 		
 	//Platzhalter-Daten generieren

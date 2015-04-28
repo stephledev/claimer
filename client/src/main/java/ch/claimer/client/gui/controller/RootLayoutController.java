@@ -2,6 +2,7 @@ package ch.claimer.client.gui.controller;
 
 import java.io.IOException;
 
+import ch.claimer.shared.models.Person;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +18,8 @@ import javafx.scene.layout.Pane;
 
 public class RootLayoutController {
 
+	public static Person personToTransmit;
+	
 	@FXML
 	private MenuItem logoutButton;
 	

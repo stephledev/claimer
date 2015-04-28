@@ -7,7 +7,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Font;
 
 
 public class Main extends Application {
@@ -36,6 +35,10 @@ public class Main extends Application {
 			login.getStylesheets().add(
 					getClass().getResource("claimer_styles.css").toExternalForm()); // CSS-File wird geladen
 			primaryStage.setScene(login);
+			
+			//UserAddController controller = myLoader.<UserAddController>getController();
+			//controller.initData(personID);
+			
 			primaryStage.show();
 
 		}
