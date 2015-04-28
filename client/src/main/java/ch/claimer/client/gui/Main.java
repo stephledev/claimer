@@ -19,10 +19,6 @@ public class Main extends Application {
 
 	
 	public void start(Stage primaryStage) {
-		
-//		Font.loadFont(
-//			      CustomFontApp.class.getResource("xxx.TTF").toExternalForm(), 
-//			      10);
 
 		primaryStage.setTitle("Mängelmanager");
 		FXMLLoader myLoader = new FXMLLoader(getClass().getResource(
@@ -34,11 +30,7 @@ public class Main extends Application {
 			login.getStylesheets().add("http://fonts.googleapis.com/css?family=Roboto+Condensed");
 			login.getStylesheets().add(
 					getClass().getResource("claimer_styles.css").toExternalForm()); // CSS-File wird geladen
-			primaryStage.setScene(login);
-			
-			//UserAddController controller = myLoader.<UserAddController>getController();
-			//controller.initData(personID);
-			
+			primaryStage.setScene(login);			
 			primaryStage.show();
 
 		}
