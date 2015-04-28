@@ -19,7 +19,8 @@ import javafx.stage.Stage;
 
 public class UserAddController implements Initializable{
 		
-
+	private Integer personId = null;
+	
 	@FXML
 	private Pane mainContent;
 	
@@ -34,6 +35,12 @@ public class UserAddController implements Initializable{
 	
 	@FXML
 	private TextField txtEmail;
+	
+	@FXML
+	private TextField txtUsername;
+	
+	@FXML
+	private TextField txtPhone;
 	
 	@FXML
 	private void loadUserMainView() {
@@ -52,8 +59,20 @@ public class UserAddController implements Initializable{
 	}
 	
 	@FXML
-	private void addUser(ActionEvent event) throws IOException {
+	private void saveUser(ActionEvent event) throws IOException {
 		System.out.println("Klick auf Button.");
+		
+		//Überprüfen, ob alle Pflichtfelder gesetzt wurden
+		
+		//Personen-Objekt erstellen und alle Infos einfügen
+		//Person person = new Person();
+		
+		if(personId != null) {
+			//Weiterleiten zum Updaten
+			System.out.println("Update");
+		} else {
+			System.out.println("Insert");
+		}
 		
 		// ToDo: Read Data from Textfields, check them and save into Database
 	}
@@ -73,25 +92,47 @@ public class UserAddController implements Initializable{
        
 	} 
 	
-
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	/**
 	 * Detailansicht mit allen Daten der angeklickten Person füllen
 	 * @param personToEdit
 	 */
 	public void initData(Person personToEdit) {
 		lblTitel.setText("Benutzer bearbeiten");
-		txtFirstname.setText(personToEdit.getFirstname());
-		txtLastname.setText(personToEdit.getLastname());
+		
+		personId = personToEdit.getId();
+		
+		if(personToEdit.getFirstname() != null) { 
+			txtFirstname.setText(personToEdit.getFirstname());	
+		}
+		
+		if(personToEdit.getLastname() != null) {
+			txtLastname.setText(personToEdit.getLastname());
+		}
+		
+		if(personToEdit.getEmail() != null) {
 		txtEmail.setText(personToEdit.getEmail());
+		}
 		
+		if(personToEdit.getPhone() != null) {
+			txtPhone.setText(personToEdit.getPhone());
+		}
 		
+		if(personToEdit.getLogin() != null) {
+			if(personToEdit.getLogin().getUsername() != null) {
+				txtUsername.setText(personToEdit.getLogin().getUsername());
+			}
+		}
+		
+	
 	}
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
-		
-	}
+
 
 	
 }

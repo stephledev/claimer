@@ -21,12 +21,30 @@
          <children>
             <HBox fx:id="navigation" minWidth="800.0" prefHeight="0.0" prefWidth="821.0" GridPane.rowIndex="1">
                <children>
-                  <Button mnemonicParsing="false" onAction="#loadHomeView" prefHeight="40.0" prefWidth="133.3333" styleClass="navButton" text="Home" />
-                  <Button mnemonicParsing="false" onAction="#loadProjectsMainView" prefHeight="40.0" prefWidth="133.3333" styleClass="navButton" text="Projekte" />
-                  <Button mnemonicParsing="false" onAction="#loadSupervisorMainView" prefHeight="40.0" prefWidth="133.3333" styleClass="navButton" text="Bauleiter" />
-                  <Button mnemonicParsing="false" onAction="#loadSubcontractorMainView" prefHeight="40.0" prefWidth="133.3333" styleClass="navButton" text="Subunternehmen" />
-                  <Button mnemonicParsing="false" onAction="#loadPrincipalMainView" prefHeight="40.0" prefWidth="133.3333" styleClass="navButton" text="Kunden" />
-                  <Button mnemonicParsing="false" onAction="#loadUserMainView" prefHeight="40.0" prefWidth="133.3333" styleClass="navButton" text="Benutzer" />
+                  <Button mnemonicParsing="false" onAction="#loadHomeView" prefHeight="40.0" styleClass="navButton" text="Home" HBox.hgrow="NEVER">
+                     <padding>
+                        <Insets left="25.0" right="25.0" />
+                     </padding></Button>
+                  <Button mnemonicParsing="false" onAction="#loadProjectsMainView" prefHeight="40.0" styleClass="navButton" text="Projekte">
+                     <padding>
+                        <Insets left="25.0" right="25.0" />
+                     </padding></Button>
+                  <Button mnemonicParsing="false" onAction="#loadSupervisorMainView" prefHeight="40.0" styleClass="navButton" text="Bauleiter">
+                     <padding>
+                        <Insets left="25.0" right="25.0" />
+                     </padding></Button>
+                  <Button mnemonicParsing="false" onAction="#loadSubcontractorMainView" prefHeight="40.0" styleClass="navButton" text="Subunternehmen">
+                     <padding>
+                        <Insets left="25.0" right="25.0" />
+                     </padding></Button>
+                  <Button mnemonicParsing="false" onAction="#loadPrincipalMainView" prefHeight="40.0" styleClass="navButton" text="Kunden">
+                     <padding>
+                        <Insets left="25.0" right="25.0" />
+                     </padding></Button>
+                  <Button mnemonicParsing="false" onAction="#loadUserMainView" prefHeight="40.0" styleClass="navButton" text="Benutzer">
+                     <padding>
+                        <Insets left="25.0" right="25.0" />
+                     </padding></Button>
                </children>
             </HBox>
             <GridPane prefHeight="97.0" prefWidth="795.0">

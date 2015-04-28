@@ -25,7 +25,7 @@
             <Label fx:id="lblTitel" text="Neuen Benutzer hinzufügen" />
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="4">
                <children>
-                  <Button mnemonicParsing="false" onAction="#addUser" styleClass="save-button" text="Speichern" />
+                  <Button mnemonicParsing="false" onAction="#saveUser" styleClass="save-button" text="Speichern" />
                   <Button mnemonicParsing="false" onAction="#loadUserMainView" styleClass="delete-button" text="Abbrechen">
                      <HBox.margin>
                         <Insets left="20.0" />
@@ -84,22 +84,20 @@
                         <Label text="Name:" />
                         <Label text="Vorname:" GridPane.rowIndex="2" />
                         <Label text="E-Mail:" GridPane.rowIndex="4" />
-                        <Label text="Telefon Mobile:" GridPane.rowIndex="6" />
-                        <Label text="Telefon Büro:" GridPane.rowIndex="8" />
+                        <Label text="Telefon:" GridPane.rowIndex="6" />
                         <Label text="Benutzer-ID:" GridPane.columnIndex="3" />
                         <Label text="SU_ID:" GridPane.columnIndex="3" GridPane.rowIndex="2" />
                         <Label text="Funktion:" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-                        <Label text="Benutzer:" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+                        <Label text="Benutzername:" GridPane.columnIndex="3" GridPane.rowIndex="6" />
                         <Label text="Passwort:" GridPane.columnIndex="3" GridPane.rowIndex="8" />
                         <TextField fx:id="txtLastname" GridPane.columnIndex="1" />
                         <TextField fx:id="txtFirstname" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                         <TextField fx:id="txtEmail" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                        <TextField fx:id="txtPhone" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                         <TextField GridPane.columnIndex="4" />
                         <TextField GridPane.columnIndex="4" GridPane.rowIndex="2" />
                         <ComboBox maxWidth="5000.0" GridPane.columnIndex="4" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS" />
-                        <TextField GridPane.columnIndex="4" GridPane.rowIndex="6" />
+                        <TextField fx:id="txtUsername" GridPane.columnIndex="4" GridPane.rowIndex="6" />
                         <TextField GridPane.columnIndex="4" GridPane.rowIndex="8" />
                      </children>
                   </GridPane>
