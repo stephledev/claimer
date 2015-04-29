@@ -29,15 +29,30 @@ public class LoginRoute {
 		this.controller = new Controller<Login>(Login.class);
 	}
 	
+	/**
+	 * 
+	 * @param id-Identifizierer der Logins um die - von der URL
+	 * unterstützen - anzuzeigen
+	 * @return Antowrt vom Controller
+	 * 
+	 */
 	@GET
 	@PermitAll
 	@Path("/login") 
 	public Response show(@Context HttpServletRequest request) {
-		return controller.showAll(request);
+		return controller.showAll();
 	}
 	
+	
+	/**
+	 * 
+	 * @param id-Identifizierer der Logins um die - von der URL
+	 * unterstützen - anzuzeigen
+	 * @return Antwort vom Controller
+	 * 
+	 */
 	@GET
-	@RolesAllowed({"intern", "admin"})
+	@PermitAll
 	@Path("/login/{id}")
 	public Response showById(@PathParam("id") int id) {
 		return controller.showById(id);

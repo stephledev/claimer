@@ -64,6 +64,7 @@ public class ProjectRoute {
 	 * @return Antwort vom Controller
 	 */
 	@GET
+	@RolesAllowed({"", ""})
 	@Path("/project/category/{id}")
 	public Response showByCategory(@PathParam("id") int id) {
 		return controller.showByProperty("category_id", id);

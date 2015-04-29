@@ -1,53 +1,51 @@
 package ch.claimer.webservice.routes;
 
-import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
-import ch.claimer.shared.models.Subcontractor;
+import ch.claimer.shared.models.GCEmployee;
 import ch.claimer.webservice.controller.Controller;
 
 /**
- * Definiert die REST-Routes des Subunternehmens.
+ * Definiert die REST-Routes der GU-Angestellten.
  * Zeigt den "Controller" gemäss der URL-Pattern
  * 
  * @author Momcilo Bekcic
+ * 
  */
 
 @Path("/")
-public class SubcontractorRoute {	
+public class GCEmployeeRoute {	
 	
-	private Controller<Subcontractor> controller;
+	private Controller<GCEmployee> controller;
 
-	public SubcontractorRoute() {
-		this.controller = new Controller<Subcontractor>(Subcontractor.class);
+	public GCEmployeeRoute() {
+		this.controller = new Controller<GCEmployee>(GCEmployee.class);
 	}
 	
 	/**
 	 * 
 	 * @return Antwort vom Controller
 	 */
+	
 	@GET
-	@PermitAll
-	@Path("/subcontractor") 
+	@RolesAllowed({"superadmin", "intern"})
+	@Path("/gcEmployee") 
 	public Response show() {
 		return controller.showAll();
 	}
 	
-	
 	/**
-	 * Zeigt auf den Controller das Subunternehmen anzuzeigen
 	 * 
-	 * @param id Subunternehmen-Identifizierer der Kommentare um die, gemäss der URL anzuzeigen
-	 * 
+	 * @param id-Identifizierer um Angaben gemäss URL zu liefern
 	 * @return Antwort vom Controller
 	 */
 	@GET
-	@PermitAll
-	@Path("/subcontractor/{id}")
+	@RolesAllowed({"superadmin", "intern"})
+	@Path("/gcEmployee/{id}")
 	public Response showById(@PathParam("id") int id) {
 		return controller.showById(id);
 	}

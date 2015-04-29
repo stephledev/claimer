@@ -28,13 +28,24 @@ public class SupervisorRoute {
 		this.controller = new Controller<Supervisor>(Supervisor.class);
 	}
 	
+	/**
+	 * 
+	 * @param request
+	 * @return Antwort vom Controller
+	 */
+	
 	@GET
 	@RolesAllowed({"intern", "admin"})
 	@Path("/supervisor") 
 	public Response show(@Context HttpServletRequest request) {
-		return controller.showAll(request);
+		return controller.showAll();
 	}
 	
+	/**
+	 * 
+	 * @param id-Identifizierer um Angaben gemäss der URL zu liefern
+	 * @return Antwort vom Controller
+	 */
 	@GET
 	@RolesAllowed({"intern", "admin"})
 	@Path("/supervisor/{id}")

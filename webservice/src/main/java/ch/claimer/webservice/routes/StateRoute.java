@@ -22,13 +22,21 @@ public class StateRoute {
 	public StateRoute() {
 		this.controller = new Controller<State>(State.class);
 	}
-	
+	/**
+	 * 
+	 * @return Antwort vom Controller
+	 */
 	@GET
 	@Path("/state") 
 	public Response show() {
 		return controller.showAll();
 	}
 	
+	/**
+	 * 
+	 * @param id-Identifizierer um Angaben gemäss der URL anzuzeigen
+	 * @return Antwort vom Controller
+	 */
 	@GET
 	@Path("/state/{id}")
 	public Response showById(@PathParam("id") int id) {

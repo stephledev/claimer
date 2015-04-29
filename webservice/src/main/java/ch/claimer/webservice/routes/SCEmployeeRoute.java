@@ -6,14 +6,17 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
+
+
 import ch.claimer.shared.models.SCEmployee;
 import ch.claimer.webservice.controller.Controller;
 
 /**
- * Definiert die REST-Routes der Sachbearbeiter des Subunternehmens.
+ * Definiert die REST-Routes der Kommentare.
  * Zeigt den "Controller" gemäss der URL-Pattern
  * 
  * @author Momcilo Bekcic
+ * 
  */
 
 @Path("/")
@@ -26,12 +29,26 @@ public class SCEmployeeRoute {
 	}
 	
 	
+	/**
+	 * 
+	 * @return Antwort vom Controller
+	 */
 	@GET
-	@RolesAllowed({"admin", "intern"})
+	@RolesAllowed({"intern", "admin"})
+	@Path("/scEmployee") 
+	public Response show() {
+		return controller.showAll();
+	}
+	
+	/**
+	 * 
+	 * @param id-Identifizeirer um die -von der URL unterstützten- anzuzeigen
+	 * @return Antwort vom Controller
+	 */
+	@GET
+	@RolesAllowed({"intern", "admin"})
 	@Path("/scEmployee/{id}")
 	public Response showById(@PathParam("id") int id) {
 		return controller.showById(id);
 	}
-	
-	
 }

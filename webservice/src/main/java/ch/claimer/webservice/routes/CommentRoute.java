@@ -15,7 +15,9 @@ import ch.claimer.webservice.controller.Controller;
  * Definiert die REST-Routes der Kommentare.
  * Zeigt den "Controller" gemäss der URL-Pattern
  * 
- * @author Raoul Ackermann / Momcilo Bekcic
+ * @author Raoul Ackermann
+ * @author Momcilo Bekcic
+ * 
  */
 @Path("/")
 public class CommentRoute {
