@@ -22,12 +22,12 @@ public class CommentSeed extends Seed<Comment> {
 	public void setup() {
 		Comment com1 = new Comment();
 		com1.setPerson(null);
-		com1.setContent("Der Türrahmen beim Eingang hat deutlich sichtbare Schäden");
+		com1.setContent("Wurde bereits erledigt bei der ersten Kontrolle.");
 
 		
 		list.add(com1);
 	
-		
+		this.seeds.put("Comment", list);
 	}
 
 }

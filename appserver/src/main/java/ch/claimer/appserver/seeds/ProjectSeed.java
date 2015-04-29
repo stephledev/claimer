@@ -49,7 +49,7 @@ public class ProjectSeed extends Seed<Project> {
 		p2.setCategory(null);
 		seeds.get("LogEntry").get(1);
 		seeds.get("Supervisor").get(0);
-		seeds.get("Contact").get(0);
+		seeds.get("Contact").get(3);
 		seeds.get("Category").get(1);
 		seeds.get("Type").get(1);
 		seeds.get("State").get(0);

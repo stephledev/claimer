@@ -27,6 +27,7 @@ public class IssueSeed extends Seed<Issue> {
 		iss1.setCreated(new GregorianCalendar());
 		iss1.setSolved(new GregorianCalendar());
 		seeds.get("LogEntry").get(0);
+		seeds.get("Comment").get(0);
 		seeds.get("Project").get(0);
 		seeds.get("State").get(2);
 		seeds.get("Supcontractor").get(0);
@@ -40,7 +41,7 @@ public class IssueSeed extends Seed<Issue> {
 		seeds.get("Project").get(1);
 		seeds.get("State").get(4);
 		seeds.get("Supcontractor").get(1);
-		seeds.get("Contact").get(0);
+		seeds.get("Contact").get(1);
 		
 		Issue iss3 = new Issue();
 		iss3.setDescription("Fassade auf der Nordseite weisst Schäden auf.");
@@ -50,7 +51,7 @@ public class IssueSeed extends Seed<Issue> {
 		seeds.get("Project").get(1);
 		seeds.get("State").get(4);
 		seeds.get("Supcontractor").get(2);
-		seeds.get("Contact").get(0);
+		seeds.get("Contact").get(2);
 		
 		Issue iss4 = new Issue();
 		iss4.setDescription("Schäden im Badezimmer im 1.Stock.");
@@ -60,7 +61,7 @@ public class IssueSeed extends Seed<Issue> {
 		seeds.get("Project").get(0);
 		seeds.get("State").get(2);
 		seeds.get("Supcontractor").get(3);
-		seeds.get("Contact").get(0);
+		seeds.get("Contact").get(3);
 		
 		Issue iss5 = new Issue();
 		iss5.setDescription("Das Wasser in Wohung B im 3.Stock läuft nicht.");
@@ -70,7 +71,7 @@ public class IssueSeed extends Seed<Issue> {
 		seeds.get("Project").get(1);
 		seeds.get("State").get(2);
 		seeds.get("Supcontractor").get(3);
-		seeds.get("Contact").get(0);
+		seeds.get("Contact").get(4);
 		
 			
 		
