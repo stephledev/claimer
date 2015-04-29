@@ -22,6 +22,9 @@ public class ContactSeed extends Seed<Contact> {
 		Contact1.setEmail("manfred.schmid@bluewin.ch.ch");
 		Contact1.setPhone("041 111 11 11");
 		seeds.get("Login").get(10);
+		seeds.get("Subcontractor").get(0);
+		
+		
 		
 		
 		
