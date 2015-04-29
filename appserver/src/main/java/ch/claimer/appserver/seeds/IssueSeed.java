@@ -16,7 +16,7 @@ public class IssueSeed extends Seed<Issue> {
 	
 	public IssueSeed() {
 		this.repository = new EclipseLinkRepository<Issue>(Issue.class);
-		this.list = new ArrayList<Issue>();
+		this.seed = new ArrayList<Issue>();
 	}
 
 	@Override
@@ -30,7 +30,7 @@ public class IssueSeed extends Seed<Issue> {
 		seeds.get("Comment").get(0);
 		seeds.get("Project").get(0);
 		seeds.get("State").get(2);
-		seeds.get("Supcontractor").get(0);
+		seeds.get("Subcontractor").get(0);
 		seeds.get("Contact").get(0);
 		
 		Issue iss2 = new Issue();
@@ -40,7 +40,7 @@ public class IssueSeed extends Seed<Issue> {
 		seeds.get("LogEntry").get(2);
 		seeds.get("Project").get(1);
 		seeds.get("State").get(4);
-		seeds.get("Supcontractor").get(1);
+		seeds.get("Subcontractor").get(1);
 		seeds.get("Contact").get(1);
 		
 		Issue iss3 = new Issue();
@@ -50,7 +50,7 @@ public class IssueSeed extends Seed<Issue> {
 		seeds.get("LogEntry").get(2);
 		seeds.get("Project").get(1);
 		seeds.get("State").get(4);
-		seeds.get("Supcontractor").get(2);
+		seeds.get("Subcontractor").get(2);
 		seeds.get("Contact").get(2);
 		
 		Issue iss4 = new Issue();
@@ -60,7 +60,7 @@ public class IssueSeed extends Seed<Issue> {
 		seeds.get("LogEntry").get(2);
 		seeds.get("Project").get(0);
 		seeds.get("State").get(2);
-		seeds.get("Supcontractor").get(3);
+		seeds.get("Subcontractor").get(3);
 		seeds.get("Contact").get(3);
 		
 		Issue iss5 = new Issue();
@@ -70,17 +70,17 @@ public class IssueSeed extends Seed<Issue> {
 		seeds.get("LogEntry").get(2);
 		seeds.get("Project").get(1);
 		seeds.get("State").get(2);
-		seeds.get("Supcontractor").get(3);
+		seeds.get("Subcontractor").get(3);
 		seeds.get("Contact").get(4);
 		
 			
 		
-		list.add(iss1);
-		list.add(iss2);
-		list.add(iss3);
-		list.add(iss4);
-		list.add(iss5);
-		this.seeds.put("Issue", list);
+		seed.add(iss1);
+		seed.add(iss2);
+		seed.add(iss3);
+		seed.add(iss4);
+		seed.add(iss5);
+		Seed.seeds.put("Issue", seed);
 	}
 
 }

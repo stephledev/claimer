@@ -15,7 +15,7 @@ public class RoleSeed extends Seed<Role> {
 	
 	public RoleSeed() {
 		this.repository = new EclipseLinkRepository<Role>(Role.class);
-		this.list = new ArrayList<Role>();
+		this.seed = new ArrayList<Role>();
 	}
 
 	@Override
@@ -38,14 +38,14 @@ public class RoleSeed extends Seed<Role> {
 		Role role6 = new Role();
 		role6.setName("editor");
 
-		list.add(role1);
-		list.add(role2);
-		list.add(role3);
-		list.add(role4);
-		list.add(role5);
-		list.add(role6);
+		seed.add(role1);
+		seed.add(role2);
+		seed.add(role3);
+		seed.add(role4);
+		seed.add(role5);
+		seed.add(role6);
 		
-		this.seeds.put("Role", list);
+		Seed.seeds.put("Role", seed);
 		
 	}
 

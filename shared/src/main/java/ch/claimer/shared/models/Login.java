@@ -1,6 +1,7 @@
 package ch.claimer.shared.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -22,7 +23,7 @@ public class Login implements Serializable, Model {
 	private String username;
 	private String password;
 	@ManyToMany(fetch=FetchType.EAGER)
-	private List<Role> roles;
+	private List<Role> roles = new ArrayList<Role>();
 	
 	public Login() {
 		

@@ -16,7 +16,7 @@ public class ProjectSeed extends Seed<Project> {
 	
 	public ProjectSeed() {
 		this.repository = new EclipseLinkRepository<Project>(Project.class);
-		this.list = new ArrayList<Project>();
+		this.seed = new ArrayList<Project>();
 	}
 
 	@Override
@@ -36,9 +36,6 @@ public class ProjectSeed extends Seed<Project> {
 		seeds.get("Type").get(0);
 		seeds.get("State").get(0);
 		
-		
-		
-		
 		Project p2 = new Project();
 		p2.setName("Umbau Bleicherain");
 		p2.setStreet("Bleicherain 14");
@@ -53,13 +50,11 @@ public class ProjectSeed extends Seed<Project> {
 		seeds.get("Category").get(1);
 		seeds.get("Type").get(1);
 		seeds.get("State").get(0);
+
+		seed.add(p1);
+		seed.add(p2);
 		
-		
-		
-		
-		list.add(p1);
-		list.add(p2);
-		
+		Seed.seeds.put("Project", seed);
 	}
 
 }

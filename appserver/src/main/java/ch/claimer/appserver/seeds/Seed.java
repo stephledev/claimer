@@ -13,11 +13,12 @@ import ch.claimer.appserver.repositories.Repository;
  */
 public abstract class Seed<T> {
 	
-	protected Map<String, List<T>> seeds = new HashMap<String, List<T>>();
-	protected List<T> list;
+	protected static Map<String, List<?>> seeds = new HashMap<String, List<?>>();
+	protected List<T> seed;
 	protected Repository<T> repository;
 	
 	public static void main(String[] args) {
+
 		CategorySeed categorySeed = new CategorySeed();
 		categorySeed.setup();
 		categorySeed.execute();
@@ -40,7 +41,6 @@ public abstract class Seed<T> {
 		
 		LoginSeed loginSeed = new LoginSeed();
 		loginSeed.setup();
-		loginSeed.execute();
 		
 		SubcontractorSeed subcontractorSeed = new SubcontractorSeed();
 		subcontractorSeed.setup();
@@ -66,23 +66,23 @@ public abstract class Seed<T> {
 		projectSeed.setup();
 		projectSeed.execute();
 		
-		IssueSeed issueSeed = new IssueSeed();
-		issueSeed.setup();
-		issueSeed.execute();
-		
 		CommentSeed commentSeed = new CommentSeed();
 		commentSeed.setup();
 		commentSeed.execute();
 		
+		IssueSeed issueSeed = new IssueSeed();
+		issueSeed.setup();
+		issueSeed.execute();
+		
+		System.out.println("Seeding successful");
 		
 	}
 	
 	public abstract void setup();
+
 	public void execute() {
-		for(List<T> seed : seeds.values()) {
-			for(T t : seed) {
-				repository.create(t);
-			}
+		for(T t : seed) {
+			repository.create(t);
 		}
 	}
 }

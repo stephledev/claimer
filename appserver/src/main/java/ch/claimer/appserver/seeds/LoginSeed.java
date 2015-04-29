@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import ch.claimer.appserver.repositories.eclipselink.EclipseLinkRepository;
 import ch.claimer.shared.models.Login;
+import ch.claimer.shared.models.Role;
 
 /**
  * 
@@ -15,7 +16,7 @@ public class LoginSeed extends Seed<Login> {
 	
 	public LoginSeed() {
 		this.repository = new EclipseLinkRepository<Login>(Login.class);
-		this.list = new ArrayList<Login>();
+		this.seed = new ArrayList<Login>();
 	}
 
 	@Override
@@ -36,8 +37,8 @@ public class LoginSeed extends Seed<Login> {
 		Login log3 = new Login();
 		log3.setUsername("Stephan_Beeler");
 		log3.setPassword("stephan01");
-		seeds.get("Role").get(0);
-		seeds.get("Role").get(2);
+		log3.getRoles().add((Role) seeds.get("Role").get(0));
+		log3.getRoles().add((Role) seeds.get("Role").get(2));
 		
 		Login log4 = new Login();
 		log4.setUsername("Kevin_Stadelmann");
@@ -154,28 +155,28 @@ public class LoginSeed extends Seed<Login> {
 		seeds.get("Role").get(1);
 		seeds.get("Role").get(5);
 		
-		list.add(log1);
-		list.add(log2);
-		list.add(log3);
-		list.add(log4);
-		list.add(log5);
-		list.add(log6);
-		list.add(log7);
-		list.add(log8);
-		list.add(log9);
-		list.add(log10);
-		list.add(log11);
-		list.add(log12);
-		list.add(log13);
-		list.add(log14);
-		list.add(log15);
-		list.add(log16);
-		list.add(log17);
-		list.add(log18);
-		list.add(log19);
-		list.add(log20);
+		seed.add(log1);
+		seed.add(log2);
+		seed.add(log3);
+		seed.add(log4);
+		seed.add(log5);
+		seed.add(log6);
+		seed.add(log7);
+		seed.add(log8);
+		seed.add(log9);
+		seed.add(log10);
+		seed.add(log11);
+		seed.add(log12);
+		seed.add(log13);
+		seed.add(log14);
+		seed.add(log15);
+		seed.add(log16);
+		seed.add(log17);
+		seed.add(log18);
+		seed.add(log19);
+		seed.add(log20);
 		
-		this.seeds.put("Login", list);
+		Seed.seeds.put("Login", seed);
 	}
 
 }

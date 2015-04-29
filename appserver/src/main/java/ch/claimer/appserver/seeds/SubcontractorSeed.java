@@ -1,5 +1,7 @@
 package ch.claimer.appserver.seeds;
 
+import java.util.ArrayList;
+
 import ch.claimer.appserver.repositories.eclipselink.EclipseLinkRepository;
 import ch.claimer.shared.models.Subcontractor;
 
@@ -11,7 +13,7 @@ public class SubcontractorSeed extends Seed<Subcontractor> {
 	
 	public SubcontractorSeed() {
 		this.repository = new EclipseLinkRepository<Subcontractor>(Subcontractor.class);
-		
+		this.seed = new ArrayList<Subcontractor>();
 	}
 
 	@Override
@@ -56,13 +58,13 @@ public class SubcontractorSeed extends Seed<Subcontractor> {
 		Sub5.setEmail("santis_sanitaer@hotmail.ch");
 		Sub5.setPhone("0446754354");
 		
-		list.add(Sub1);
-		list.add(Sub2);
-		list.add(Sub3);
-		list.add(Sub4);
-		list.add(Sub5);
+		seed.add(Sub1);
+		seed.add(Sub2);
+		seed.add(Sub3);
+		seed.add(Sub4);
+		seed.add(Sub5);
 		
-		this.seeds.put("Subcontractor", list);
+		Seed.seeds.put("Subcontractor", seed);
 	}
 
 }

@@ -16,7 +16,7 @@ public class LogEntrySeed extends Seed<LogEntry> {
 	
 	public LogEntrySeed() {
 		this.repository = new EclipseLinkRepository<LogEntry>(LogEntry.class);
-		this.list = new ArrayList<LogEntry>();
+		this.seed = new ArrayList<LogEntry>();
 	}
 
 	@Override
@@ -35,10 +35,10 @@ public class LogEntrySeed extends Seed<LogEntry> {
 		log3.setDescription("Mangel wurden erfasst");
 		
 		
-		list.add(log1);
-		list.add(log2);
-		list.add(log3);
-		this.seeds.put("LogEntry", list);
+		seed.add(log1);
+		seed.add(log2);
+		seed.add(log3);
+		Seed.seeds.put("LogEntry", seed);
 	}
 
 }

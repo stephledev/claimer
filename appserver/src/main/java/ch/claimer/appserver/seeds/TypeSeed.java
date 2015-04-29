@@ -15,7 +15,7 @@ public class TypeSeed extends Seed<Type> {
 	
 	public TypeSeed() {
 		this.repository = new EclipseLinkRepository<Type>(Type.class);
-		this.list = new ArrayList<Type>();
+		this.seed = new ArrayList<Type>();
 	}
 
 	@Override
@@ -27,10 +27,11 @@ public class TypeSeed extends Seed<Type> {
 		Type t3 = new Type();
 		t3.setName("Umbau");
 	
-		list.add(t1);
-		list.add(t2);
-		list.add(t3);
-
+		seed.add(t1);
+		seed.add(t2);
+		seed.add(t3);
+		
+		Seed.seeds.put("Type", seed);
 	}
 
 }

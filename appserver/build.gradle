@@ -7,3 +7,13 @@ dependencies {
     compile 'com.github.javafaker:javafaker:0.5'
 
 }
+
+task seed(type:JavaExec) {
+   main = 'ch.claimer.appserver.seeds.Seed'
+   classpath = sourceSets.main.runtimeClasspath
+}
+
+task rmiRun(type:JavaExec) {
+   main = 'ch.claimer.appserver.rmi.RMIService'
+   classpath = sourceSets.main.runtimeClasspath
+}

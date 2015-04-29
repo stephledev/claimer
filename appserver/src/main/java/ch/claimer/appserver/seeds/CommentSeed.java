@@ -15,7 +15,7 @@ public class CommentSeed extends Seed<Comment> {
 	
 	public CommentSeed() {
 		this.repository = new EclipseLinkRepository<Comment>(Comment.class);
-		this.list = new ArrayList<Comment>();
+		this.seed = new ArrayList<Comment>();
 	}
 
 	@Override
@@ -25,9 +25,9 @@ public class CommentSeed extends Seed<Comment> {
 		com1.setContent("Wurde bereits erledigt bei der ersten Kontrolle.");
 
 		
-		list.add(com1);
+		seed.add(com1);
 	
-		this.seeds.put("Comment", list);
+		Seed.seeds.put("Comment", seed);
 	}
 
 }

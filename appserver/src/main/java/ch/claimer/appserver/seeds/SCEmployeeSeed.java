@@ -1,5 +1,7 @@
 package ch.claimer.appserver.seeds;
 
+import java.util.ArrayList;
+
 import ch.claimer.appserver.repositories.eclipselink.EclipseLinkRepository;
 import ch.claimer.shared.models.SCEmployee;
 
@@ -11,7 +13,7 @@ public class SCEmployeeSeed extends Seed<SCEmployee> {
 	
 	public SCEmployeeSeed() {
 		this.repository = new EclipseLinkRepository<SCEmployee>(SCEmployee.class);
-		
+		this.seed = new ArrayList<SCEmployee>();
 	}
 
 	@Override
@@ -57,13 +59,13 @@ public class SCEmployeeSeed extends Seed<SCEmployee> {
 		seeds.get("Login").get(15);
 
 		
-		list.add(SCEmployee1);
-		list.add(SCEmployee2);
-		list.add(SCEmployee3);
-		list.add(SCEmployee4);
-		list.add(SCEmployee5);
+		seed.add(SCEmployee1);
+		seed.add(SCEmployee2);
+		seed.add(SCEmployee3);
+		seed.add(SCEmployee4);
+		seed.add(SCEmployee5);
 		
-		this.seeds.put("SCEmployee", list);
+		Seed.seeds.put("SCEmployee", seed);
 	}
 
 }
