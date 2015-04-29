@@ -8,7 +8,7 @@ public class ResponseHandlerService {
 	
 	protected final static String mediaType = MediaType.APPLICATION_JSON;
 	
-	public static Response success(String model) {
+	public static Response success(Object model) {
 		return Response.status(Status.OK).entity(model).type(mediaType).build();
 	}
 

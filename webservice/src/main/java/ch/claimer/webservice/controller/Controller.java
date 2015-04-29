@@ -46,7 +46,7 @@ public class Controller<T extends Model> {
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-		return ResponseHandlerService.success(converter.write(models));
+		return ResponseHandlerService.success(models);
 	}
 	
 	public Response showById(int id) {

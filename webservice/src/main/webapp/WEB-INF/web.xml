@@ -6,7 +6,7 @@
 	
 	<context-param>
 		<param-name>resteasy.resources</param-name>
-		<param-value>ch.claimer.webservice.routes.CategoryRoute, ch.claimer.webservice.routes.StateRoute</param-value>
+		<param-value>ch.claimer.webservice.routes.CategoryRoute, ch.claimer.webservice.routes.LoginRoute, ch.claimer.webservice.routes.StateRoute</param-value>
 	</context-param>
 
 	<context-param>

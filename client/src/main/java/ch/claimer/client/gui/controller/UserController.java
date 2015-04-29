@@ -6,6 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.WebTarget;
+
+import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
+import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
+
+import ch.claimer.client.proxy.LoginProxy;
 import ch.claimer.shared.models.GCEmployee;
 import ch.claimer.shared.models.Login;
 import ch.claimer.shared.models.Person;
@@ -111,13 +118,20 @@ public class UserController implements Initializable {
 	private void loadUserAddView(ActionEvent event) throws IOException {
 		Pane myPane = FXMLLoader.load(getClass().getResource("../view/UserAddView.fxml"));
 		mainContent.getChildren().clear();
-		mainContent.getChildren().setAll(myPane);
-		
+		mainContent.getChildren().setAll(myPane);		
 	}
 
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		
+
+		Client client = new ResteasyClientBuilder().build();
+	    WebTarget target = client.target("http://localhost:8080/webservice");
+	    ResteasyWebTarget rtarget = (ResteasyWebTarget)target;
+	
+	    LoginProxy login = rtarget.proxy(LoginProxy.class);
+	    System.out.println(login.getAll());
 		
 		
 	//Platzhalter-Daten generieren
