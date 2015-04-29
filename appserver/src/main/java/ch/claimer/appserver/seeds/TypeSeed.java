@@ -7,8 +7,8 @@ import ch.claimer.shared.models.Type;
 
 /**
  * 
- * 
- * @author Fabio Baviera / Raoul Ackermann
+ * @author Fabio Baviera
+ * @author Raoul Ackermann
  */
 
 public class TypeSeed extends Seed<Type> {

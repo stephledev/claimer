@@ -48,7 +48,8 @@ public class LoginSeed extends Seed<Login> {
 		Login log5 = new Login();
 		log1.setUsername("Michael_Lötscher");
 		log1.setPassword("michael01");
-		seeds.get("Role").get(4);
+		seeds.get("Role").get(0);
+		seeds.get("Role").get(2);
 		
 		Login log6 = new Login();
 		log2.setUsername("Momcilo_Bekcic");
