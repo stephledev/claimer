@@ -64,6 +64,8 @@ public class LoginSeed extends Seed<Login> {
 		list.add(log5);
 		list.add(log6);
 		list.add(log7);
+		
+		this.seeds.put("Login", list);
 	}
 
 }
