@@ -84,7 +84,7 @@ public class LoginSeed extends Seed<Login> {
 		seeds.get("Role").get(0);
 		seeds.get("Role").get(5);
 		
-		//SUC
+		//SUC Contact Manfred Schmid
 		Login log11 = new Login();
 		log11.setUsername("Manfred_Schmid");
 		log11.setPassword("mani01");
@@ -126,6 +126,33 @@ public class LoginSeed extends Seed<Login> {
 		seeds.get("Role").get(1);
 		seeds.get("Role").get(5);
 		
+		//SUC Contact Toni Fankhauser
+		Login log17 = new Login();
+		log17.setUsername("Toni_Fankhauser");
+		log17.setPassword("toni01");
+		seeds.get("Role").get(1);
+		seeds.get("Role").get(5);
+		
+		//SUC Contact Ueli Huber
+		Login log18 = new Login();
+		log18.setUsername("Ueli_Huber");
+		log18.setPassword("ueli01");
+		seeds.get("Role").get(1);
+		seeds.get("Role").get(5);
+
+		// SUC Contact Anna Rodel
+		Login log19 = new Login();
+		log19.setUsername("Anna_Rodel");
+		log19.setPassword("anna01");
+		seeds.get("Role").get(1);
+		seeds.get("Role").get(5);
+		
+		// SUC Contact Manfred Schmid
+		Login log20 = new Login();
+		log20.setUsername("Kurt_Häberli");
+		log20.setPassword("kurt01");
+		seeds.get("Role").get(1);
+		seeds.get("Role").get(5);
 		
 		list.add(log1);
 		list.add(log2);
@@ -143,6 +170,10 @@ public class LoginSeed extends Seed<Login> {
 		list.add(log14);
 		list.add(log15);
 		list.add(log16);
+		list.add(log17);
+		list.add(log18);
+		list.add(log19);
+		list.add(log20);
 		
 		this.seeds.put("Login", list);
 	}
