@@ -25,21 +25,25 @@ public class LoginSeed extends Seed<Login> {
 		log1.setUsername("Fabio_Baviera");
 		log1.setPassword("fabio01");
 		seeds.get("Role").get(0);
+		seeds.get("Role").get(2);
 		
 		Login log2 = new Login();
 		log2.setUsername("Raoul_Ackermann");
 		log2.setPassword("raoul01");
-		seeds.get("Role").get(1);
+		seeds.get("Role").get(0);
+		seeds.get("Role").get(2);
 		
 		Login log3 = new Login();
 		log1.setUsername("Stephan_Beeler");
 		log1.setPassword("stephan01");
+		seeds.get("Role").get(0);
 		seeds.get("Role").get(2);
 		
 		Login log4 = new Login();
 		log2.setUsername("Kevin_Stadelmann");
 		log2.setPassword("kevin01");
-		seeds.get("Role").get(3);
+		seeds.get("Role").get(0);
+		seeds.get("Role").get(2);
 		
 		Login log5 = new Login();
 		log1.setUsername("Michael_Lötscher");
@@ -49,12 +53,14 @@ public class LoginSeed extends Seed<Login> {
 		Login log6 = new Login();
 		log2.setUsername("Momcilo_Bekcic");
 		log2.setPassword("momo01");
-		seeds.get("Role").get(5);
+		seeds.get("Role").get(0);
+		seeds.get("Role").get(2);
 		
 		Login log7 = new Login();
 		log2.setUsername("Alexander_Hauck");
 		log2.setPassword("alex01");
-		seeds.get("Role").get(5);
+		seeds.get("Role").get(0);
+		seeds.get("Role").get(2);
 		
 		
 		list.add(log1);
