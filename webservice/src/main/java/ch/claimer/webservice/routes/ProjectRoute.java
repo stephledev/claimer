@@ -3,11 +3,15 @@ package ch.claimer.webservice.routes;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+
 
 
 
@@ -69,7 +73,7 @@ public class ProjectRoute {
 	 * @return Antwort vom Controller
 	 */
 	@GET
-	@RolesAllowed({"", ""})
+	@RolesAllowed({"editor", "intern"})
 	@Path("/project/category/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showByCategory(@PathParam("id") int id) {
@@ -120,6 +124,10 @@ public class ProjectRoute {
 		return controller.showByProperty("logEntry_id", id);
 	}
 	
+	/**
+	 * Projekt lesen
+	 * @return Antwort vom Controller
+	 */
 	@GET
 	@RolesAllowed({"admin", "intern"})
 	@Path("/project") 
@@ -127,6 +135,46 @@ public class ProjectRoute {
 	public Response showAll() {
 		return controller.showAll();
 	}
+	
+	/**
+	 * Projekt erstellen
+	 * @param id Identifizierer des Controllers um Angaben gemäss URL anzuzeigen
+	 * @return Antwort vom Controller
+	 */
+	@PUT
+	@RolesAllowed({"admin", "intern"})
+	@Path("/project/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response createById(@PathParam("id") int id) {	//Methodennamen überprüfen
+		return controller.showById(id);
+	}
+	
+	/**
+	 * Projekt aktualisieren
+	 * @param id Identifizierer des Controllers
+	 * @return Antwort vom Controller
+	 */
+	@POST
+	@RolesAllowed({"admin", "intern"})
+	@Path("/project/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response updateById(@PathParam("id") int id) {	//Methodennamen überprüfen
+		return controller.showById(id);
+	}
+	
+	/**
+	 * Projekt nach Bauleiter aktualisieren
+	 * @param id Identifizierer des Controllers
+	 * @return Antwort vom Controller
+	 */
+	@POST
+	@RolesAllowed({"editor", "intern"})
+	@Path("/project/supervisor/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response updateBySupervisor(@PathParam("id") int id) {	//Methodennamen überprüfen
+		return controller.showById(id);
+	}
+	
 	
 	
 	

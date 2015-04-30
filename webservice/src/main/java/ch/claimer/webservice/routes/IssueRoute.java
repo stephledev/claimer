@@ -3,12 +3,14 @@ package ch.claimer.webservice.routes;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
 
 
 
@@ -34,11 +36,36 @@ public class IssueRoute {
 	public IssueRoute() {
 		this.controller = new Controller<Issue>(Issue.class);
 	}
+	
+	/**
+	 * Mangel lesen
+	 * @return Antwort vom Controller
+	 */
+	@GET
+	@RolesAllowed({"intern", "admin"})
+	@Path("/issue") 
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response showAll() {
+		return controller.showAll();
+	}
+	
+	/**
+	 * Mangel lesen
+	 * @param id Identifizierer um Angaben gemäss URL anzuzeigen
+	 * @return Antwort vom Controller
+	 */
+	@GET
+	@RolesAllowed({"intern", "admin"})
+	@Path("/issue/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response showById(@PathParam("id") int id) {
+		return controller.showById(id);
+	}
 
 	/**
-	 * Benutzt den Controller um die Projekte zu lesen
+	 * Benutzt den Controller um die Mängel nach Projekten zu lesen
 	 * 
-	 * @param id-Projekt-Identifizierer um diese gemäss der URL anzuzeigen
+	 * @param id-Projekt-Identifizierer um Angaben gemäss der URL anzuzeigen
 	 * 
 	 * @return Antwort vom Controller
 	 */
@@ -51,7 +78,7 @@ public class IssueRoute {
 	}
 
 	/**
-	 * Benutzt den Controller um die Ansprechpersonen zu lesen
+	 * Benutzt den Controller um Mängel nach Ansprechpersonen zu lesen
 	 * 
 	 * @param id-Ansprechperson-Identifizierer um diese gemäss der URL anzuzeigen
 	 * 
@@ -82,18 +109,29 @@ public class IssueRoute {
 	}
 	
 	/**
-	 * Benutzt den Controller um die Projekte zu aktualisieren
+	 * Benutzt den Controller um die Mängel nach Projekten zu aktualisieren
 	 * 
 	 * @param id Projekt-Identifizierer um diese gemäss der URL anzuzeigen
 	 * 
 	 * @return Antwort vom Controller
 	 */
-	@PUT
+	@POST
+	@RolesAllowed({"editor","intern"})
 	@Path("/issue/project/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response updateByProject(@PathParam("id") int id) {
 		return controller.showByProperty("project_id", id);
 	
 	}
+	
+	@POST
+	@RolesAllowed({"admin","intern"})
+	@Path("/issue/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response updateById(@PathParam("id") int id) {		//Methodenname vllt. nicht optimal
+		return controller.showByProperty("id", id);
+	
+	}
+	
 	
 }
