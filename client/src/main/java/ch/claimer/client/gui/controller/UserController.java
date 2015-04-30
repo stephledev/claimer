@@ -129,7 +129,7 @@ public class UserController implements Initializable {
 		Client client = new ResteasyClientBuilder().build();
 	    WebTarget target = client.target("http://localhost:8080/webservice");
 	    ResteasyWebTarget rtarget = (ResteasyWebTarget)target;
-	
+	    
 	    LoginProxy loginProxy = rtarget.proxy(LoginProxy.class);
 	    ObjectMapper mapper = new ObjectMapper();
 	    List<Login> loginList = null;
@@ -139,7 +139,15 @@ public class UserController implements Initializable {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-	    System.out.println(loginList);
+
+		Login login = new Login();
+		
+	    for(int i = 0; i < loginList.size(); i++) {
+	    	
+	    	login = loginList.get(i);
+	    	
+	    	
+	    }
 		
 		
 	//Platzhalter-Daten generieren
