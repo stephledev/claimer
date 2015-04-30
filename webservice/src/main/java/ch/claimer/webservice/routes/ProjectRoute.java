@@ -120,4 +120,14 @@ public class ProjectRoute {
 		return controller.showByProperty("logEntry_id", id);
 	}
 	
+	@GET
+	@RolesAllowed({"admin", "intern"})
+	@Path("/project") 
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response show() {
+		return controller.showAll();
+	}
+	
+	
+	
 }
