@@ -119,10 +119,10 @@ public class ProjectMangleController {
 		
 		@FXML
 		private void addComment(ActionEvent event) throws IOException {
-			Pane myPane = FXMLLoader.load(getClass().getResource(
-					"../view/ProjectAddView.fxml"));
-			mainContent.getChildren().clear();
-			mainContent.getChildren().setAll(myPane);
+		
+		String comment = txt_addComment.getText();
+		Comment c1 = new Comment();
+		c1.setContent(comment);
 
 		}
 		

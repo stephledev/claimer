@@ -1,7 +1,9 @@
 package ch.claimer.client.gui.controller;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.GregorianCalendar;
+import java.util.ResourceBundle;
 
 import ch.claimer.shared.models.Issue;
 import ch.claimer.shared.models.Person;
@@ -11,6 +13,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -28,7 +31,11 @@ import javafx.scene.layout.Pane;
  * @version 1.1
  *
  */
-public class ProjectAddController {
+public class ProjectAddController implements Initializable {
+	
+	ObservableList<Project> data =
+			FXCollections.observableArrayList(
+			);
 
 	//Maincontent, hierhin werden die verschiedenen Views geladen
 			@FXML
@@ -143,6 +150,12 @@ public class ProjectAddController {
 				// Observable-List, welche die Daten beinhaltet, an die Tabelle übergeben
 				mangleTableView.setItems(data);
 
+			}
+
+			@Override
+			public void initialize(URL arg0, ResourceBundle arg1) {
+				// TODO Auto-generated method stub
+				
 			}
 			
 		}
