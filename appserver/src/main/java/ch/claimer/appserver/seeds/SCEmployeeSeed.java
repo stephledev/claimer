@@ -33,32 +33,32 @@ public class SCEmployeeSeed extends Seed<SCEmployee> {
 		SCEmployee2.setFirstname("Fritz");
 		SCEmployee2.setEmail("müller_schreiner@bluewin.ch");
 		SCEmployee2.setPhone("0416457865");
-		SCEmployee1.setSubcontractor((Subcontractor) seeds.get("Subcontractor").get(1));
-		SCEmployee1.setLogin((Login) seeds.get("Login").get(12));
+		SCEmployee2.setSubcontractor((Subcontractor) seeds.get("Subcontractor").get(1));
+		SCEmployee2.setLogin((Login) seeds.get("Login").get(12));
 		
 		SCEmployee SCEmployee3 = new SCEmployee();
 		SCEmployee3.setLastname("Fischer");
 		SCEmployee3.setFirstname("Bernhard");
 		SCEmployee3.setEmail("spenglerei_fischer@bluewin.ch");
 		SCEmployee3.setPhone("0443214657");
-		SCEmployee1.setSubcontractor((Subcontractor) seeds.get("Subcontractor").get(2));
-		SCEmployee1.setLogin((Login) seeds.get("Login").get(13));
+		SCEmployee3.setSubcontractor((Subcontractor) seeds.get("Subcontractor").get(2));
+		SCEmployee3.setLogin((Login) seeds.get("Login").get(13));
 	
 		SCEmployee SCEmployee4 = new SCEmployee();
 		SCEmployee4.setLastname("Gubler");
 		SCEmployee4.setFirstname("Robin");
 		SCEmployee4.setEmail("gubler@bluewin.ch");
 		SCEmployee4.setPhone("0433219324");
-		SCEmployee1.setSubcontractor((Subcontractor) seeds.get("Subcontractor").get(3));
-		SCEmployee1.setLogin((Login) seeds.get("Login").get(14));
+		SCEmployee4.setSubcontractor((Subcontractor) seeds.get("Subcontractor").get(3));
+		SCEmployee4.setLogin((Login) seeds.get("Login").get(14));
 		
 		SCEmployee SCEmployee5 = new SCEmployee();
 		SCEmployee5.setLastname("Santis");
 		SCEmployee5.setFirstname("Dennis");
 		SCEmployee5.setEmail("santis_sanitaer@hotmail.ch");
 		SCEmployee5.setPhone("0446754354");
-		SCEmployee1.setSubcontractor((Subcontractor) seeds.get("Subcontractor").get(4));
-		SCEmployee1.setLogin((Login) seeds.get("Login").get(15));
+		SCEmployee5.setSubcontractor((Subcontractor) seeds.get("Subcontractor").get(4));
+		SCEmployee5.setLogin((Login) seeds.get("Login").get(15));
 
 		
 		seed.add(SCEmployee1);
