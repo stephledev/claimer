@@ -68,92 +68,92 @@ public class LoginSeed extends Seed<Login> {
 		Login log8 = new Login();
 		log8.setUsername("Peter_Meier");
 		log8.setPassword("peter01");
-		log3.getRoles().add((Role) seeds.get("Role").get(0));
-		log3.getRoles().add((Role) seeds.get("Role").get(3));
+		log8.getRoles().add((Role) seeds.get("Role").get(0));
+		log8.getRoles().add((Role) seeds.get("Role").get(3));
 		
 		//SU
 		Login log9 = new Login();
 		log9.setUsername("Alfred_Fischer");
 		log9.setPassword("alf01");
-		log3.getRoles().add((Role) seeds.get("Role").get(1));
-		log3.getRoles().add((Role) seeds.get("Role").get(4));
+		log9.getRoles().add((Role) seeds.get("Role").get(1));
+		log9.getRoles().add((Role) seeds.get("Role").get(4));
 	
 		//GUB
 		Login log10 = new Login();
 		log10.setUsername("Sebastian_Müller");
 		log10.setPassword("sebi01");
-		log3.getRoles().add((Role) seeds.get("Role").get(0));
-		log3.getRoles().add((Role) seeds.get("Role").get(5));
+		log10.getRoles().add((Role) seeds.get("Role").get(0));
+		log10.getRoles().add((Role) seeds.get("Role").get(5));
 		
 		//SUC Contact Manfred Schmid
 		Login log11 = new Login();
 		log11.setUsername("Manfred_Schmid");
 		log11.setPassword("mani01");
-		log3.getRoles().add((Role) seeds.get("Role").get(1));
-		log3.getRoles().add((Role) seeds.get("Role").get(5));
+		log11.getRoles().add((Role) seeds.get("Role").get(1));
+		log11.getRoles().add((Role) seeds.get("Role").get(5));
 	
 		//Subcontractor Meier Maurer
 		Login log12 = new Login();
 		log12.setUsername("Michael_Meier");
 		log12.setPassword("michi02");
-		log3.getRoles().add((Role) seeds.get("Role").get(0));
-		log3.getRoles().add((Role) seeds.get("Role").get(2));
+		log12.getRoles().add((Role) seeds.get("Role").get(0));
+		log12.getRoles().add((Role) seeds.get("Role").get(2));
 
 		//Subcontractor Müller Schreiner
 		Login log13 = new Login();
 		log13.setUsername("Fritz_Mueller");
 		log13.setPassword("fritz01");
-		log3.getRoles().add((Role) seeds.get("Role").get(0));
-		log3.getRoles().add((Role) seeds.get("Role").get(3));
+		log13.getRoles().add((Role) seeds.get("Role").get(0));
+		log13.getRoles().add((Role) seeds.get("Role").get(3));
 	
 		//Subcontractor Fischer Spenglerei
 		Login log14 = new Login();
 		log14.setUsername("Bernhard_Fischer");
 		log14.setPassword("bern01");
-		log3.getRoles().add((Role) seeds.get("Role").get(1));
-		log3.getRoles().add((Role) seeds.get("Role").get(4));
+		log14.getRoles().add((Role) seeds.get("Role").get(1));
+		log14.getRoles().add((Role) seeds.get("Role").get(4));
 	
 		//Subcontractor Gubler Gibser
 		Login log15 = new Login();
 		log15.setUsername("Robin_Gubler");
 		log15.setPassword("robi01");
-		log3.getRoles().add((Role) seeds.get("Role").get(0));
-		log3.getRoles().add((Role) seeds.get("Role").get(5));
+		log15.getRoles().add((Role) seeds.get("Role").get(0));
+		log15.getRoles().add((Role) seeds.get("Role").get(5));
 		
 		//Subcontractor Santis Sanitär
 		Login log16 = new Login();
 		log16.setUsername("Dennis_Santis");
 		log16.setPassword("dennis01");
-		log3.getRoles().add((Role) seeds.get("Role").get(1));
-		log3.getRoles().add((Role) seeds.get("Role").get(5));
+		log16.getRoles().add((Role) seeds.get("Role").get(1));
+		log16.getRoles().add((Role) seeds.get("Role").get(5));
 		
 		//SUC Contact Toni Fankhauser
 		Login log17 = new Login();
 		log17.setUsername("Toni_Fankhauser");
 		log17.setPassword("toni01");
-		log3.getRoles().add((Role) seeds.get("Role").get(1));
-		log3.getRoles().add((Role) seeds.get("Role").get(5));
+		log17.getRoles().add((Role) seeds.get("Role").get(1));
+		log17.getRoles().add((Role) seeds.get("Role").get(5));
 		
 		//SUC Contact Ueli Huber
 		Login log18 = new Login();
 		log18.setUsername("Ueli_Huber");
 		log18.setPassword("ueli01");
-		log3.getRoles().add((Role) seeds.get("Role").get(1));
-		log3.getRoles().add((Role) seeds.get("Role").get(5));
+		log18.getRoles().add((Role) seeds.get("Role").get(1));
+		log18.getRoles().add((Role) seeds.get("Role").get(5));
 	
 		// SUC Contact Anna Rodel
 		Login log19 = new Login();
 		log19.setUsername("Anna_Rodel");
 		log19.setPassword("anna01");
-		log3.getRoles().add((Role) seeds.get("Role").get(1));
-		log3.getRoles().add((Role) seeds.get("Role").get(5));
+		log19.getRoles().add((Role) seeds.get("Role").get(1));
+		log19.getRoles().add((Role) seeds.get("Role").get(5));
 		
 		// SUC Contact Kurt Häberli
 		Login log20 = new Login();
 		log20.setUsername("Kurt_Häberli");
 		log20.setPassword("kurt01");
-		log3.getRoles().add((Role) seeds.get("Role").get(1));
-		log3.getRoles().add((Role) seeds.get("Role").get(5));
+		log20.getRoles().add((Role) seeds.get("Role").get(1));
+		log20.getRoles().add((Role) seeds.get("Role").get(5));
 	
 		seed.add(log1);
 		seed.add(log2);
