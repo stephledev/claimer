@@ -2,9 +2,20 @@ package ch.claimer.client.gui.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.WebTarget;
+
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
+import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
+import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
+
 import ch.claimer.client.gui.*;
+import ch.claimer.client.proxy.LoginProxy;
+import ch.claimer.shared.models.Login;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -52,31 +63,75 @@ public class LoginController extends Main implements Initializable {
 	@FXML
 	private Button button_anmelden;
 	
-
-	
 	@FXML
 	private void anmelden(ActionEvent event) {
 	
-	
+		
+		/*
+		//Eingegebenen Benutzernamen und Passwort auslesen
+		String passwort = psw.getText();
+		String username = txt_benutzer.getText();
+		
+		
+		//Überprüfen, ob Felder nicht leer
+		if(passwort.length() != 0 && username.length() != 0) {
 			
-		// Passwort und Benutzer werden geprüft
-		if (psw.getText().equals("") && txt_benutzer.getText().equals("")) {
-
+			//Logins aus Datenbank laden
+			Client client = new ResteasyClientBuilder().build();
+		    WebTarget target = client.target("http://localhost:8080/webservice");
+		    ResteasyWebTarget rtarget = (ResteasyWebTarget)target;
+		    
+		    LoginProxy loginProxy = rtarget.proxy(LoginProxy.class);
+		    ObjectMapper mapper = new ObjectMapper();
+		    List<Login> loginList = null;
 			try {
-				go(event);
-			} catch (IOException e) {
+				loginList = mapper.readValue(loginProxy.getAll(), new TypeReference<List<Login>>(){});
+			} catch (IOException e1) {
 				// TODO Auto-generated catch block
-				System.out.println("fail");
-				e.printStackTrace();
+				e1.printStackTrace();
 			}
-		}
-		// Passwort oder Benutzer falsch
-		else {
-			lbl_warnung.setText("Passwort oder Benutzername ist falsch!");
+
+			Login login = new Login();
+			
+			//Erhaltene List iterieren
+		    for(int i = 0; i < loginList.size(); i++) {
+		    	
+		    	login = loginList.get(i);
+		    	
+		    	if(login.getUsername().equals(username)) {
+		    		
+					try {
+						go(event);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						System.out.println("fail");
+						e.printStackTrace();
+					}
+		    		
+		    	} else {
+		    		System.out.println("Login nicht korrekt");
+		    		psw.setText("");
+		    	}
+		    	
+		    	login = null;
+		    		
+		    }
+			
+		} else {
+			lbl_warnung.setText("Bitte alle Felder ausfüllen!");
 		}
 	}
+	*/
 	
-	
+	try {
+		go(event);
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		System.out.println("fail");
+		e.printStackTrace();
+	}
+	}
+		
 	// verweist auf Stage aus der Klasse App.java
 	public void setPrevStage(Stage stage) {
 		this.prevStage = stage;

@@ -21,14 +21,15 @@
             <RowConstraints fillHeight="false" minHeight="10.0" prefHeight="30.0" valignment="TOP" vgrow="NEVER" />
         </rowConstraints>
          <children>
-            <Label text="Subunternehmen bearbeiten / erfassen" />
+            <Label text="Subunternehmen erfassen" />
             <GridPane GridPane.rowIndex="1">
               <columnConstraints>
                   <ColumnConstraints fillWidth="false" hgrow="NEVER" />
                   <ColumnConstraints hgrow="NEVER" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints fillWidth="false" hgrow="NEVER" minWidth="40.0" prefWidth="40.0" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints fillWidth="false" hgrow="NEVER" />
+                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
@@ -42,13 +43,13 @@
                   <Label text="Name:" />
                   <Label text="Adresse:" GridPane.rowIndex="2" />
                   <Label text="Telefon:" GridPane.columnIndex="4" />
-                  <TextField GridPane.columnIndex="5" />
+                  <TextField GridPane.columnIndex="6" />
                   <Label text="E-Mail:" GridPane.columnIndex="4" GridPane.rowIndex="2">
                      <GridPane.margin>
                         <Insets />
                      </GridPane.margin>
                   </Label>
-                  <TextField GridPane.columnIndex="5" GridPane.rowIndex="2" />
+                  <TextField GridPane.columnIndex="6" GridPane.rowIndex="2" />
                   <Label text="PLZ:" GridPane.rowIndex="4" />
                   <GridPane GridPane.columnIndex="2" GridPane.rowIndex="4">
                     <columnConstraints>
