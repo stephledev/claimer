@@ -26,9 +26,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -70,7 +68,7 @@ public class UserController implements Initializable {
 	private TableColumn<Person, String> colFunction;
 	
 	@FXML
-	private TableColumn colUsername;
+	private TableColumn<Person, String> colUsername;
 	
 	
 	/**
@@ -135,30 +133,48 @@ public class UserController implements Initializable {
 		
 		
 	//Platzhalter-Daten generieren
-	Role r1 = new Role();
-	r1.setId(1);
-	r1.setName("Projektleiter");
-	
-	List<Role> loginRoles = new ArrayList<Role>();
-	loginRoles.add(r1);
-	
-	Login l1 = new Login();
-	l1.setId(1);
-	l1.setPassword("12345");
-	l1.setUsername("ahauck");
-	l1.setRoles(loginRoles);
-	
-	GCEmployee p1 = new GCEmployee();
-	p1.setId(1);
-	p1.setEmail("alexander.hauck@stud.hslu.ch");
-	p1.setFirstname("Alexander");
-	p1.setLastname("Hauck");
-	
-	GCEmployee p2 = new GCEmployee();
-	p2.setEmail("momcilo.bekcic@stud.hslu.ch");
-	p2.setFirstname("Momcilo");
-	p2.setLastname("Bekcic");
-	p2.setLogin(l1);
+	    
+	    Role r1 = new Role();
+	    r1.setId(1);
+	    r1.setName("Projektleiter");
+	    
+	    
+	    Role r2 = new Role();
+		r2.setId(2);
+		r2.setName("GUI");
+		
+		List<Role> loginRoles = new ArrayList<Role>();
+		loginRoles.add(r1);
+		
+		List<Role> loginRoles2 = new ArrayList<Role>();
+		loginRoles2.add(r1);
+		loginRoles2.add(r2);
+		
+		Login l1 = new Login();
+		l1.setId(1);
+		l1.setPassword("12345");
+		l1.setUsername("ahauck");
+		l1.setRoles(loginRoles);
+		
+		Login l2 = new Login();
+		l2.setId(2);
+		l2.setPassword("33333");
+		l2.setUsername("mbekcic");
+		l2.setRoles(loginRoles2);
+		
+		GCEmployee p1 = new GCEmployee();
+		p1.setId(1);
+		p1.setEmail("alexander.hauck@stud.hslu.ch");
+		p1.setFirstname("Alexander");
+		p1.setLastname("Hauck");
+		p1.setLogin(l1);
+		
+		GCEmployee p2 = new GCEmployee();
+		p2.setEmail("momcilo.bekcic@stud.hslu.ch");
+		p2.setFirstname("Momcilo");
+		p2.setLastname("Bekcic");
+		p2.setLogin(l1);
+		p2.setLogin(l2);
 	
 	GCEmployee p3 = new GCEmployee();
 	p3.setEmail("stephan.beeler@stud.hslu.ch");
@@ -192,40 +208,31 @@ public class UserController implements Initializable {
 	colLastname.setCellValueFactory(new PropertyValueFactory<Person, String>("lastname"));
 	colName.setCellValueFactory(new PropertyValueFactory<Person, String>("firstname"));
 	colEmail.setCellValueFactory(new PropertyValueFactory<Person, String>("email"));
-	colFunction.setCellValueFactory(new PropertyValueFactory<Person, String>("login"));
-	
-	//TableColumn<Person,String> firstNameCol = new TableColumn<Person,String>("First Name");
-	//colUsername.setCellValueFactory(new PropertyValueFactory<Person, Login>("username"));
 
-/*	
-	colUsername.setCellValueFactory(new Callback<CellDataFeatures<Person, String>, ObservableValue<String>>() {
-
-		@Override
-		public ObservableValue<String> call(
-				CellDataFeatures<Person, String> data) {
-			return new SimpleStringProperty(data.getValue().getLogin().getUsername());
+	colFunction.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Person, String>, ObservableValue<String>>() {
+		public ObservableValue<String> call(TableColumn.CellDataFeatures<Person, String> data) {
+			try {
+				String allRoles = "";
+				for(int i = 0; i < data.getValue().getLogin().getRoles().size(); i++) {
+					allRoles += data.getValue().getLogin().getRoles().get(i).getName() + ", ";
+				}
+				return new SimpleStringProperty(allRoles);
+			} catch(NullPointerException e) {
+				return null;
+			}
 		}
 	  });
-	 
 	
-	/*colUsername.setCellValueFactory(new PropertyValueFactory<Login, String>"username");
-	colUsername.setCellFactory(new Callback<TableColum<Person, Login>, TableCell<Person, Login>>() {
-		
-		public TableCell<Person, Login> call(TableColum<Person, Login> param) {
-				TableCell<Person, Login> cellUsername = new TableCell<Person, Login>() {
-					protected void updateItem(Login item, booleam empty) {
-						if(item != null) {
-							Label cityLabel = new Label(item.getUsername());
-							setGraphic(cityLabel)
-						}
-					}
-				}
-		};
-		
-		
-	});*/
-	//colLastname.setSortType(dascending);
-
+	colUsername.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Person, String>, ObservableValue<String>>() {
+		public ObservableValue<String> call(TableColumn.CellDataFeatures<Person, String> data) {
+			try {
+				return new SimpleStringProperty(data.getValue().getLogin().getUsername());
+			} catch(NullPointerException e) {
+				return null;
+			}
+		}
+	  });
+	
 	//Observable-List, welche die Daten beinhaltet, an die Tabelle übergeben
 	userTableView.setItems(data);
 		
