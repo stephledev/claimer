@@ -15,30 +15,30 @@ public interface ProjectProxy {
 	@GET
 	@Path("/project/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	String getProjectById();
+	String getById();
 	
 	@GET
 	@Path("/project/supervisor/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	String getProjectSupervisorById();
+	String getBySupervisor();
 	
 	@GET
 	@Path("/project/category/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	String getProjectCategoryById();
+	String getByCategory();
 	
 	@GET
 	@Path("/project/state/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	String getProjectStateById();
+	String getByState();
 	
 	@GET
 	@Path("/project/type/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	String getProjectTypeById();
+	String getByType();
 	
 	@GET
 	@Path("/project/logEntry/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	String getProjectLogEntryById();
+	String getLogEntry();
 }

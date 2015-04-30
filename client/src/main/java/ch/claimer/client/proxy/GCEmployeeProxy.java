@@ -11,15 +11,16 @@ import javax.ws.rs.core.MediaType;
  *
  */
 
-public interface CommentProxy {
+public interface GCEmployeeProxy {
 	@GET
-	@Path("/comment/supervisor/{id}")
+	@Path("/gcemployee")
 	@Produces(MediaType.APPLICATION_JSON)
-	String getBySupervisor();
+	String getGcemployeeAll();
 	
 	@GET
-	@Path("/comment/contact/{id}")
+	@Path("/gcemployee/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	String getByContact();
+	String getGcemployee();
 	
+
 }

@@ -15,5 +15,5 @@ public interface ContactProxy {
 	@GET
 	@Path("/contact/subcontractor/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	String getSubcontractorById();
+	String getBySubcontractor();
 }

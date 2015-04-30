@@ -20,6 +20,6 @@ public interface CategoryProxy {
 	@GET
 	@Path("category/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	String getById();
+	String getCategory();
 	
 }

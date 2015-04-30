@@ -15,12 +15,12 @@ public interface StateProxy {
 	@GET
 	@Path("/state")
 	@Produces(MediaType.APPLICATION_JSON)
-	String getStateAll();
+	String getAll();
 	
 	@GET
 	@Path("/state/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	String getStateById();
+	String getState();
 	
 
 }
