@@ -1,5 +1,6 @@
 package ch.claimer.webservice.routes;
 
+import javax.annotation.security.PermitAll;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -29,6 +30,7 @@ public class StateRoute {
 	 * @return Antwort vom Controller
 	 */
 	@GET
+	@PermitAll
 	@Path("/state")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showAll() {
@@ -41,6 +43,7 @@ public class StateRoute {
 	 * @return Antwort vom Controller
 	 */
 	@GET
+	@PermitAll
 	@Path("/state/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showById(@PathParam("id") int id) {
