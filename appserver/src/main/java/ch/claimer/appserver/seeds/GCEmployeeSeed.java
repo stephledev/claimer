@@ -24,14 +24,14 @@ public class GCEmployeeSeed extends Seed<GCEmployee> {
 		GCEmployee1.setFirstname("Fabio");
 		GCEmployee1.setEmail("fabio.baviera@stud.hslu.ch");
 		GCEmployee1.setPhone("041 111 11 11");
-		Seed.seeds.get("Login").get(0);
+		GCEmployee1.setLogin((Login) Seed.seeds.get("Login").get(0));
 		
 		GCEmployee GCEmployee2 = new GCEmployee();
 		GCEmployee2.setLastname("Ackermann");
 		GCEmployee2.setFirstname("Raoul");
 		GCEmployee2.setEmail("raoul.ackermann@stud.hslu.ch");
 		GCEmployee2.setPhone("0416457865");
-		Seed.seeds.get("Login").get(1);
+		GCEmployee2.setLogin((Login) Seed.seeds.get("Login").get(1));
 		
 		GCEmployee GCEmployee3 = new GCEmployee();
 		GCEmployee3.setLastname("Beeler");
@@ -45,28 +45,28 @@ public class GCEmployeeSeed extends Seed<GCEmployee> {
 		GCEmployee4.setFirstname("Kevin");
 		GCEmployee4.setEmail("kevin.stadelmann@stud.hslu.ch");
 		GCEmployee4.setPhone("0433219324");
-		Seed.seeds.get("Login").get(3);
+		GCEmployee4.setLogin((Login) Seed.seeds.get("Login").get(3));
 		
 		GCEmployee GCEmployee5 = new GCEmployee();
 		GCEmployee5.setLastname("Lötscher");
 		GCEmployee5.setFirstname("Michael");
 		GCEmployee5.setEmail("michael.loetscher@stud.hslu.ch");
 		GCEmployee5.setPhone("0446754354");
-		Seed.seeds.get("Login").get(4);
+		GCEmployee5.setLogin((Login) Seed.seeds.get("Login").get(4));
 		
 		GCEmployee GCEmployee6 = new GCEmployee();
 		GCEmployee6.setLastname("Bekcic");
 		GCEmployee6.setFirstname("Momcilo");
 		GCEmployee6.setEmail("momcilo.bekcic@stud.hslu.ch");
 		GCEmployee6.setPhone("0446754354");
-		Seed.seeds.get("Login").get(5);
+		GCEmployee6.setLogin((Login) Seed.seeds.get("Login").get(5));
 		
 		GCEmployee GCEmployee7 = new GCEmployee();
 		GCEmployee7.setLastname("Hauck");
 		GCEmployee7.setFirstname("Alexander");
 		GCEmployee7.setEmail("alexander.hauck@stud.hslu.ch");
 		GCEmployee7.setPhone("0446754354");
-		Seed.seeds.get("Login").get(6);
+		GCEmployee7.setLogin((Login) Seed.seeds.get("Login").get(6));
 		
 		seed.add(GCEmployee1);
 		seed.add(GCEmployee2);

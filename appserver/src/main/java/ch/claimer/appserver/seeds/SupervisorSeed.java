@@ -3,6 +3,7 @@ package ch.claimer.appserver.seeds;
 import java.util.ArrayList;
 
 import ch.claimer.appserver.repositories.eclipselink.EclipseLinkRepository;
+import ch.claimer.shared.models.Login;
 import ch.claimer.shared.models.Supervisor;
 
 /** 
@@ -23,7 +24,7 @@ public class SupervisorSeed extends Seed<Supervisor> {
 		Supervisor1.setFirstname("Sebastian");
 		Supervisor1.setEmail("sebastian.mueller@bluewin.ch.ch");
 		Supervisor1.setPhone("041 111 11 11");
-		seeds.get("Login").get(9);
+		Supervisor1.setLogin((Login) seeds.get("Login").get(9));
 
 		seed.add(Supervisor1);
 			
