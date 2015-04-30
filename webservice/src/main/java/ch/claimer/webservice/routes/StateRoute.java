@@ -31,7 +31,7 @@ public class StateRoute {
 	@GET
 	@Path("/state")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response show() {
+	public Response showAll() {
 		return controller.showAll();
 	}
 	

@@ -40,7 +40,7 @@ public class SCEmployeeRoute {
 	@RolesAllowed({"intern", "admin"})
 	@Path("/scemployee") 
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response show() {
+	public Response showAll() {
 		return controller.showAll();
 	}
 	

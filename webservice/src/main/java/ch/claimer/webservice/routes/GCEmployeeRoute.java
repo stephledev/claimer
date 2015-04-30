@@ -37,7 +37,7 @@ public class GCEmployeeRoute {
 	@RolesAllowed({"superadmin", "intern"})
 	@Path("/gcemployee")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response show() {
+	public Response showAll() {
 		return controller.showAll();
 	}
 	

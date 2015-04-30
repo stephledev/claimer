@@ -30,7 +30,7 @@ public class CategoryRoute {
 	@RolesAllowed({"intern", "admin"})
 	@Path("/category") 
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response show() {
+	public Response showAll() {
 		return controller.showAll();
 	}
 	

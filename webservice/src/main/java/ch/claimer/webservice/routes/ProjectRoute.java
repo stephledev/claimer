@@ -124,7 +124,7 @@ public class ProjectRoute {
 	@RolesAllowed({"admin", "intern"})
 	@Path("/project") 
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response show() {
+	public Response showAll() {
 		return controller.showAll();
 	}
 	

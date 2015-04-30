@@ -42,7 +42,7 @@ public class LoginRoute {
 	@PermitAll
 	@Path("/login") 
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response show(@Context HttpServletRequest request) {
+	public Response showAll(@Context HttpServletRequest request) {
 		return controller.showAll();
 	}
 	

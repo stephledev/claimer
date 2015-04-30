@@ -36,7 +36,7 @@ public class SubcontractorRoute {
 	@PermitAll
 	@Path("/subcontractor") 
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response show() {
+	public Response showAll() {
 		return controller.showAll();
 	}
 	
