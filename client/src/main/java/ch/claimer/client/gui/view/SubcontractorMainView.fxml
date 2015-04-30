@@ -32,7 +32,7 @@
                   <TextField promptText="Suche..." GridPane.columnIndex="1" />
                </children>
             </GridPane>
-            <TableView fx:id="subconstractorTableView" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
+            <TableView fx:id="subcontractorTableView" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
               <columns>
                 <TableColumn fx:id="colName" prefWidth="75.0" text="Firma" />
                 <TableColumn fx:id="coltaetigkeit" prefWidth="75.0" text="Tätigkeit" />

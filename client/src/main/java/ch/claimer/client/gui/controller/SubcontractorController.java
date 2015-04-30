@@ -110,6 +110,8 @@ public class SubcontractorController {
 		// Daten zu ObservableList hinzufügen
 		data.addAll(c1,c2);
 		
+		System.out.println(c1);
+		
 		//Spalten-Values definieren (müssen den Parameter des Company-Objekts entsprechen)
 		colName.setCellValueFactory(new PropertyValueFactory<Company, String>("name"));
 		colPhone.setCellValueFactory(new PropertyValueFactory<Company, String>("phone"));
