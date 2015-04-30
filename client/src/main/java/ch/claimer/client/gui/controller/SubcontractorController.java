@@ -1,6 +1,7 @@
 package ch.claimer.client.gui.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.client.Client;
@@ -16,6 +17,8 @@ import ch.claimer.client.proxy.SubcontractorProxy;
 import ch.claimer.shared.models.Company;
 import ch.claimer.shared.models.Login;
 import ch.claimer.shared.models.Subcontractor;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -23,6 +26,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -36,16 +40,17 @@ import javafx.scene.layout.Pane;
 
 public class SubcontractorController {
 	
-	ObservableList<Company> data =
-			FXCollections.observableArrayList(
-			);
-	
-	//Maincontent, hierhin werden die verschiedenen Views geladen
-	@FXML
-	private TableView<Company> subcontractorTableView;
+	ObservableList<Company> data = FXCollections.observableArrayList(); //Beinhaltet alle Subunternehmen bei der Initialisation
+	ObservableList<Company> filteredData = FXCollections.observableArrayList(); //Contains filtered Data (search-function...)
 	
 	@FXML
 	private Pane mainContent;
+	
+	@FXML
+	private TextField txtSearch;
+	
+	@FXML
+	private TableView<Company> subcontractorTableView;
 	
 	@FXML
 	private TableColumn<Company, String> colName;
@@ -99,10 +104,13 @@ public class SubcontractorController {
         }
 	}
 	
+	
+	/**
+	 * Initialisiert den Subunternehmen-View. Holt automatisch alle Daten aus der Datenbank und befüllt den TableView damit.
+	 */
 	public void initialize() {
 		
-		
-		////Subunternehmen aus Datenbank laden
+		//Subunternehmen aus Datenbank laden
 		Client client = new ResteasyClientBuilder().build();
 	    WebTarget target = client.target("http://localhost:8080/webservice");
 	    ResteasyWebTarget rtarget = (ResteasyWebTarget)target;
@@ -117,10 +125,13 @@ public class SubcontractorController {
 			e1.printStackTrace();
 		}
 		
+		
+		//Subunternhemen der ObservableList zuweisen
 		Subcontractor subcontractorFromDB = new Subcontractor();
 		for(int i=0; i<subcontractorList.size(); i++) {
 			subcontractorFromDB = subcontractorList.get(i);
 			data.add(subcontractorFromDB);
+			filteredData.add(subcontractorFromDB);
 			subcontractorFromDB = null;
 		}
 		
@@ -133,8 +144,56 @@ public class SubcontractorController {
 		colZip.setCellValueFactory(new PropertyValueFactory<Company, String>("zip"));
 
 		//Observable-List, welche die Daten beinhaltet, an die Tabelle übergeben
-		subcontractorTableView.setItems(data);
+		subcontractorTableView.setItems(filteredData);
+		
+		//Listener für Änderungen im Suchenfeld
+		txtSearch.textProperty().addListener(new ChangeListener<String>() {
+
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				// TODO Auto-generated method stub
+				updateFilteredData();				
+			}
+			
+		});
+	}
+	
+	//Observable-List mit den gefilterten Daten aktualisieren
+	public void updateFilteredData() {
+		filteredData.clear();
+
+		for(Company p : data) {
+			if(matchesFilter(p)) {
+				filteredData.add(p);
+			}
+		}
+		
+		reaplyTableSortOrder();
+	}
+	
+	//Überprüfen, ob Suchbegriff mit Daten übereinstimmt
+	private boolean matchesFilter(Company p) {
+		String filterString = txtSearch.getText();
+
+		if(filterString == null || filterString.isEmpty()) {
+			//No filter --> add all
+			return true;
+		}
+		
+		String lowerCaseFilterString = filterString.toLowerCase();
+		
+		if(p.getName().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
+			return true;
+		}
+		
+		return false;
 		
 	}
+	
+	private void reaplyTableSortOrder() {
+		ArrayList<TableColumn<Company, ?>> sortOrder = new ArrayList<>(subcontractorTableView.getSortOrder());
+		subcontractorTableView.getSortOrder().clear();
+		subcontractorTableView.getSortOrder().addAll(sortOrder);
+	}
+	
 	
 }
