@@ -54,6 +54,8 @@ public class IssueSeed extends Seed<Issue> {
 		iss3.setDescription("Fassade auf der Nordseite weisst Schäden auf.");
 		iss3.setCreated(new GregorianCalendar());
 		iss3.setSolved(new GregorianCalendar());
+		iss3.getLogEntries().add((LogEntry)seeds.get("LogEntry").get(3));
+		iss3.getComments().add((Comment)seeds.get("Comment").get(1));
 		iss3.setProject((Project)seeds.get("Project").get(1));
 		iss3.setState((State)seeds.get("State").get(4));
 		iss3.setSubcontractor((Subcontractor) seeds.get("Subcontractor").get(2));

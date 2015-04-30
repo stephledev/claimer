@@ -47,7 +47,7 @@ public class ProjectSeed extends Seed<Project> {
 		p2.setPlace("Aarau");
 		p2.setStart(new GregorianCalendar());
 		p2.setEnd(new GregorianCalendar());
-		p2.setSupervisor((Supervisor)seeds.get("Supervisor").get(0));
+		p2.setSupervisor((Supervisor)seeds.get("Supervisor").get(1));
 		p2.getContacts().add((Contact)seeds.get("Contact").get(3));
 		p2.setCategory((Category)seeds.get("Category").get(1));
 		p2.setType((Type)seeds.get("Type").get(1));

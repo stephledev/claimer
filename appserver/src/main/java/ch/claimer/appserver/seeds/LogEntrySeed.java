@@ -32,12 +32,18 @@ public class LogEntrySeed extends Seed<LogEntry> {
 		
 		LogEntry log3 = new LogEntry();
 		log3.setDate(new GregorianCalendar());
-		log3.setDescription("Mangel wurden erfasst");
+		log3.setDescription("Mangel wurde erfasst");
 		
+		LogEntry log4 = new LogEntry();
+		log4.setDate(new GregorianCalendar());
+		log4.setDescription("Mangel wurde geändert.");
 		
 		seed.add(log1);
 		seed.add(log2);
 		seed.add(log3);
+		seed.add(log4);
+	
+		
 		Seed.seeds.put("LogEntry", seed);
 	}
 
