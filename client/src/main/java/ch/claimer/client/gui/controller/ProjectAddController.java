@@ -65,6 +65,9 @@ public class ProjectAddController {
 			private ComboBox<?> combo_supervisor;
 			
 			@FXML
+			private ComboBox<?> combo_status;
+			
+			@FXML
 			private ComboBox<?> combo_principal;
 			
 			@FXML

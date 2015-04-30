@@ -30,7 +30,7 @@ public class RootLayoutController {
 	//Zur Home-Ansicht wechseln (mainView.xml)
 	@FXML
 	private void loadHomeView(ActionEvent event) throws IOException {
-		Pane myPane = FXMLLoader.load(getClass().getResource("../view/homeView.fxml"));
+		Pane myPane = FXMLLoader.load(getClass().getResource("../view/HomeView.fxml"));
 		mainContent.getChildren().clear();
 		mainContent.getChildren().setAll(myPane);
 		
