@@ -56,4 +56,16 @@ public class SCEmployeeRoute {
 	public Response showById(@PathParam("id") int id) {
 		return controller.showById(id);
 	}
+	
+	/**
+	 * 
+	 * 
+	 * @return Antwort vom "controller"
+	 */
+	@GET
+	@Path("/scemployee/subcontractor/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response showBySubcontractor(@PathParam("id") int id) {
+		return controller.showByProperty("person_id", id);
+	}
 }
