@@ -10,4 +10,5 @@ javafx {
 dependencies {
     compile project(':shared')
     compile 'org.jboss.resteasy:resteasy-client:3.0.5.Final'
+    compile 'org.codehaus.jackson:jackson-jaxrs:1.9.13'
 }

@@ -9,6 +9,8 @@ import java.util.ResourceBundle;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
@@ -128,8 +130,16 @@ public class UserController implements Initializable {
 	    WebTarget target = client.target("http://localhost:8080/webservice");
 	    ResteasyWebTarget rtarget = (ResteasyWebTarget)target;
 	
-	    LoginProxy login = rtarget.proxy(LoginProxy.class);
-	    System.out.println(login.getAll());
+	    LoginProxy loginProxy = rtarget.proxy(LoginProxy.class);
+	    ObjectMapper mapper = new ObjectMapper();
+	    List<Login> loginList = null;
+		try {
+			loginList = mapper.readValue(loginProxy.getAll(), new TypeReference<List<Login>>(){});
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	    System.out.println(loginList);
 		
 		
 	//Platzhalter-Daten generieren
