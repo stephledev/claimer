@@ -2,7 +2,6 @@ package ch.claimer.client.gui.controller;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -14,11 +13,13 @@ import org.codehaus.jackson.type.TypeReference;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
-import ch.claimer.client.proxy.LoginProxy;
+import ch.claimer.client.proxy.GCEmployeeProxy;
+import ch.claimer.client.proxy.SCEmployeeProxy;
+import ch.claimer.client.proxy.SupervisorProxy;
 import ch.claimer.shared.models.GCEmployee;
-import ch.claimer.shared.models.Login;
 import ch.claimer.shared.models.Person;
-import ch.claimer.shared.models.Role;
+import ch.claimer.shared.models.SCEmployee;
+import ch.claimer.shared.models.Supervisor;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -126,107 +127,81 @@ public class UserController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		
 
+		//Alle Personen aus der DB holen
 		Client client = new ResteasyClientBuilder().build();
 	    WebTarget target = client.target("http://localhost:8080/webservice");
 	    ResteasyWebTarget rtarget = (ResteasyWebTarget)target;
 	    
-	    LoginProxy loginProxy = rtarget.proxy(LoginProxy.class);
 	    ObjectMapper mapper = new ObjectMapper();
-	    List<Login> loginList = null;
-		try {
-			loginList = mapper.readValue(loginProxy.getAll(), new TypeReference<List<Login>>(){});
+	    List<Person> personsToShow = null;
+		
+	    
+	    //GCEMployee
+	    Person gcEmployee = new GCEmployee();
+	    GCEmployeeProxy gceProxy = rtarget.proxy(GCEmployeeProxy.class);
+	    
+	    try {
+			personsToShow = mapper.readValue(gceProxy.getGcemployeeAll(), new TypeReference<List<GCEmployee>>(){});
+			
+			for(int i = 0; i < personsToShow.size(); i++) {
+			    	
+			    	gcEmployee = personsToShow.get(i);
+			    	data.add(gcEmployee);
+			    	gcEmployee = null;
+			    	
+			}
+			
+			personsToShow = null;
+			
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-
-		Login login = new Login();
-		
-	    for(int i = 0; i < loginList.size(); i++) {
+	    
+	    //SCEmployee
+	    Person scEmployee = new SCEmployee();
+	    SCEmployeeProxy sceProxy = rtarget.proxy(SCEmployeeProxy.class);
+	    
+	    try {
+	    	personsToShow = mapper.readValue(sceProxy.getAll(), new TypeReference<List<SCEmployee>>(){});
 	    	
-	    	login = loginList.get(i);
+	    	for(int i = 0; i < personsToShow.size(); i++) {
+	    		scEmployee = personsToShow.get(i);
+	    		data.add(scEmployee);
+	    		scEmployee = null;
+	    	}
 	    	
-	    	
+	    } catch (IOException e1) {
+	    	e1.printStackTrace();
 	    }
-		
-		
-	//Platzhalter-Daten generieren
 	    
-	    Role r1 = new Role();
-	    r1.setId(1);
-	    r1.setName("Projektleiter");
+	    personsToShow = null;
 	    
+	    //Supervisor
+	    Person supervisor = new Supervisor();
+	    SupervisorProxy svProxy = rtarget.proxy(SupervisorProxy.class);
 	    
-	    Role r2 = new Role();
-		r2.setId(2);
-		r2.setName("GUI");
-		
-		List<Role> loginRoles = new ArrayList<Role>();
-		loginRoles.add(r1);
-		
-		List<Role> loginRoles2 = new ArrayList<Role>();
-		loginRoles2.add(r1);
-		loginRoles2.add(r2);
-		
-		Login l1 = new Login();
-		l1.setId(1);
-		l1.setPassword("12345");
-		l1.setUsername("ahauck");
-		l1.setRoles(loginRoles);
-		
-		Login l2 = new Login();
-		l2.setId(2);
-		l2.setPassword("33333");
-		l2.setUsername("mbekcic");
-		l2.setRoles(loginRoles2);
-		
-		GCEmployee p1 = new GCEmployee();
-		p1.setId(1);
-		p1.setEmail("alexander.hauck@stud.hslu.ch");
-		p1.setFirstname("Alexander");
-		p1.setLastname("Hauck");
-		p1.setLogin(l1);
-		
-		GCEmployee p2 = new GCEmployee();
-		p2.setEmail("momcilo.bekcic@stud.hslu.ch");
-		p2.setFirstname("Momcilo");
-		p2.setLastname("Bekcic");
-		p2.setLogin(l1);
-		p2.setLogin(l2);
-	
-	GCEmployee p3 = new GCEmployee();
-	p3.setEmail("stephan.beeler@stud.hslu.ch");
-	p3.setFirstname("Stephan");
-	p3.setLastname("Beeler");
-	
-	GCEmployee p4 = new GCEmployee();
-	p4.setEmail("fabio.baviera@stud.hslu.ch");
-	p4.setFirstname("Fabio");
-	p4.setLastname("Baviera");
+	    try {
+	    	personsToShow = mapper.readValue(svProxy.getSupervisorAll(), new TypeReference<List<Supervisor>>(){});
+	    	
+	    	for(int i = 0; i < personsToShow.size(); i++) {
+	    		supervisor = personsToShow.get(i);
+	    		data.add(supervisor);
+	    		supervisor = null;
+	    	}
+	    } catch (IOException e1) {
+	    	e1.printStackTrace();
+	    }
+	    
+	    personsToShow = null;
 
-	GCEmployee p5 = new GCEmployee();
-	p5.setEmail("michael.loetscher@stud.hslu.ch");
-	p5.setFirstname("Michael");
-	p5.setLastname("Lötscher");
-
-	GCEmployee p6 = new GCEmployee();
-	p6.setEmail("raoul.ackermann@stud.hslu.ch");
-	p6.setFirstname("Raoul");
-	p6.setLastname("Ackermann");
-
-	GCEmployee p7 = new GCEmployee();
-	p7.setEmail("kevin.stadelmann@stud.hslu.ch");
-	p7.setFirstname("Kevin");
-	p7.setLastname("Stadelmann");
-	
-	//Daten zu Observable-List hinzufügen
-	data.addAll(p1, p2, p3, p4, p5, p6, p7);
 	
 	//Spalten-Values definieren (müssen den Parameter des Personen-Objekts entsprechen)
 	colLastname.setCellValueFactory(new PropertyValueFactory<Person, String>("lastname"));
 	colName.setCellValueFactory(new PropertyValueFactory<Person, String>("firstname"));
 	colEmail.setCellValueFactory(new PropertyValueFactory<Person, String>("email"));
 
+	
 	colFunction.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Person, String>, ObservableValue<String>>() {
 		public ObservableValue<String> call(TableColumn.CellDataFeatures<Person, String> data) {
 			try {
