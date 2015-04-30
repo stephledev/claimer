@@ -1,8 +1,20 @@
 package ch.claimer.client.gui.controller;
 
 import java.io.IOException;
+import java.util.List;
 
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.WebTarget;
+
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
+import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
+import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
+
+import ch.claimer.client.proxy.LoginProxy;
+import ch.claimer.client.proxy.SubcontractorProxy;
 import ch.claimer.shared.models.Company;
+import ch.claimer.shared.models.Login;
 import ch.claimer.shared.models.Subcontractor;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -38,8 +50,8 @@ public class SubcontractorController {
 	@FXML
 	private TableColumn<Company, String> colName;
 	
-	// @FXML
-	//private TableColumn<Company, String> colTaetigkeit;
+	@FXML
+	private TableColumn<Company, String> colZip;
 	
 	@FXML
 	private TableColumn<Company, String> colPlace;
@@ -77,12 +89,10 @@ public class SubcontractorController {
         
         //Wenn Doppelklick auf Person
         if(t.getClickCount() == 2) {
-               //Angeklickte Person laden
+               //Angeklickte Firma laden
                Company subcontractor = subcontractorTableView.getSelectionModel().getSelectedItem();
             		   
                Pane myPane = FXMLLoader.load(getClass().getResource("../view/SubcontractorAddView.fxml"));
-  
-               
                mainContent.getChildren().clear();
                mainContent.getChildren().setAll(myPane);     
         
@@ -92,31 +102,35 @@ public class SubcontractorController {
 	public void initialize() {
 		
 		
-		// Daten für Tabelle definieren
-		Company c1 = new Subcontractor();
-		c1.setId(1);
-		c1.setName("Kevin's AG");
-		c1.setPhone("0800 666 666 666");
-		c1.setPlace("Root");
-		c1.setEmail("kevin.stadelmann@porntube.com");
+		////Subunternehmen aus Datenbank laden
+		Client client = new ResteasyClientBuilder().build();
+	    WebTarget target = client.target("http://localhost:8080/webservice");
+	    ResteasyWebTarget rtarget = (ResteasyWebTarget)target;
+	    
+	    SubcontractorProxy subcontractorProxy = rtarget.proxy(SubcontractorProxy.class);
+	    ObjectMapper mapper = new ObjectMapper();
+	    List<Subcontractor> subcontractorList = null;
+		try {
+			subcontractorList = mapper.readValue(subcontractorProxy.getAll(), new TypeReference<List<Subcontractor>>(){});
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
-		Company c2 = new Subcontractor();
-		c2.setId(1);
-		c2.setName("batista");
-		c2.setPhone("123 666 666 666");
-		c2.setPlace("Lucerna");
-		c2.setEmail("bastiaaahatkeineemail!");
+		Subcontractor subcontractorFromDB = new Subcontractor();
+		for(int i=0; i<subcontractorList.size(); i++) {
+			subcontractorFromDB = subcontractorList.get(i);
+			data.add(subcontractorFromDB);
+			subcontractorFromDB = null;
+		}
 		
-		// Daten zu ObservableList hinzufügen
-		data.addAll(c1,c2);
-		
-		System.out.println(c1);
 		
 		//Spalten-Values definieren (müssen den Parameter des Company-Objekts entsprechen)
 		colName.setCellValueFactory(new PropertyValueFactory<Company, String>("name"));
 		colPhone.setCellValueFactory(new PropertyValueFactory<Company, String>("phone"));
 		colEmail.setCellValueFactory(new PropertyValueFactory<Company, String>("email"));
 		colPlace.setCellValueFactory(new PropertyValueFactory<Company, String>("place"));
+		colZip.setCellValueFactory(new PropertyValueFactory<Company, String>("zip"));
 
 		//Observable-List, welche die Daten beinhaltet, an die Tabelle übergeben
 		subcontractorTableView.setItems(data);

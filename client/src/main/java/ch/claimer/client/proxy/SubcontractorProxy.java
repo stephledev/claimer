@@ -13,7 +13,7 @@ import javax.ws.rs.core.MediaType;
 
 public interface SubcontractorProxy {
 	@GET
-	@Path("/subcontractor")
+	@Path("subcontractor")
 	@Produces(MediaType.APPLICATION_JSON)
 	String getAll();
 	
