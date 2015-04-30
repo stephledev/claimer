@@ -1,6 +1,7 @@
 package ch.claimer.shared.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -33,9 +34,9 @@ public class Issue implements Serializable, Model {
 //	@OneToMany(cascade=CascadeType.ALL)
 //	private List<Image> images;
 	@OneToMany(cascade=CascadeType.ALL)
-	private List<LogEntry> logEntries;
+	private List<LogEntry> logEntries = new ArrayList<LogEntry>();
 	@OneToMany(cascade=CascadeType.ALL)
-	private List<Comment> comments;
+	private List<Comment> comments = new ArrayList<Comment>();
 	@OneToOne
 	private Project project;
 	@OneToOne

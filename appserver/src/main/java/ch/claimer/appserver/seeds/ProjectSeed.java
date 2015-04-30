@@ -49,7 +49,6 @@ public class ProjectSeed extends Seed<Project> {
 		p2.setStart(null);
 		p2.setEnd(null);
 		p2.setCategory(null);
-		p2.getLogEntries().add((LogEntry)seeds.get("LogEntry").get(1));
 		p2.setSupervisor((Supervisor)seeds.get("Supervisor").get(0));
 		p2.getContacts().add((Contact)seeds.get("Contact").get(3));
 		p2.setCategory((Category)seeds.get("Category").get(1));

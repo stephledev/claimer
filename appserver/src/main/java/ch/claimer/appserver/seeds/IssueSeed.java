@@ -45,36 +45,33 @@ public class IssueSeed extends Seed<Issue> {
 		iss2.setCreated(new GregorianCalendar());
 		iss2.setSolved(new GregorianCalendar());
 		iss2.getLogEntries().add((LogEntry)seeds.get("LogEntry").get(2));
-		iss1.setProject((Project)seeds.get("Project").get(1));
-		iss1.setState((State)seeds.get("State").get(4));
-		iss1.setSubcontractor((Subcontractor) seeds.get("Subcontractor").get(1));
-		iss1.setContact((Contact)seeds.get("Contact").get(1));
+		iss2.setProject((Project)seeds.get("Project").get(1));
+		iss2.setState((State)seeds.get("State").get(4));
+		iss2.setSubcontractor((Subcontractor) seeds.get("Subcontractor").get(1));
+		iss2.setContact((Contact)seeds.get("Contact").get(1));
 		
 		Issue iss3 = new Issue();
 		iss3.setDescription("Fassade auf der Nordseite weisst Schäden auf.");
 		iss3.setCreated(new GregorianCalendar());
 		iss3.setSolved(new GregorianCalendar());
-		iss3.getLogEntries().add((LogEntry)seeds.get("LogEntry").get(2));
-		iss1.setProject((Project)seeds.get("Project").get(1));
-		iss1.setState((State)seeds.get("State").get(4));
-		iss1.setSubcontractor((Subcontractor) seeds.get("Subcontractor").get(2));
-		iss1.setContact((Contact)seeds.get("Contact").get(2));
+		iss3.setProject((Project)seeds.get("Project").get(1));
+		iss3.setState((State)seeds.get("State").get(4));
+		iss3.setSubcontractor((Subcontractor) seeds.get("Subcontractor").get(2));
+		iss3.setContact((Contact)seeds.get("Contact").get(2));
 		
 		Issue iss4 = new Issue();
 		iss4.setDescription("Schäden im Badezimmer im 1.Stock.");
 		iss4.setCreated(new GregorianCalendar());
 		iss4.setSolved(new GregorianCalendar());
-		iss1.getLogEntries().add((LogEntry)seeds.get("LogEntry").get(2));
-		iss1.setProject((Project)seeds.get("Project").get(0));
-		iss1.setState((State)seeds.get("State").get(2));
-		iss1.setSubcontractor((Subcontractor) seeds.get("Subcontractor").get(3));
-		iss1.setContact((Contact)seeds.get("Contact").get(3));
+		iss4.setProject((Project)seeds.get("Project").get(0));
+		iss4.setState((State)seeds.get("State").get(2));
+		iss4.setSubcontractor((Subcontractor) seeds.get("Subcontractor").get(3));
+		iss4.setContact((Contact)seeds.get("Contact").get(3));
 		
 		Issue iss5 = new Issue();
 		iss5.setDescription("Das Wasser in Wohung B im 3.Stock läuft nicht.");
 		iss5.setCreated(new GregorianCalendar());
 		iss5.setSolved(new GregorianCalendar());
-		iss5.getLogEntries().add((LogEntry)seeds.get("LogEntry").get(2));
 		iss5.setProject((Project)seeds.get("Project").get(1));
 		iss5.setState((State)seeds.get("State").get(2));
 		iss5.setSubcontractor((Subcontractor) seeds.get("Subcontractor").get(3));

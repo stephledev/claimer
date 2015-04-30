@@ -33,7 +33,6 @@ public abstract class Seed<T> {
 		
 		LogEntrySeed logEntrySeed = new LogEntrySeed();
 		logEntrySeed.setup();
-		logEntrySeed.execute();
 		
 		RoleSeed roleSeed = new RoleSeed();
 		roleSeed.setup();
@@ -68,7 +67,6 @@ public abstract class Seed<T> {
 		
 		CommentSeed commentSeed = new CommentSeed();
 		commentSeed.setup();
-		commentSeed.execute();
 		
 		IssueSeed issueSeed = new IssueSeed();
 		issueSeed.setup();
