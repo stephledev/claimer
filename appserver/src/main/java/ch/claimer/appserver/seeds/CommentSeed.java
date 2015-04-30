@@ -1,6 +1,7 @@
 package ch.claimer.appserver.seeds;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
 import ch.claimer.appserver.repositories.eclipselink.EclipseLinkRepository;
 import ch.claimer.shared.models.Comment;
@@ -22,6 +23,7 @@ public class CommentSeed extends Seed<Comment> {
 	@Override
 	public void setup() {
 		Comment com1 = new Comment();
+		com1.setCreated(new GregorianCalendar());
 		com1.setContent("Wurde bereits erledigt bei der ersten Kontrolle.");
 		com1.setPerson((Supervisor)seeds.get("Supervisor").get(0));
 

@@ -45,6 +45,10 @@ public class Comment implements Serializable, Model {
 		return created;
 	}
 
+	public void setCreated(GregorianCalendar created) {
+		this.created = created;
+	}
+
 	public String getContent() {
 		return content;
 	}

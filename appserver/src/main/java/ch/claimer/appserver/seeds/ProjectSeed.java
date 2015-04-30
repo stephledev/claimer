@@ -33,7 +33,6 @@ public class ProjectSeed extends Seed<Project> {
 		p1.setPlace("Lenzburg");
 		p1.setStart(new GregorianCalendar());
 		p1.setEnd(new GregorianCalendar());
-		p1.setCategory(null);
 		p1.getLogEntries().add((LogEntry)seeds.get("LogEntry").get(1));
 		p1.setSupervisor((Supervisor) seeds.get("Supervisor").get(0));
 		p1.getContacts().add((Contact)seeds.get("Contact").get(0));
@@ -46,9 +45,8 @@ public class ProjectSeed extends Seed<Project> {
 		p2.setStreet("Bleicherain 14");
 		p2.setZip("5000");
 		p2.setPlace("Aarau");
-		p2.setStart(null);
-		p2.setEnd(null);
-		p2.setCategory(null);
+		p2.setStart(new GregorianCalendar());
+		p2.setEnd(new GregorianCalendar());
 		p2.setSupervisor((Supervisor)seeds.get("Supervisor").get(0));
 		p2.getContacts().add((Contact)seeds.get("Contact").get(3));
 		p2.setCategory((Category)seeds.get("Category").get(1));
