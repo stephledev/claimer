@@ -11,7 +11,7 @@
 
 	<context-param>
 		<param-name>resteasy.providers</param-name>
-		<param-value>ch.claimer.webservice.routes.SecurityFilter, ch.claimer.webservice.routes.ReaderExceptionMapper</param-value>
+		<param-value>ch.claimer.webservice.routes.SecurityFilter</param-value>
 	</context-param>
 
 	<servlet>
