@@ -3,14 +3,18 @@ package ch.claimer.client.gui.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
+
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
+
 import ch.claimer.client.proxy.SubcontractorProxy;
 import ch.claimer.shared.models.Company;
+import ch.claimer.shared.models.Person;
 import ch.claimer.shared.models.Subcontractor;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -86,16 +90,29 @@ public class SubcontractorController {
 	
 	
 	@FXML
-	private void editUser(MouseEvent t) throws IOException {
+	private void editSubcontractor(MouseEvent t) throws IOException {
         
         //Wenn Doppelklick auf Person
         if(t.getClickCount() == 2) {
-               //Angeklickte Firma laden
-               Company subcontractor = subcontractorTableView.getSelectionModel().getSelectedItem();
-            		   
-               Pane myPane = FXMLLoader.load(getClass().getResource("../view/SubcontractorAddView.fxml"));
-               mainContent.getChildren().clear();
-               mainContent.getChildren().setAll(myPane);     
+        		
+	        	//Angeklickte Firma laden
+				Company subcontractorToEdit = (Subcontractor) subcontractorTableView.getSelectionModel().getSelectedItem();
+	
+				//FXMLLoader erstelen
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/SubcontractorAddView.fxml"));
+				
+				//Neuen View laden
+				Pane myPane = loader.load();
+	
+				//UserAddController holen
+				SubcontractorAddController controller = loader.<SubcontractorAddController>getController();
+				
+				//Controller starten
+				controller.initData(subcontractorToEdit);			
+				
+				//Neuen View einfügen
+				mainContent.getChildren().clear();
+				mainContent.getChildren().setAll(myPane);
         
         }
 	}

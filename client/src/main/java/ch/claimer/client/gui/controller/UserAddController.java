@@ -140,8 +140,5 @@ public class UserAddController implements Initializable{
 		
 	
 	}
-
-
-
 	
 }
