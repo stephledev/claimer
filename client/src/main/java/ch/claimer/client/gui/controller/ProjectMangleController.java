@@ -17,6 +17,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
@@ -41,7 +42,16 @@ public class ProjectMangleController {
 		private Label lbl_title;
 		
 		@FXML
+		private Label lbl_date;
+		
+		@FXML
+		private Label lbl_author;
+		
+		@FXML
 		private TextField txt_mangleName;
+		
+		@FXML
+		private TextField txt_addComment;
 
 		@FXML
 		private TextField txt_projectName;
@@ -53,7 +63,7 @@ public class ProjectMangleController {
 		private TextField txt_area;
 
 		@FXML
-		private TextField txt_mangleDescription;
+		private TextArea txt_mangleDescription;
 
 		@FXML
 		private TextField txt_contactPerson;
@@ -107,6 +117,14 @@ public class ProjectMangleController {
 
 		}
 		
+		@FXML
+		private void addComment(ActionEvent event) throws IOException {
+			Pane myPane = FXMLLoader.load(getClass().getResource(
+					"../view/ProjectAddView.fxml"));
+			mainContent.getChildren().clear();
+			mainContent.getChildren().setAll(myPane);
+
+		}
 		
 		public void initialize() {
 			ObservableList<Comment> data = FXCollections.observableArrayList();
