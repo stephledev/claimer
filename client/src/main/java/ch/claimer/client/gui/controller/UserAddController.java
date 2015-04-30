@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
@@ -38,6 +39,9 @@ public class UserAddController implements Initializable{
 	
 	@FXML
 	private TextField txtUsername;
+	
+	@FXML
+	private PasswordField pfPassword;
 	
 	@FXML
 	private TextField txtPhone;
@@ -127,7 +131,12 @@ public class UserAddController implements Initializable{
 			if(personToEdit.getLogin().getUsername() != null) {
 				txtUsername.setText(personToEdit.getLogin().getUsername());
 			}
+			
+			if(personToEdit.getLogin().getPassword() != null) {
+				pfPassword.setText(personToEdit.getLogin().getUsername());
+			}
 		}
+		
 		
 	
 	}

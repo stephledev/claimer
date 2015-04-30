@@ -3,19 +3,14 @@ package ch.claimer.client.gui.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
-
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
-
-import ch.claimer.client.proxy.LoginProxy;
 import ch.claimer.client.proxy.SubcontractorProxy;
 import ch.claimer.shared.models.Company;
-import ch.claimer.shared.models.Login;
 import ch.claimer.shared.models.Subcontractor;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -32,9 +27,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 /**
- * @author Kevin Stadelmann
+ * Controller der Subunternehmen-Seite
+ * @author Kevin Stadelmann, Alexander Hauck
  * @since 16.04.2015
- * @version 1.0
+ * @version 1.1
  *
  */
 

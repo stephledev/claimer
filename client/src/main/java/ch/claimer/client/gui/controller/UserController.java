@@ -2,6 +2,7 @@ package ch.claimer.client.gui.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -21,6 +22,7 @@ import ch.claimer.shared.models.Person;
 import ch.claimer.shared.models.SCEmployee;
 import ch.claimer.shared.models.Supervisor;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,6 +32,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -41,15 +44,21 @@ import javafx.util.Callback;
  * User-Übersicht erstellen (als TableView)
  * @author Alexander Hauck
  * @since 20.04.2015
- * @version 1.0
+ * @version 2.0
  *
  */
 
 public class UserController implements Initializable {
 	
-	ObservableList<Person> data =
-			FXCollections.observableArrayList(
-			);
+	Client client;
+    WebTarget target;
+    ResteasyWebTarget rtarget;
+    
+    ObjectMapper mapper;
+    List<Person> personsToShow = null;
+
+	ObservableList<Person> data = FXCollections.observableArrayList();
+	ObservableList<Person> dataCopy = FXCollections.observableArrayList();
 	
 	//Maincontent, hierhin werden die verschiedenen Views geladen
 	@FXML
@@ -73,6 +82,8 @@ public class UserController implements Initializable {
 	@FXML
 	private TableColumn<Person, String> colUsername;
 	
+	@FXML
+	private TextField txtSearch;
 	
 	/**
 	 * Öffnet die Detailansicht für einen User, um diesen zu bearbeiten.
@@ -105,8 +116,7 @@ public class UserController implements Initializable {
 			//Neuen View einfügen
 			mainContent.getChildren().clear();
 			mainContent.getChildren().setAll(myPane);
-			
-		
+
 		}
 	}
 	
@@ -122,21 +132,80 @@ public class UserController implements Initializable {
 		mainContent.getChildren().setAll(myPane);		
 	}
 
-
+	/**
+	 * Initialisiert den TableView automatisch mit den nötigen Daten, sobald der View aufgerufen wird.
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
-
-		//Alle Personen aus der DB holen
-		Client client = new ResteasyClientBuilder().build();
-	    WebTarget target = client.target("http://localhost:8080/webservice");
-	    ResteasyWebTarget rtarget = (ResteasyWebTarget)target;
+	    initiateWebserviceConnection();
 	    
-	    ObjectMapper mapper = new ObjectMapper();
-	    List<Person> personsToShow = null;
+	    getGCEmployee();
+	    
+	    getSCEmployee();
+	   
+	    getSupervisors();
+	    
+		//Spalten-Values definieren (müssen den Parameter des Personen-Objekts entsprechen)
+		colLastname.setCellValueFactory(new PropertyValueFactory<Person, String>("lastname"));
+		colName.setCellValueFactory(new PropertyValueFactory<Person, String>("firstname"));
+		colEmail.setCellValueFactory(new PropertyValueFactory<Person, String>("email"));
+	
 		
-	    
-	    //GCEMployee
+		colFunction.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Person, String>, ObservableValue<String>>() {
+			public ObservableValue<String> call(TableColumn.CellDataFeatures<Person, String> data) {
+				try {
+					String allRoles = "";
+					for(int i = 0; i < data.getValue().getLogin().getRoles().size(); i++) {
+						allRoles += data.getValue().getLogin().getRoles().get(i).getName() + ", ";
+					}
+					return new SimpleStringProperty(allRoles);
+				} catch(NullPointerException e) {
+					return null;
+				}
+			}
+		  });
+		
+		colUsername.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Person, String>, ObservableValue<String>>() {
+			public ObservableValue<String> call(TableColumn.CellDataFeatures<Person, String> data) {
+				try {
+					return new SimpleStringProperty(data.getValue().getLogin().getUsername());
+				} catch(NullPointerException e) {
+					return null;
+				}
+			}
+		  });
+		
+		//Observable-List, welche die Daten beinhaltet, an die Tabelle übergeben
+		userTableView.setItems(data);
+			
+		//Listener für Änderungen im Suchenfeld
+		txtSearch.textProperty().addListener(new ChangeListener<String>() {
+	
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				// TODO Auto-generated method stub
+				updateFilteredData();				
+			}
+			
+		});
+		
+	}
+	
+	/**
+	 * Webservice-Verbindung herstellen. Wird automatisch von der initiate-Funktion aufgerufen.
+	 */
+	private void initiateWebserviceConnection() {
+		client = new ResteasyClientBuilder().build();
+	    target = client.target("http://localhost:8080/webservice");
+	    rtarget = (ResteasyWebTarget)target;
+	    mapper = new ObjectMapper();
+	}
+
+	/**
+	 * Lädt alle gcEmployee aus der Datenbank
+	 */
+	private void getGCEmployee() {
+
 	    Person gcEmployee = new GCEmployee();
 	    GCEmployeeProxy gceProxy = rtarget.proxy(GCEmployeeProxy.class);
 	    
@@ -147,18 +216,23 @@ public class UserController implements Initializable {
 			    	
 			    	gcEmployee = personsToShow.get(i);
 			    	data.add(gcEmployee);
+			    	dataCopy.add(gcEmployee);
 			    	gcEmployee = null;
 			    	
 			}
-			
-			personsToShow = null;
-			
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		
+		personsToShow = null;
 	    
-	    //SCEmployee
+	}
+
+	/**
+	 * Lädt alle SCEmployees aus der Datebank
+	 */
+	private void getSCEmployee() {
 	    Person scEmployee = new SCEmployee();
 	    SCEmployeeProxy sceProxy = rtarget.proxy(SCEmployeeProxy.class);
 	    
@@ -168,6 +242,7 @@ public class UserController implements Initializable {
 	    	for(int i = 0; i < personsToShow.size(); i++) {
 	    		scEmployee = personsToShow.get(i);
 	    		data.add(scEmployee);
+	    		dataCopy.add(scEmployee);
 	    		scEmployee = null;
 	    	}
 	    	
@@ -176,9 +251,15 @@ public class UserController implements Initializable {
 	    }
 	    
 	    personsToShow = null;
-	    
-	    //Supervisor
-	    Person supervisor = new Supervisor();
+	}
+	
+	
+	/**
+	 * Lädt alle Supervisors aus der Datenbank
+	 */
+	private void getSupervisors() {
+
+		Person supervisor = new Supervisor();
 	    SupervisorProxy svProxy = rtarget.proxy(SupervisorProxy.class);
 	    
 	    try {
@@ -187,6 +268,7 @@ public class UserController implements Initializable {
 	    	for(int i = 0; i < personsToShow.size(); i++) {
 	    		supervisor = personsToShow.get(i);
 	    		data.add(supervisor);
+	    		dataCopy.add(supervisor);
 	    		supervisor = null;
 	    	}
 	    } catch (IOException e1) {
@@ -195,42 +277,49 @@ public class UserController implements Initializable {
 	    
 	    personsToShow = null;
 
-	
-	//Spalten-Values definieren (müssen den Parameter des Personen-Objekts entsprechen)
-	colLastname.setCellValueFactory(new PropertyValueFactory<Person, String>("lastname"));
-	colName.setCellValueFactory(new PropertyValueFactory<Person, String>("firstname"));
-	colEmail.setCellValueFactory(new PropertyValueFactory<Person, String>("email"));
-
-	
-	colFunction.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Person, String>, ObservableValue<String>>() {
-		public ObservableValue<String> call(TableColumn.CellDataFeatures<Person, String> data) {
-			try {
-				String allRoles = "";
-				for(int i = 0; i < data.getValue().getLogin().getRoles().size(); i++) {
-					allRoles += data.getValue().getLogin().getRoles().get(i).getName() + ", ";
-				}
-				return new SimpleStringProperty(allRoles);
-			} catch(NullPointerException e) {
-				return null;
-			}
-		}
-	  });
-	
-	colUsername.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Person, String>, ObservableValue<String>>() {
-		public ObservableValue<String> call(TableColumn.CellDataFeatures<Person, String> data) {
-			try {
-				return new SimpleStringProperty(data.getValue().getLogin().getUsername());
-			} catch(NullPointerException e) {
-				return null;
-			}
-		}
-	  });
-	
-	//Observable-List, welche die Daten beinhaltet, an die Tabelle übergeben
-	userTableView.setItems(data);
-		
-		
 	}
+	
+	//Observable-List mit den gefilterten Daten aktualisieren
+		public void updateFilteredData() {
+			data.clear();
+
+			for(Person p : dataCopy) {
+				if(matchesFilter(p)) {
+					data.add(p);
+				}
+			}
+			
+			reaplyTableSortOrder();
+		}
+		
+		//Überprüfen, ob Suchbegriff mit Daten übereinstimmt
+		private boolean matchesFilter(Person p) {
+			String filterString = txtSearch.getText();
+
+			if(filterString == null || filterString.isEmpty()) {
+				//No filter --> add all
+				return true;
+			}
+			
+			String lowerCaseFilterString = filterString.toLowerCase();
+			
+			if(p.getFirstname().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
+				return true;
+			}
+			
+			if(p.getLastname().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
+				return true;
+			}
+			
+			return false;
+			
+		}
+		
+		private void reaplyTableSortOrder() {
+			ArrayList<TableColumn<Person, ?>> sortOrder = new ArrayList<>(userTableView.getSortOrder());
+			userTableView.getSortOrder().clear();
+			userTableView.getSortOrder().addAll(sortOrder);
+		}
 
 	
 }

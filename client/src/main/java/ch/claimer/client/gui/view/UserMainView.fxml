@@ -29,7 +29,7 @@
               </rowConstraints>
                <children>
                   <Label text="Benutzer Übersicht" />
-                  <TextField promptText="Suche..." GridPane.columnIndex="1" />
+                  <TextField fx:id="txtSearch" promptText="Suche..." GridPane.columnIndex="1" />
                </children>
             </GridPane>
             <TableView fx:id="userTableView" onMouseClicked="#editUser" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
