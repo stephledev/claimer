@@ -4,6 +4,8 @@ import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import ch.claimer.shared.models.GCEmployee;
@@ -33,7 +35,8 @@ public class GCEmployeeRoute {
 	
 	@GET
 	@RolesAllowed({"superadmin", "intern"})
-	@Path("/gcEmployee") 
+	@Path("/gcemployee")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response show() {
 		return controller.showAll();
 	}
@@ -45,7 +48,8 @@ public class GCEmployeeRoute {
 	 */
 	@GET
 	@RolesAllowed({"superadmin", "intern"})
-	@Path("/gcEmployee/{id}")
+	@Path("/gcemployee/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response showById(@PathParam("id") int id) {
 		return controller.showById(id);
 	}

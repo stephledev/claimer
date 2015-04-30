@@ -4,7 +4,10 @@ import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
 
 
 
@@ -35,7 +38,8 @@ public class SCEmployeeRoute {
 	 */
 	@GET
 	@RolesAllowed({"intern", "admin"})
-	@Path("/scEmployee") 
+	@Path("/scemployee") 
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response show() {
 		return controller.showAll();
 	}
@@ -47,7 +51,8 @@ public class SCEmployeeRoute {
 	 */
 	@GET
 	@RolesAllowed({"intern", "admin"})
-	@Path("/scEmployee/{id}")
+	@Path("/scemployee/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response showById(@PathParam("id") int id) {
 		return controller.showById(id);
 	}

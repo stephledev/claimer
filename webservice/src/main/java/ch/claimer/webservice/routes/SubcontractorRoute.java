@@ -5,6 +5,8 @@ import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import ch.claimer.shared.models.Subcontractor;
@@ -33,6 +35,7 @@ public class SubcontractorRoute {
 	@GET
 	@PermitAll
 	@Path("/subcontractor") 
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response show() {
 		return controller.showAll();
 	}
@@ -48,6 +51,7 @@ public class SubcontractorRoute {
 	@GET
 	@PermitAll
 	@Path("/subcontractor/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response showById(@PathParam("id") int id) {
 		return controller.showById(id);
 	}

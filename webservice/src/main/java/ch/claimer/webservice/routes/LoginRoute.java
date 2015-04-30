@@ -57,6 +57,7 @@ public class LoginRoute {
 	@GET
 	@PermitAll
 	@Path("/login/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response showById(@PathParam("id") int id) {
 		return controller.showById(id);
 	}

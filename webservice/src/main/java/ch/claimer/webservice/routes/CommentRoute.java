@@ -5,6 +5,8 @@ import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import ch.claimer.shared.models.Comment;
@@ -39,6 +41,7 @@ public class CommentRoute {
 	@GET
 	@RolesAllowed({"editor", "intern"})
 	@Path("/comment/supervisor/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response showBySupervisor(@PathParam("id") int id) {
 		return controller.showByProperty("person_id", id);
 	}
@@ -54,6 +57,7 @@ public class CommentRoute {
 	@GET
 	@RolesAllowed({"editor", "extern"})
 	@Path("/comment/contact/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response showByContact(@PathParam("id") int id) {
 		return controller.showByProperty("person_id", id);
 	}

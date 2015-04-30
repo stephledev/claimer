@@ -3,6 +3,8 @@ package ch.claimer.webservice.routes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import ch.claimer.shared.models.State;
@@ -27,7 +29,8 @@ public class StateRoute {
 	 * @return Antwort vom Controller
 	 */
 	@GET
-	@Path("/state") 
+	@Path("/state")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response show() {
 		return controller.showAll();
 	}
@@ -39,6 +42,7 @@ public class StateRoute {
 	 */
 	@GET
 	@Path("/state/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response showById(@PathParam("id") int id) {
 		return controller.showById(id);
 	}

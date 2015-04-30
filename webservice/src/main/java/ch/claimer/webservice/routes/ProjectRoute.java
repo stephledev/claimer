@@ -5,7 +5,10 @@ import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
 
 
 
@@ -38,6 +41,7 @@ public class ProjectRoute {
 	@GET
 	@RolesAllowed({"admin", "intern"})
 	@Path("/project/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response showById(@PathParam("id") int id) {
 		return controller.showById(id);
 	}
@@ -52,6 +56,7 @@ public class ProjectRoute {
 	@GET
 	@RolesAllowed({"editor", "intern"})
 	@Path("/project/supervisor/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response showBySupervisor(@PathParam("id") int id) {
 		return controller.showByProperty("person_id", id);
 	}
@@ -66,6 +71,7 @@ public class ProjectRoute {
 	@GET
 	@RolesAllowed({"", ""})
 	@Path("/project/category/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response showByCategory(@PathParam("id") int id) {
 		return controller.showByProperty("category_id", id);
 	}
@@ -79,6 +85,7 @@ public class ProjectRoute {
 	 */
 	@GET
 	@Path("/project/state/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response showByState(@PathParam("id") int id) {
 		return controller.showByProperty("person_id", id);
 	}
@@ -93,6 +100,7 @@ public class ProjectRoute {
 	 */
 	@GET
 	@Path("/project/type/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response showByType(@PathParam("id") int id) {
 		return controller.showByProperty("type_id", id);
 	}
@@ -107,6 +115,7 @@ public class ProjectRoute {
 	 */
 	@GET
 	@Path("/project/logEntry/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response showlogEntry(@PathParam("id") int id) {
 		return controller.showByProperty("logEntry_id", id);
 	}

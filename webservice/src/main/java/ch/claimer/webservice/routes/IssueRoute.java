@@ -6,7 +6,10 @@ import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
 
 
 
@@ -42,6 +45,7 @@ public class IssueRoute {
 	@GET
 	@RolesAllowed({"editor", "intern"})
 	@Path("/issue/project/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response showByProject(@PathParam("id") int id) {
 		return controller.showByProperty("project_id", id);
 	}
@@ -56,6 +60,7 @@ public class IssueRoute {
 	@GET
 	@RolesAllowed({"editor", "extern"})
 	@Path("/issue/contact/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response showByContact(@PathParam("id") int id) {
 		return controller.showByProperty("contact_id", id);
 	}
@@ -70,6 +75,7 @@ public class IssueRoute {
 	@GET
 	@RolesAllowed({"power", "extern"})
 	@Path("/issue/subcontractor/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response showBySubcontractor(@PathParam("id") int id) {
 		return controller.showByProperty("person_id", id);
 	
@@ -84,6 +90,7 @@ public class IssueRoute {
 	 */
 	@PUT
 	@Path("/issue/project/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response updateByProject(@PathParam("id") int id) {
 		return controller.showByProperty("project_id", id);
 	

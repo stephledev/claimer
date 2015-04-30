@@ -5,7 +5,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import ch.claimer.shared.models.Category;
@@ -36,7 +38,8 @@ public class SupervisorRoute {
 	
 	@GET
 	@RolesAllowed({"intern", "admin"})
-	@Path("/supervisor") 
+	@Path("/supervisor")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response show(@Context HttpServletRequest request) {
 		return controller.showAll();
 	}
@@ -49,6 +52,7 @@ public class SupervisorRoute {
 	@GET
 	@RolesAllowed({"intern", "admin"})
 	@Path("/supervisor/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response showById(@PathParam("id") int id) {
 		return controller.showById(id);
 	}
