@@ -157,7 +157,7 @@ public class LoginSeed extends Seed<Login> {
 		
 		//GUB Supervisor Ferrari
 		Login log21 = new Login();
-		log21.setUsername("Ferrai_Enzo");
+		log21.setUsername("Ferrari_Enzo");
 		log21.setPassword("enzo01");
 		log21.getRoles().add((Role) seeds.get("Role").get(0));
 		log21.getRoles().add((Role) seeds.get("Role").get(5));

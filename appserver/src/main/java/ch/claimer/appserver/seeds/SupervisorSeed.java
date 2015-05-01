@@ -27,7 +27,7 @@ public class SupervisorSeed extends Seed<Supervisor> {
 		Supervisor1.setLogin((Login) seeds.get("Login").get(9));
 		
 		Supervisor Supervisor2 = new Supervisor();
-		Supervisor2.setLastname("Ferrai");
+		Supervisor2.setLastname("Ferrari");
 		Supervisor2.setFirstname("Enzo");
 		Supervisor2.setEmail("enzo.ferrari@bluewin.ch.ch");
 		Supervisor2.setPhone("041 111 11 12");
