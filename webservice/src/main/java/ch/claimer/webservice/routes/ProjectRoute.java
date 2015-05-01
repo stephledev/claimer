@@ -1,7 +1,7 @@
 package ch.claimer.webservice.routes;
 
-
 import javax.annotation.security.RolesAllowed;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -11,20 +11,17 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-
-
-
-
-
 import ch.claimer.shared.models.Project;
 import ch.claimer.webservice.controller.Controller;
 
-
 /**
- * Definiert die REST-Routes der Projekte. Zeigt den Controller gemäss der URL-Pattern.
- * Diese Klasse wird gemäss dem Dokument "Rollen und Rechte" erstellt
+ * Definiert die verfügbaren HTTP-Routes der Projekte.
+ * Lädt anhand der URL und der HTTP-Anfrage die entsprechende Controller-Methode.
+ * Liefert eine HTTP-Antwort mit Statuscode zurück.
  * 
- * @author Momcilo Bekcic
+ * @author Stephan Beeler
+ * @version 1.0
+ * @since 1.0
  */
 @Path("/")
 public class ProjectRoute {
@@ -36,97 +33,9 @@ public class ProjectRoute {
 	}
 	
 	/**
-	 * Benutzt den Controller um das Projekt zu lesen
+	 * Zeigt alle Projekte an
 	 * 
-	 * @param id-Identifizierer um diese gemäss der URL anzuzeigen
-	 * 
-	 * @return Antwort vom "controller"
-	 */
-	@GET
-	@RolesAllowed({"admin", "intern"})
-	@Path("/project/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response showById(@PathParam("id") int id) {
-		return controller.showById(id);
-	}
-
-	/**
-	 * Benutzt den Controller um die Bauleiter zu lesen
-	 * 
-	 * @param id-Bauleiter-Identifizierer um diese gemäss der URL anzuzeigen
-	 * 
-	 * @return Antwort vom "controller"
-	 */
-	@GET
-	@RolesAllowed({"editor", "intern"})
-	@Path("/project/supervisor/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response showBySupervisor(@PathParam("id") int id) {
-		return controller.showByProperty("person_id", id);
-	}
-
-	/**
-	 * Benutzt den "Controller" um die Kategorie
-	 * 
-	 * @param id-Kategorie-Identifizierer um diese gemäss der URL anzuzeigen
-	 * 
-	 * @return Antwort vom Controller
-	 */
-	@GET
-	@RolesAllowed({"editor", "intern"})
-	@Path("/project/category/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response showByCategory(@PathParam("id") int id) {
-		return controller.showByProperty("category_id", id);
-	}
-	
-	/**
-	 * Benutzt den Controller um den Status anzuzeigen
-	 * 
-	 * @param id-Status-Identifizierer um es gemäss der URL anzuzeigen
-	 * 
-	 * @return Antwort vom Controller
-	 */
-	@GET
-	@Path("/project/state/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response showByState(@PathParam("id") int id) {
-		return controller.showByProperty("person_id", id);
-	}
-	
-	
-	/**
-	 * Benutzt den Controller um den Typ
-	 * 
-	 * @param id-Typ-Identifizierer um dieses gemäss der URL anzuzeigen
-	 * 
-	 * @return Antwort vom Controller
-	 */
-	@GET
-	@Path("/project/type/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response showByType(@PathParam("id") int id) {
-		return controller.showByProperty("type_id", id);
-	}
-	
-	
-	/**
-	 * Benutzt den Controller nur um den Logeintrag anzuzeigen
-	 * 
-	 * @param id-Logeintrag-Identifizierer um dieses gemäss der URL anzuzeigen
-	 * 
-	 * @return Antwort vom Controller
-	 */
-	@GET
-	@Path("/project/logEntry/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response showlogEntry(@PathParam("id") int id) {
-		return controller.showByProperty("logEntry_id", id);
-	}
-	
-	/**
-	 * Projekt lesen
-	 * @return Antwort vom Controller
+	 * @return Response HTTP-Antwort mit Projekten
 	 */
 	@GET
 	@RolesAllowed({"admin", "intern"})
@@ -137,45 +46,58 @@ public class ProjectRoute {
 	}
 	
 	/**
-	 * Projekt erstellen
-	 * @param id Identifizierer des Controllers um Angaben gemäss URL anzuzeigen
-	 * @return Antwort vom Controller
+	 * Zeigt ein bestimmtes Projekt an
+	 *  
+	 * @param id Identifikator des anzuzeigenden Projektes
+	 * @return Response HTTP-Antwort mit Projekt
 	 */
-	@PUT
+	@GET
 	@RolesAllowed({"admin", "intern"})
 	@Path("/project/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response createById(@PathParam("id") int id) {	//Methodennamen überprüfen
+	public Response showById(@PathParam("id") int id) {
 		return controller.showById(id);
 	}
-	
+
 	/**
-	 * Projekt aktualisieren
-	 * @param id Identifizierer des Controllers
-	 * @return Antwort vom Controller
+	 * Zeigt alle Projekte eines Bauleiters an
+	 * 
+	 * @param id Identifikator des Bauleiters der anzuzeigenden Projekte
+	 * @return Response HTTP-Antwort mit Projekten
 	 */
-	@POST
-	@RolesAllowed({"admin", "intern"})
-	@Path("/project/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response updateById(@PathParam("id") int id) {	//Methodennamen überprüfen
-		return controller.showById(id);
-	}
-	
-	/**
-	 * Projekt nach Bauleiter aktualisieren
-	 * @param id Identifizierer des Controllers
-	 * @return Antwort vom Controller
-	 */
-	@POST
+	@GET
 	@RolesAllowed({"editor", "intern"})
 	@Path("/project/supervisor/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response updateBySupervisor(@PathParam("id") int id) {	//Methodennamen überprüfen
-		return controller.showById(id);
+	public Response showBySupervisor(@PathParam("id") int id) {
+		return controller.showByProperty("supervisor_id", id);
 	}
 	
+	/**
+	 * Legt ein neues Projekt an
+	 * 
+	 * @param project neu anzulegendes Projekt
+	 * @return Response HTTP-Antwort mit Statusmeldung
+	 */
+	@POST
+	@RolesAllowed({"admin", "intern"})
+	@Path("project")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response create(Project project) {	
+		return controller.store(project);
+	}
 	
-	
-	
+	/**
+	 * Aktualisiert ein bestehendes Projekt
+	 * 
+	 * @param project zu aktualisierendes Projekt
+	 * @return Response HTTP-Antwort mit Statusmeldung
+	 */
+	@PUT
+	@RolesAllowed({"admin", "intern"})
+	@Path("project")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response update(Project project) {
+		return controller.update(project);
+	}	
 }

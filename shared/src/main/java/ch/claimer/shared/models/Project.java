@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -35,17 +36,17 @@ public class Project implements Serializable, Model {
 	private String street;
 	private String zip;
 	private String place;
-	@OneToMany(cascade=CascadeType.ALL)
+	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	private List<LogEntry> logEntries = new ArrayList<LogEntry>();
-	@OneToOne
+	@OneToOne(fetch=FetchType.EAGER)
 	private Supervisor supervisor;
-	@ManyToMany
+	@ManyToMany(fetch=FetchType.EAGER)
 	private List<Contact> contacts = new ArrayList<Contact>();
-	@OneToOne
+	@OneToOne(fetch=FetchType.EAGER)
 	private Category category;
-	@OneToOne
+	@OneToOne(fetch=FetchType.EAGER)
 	private Type type;
-	@OneToOne
+	@OneToOne(fetch=FetchType.EAGER)
 	private State state;
 	
 	public Project() {

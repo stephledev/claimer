@@ -69,24 +69,22 @@ public class Controller<T extends Model> {
 		return ResponseHandlerService.success(converter.write(models));
 	}
 	
-	public Response update(String modelString) {
-		T model = converter.read(modelString, clazz);
+	public Response update(T model) {
 		try {
 			model = method.update(model);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-		return ResponseHandlerService.success(modelString);
+		return ResponseHandlerService.success(clazz.getSimpleName() + " with Id " + model.getId() + " updated");
 	}
 	
-	public Response store(String modelString) {
-		T model = converter.read(modelString, clazz);
+	public Response store(T model) {
 		try {
 			model = method.create(model);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-		return ResponseHandlerService.success(modelString);
+		return ResponseHandlerService.success(clazz.getSimpleName() + " added with Id " + model.getId());
 	}
 	
 	public Response destroy(int id) {
