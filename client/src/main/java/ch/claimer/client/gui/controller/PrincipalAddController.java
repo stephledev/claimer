@@ -9,53 +9,40 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.Pane;
 
+/**
+ * Controller für das Hinzufügen und Ändern von Bauherren
+ * @author Alexander Hauck
+ * @since 02.05.2015
+ * @version 1.0
+ *
+ */
+
 public class PrincipalAddController implements Initializable {
 
 	@FXML
-	private Pane containerPersonAdd;
+	private Pane mainContent;
+	
 	
 	@FXML
-	private Pane containerCompanyAdd;
+	private void loadPrincipalMainView() {
+		try {
+			Pane myPane = FXMLLoader.load(getClass().getResource("../view/PrincipalMainView.fxml"));
+			mainContent.getChildren().clear();
+			mainContent.getChildren().setAll(myPane);
+		} catch (NullPointerException npe) {
+			System.out.println("Fehler: View konnte nicht geladen werden");
+			// ToDo Eintrag in Log-Datei
+			npe.printStackTrace();
+		}	catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
 	
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
-		FXMLLoader loader = new FXMLLoader(
-				getClass().getResource("../view/UserAddView.fxml")
-			);
-		
-		//Neuen View laden
-		Pane myPane = null;
-		try {
-			myPane = loader.load();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-				
-		//Neuen View einfügen
-		containerPersonAdd.getChildren().clear();
-		containerPersonAdd.getChildren().setAll(myPane);
-		
-		
-		
-		FXMLLoader loader2 = new FXMLLoader(
-				getClass().getResource("../view/SubcontractorAddView.fxml")
-			);
-		
-		//Neuen View laden
-		Pane myPane2 = null;
-		try {
-			myPane2 = loader2.load();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-				
-		//Neuen View einfügen
-		containerCompanyAdd.getChildren().clear();
-		containerCompanyAdd.getChildren().setAll(myPane2);
 		
 	}
 

@@ -86,3 +86,8 @@
 	-fx-font-size: 20px;
 	-fx-padding: 0px 0px 20px 0px;
 }
+
+.tab-pane *.tab-header-background {
+    -fx-background-color: -fx-inner-border, derive(-fx-color, -20%);
+    -fx-effect: innershadow(two-pass-box , rgba(0,0,0,0.6) , 4, 0.0 , 0 , 0);
+}

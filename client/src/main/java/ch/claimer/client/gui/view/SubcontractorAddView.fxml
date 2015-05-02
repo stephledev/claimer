@@ -13,15 +13,15 @@
           <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+          <RowConstraints fillHeight="false" minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
           <RowConstraints fillHeight="false" minHeight="10.0" valignment="TOP" vgrow="NEVER" />
             <RowConstraints fillHeight="false" minHeight="20.0" prefHeight="20.0" valignment="TOP" vgrow="NEVER" />
             <RowConstraints fillHeight="false" valignment="TOP" vgrow="NEVER" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="TOP" vgrow="ALWAYS" />
+            <RowConstraints minHeight="100.0" prefHeight="100.0" valignment="TOP" vgrow="ALWAYS" />
             <RowConstraints fillHeight="false" minHeight="10.0" prefHeight="10.0" valignment="TOP" vgrow="NEVER" />
-            <RowConstraints fillHeight="false" minHeight="10.0" prefHeight="30.0" valignment="TOP" vgrow="NEVER" />
+            <RowConstraints fillHeight="false" valignment="TOP" vgrow="NEVER" />
             <RowConstraints fillHeight="false" minHeight="20.0" prefHeight="20.0" valignment="TOP" vgrow="NEVER" />
-            <RowConstraints fillHeight="false" minHeight="10.0" prefHeight="30.0" valignment="TOP" vgrow="NEVER" />
+            <RowConstraints fillHeight="false" valignment="TOP" vgrow="NEVER" />
         </rowConstraints>
          <children>
             <Label fx:id="lblTitel" styleClass="lblViewTitle" text="Subunternehmen erfassen" />
@@ -36,11 +36,11 @@
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints valignment="CENTER" vgrow="NEVER" />
-                  <RowConstraints maxHeight="10.0" minHeight="10.0" prefHeight="10.0" vgrow="NEVER" />
-                  <RowConstraints valignment="CENTER" vgrow="NEVER" />
-                  <RowConstraints maxHeight="10.0" minHeight="10.0" prefHeight="10.0" vgrow="NEVER" />
-                <RowConstraints vgrow="NEVER" />
+                <RowConstraints fillHeight="false" valignment="CENTER" vgrow="NEVER" />
+                  <RowConstraints fillHeight="false" maxHeight="10.0" minHeight="10.0" prefHeight="10.0" vgrow="NEVER" />
+                  <RowConstraints fillHeight="false" valignment="CENTER" vgrow="NEVER" />
+                  <RowConstraints fillHeight="false" maxHeight="10.0" minHeight="10.0" prefHeight="10.0" vgrow="NEVER" />
+                <RowConstraints fillHeight="false" vgrow="NEVER" />
               </rowConstraints>
                <children>
                   <Label text="Name:" />
@@ -101,20 +101,6 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <GridPane GridPane.rowIndex="8">
-              <columnConstraints>
-                <ColumnConstraints hgrow="NEVER" maxWidth="130.0" minWidth="10.0" prefWidth="130.0" />
-                <ColumnConstraints hgrow="NEVER" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" />
-                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <Button mnemonicParsing="false" onAction="#loadSubcontractorMainView" styleClass="delete-button" text="Abbrechen" />
-                  <Button mnemonicParsing="false" styleClass="save-button" text="Speichern" GridPane.columnIndex="1" />
-               </children>
-            </GridPane>
             <GridPane GridPane.rowIndex="6">
               <columnConstraints>
                 <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" />
@@ -126,6 +112,15 @@
                   <Button mnemonicParsing="false" styleClass="add-button" text="Mitarbeiter hinzufügen" />
                </children>
             </GridPane>
+            <HBox GridPane.rowIndex="8">
+               <children>
+                  <Button mnemonicParsing="false" styleClass="save-button" text="Speichern">
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin></Button>
+                  <Button mnemonicParsing="false" onAction="#loadSubcontractorMainView" styleClass="delete-button" text="Abbrechen" />
+               </children>
+            </HBox>
          </children>
       </GridPane>
    </children>
