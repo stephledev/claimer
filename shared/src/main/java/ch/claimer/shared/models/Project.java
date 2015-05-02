@@ -1,10 +1,10 @@
 package ch.claimer.shared.models;
 
 import java.io.Serializable;
+import java.time.chrono.Chronology;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.List;
-
+import javafx.scene.control.SingleSelectionModel;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -30,24 +30,24 @@ public class Project implements Serializable, Model {
 	private int id;
 	private String name;
 	@Temporal(TemporalType.TIMESTAMP)
-	private GregorianCalendar start;
+	private Chronology start;
 	@Temporal(TemporalType.TIMESTAMP)
-	private GregorianCalendar end;
+	private Chronology end;
 	private String street;
 	private String zip;
 	private String place;
 	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	private List<LogEntry> logEntries = new ArrayList<LogEntry>();
 	@OneToOne(fetch=FetchType.EAGER)
-	private Supervisor supervisor;
+	private SingleSelectionModel<Supervisor> supervisor;
 	@ManyToMany(fetch=FetchType.EAGER)
 	private List<Contact> contacts = new ArrayList<Contact>();
 	@OneToOne(fetch=FetchType.EAGER)
-	private Category category;
+	private SingleSelectionModel<Category> category;
 	@OneToOne(fetch=FetchType.EAGER)
-	private Type type;
+	private SingleSelectionModel<Type> type;
 	@OneToOne(fetch=FetchType.EAGER)
-	private State state;
+	private SingleSelectionModel<State> state;
 	
 	public Project() {
 		
@@ -69,19 +69,19 @@ public class Project implements Serializable, Model {
 		this.name = name;
 	}
 
-	public GregorianCalendar getStart() {
+	public Chronology getStart() {
 		return start;
 	}
 
-	public void setStart(GregorianCalendar start) {
+	public void setStart(Chronology start) {
 		this.start = start;
 	}
 
-	public GregorianCalendar getEnd() {
+	public Chronology getEnd() {
 		return end;
 	}
 
-	public void setEnd(GregorianCalendar end) {
+	public void setEnd(Chronology end) {
 		this.end = end;
 	}
 
@@ -117,35 +117,35 @@ public class Project implements Serializable, Model {
 		this.logEntries = logEntries;
 	}
 
-	public Supervisor getSupervisor() {
+	public SingleSelectionModel<Supervisor> getSupervisor() {
 		return supervisor;
 	}
 
-	public void setSupervisor(Supervisor supervisor) {
+	public void setSupervisor(SingleSelectionModel<Supervisor> supervisor) {
 		this.supervisor = supervisor;
 	}
 
-	public Category getCategory() {
+	public SingleSelectionModel<Category> getCategory() {
 		return category;
 	}
 
-	public void setCategory(Category category) {
+	public void setCategory(SingleSelectionModel<Category> category) {
 		this.category = category;
 	}
 
-	public Type getType() {
+	public SingleSelectionModel<Type> getType() {
 		return type;
 	}
 
-	public void setType(Type type) {
+	public void setType(SingleSelectionModel<Type> type) {
 		this.type = type;
 	}
 
-	public State getState() {
+	public SingleSelectionModel<State> getState() {
 		return state;
 	}
 
-	public void setState(State state) {
+	public void setState(SingleSelectionModel<State> state) {
 		this.state = state;
 	}
 

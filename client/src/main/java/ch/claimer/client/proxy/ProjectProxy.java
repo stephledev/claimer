@@ -18,6 +18,11 @@ public interface ProjectProxy {
 	String getById();
 	
 	@GET
+	@Path("project")
+	@Produces(MediaType.APPLICATION_JSON)
+	String getAll();
+	
+	@GET
 	@Path("/project/supervisor/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	String getBySupervisor();
@@ -41,4 +46,6 @@ public interface ProjectProxy {
 	@Path("/project/logEntry/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	String getLogEntry();
+
+	
 }

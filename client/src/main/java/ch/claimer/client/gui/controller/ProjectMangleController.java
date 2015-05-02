@@ -3,15 +3,27 @@ package ch.claimer.client.gui.controller;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.util.List;
+import java.util.ResourceBundle;
 
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.WebTarget;
+
+import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
+import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
+
+import ch.claimer.client.proxy.LoginProxy;
 import ch.claimer.shared.models.Comment;
 import ch.claimer.shared.models.Issue;
+import ch.claimer.shared.models.Login;
 import ch.claimer.shared.models.Person;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -32,7 +44,7 @@ import javafx.stage.Stage;
  *
  */
 
-public class ProjectMangleController {
+public class ProjectMangleController implements Initializable {
 	
 	// Maincontent, hierhin werden die verschiedenen Views geladen
 		@FXML
@@ -149,6 +161,13 @@ public class ProjectMangleController {
 			// Observable-List, welche die Daten beinhaltet, an die Tabelle übergeben
 			commentTableView.setItems(data);
 
+		}
+
+		@Override
+		public void initialize(URL location, ResourceBundle resources) {
+			
+			Issue issue = new Issue();
+		
 		}
 	
 
