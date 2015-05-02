@@ -64,7 +64,8 @@
                               <Insets right="20.0" />
                            </HBox.margin>
                         </ImageView>
-                        <SplitMenuButton mnemonicParsing="false" style="-fx-color: transparent; -fx-background-color: transparent;" styleClass=".split-menu-button" text="Max Muster">
+                        <Label text="Max Muster" />
+                        <SplitMenuButton mnemonicParsing="false" style="-fx-color: transparent; -fx-background-color: transparent;" styleClass=".split-menu-button">
                           <items>
                             <MenuItem mnemonicParsing="false" text="Profildaten bearbeiten" />
                             <MenuItem fx:id="logoutButton" mnemonicParsing="false" onAction="#closeClaimer" text="Abmelden" />

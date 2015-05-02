@@ -24,7 +24,7 @@
             <RowConstraints fillHeight="false" minHeight="10.0" prefHeight="30.0" valignment="TOP" vgrow="NEVER" />
         </rowConstraints>
          <children>
-            <Label fx:id="lblTitel" text="Subunternehmen erfassen" />
+            <Label fx:id="lblTitel" styleClass="lblViewTitle" text="Subunternehmen erfassen" />
             <GridPane GridPane.rowIndex="1">
               <columnConstraints>
                   <ColumnConstraints fillWidth="false" hgrow="NEVER" />

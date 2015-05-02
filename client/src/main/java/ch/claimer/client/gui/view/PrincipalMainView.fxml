@@ -28,7 +28,7 @@
                 <RowConstraints maxHeight="50.0" minHeight="10.0" prefHeight="50.0" valignment="TOP" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label text="Kunden Übersicht" />
+                  <Label styleClass="lblViewTitle" text="Kunden Übersicht" />
                   <TextField promptText="Suche..." GridPane.columnIndex="1" />
                </children>
             </GridPane>
