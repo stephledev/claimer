@@ -7,10 +7,13 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import ch.claimer.shared.models.Person;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -45,6 +48,9 @@ public class UserAddController implements Initializable{
 	
 	@FXML
 	private TextField txtPhone;
+	
+	@FXML
+	private ComboBox dropdownFunction;
 	
 	@FXML
 	private void loadUserMainView() {
@@ -98,7 +104,17 @@ public class UserAddController implements Initializable{
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
+		
+		
+		//Dropdown für "Funktion" initialisieren
+		dropdownFunction.getItems().addAll(
+				"Intern, Administrator", 
+				"Intern, Sachbearbeiter",
+				"Intern, Bauleiter",
+				"Extern, Administrator",
+				"Extern, Sachbearbeiter",
+				"Extern, Ansprechperson"
+			);
 		
 	}
 	

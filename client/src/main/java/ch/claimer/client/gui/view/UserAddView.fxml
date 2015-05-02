@@ -25,7 +25,7 @@
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="3">
                <children>
                   <Button mnemonicParsing="false" onAction="#saveUser" styleClass="save-button" text="Speichern" />
-                  <Button mnemonicParsing="false" onAction="#loadUserMainView" styleClass="delete-button" text="Abbrechen">
+                  <Button mnemonicParsing="false" onAction="#loadUserMainView" styleClass="back-button" text="Abbrechen">
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>
@@ -89,7 +89,7 @@
                         <TextField fx:id="txtFirstname" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                         <TextField fx:id="txtEmail" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                         <TextField fx:id="txtPhone" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                        <ComboBox maxWidth="5000.0" GridPane.columnIndex="4" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" />
+                        <ComboBox fx:id="dropdownFunction" maxWidth="5000.0" GridPane.columnIndex="4" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" />
                         <TextField fx:id="txtUsername" GridPane.columnIndex="4" GridPane.rowIndex="4" />
                         <PasswordField fx:id="pfPassword" GridPane.columnIndex="4" GridPane.rowIndex="6" />
                      </children>

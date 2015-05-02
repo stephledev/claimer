@@ -42,6 +42,11 @@
 	-fx-graphic: url('../../../../save.png');
 	-fx-graphic-text-gap: 10px;
 }
+
+.back-button {
+	-fx-graphic: url('../../../../back.png');
+	-fx-graphic-text-gap: 10px;
+}
    
 .label{
 	-fx-background: #E6E2E1;
