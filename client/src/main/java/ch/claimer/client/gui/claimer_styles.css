@@ -60,9 +60,7 @@
 
 #lbl_warnung{
 	-fx-text-fill: #B70F0A;
-	-fx-font-size: 10px;
 	-fx-text-alignment: center;
-	
 }
 
 #body {
@@ -86,4 +84,5 @@
 	-fx-color: black;
 	-fx-font-weight: bold;
 	-fx-font-size: 20px;
+	-fx-padding: 0px 0px 20px 0px;
 }

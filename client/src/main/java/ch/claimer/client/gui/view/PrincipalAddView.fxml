@@ -26,7 +26,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label styleClass="lblViewTitle" text="Neuen Kunden erfassen" />
+                  <Label styleClass="lblViewTitle" text="Neuen Bauherr erfassen" />
                </children>
             </GridPane>
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1">
@@ -38,7 +38,7 @@
                   </Label>
                </children>
             </HBox>
-            <TabPane tabClosingPolicy="UNAVAILABLE" GridPane.rowIndex="2">
+            <TabPane style="-fx-background-color: red;" tabClosingPolicy="UNAVAILABLE" GridPane.rowIndex="2">
               <tabs>
                 <Tab text="Privatperson">
                   <content>

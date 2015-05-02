@@ -16,14 +16,13 @@
         </columnConstraints>
         <rowConstraints>
           <RowConstraints vgrow="NEVER" />
-            <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="NEVER" />
           <RowConstraints vgrow="NEVER" />
             <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="NEVER" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
         </rowConstraints>
          <children>
-            <Label fx:id="lblTitel" text="Neuen Benutzer hinzufügen" />
-            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="4">
+            <Label fx:id="lblTitel" styleClass="lblViewTitle" text="Neuen Benutzer hinzufügen" />
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="3">
                <children>
                   <Button mnemonicParsing="false" onAction="#saveUser" styleClass="save-button" text="Speichern" />
                   <Button mnemonicParsing="false" onAction="#loadUserMainView" styleClass="delete-button" text="Abbrechen">
@@ -33,7 +32,7 @@
                   </Button>
                </children>
             </HBox>
-            <GridPane GridPane.rowIndex="2">
+            <GridPane GridPane.rowIndex="1">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="NEVER" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />

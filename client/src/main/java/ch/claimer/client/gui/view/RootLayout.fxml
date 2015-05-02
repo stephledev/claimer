@@ -37,7 +37,7 @@
                      <padding>
                         <Insets left="25.0" right="25.0" />
                      </padding></Button>
-                  <Button mnemonicParsing="false" onAction="#loadPrincipalMainView" prefHeight="40.0" styleClass="navButton" text="Kunden">
+                  <Button mnemonicParsing="false" onAction="#loadPrincipalMainView" prefHeight="40.0" styleClass="navButton" text="Bauherren">
                      <padding>
                         <Insets left="25.0" right="25.0" />
                      </padding></Button>
