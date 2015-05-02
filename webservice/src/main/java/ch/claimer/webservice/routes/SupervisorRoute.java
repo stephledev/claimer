@@ -2,7 +2,10 @@ package ch.claimer.webservice.routes;
 
 import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -10,15 +13,17 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import ch.claimer.shared.models.Category;
 import ch.claimer.shared.models.Supervisor;
 import ch.claimer.webservice.controller.Controller;
 
 /**
- * Definiert die REST-Routes der Bauleiter. Zeigt den Controller gemäss der URL-Pattern.
- * Diese Klasse wird gemäss dem Dokument "Rollen und Rechte" erstellt
+ * Definiert die verfügbaren HTTP-Routes der Bauleiter.
+ * Lädt anhand der URL und der HTTP-Anfrage die entsprechende Controller-Methode.
+ * Liefert eine HTTP-Antwort mit Statuscode zurück.
  * 
  * @author Momcilo Bekcic
+ * @version 1.0
+ * @since 1.0
  */
 
 @Path("/")
@@ -31,13 +36,13 @@ public class SupervisorRoute {
 	}
 	
 	/**
+	 * Zeigt alle Bauleiter an
 	 * 
-	 * @param request
-	 * @return Antwort vom Controller
+	 * @param request HTTP-Anfrage
+	 * @return Response HTTP-Antwort mit Bauleitern
 	 */
-	
 	@GET
-	@RolesAllowed({"intern", "admin"})
+	@RolesAllowed({"admin", "intern"})
 	@Path("/supervisor")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showAll(@Context HttpServletRequest request) {
@@ -45,15 +50,44 @@ public class SupervisorRoute {
 	}
 	
 	/**
+	 * Zeigt einen bestimmten Bauleiter an
 	 * 
-	 * @param id-Identifizierer um Angaben gemäss der URL zu liefern
-	 * @return Antwort vom Controller
+	 * @param id Idetentifikator des anzuzeigenden Bauleiters
+	 * @return Response HTTP-Antwort mit Bauleitern
 	 */
 	@GET
-	@RolesAllowed({"intern", "admin"})
+	@RolesAllowed({"admin", "intern"})
 	@Path("/supervisor/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showById(@PathParam("id") int id) {
 		return controller.showById(id);
 	}
+	
+	/**
+	 * Legt einen neuen Bauleiter an
+	 * 
+	 * @param supervisor neu anzulegender Bauleiter
+	 * @return Response HTTP-Antwort mit Statusmeldung
+	 */
+	@POST
+	@RolesAllowed({"admin", "intern"})
+	@Path("supervisor")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response create(Supervisor supervisor) {	
+		return controller.store(supervisor);
+	}
+	
+	/**
+	 * Aktualisiert einen bestehenden Bauleiter
+	 * 
+	 * @param supervisor zu aktualisierendes Projekt
+	 * @return Response HTTP-Antwort mit Statusmeldung
+	 */
+	@PUT
+	@RolesAllowed({"admin", "intern"})
+	@Path("supervisor")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response update(Supervisor supervisor) {
+		return controller.update(supervisor);
+	}	
 }

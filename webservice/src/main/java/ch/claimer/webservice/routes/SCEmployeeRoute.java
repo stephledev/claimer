@@ -1,6 +1,7 @@
 package ch.claimer.webservice.routes;
 
 import javax.annotation.security.RolesAllowed;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -10,20 +11,17 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-
-
-
-
-
 import ch.claimer.shared.models.SCEmployee;
 import ch.claimer.webservice.controller.Controller;
 
 /**
- * Definiert die REST-Routes der Kommentare.
- * Zeigt den "Controller" gemäss der URL-Pattern
+ * Definiert die verfügbaren HTTP-Routes der Subunternehmen-Angestellten.
+ * Lädt anhand der URL und der HTTP-Anfrage die entsprechende Controller-Methode.
+ * Liefert eine HTTP-Antwort mit Statuscode zurück.
  * 
  * @author Momcilo Bekcic
- * 
+ * @version 1.0
+ * @since 1.0
  */
 
 @Path("/")
@@ -37,11 +35,12 @@ public class SCEmployeeRoute {
 	
 	
 	/**
-	 * SU-Sachbearbeiter 
-	 * @return Antwort vom Controller
+	 * Zeigt alle SU-Sachbearbeitende an
+	 * 
+	 * @return Response HTTP-Antwort mit SU-Sachbearbeitenden
 	 */
 	@GET
-	@RolesAllowed({"intern", "admin"})
+	@RolesAllowed({"admin", "intern"})
 	@Path("/scemployee") 
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showAll() {
@@ -49,12 +48,13 @@ public class SCEmployeeRoute {
 	}
 	
 	/**
+	 * Zeigt einen bestimmten SU-Sachbearbeitenden an
 	 * 
-	 * @param id-Identifizeirer um die -von der URL unterstützten- anzuzeigen
-	 * @return Antwort vom Controller
+	 * @param id Identifikator des anzuzeigenden SU-Sachbearbeitenden
+	 * @return Response HTTP-Antwort mit SU-Sachbearbeitenden
 	 */
 	@GET
-	@RolesAllowed({"intern", "admin"})
+	@RolesAllowed({"admin", "intern"})
 	@Path("/scemployee/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showById(@PathParam("id") int id) {
@@ -77,28 +77,30 @@ public class SCEmployeeRoute {
 	}
 	
 	/**
-	 * SU-Sachbearbeiter nach Subunternehmen erstellen
-	 * @param id Identifizierer vom Controller
-	 * @return Antwort vom Controller
-	 */
-	@PUT
-	@RolesAllowed({"admin", "intern"})
-	@Path("/scemployee/subcontractor{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response createBySubcontractor(@PathParam("id") int id) {	//Methodennamen überprüfen
-		return controller.showById(id);
-	}
-	
-	/**
-	 * SU-Sachbearbeiter nach Subunternehmen aktualisieren
-	 * @param id Identifizierer 
-	 * @return Antwort vom Controller
+	 * Legt einen neuen SU-Sachbearbeitenden an
+	 * 
+	 * @param scemployee neu anzulegender Sachbearbeitender
+	 * @return Response HTTP-Antwort mit Statusmeldung
 	 */
 	@POST
 	@RolesAllowed({"admin", "intern"})
-	@Path("/scemployee/subcontractor{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response updateBySubcontractor(@PathParam("id") int id) {	//Methodennamen überprüfen
-		return controller.showById(id);
+	@Path("scemployee")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response create(SCEmployee scemployee) {	
+		return controller.store(scemployee);
 	}
+	
+	/**
+	 * Aktualisiert einen besteheden SU-Sachbearbeitenden
+	 * 
+	 * @param scemployee zu aktualisierender Sachbearbeitende
+	 * @return Response HTTP-Antwort mit Statusmeldung
+	 */
+	@PUT
+	@RolesAllowed({"admin", "intern"})
+	@Path("scemployee")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response update(SCEmployee scemployee) {
+		return controller.update(scemployee);
+	}	
 }

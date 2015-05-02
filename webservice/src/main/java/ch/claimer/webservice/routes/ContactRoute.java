@@ -2,6 +2,7 @@ package ch.claimer.webservice.routes;
 
 
 import javax.annotation.security.RolesAllowed;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -11,21 +12,19 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-
-
-
-
-
 import ch.claimer.shared.models.Contact;
 import ch.claimer.webservice.controller.Controller;
 
 
 /**
- * Definiert die REST-Routes der Ansprechperson. Zeigt den Controller gemäss der URL-Pattern.
- * Diese Klasse wird gemäss dem Dokument "Rollen und Rechte" erstellt
+ * Definiert die verfügbaren HTTP-Routes der Ansprechpersonen.
+ * Lädt anhand der URL und der HTTP-Anfrage die entsprechende Controller-Methode.
+ * Liefert eine HTTP-Antwort mit Statuscode zurück.
  * 
  * @author Raoul Ackermann
  * @author Momcilo Bekcic
+ * @version 1.0
+ * @since 1.0
  */
 @Path("/")
 public class ContactRoute {
@@ -53,8 +52,9 @@ public class ContactRoute {
 	}
 	
 	/**
+	 * Zeigt alle Ansprechspersonen an
 	 * 
-	 * @return Antwort vom Controller
+	 * @return Response HTTP-Antwort mit Ansprechspersonen
 	 */
 	
 	@GET
@@ -66,9 +66,10 @@ public class ContactRoute {
 	}
 	
 	/**
+	 * Zeigt eine bestimmte Ansprechsperson an
+	 * @param id Identifizierer der anzuzeigenden Ansprechsperson
 	 * 
-	 * @param id Identifizierer umd Daten gemäss URL anzuzeigen
-	 * @return Antwort vom Controller
+	 * @return Response HTTP-Antwort mit Ansprechsperson
 	 */
 	@GET
 	@RolesAllowed({"intern", "admin"})
@@ -79,32 +80,33 @@ public class ContactRoute {
 	}
 	
 	/**
-	 * Ansprechperson nach Subunternehmen erstellen
-	 * @param id Idetifizierer um Angaben gemäss URL Pattern zu erstellen
-	 * @return Antwort vom Controller
+	 * Legt eine neue Ansprechsperson an 
+	 * (siehe 'Ansprechsperson nach Subunternehmen erstellen')
+	 * 
+	 * @param contact neu anzulegendee Ansprechsperson
+	 * @return Response HTTP-Antwort mit Statusmeldung
 	 */
-	@PUT
-	@RolesAllowed({"admin","intern"})
-	@Path("/contact/subcontractor/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response createBySubcontractor(@PathParam("id") int id) {
-		return controller.showByProperty("id", id);
-	
+	@POST
+	@RolesAllowed({"admin", "intern"})
+	@Path("contact")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response create(Contact contact) {	
+		return controller.store(contact);
 	}
 	
 	/**
-	 * Ansprechperson nach Subunternehmen aktualisieren
-	 * @param id Idetifizierer um Angaben gemäss URL Pattern zu erstellen
-	 * @return Antwort vom Controller
+	 * Aktualisiert eine bestehende Ansprechsperson
+	 * (siehe 'Ansprechsperson nach Subunternehmen aktualisieren')
+	 * 
+	 * @param contact zu aktualisierende Ansprechsperson
+	 * @return Response HTTP-Antwort mit Statusmeldung
 	 */
-	@POST
-	@RolesAllowed({"admin","intern"})
-	@Path("/contact/subcontractor/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response updateBySubcontractor(@PathParam("id") int id) {
-		return controller.showByProperty("id", id);
-	
+	@PUT
+	@RolesAllowed({"admin", "intern"})
+	@Path("contact")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response update(Contact contact) {
+		return controller.update(contact);
 	}
-	
 	
 }

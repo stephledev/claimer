@@ -14,11 +14,14 @@ import ch.claimer.webservice.controller.Controller;
 
 
 /**
- * Definiert die REST-Routes der Kommentare.
- * Zeigt den "Controller" gemäss der URL-Pattern
+ * Definiert die verfügbaren HTTP-Routes der Projekte.
+ * Lädt anhand der URL und der HTTP-Anfrage die entsprechende Controller-Methode.
+ * Liefert eine HTTP-Antwort mit Statuscode zurück.
  * 
  * @author Raoul Ackermann
  * @author Momcilo Bekcic
+ * @version 1.0
+ * @since 1.0
  * 
  */
 @Path("/")
@@ -31,12 +34,11 @@ public class CommentRoute {
 	}
 
 	/**
-	 * Zeigt auf den Controller um die Kommentare eines Bauleiters anzuzeigen
+	 * Zeigt alle Kommentare eine Bauleiters an
 	 * 
-	 * @param id Bauleiter-Identifizierer der Kommentare um die, von der URL, 
-	 * unterstützen anzuzeigen
+	 * @param id Identifikator des Bauleiters der anzuzeigenden Projeke
 	 * 
-	 * @return Antwort vom Controller
+	 * @return Response HTTP-Antwort mit Kommentaren
 	 */
 	@GET
 	@RolesAllowed({"editor", "intern"})
@@ -49,10 +51,9 @@ public class CommentRoute {
 	/**
 	 * Zeigt den Controller um die Kommentare einer Ansprechsperson zu zeigen
 	 *            
-	 * @param id Kontakt-Identifizierer eines Kommentars um die, von der URL unterstützten,
-	 * anzuzeigen
+	 * @param id Identifikator der Ansprechperson der anzuzeigenden Kommentare
 	 * 
-	 * @return Antwort vom Controller
+	 * @return Response HTTP-Antwort mit Projekten
 	 */
 	@GET
 	@RolesAllowed({"editor", "extern"})

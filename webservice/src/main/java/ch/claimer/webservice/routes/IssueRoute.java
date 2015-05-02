@@ -2,6 +2,7 @@ package ch.claimer.webservice.routes;
 
 
 import javax.annotation.security.RolesAllowed;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -11,22 +12,18 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-
-
-
-
-
 import ch.claimer.shared.models.Issue;
 import ch.claimer.webservice.controller.Controller;
 
 
 /**
- * Definiert die REST-Routes der Mängel. Zeigt den Controller gemäss der URL-Pattern.
- * Diese Klasse wird gemäss dem Dokument "Rollen und Rechte" erstellt
- * Zeigt den Controller gemäss der URL-pattern
+ * Definiert die verfügbaren HTTP-Routes der Mängel.
+ * Lädt anhand der URL und der HTTP-Anfrage die entsprechende Controller-Methode.
+ * Liefert eine HTTP-Antwort mit Statuscode zurück.
  * 
- * @author Raoul Ackermann
  * @author Momcilo Bekcic
+ * @version 1.0
+ * @since 1.0
  */
 @Path("/")
 public class IssueRoute {
@@ -38,11 +35,12 @@ public class IssueRoute {
 	}
 	
 	/**
-	 * Mangel lesen
-	 * @return Antwort vom Controller
+	 * Zeigt alle Mängel an
+	 * 
+	 * @return Response HTTP-Antwort mit Projekten
 	 */
 	@GET
-	@RolesAllowed({"intern", "admin"})
+	@RolesAllowed({"admin", "intern"})
 	@Path("/issue") 
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showAll() {
@@ -50,12 +48,13 @@ public class IssueRoute {
 	}
 	
 	/**
-	 * Mangel lesen
-	 * @param id Identifizierer um Angaben gemäss URL anzuzeigen
-	 * @return Antwort vom Controller
+	 * Zeigt einen bestimmten Mangel an
+	 * 
+	 * @param id Identifikator des anzuzeigenden Mangels
+	 * @return Response HTTP-Antwort mit dem Mangel
 	 */
 	@GET
-	@RolesAllowed({"intern", "admin"})
+	@RolesAllowed({"admin", "intern"})
 	@Path("/issue/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showById(@PathParam("id") int id) {
@@ -63,11 +62,11 @@ public class IssueRoute {
 	}
 
 	/**
-	 * Benutzt den Controller um die Mängel nach Projekten zu lesen
+	 * Zeigt alle Mängel eines Projektes an
 	 * 
-	 * @param id-Projekt-Identifizierer um Angaben gemäss der URL anzuzeigen
+	 * @param id Identifikator des Projektes der anzuzeigenden Mängel
 	 * 
-	 * @return Antwort vom Controller
+	 * @return Response HTTP-Antwort mit Mängeln
 	 */
 	@GET
 	@RolesAllowed({"editor", "intern"})
@@ -78,9 +77,9 @@ public class IssueRoute {
 	}
 
 	/**
-	 * Benutzt den Controller um Mängel nach Ansprechpersonen zu lesen
+	 * Zeigt alle Mängel, die zu einer Ansprechsperson gehören, an
 	 * 
-	 * @param id-Ansprechperson-Identifizierer um diese gemäss der URL anzuzeigen
+	 * @param id Identifikator des Mangels der anzuzeigenden Ansprechsperson
 	 * 
 	 * @return Antwort vom Controller
 	 */
@@ -93,11 +92,11 @@ public class IssueRoute {
 	}
 	
 	/**
-	 * Benutzt den Controller um die Subunternehmen zu lesen
+	 * Zeigt alles Mängel eines Subunternehmens an
 	 * 
-	 * @param id Subunternehmen-Identifizierer um diese gemäss der URL anzuzeigen
+	 * @param id Subunternehmen-identifikator der anzuzeigenden Mängel
 	 * 
-	 * @return Antwort vom Controller
+	 * @return Response HTTP-Antwort mit Mängeln
 	 */
 	@GET
 	@RolesAllowed({"power", "extern"})
@@ -109,29 +108,33 @@ public class IssueRoute {
 	}
 	
 	/**
-	 * Benutzt den Controller um die Mängel nach Projekten zu aktualisieren
+	 * Legt einen neuen Mangel an
+	 * (siehe 'Mangel nach Projekt erstellen')
 	 * 
-	 * @param id Projekt-Identifizierer um diese gemäss der URL anzuzeigen
-	 * 
-	 * @return Antwort vom Controller
+	 * @param issue neu anzulegender Mangel
+	 * @return Response HTTP-Antwort mit Statusmeldung
 	 */
 	@POST
-	@RolesAllowed({"editor","intern"})
-	@Path("/issue/project/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response updateByProject(@PathParam("id") int id) {
-		return controller.showByProperty("project_id", id);
-	
+	@RolesAllowed({"editor", "intern"})
+	@Path("issue")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response create(Issue issue) {	
+		return controller.store(issue);
 	}
 	
-	@POST
-	@RolesAllowed({"admin","intern"})
-	@Path("/issue/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response updateById(@PathParam("id") int id) {		//Methodenname vllt. nicht optimal
-		return controller.showByProperty("id", id);
-	
-	}
-	
+	/**
+	 * Aktualisiert einen bestehenden Mangel
+	 * (Siehe 'Mangel nach Projekt erstellen')
+	 * 
+	 * @param issue zu aktualisierender Mangel
+	 * @return Response HTTP-Antwort mit Statusmeldung
+	 */
+	@PUT
+	@RolesAllowed({"editor", "intern"})
+	@Path("issue")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response update(Issue issue) {
+		return controller.update(issue);
+	}	
 	
 }

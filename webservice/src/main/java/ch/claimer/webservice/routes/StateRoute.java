@@ -12,9 +12,14 @@ import ch.claimer.shared.models.State;
 import ch.claimer.webservice.controller.Controller;
 
 /**
+ * Definiert die verfügbaren HTTP-Routes der Status.
+ * Lädt anhand der URL und der HTTP-Anfrage die entsprechende Controller-Methode.
+ * Liefert eine HTTP-Antwort mit Statuscode zurück.
  * 
  * @author Stephan Beeler
- *
+ * @author Momcilo Bekcic
+ * @version 1.0
+ * @since 1.0
  */
 
 @Path("/")
@@ -26,8 +31,9 @@ public class StateRoute {
 		this.controller = new Controller<State>(State.class);
 	}
 	/**
+	 * Zeigt alle Status an
 	 * 
-	 * @return Antwort vom Controller
+	 * @return Response HTTP-Antwort mit Projekten
 	 */
 	@GET
 	@PermitAll
@@ -38,9 +44,10 @@ public class StateRoute {
 	}
 	
 	/**
+	 * Zeigt einen bestimmten Status an
 	 * 
-	 * @param id-Identifizierer um Angaben gemäss der URL anzuzeigen
-	 * @return Antwort vom Controller
+	 * @param id Identifikator des anzuzeigenden Status
+	 * @return Response HTTP-Antwort mit Status
 	 */
 	@GET
 	@PermitAll

@@ -4,6 +4,7 @@ package ch.claimer.webservice.routes;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -19,10 +20,13 @@ import ch.claimer.webservice.controller.Controller;
 
 
 /**
- * Definiert die REST-Routes des Logins.
- * Zeigt den "Controller" gemäss der URL-Pattern
+ * Definiert die verfügbaren HTTP-Routes der Logins.
+ * Lädt anhand der URL und der HTTP-Anfrage die entsprechende Controller-Methode.
+ * Liefert eine HTTP-Antwort mit Statuscode zurück.
  * 
  * @author Momcilo Bekcic
+ * @version 1.0
+ * @since 1.0
  */
 @Path("/")
 public class LoginRoute {
@@ -34,11 +38,10 @@ public class LoginRoute {
 	}
 	
 	/**
+	 * Zeigt alle logins an
 	 * 
-	 * @param id-Identifizierer der Logins um die - von der URL
-	 * unterstützen - anzuzeigen
-	 * @return Antowrt vom Controller
-	 * 
+	 * @param request HTTP-Anfrage
+	 * @return Response HTTP-Antwort mit Logins
 	 */
 	@GET
 	@PermitAll
@@ -50,11 +53,10 @@ public class LoginRoute {
 	
 	
 	/**
+	 * Zeigt einen bestimmten Login an 
 	 * 
-	 * @param id-Identifizierer der Logins um die - von der URL
-	 * unterstützen - anzuzeigen
-	 * @return Antwort vom Controller
-	 * 
+	 * @param id Login-Identifikator des anzuzeigenden Logins
+	 * @return Response HTTP-Antwort mit dem Login
 	 */
 	@GET
 	@PermitAll
@@ -65,29 +67,31 @@ public class LoginRoute {
 	}
 	
 	/**
-	 * Login erstellen
-	 * @param id Identifizierer des Controllers um Angaben gemäss URL anzuzeigen
-	 * @return Antwort vom Controller
+	 * Legt ein neues Login an
+	 * 
+	 * @param login neu anzulegender Login
+	 * @return Response HTTP-Antwort mit Statusmeldung
 	 */
-	@PUT
+	@POST
 	@RolesAllowed({"admin", "intern"})
-	@Path("/login/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response createById(@PathParam("id") int id) {	//Methodennamen überprüfen
-		return controller.showById(id);
+	@Path("login")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response create(Login login) {	
+		return controller.store(login);
 	}
 	
 	/**
-	 * Login aktualisieren
-	 * @param id Identifizierer des Controllers um Angaben gemäss URL anzuzeigen
-	 * @return Antwort vom Controller
+	 * Aktualisiert einen bestehenden Login
+	 * 
+	 * @param login zu aktualisierender Login
+	 * @return Response HTTP-Antwort mit Statusmeldung
 	 */
-	@POST
+	@PUT
 	@PermitAll
-	@Path("/login/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response updateById(@PathParam("id") int id) {	//Methodennamen überprüfen
-		return controller.showById(id);
+	@Path("login")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response update(Login login) {
+		return controller.update(login);
 	}
 	
 }

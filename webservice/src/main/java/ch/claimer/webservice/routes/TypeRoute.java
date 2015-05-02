@@ -12,11 +12,13 @@ import ch.claimer.shared.models.Type;
 import ch.claimer.webservice.controller.Controller;
 
 /**
- * Definiert die REST-Routes der Kommentare.
- * Zeigt den "Controller" gemäss der URL-Pattern
+ * Definiert die verfügbaren HTTP-Routes der Typen.
+ * Lädt anhand der URL und der HTTP-Anfrage die entsprechende Controller-Methode.
+ * Liefert eine HTTP-Antwort mit Statuscode zurück.
  * 
  * @author Momcilo Bekcic
- * 
+ * @version 1.0
+ * @since 1.0
  */
 
 @Path("/")
@@ -29,8 +31,9 @@ public class TypeRoute {
 	}
 	
 	/**
+	 * Zeigt alle Projekte an
 	 * 
-	 * @return Antwort vom Controller
+	 * @return Response HTTP-Antwort mit Projekten
 	 */
 	@GET
 	@RolesAllowed({"editor", "intern"})
@@ -41,9 +44,10 @@ public class TypeRoute {
 	}
 	
 	/**
+	 * Zeigt einen bestimmten Typen an
 	 * 
-	 * @param id-Identifizierer der Angaben gemäss URL liefert
-	 * @return Antwort vom Controller
+	 * @param id Identifikator des anzuzeigenden Typen
+	 * @return Response HTTP-Antwort mit Projekt
 	 */
 	@GET
 	@RolesAllowed({"editor", "intern"})

@@ -1,6 +1,7 @@
 package ch.claimer.webservice.routes;
 
 import javax.annotation.security.RolesAllowed;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -14,11 +15,13 @@ import ch.claimer.shared.models.GCEmployee;
 import ch.claimer.webservice.controller.Controller;
 
 /**
- * Definiert die REST-Routes der GU-Angestellten.
- * Zeigt den "Controller" gemäss der URL-Pattern
+ * Definiert die verfügbaren HTTP-Routes der Generalunternehmen-Sachbearbeiter.
+ * Lädt anhand der URL und der HTTP-Anfrage die entsprechende Controller-Methode.
+ * Liefert eine HTTP-Antwort mit Statuscode zurück.
  * 
  * @author Momcilo Bekcic
- * 
+ * @version 1.0
+ * @since 1.0
  */
 
 @Path("/")
@@ -31,8 +34,9 @@ public class GCEmployeeRoute {
 	}
 	
 	/**
+	 * Zeigt alle GU-Sachbearbeitende an
 	 * 
-	 * @return Antwort vom Controller
+	 * @return Response HTTP-Antwort mit GU-Sachbearbeitendem
 	 */
 	@GET
 	@RolesAllowed({"superadmin", "intern"})
@@ -43,9 +47,10 @@ public class GCEmployeeRoute {
 	}
 	
 	/**
+	 * Zeigt einen bestimmten GU-Sachbearbeitenden an
 	 * 
-	 * @param id-Identifizierer um Angaben gemäss URL zu liefern
-	 * @return Antwort vom Controller
+	 * @param id-Identifikator des anzuzeigenden GU-Sachbearbeitenden
+	 * @return Response HTTP-Antwort mit Projekt
 	 */
 	@GET
 	@RolesAllowed({"superadmin", "intern"})
@@ -56,30 +61,30 @@ public class GCEmployeeRoute {
 	}
 	
 	/**
-	 * GU-Sachbearbeiter erstellen
-	 * @param id Identifizierer um Angaben gemäss URL anzuzeigen
-	 * @return Antwort vom Controller
-	 */
-	@PUT
-	@RolesAllowed({"superadmin", "intern"})
-	@Path("/gcemployee/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response createById(@PathParam("id") int id) { 		//Methodenname vllt nicht optional
-		return controller.showByProperty("person_id", id);
-	
-	}
-	
-	/**
-	 * GU-Sachbearbeiter aktualisieren
-	 * @param id Identifizierer um Angaben gemäss URL anzuzeigen
-	 * @return Antwort vom Controller
+	 * Legt einen neuen GU-Sachbearbeitenden an
+	 * 
+	 * @param gcemployee neu anzulegender GU-Sachbearbeitende
+	 * @return Response HTTP-Antwort mit Statusmeldung
 	 */
 	@POST
 	@RolesAllowed({"superadmin", "intern"})
-	@Path("/gcemployee/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response updateById(@PathParam("id") int id) { 		//Methodenname vllt nicht optional
-		return controller.showByProperty("person_id", id);
+	@Path("gcemployee")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response create(GCEmployee gcemployee) {	
+		return controller.store(gcemployee);
+	}
 	
+	/**
+	 * Aktualisiert einen bestehenden Sachbearbeitenden
+	 * 
+	 * @param project zu aktualisierende Sachbearbeitende
+	 * @return Response HTTP-Antwort mit Statusmeldung
+	 */
+	@PUT
+	@RolesAllowed({"super", "intern"})
+	@Path("gcemployee")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response update(GCEmployee gcemployee) {
+		return controller.update(gcemployee);
 	}
 }
