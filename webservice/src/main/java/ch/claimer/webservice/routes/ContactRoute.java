@@ -13,6 +13,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import ch.claimer.shared.models.Contact;
+import ch.claimer.shared.models.Subcontractor;
 import ch.claimer.webservice.controller.Controller;
 
 
@@ -33,22 +34,6 @@ public class ContactRoute {
 
 	public ContactRoute() {
 		this.controller = new Controller<Contact>(Contact.class);
-	}
-
-	/**
-	 * Benutzt den Controller um die Subunternehmen zu lesen
-	 * 
-	 * @param id Ansprechperson-Identifizierer um diese gemäss der URL anzuzeigen
-	 * 
-	 * @return Antwort vom Controller
-	 */
-	@GET
-	@RolesAllowed({"editor", "extern"})
-	@Path("contact/subcontractor/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response showBySubcontractor(@PathParam("id") int id) {
-		return controller.showByProperty("subcontractor_id", id);
-	
 	}
 	
 	/**
@@ -77,6 +62,22 @@ public class ContactRoute {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showById(@PathParam("id") int id) {
 		return controller.showById(id);
+	}
+
+	/**
+	 * Benutzt den Controller um die Subunternehmen zu lesen
+	 * 
+	 * @param id Ansprechperson-Identifizierer um diese gemäss der URL anzuzeigen
+	 * 
+	 * @return Antwort vom Controller
+	 */
+	@GET
+	@RolesAllowed({"editor", "extern"})
+	@Path("contact/subcontractor/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response showBySubcontractor(@PathParam("id") int id) {
+		return controller.showByRelation(Subcontractor.class, id);
+	
 	}
 	
 	/**

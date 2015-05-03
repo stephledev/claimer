@@ -69,6 +69,16 @@ public class Controller<T extends Model> {
 		return ResponseHandlerService.success(converter.write(models));
 	}
 	
+	public Response showByRelation(Class<?> relation, int id) {
+		List<T> models = null;
+		try {
+			models = method.getByRelation(relation, id);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return ResponseHandlerService.success(converter.write(models));
+	}
+	
 	public Response update(T model) {
 		try {
 			model = method.update(model);
