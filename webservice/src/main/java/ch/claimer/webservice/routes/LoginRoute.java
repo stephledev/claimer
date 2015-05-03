@@ -45,7 +45,7 @@ public class LoginRoute {
 	 */
 	@GET
 	@PermitAll
-	@Path("/login") 
+	@Path("login") 
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showAll() {
 		return controller.showAll();
@@ -60,7 +60,7 @@ public class LoginRoute {
 	 */
 	@GET
 	@PermitAll
-	@Path("/login/{id}")
+	@Path("login/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showById(@PathParam("id") int id) {
 		return controller.showById(id);

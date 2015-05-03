@@ -41,7 +41,7 @@ public class IssueRoute {
 	 */
 	@GET
 	@RolesAllowed({"admin", "intern"})
-	@Path("/issue") 
+	@Path("issue") 
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showAll() {
 		return controller.showAll();
@@ -55,7 +55,7 @@ public class IssueRoute {
 	 */
 	@GET
 	@RolesAllowed({"admin", "intern"})
-	@Path("/issue/{id}")
+	@Path("issue/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showById(@PathParam("id") int id) {
 		return controller.showById(id);
@@ -70,7 +70,7 @@ public class IssueRoute {
 	 */
 	@GET
 	@RolesAllowed({"editor", "intern"})
-	@Path("/issue/project/{id}")
+	@Path("issue/project/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showByProject(@PathParam("id") int id) {
 		return controller.showByProperty("project_id", id);
@@ -85,7 +85,7 @@ public class IssueRoute {
 	 */
 	@GET
 	@RolesAllowed({"editor", "extern"})
-	@Path("/issue/contact/{id}")
+	@Path("issue/contact/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showByContact(@PathParam("id") int id) {
 		return controller.showByProperty("contact_id", id);
@@ -100,7 +100,7 @@ public class IssueRoute {
 	 */
 	@GET
 	@RolesAllowed({"power", "extern"})
-	@Path("/issue/subcontractor/{id}")
+	@Path("issue/subcontractor/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showBySubcontractor(@PathParam("id") int id) {
 		return controller.showByProperty("subcontractor_id", id);

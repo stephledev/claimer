@@ -40,7 +40,7 @@ public class SubcontractorRoute {
 	 */
 	@GET
 	@RolesAllowed({"admin", "intern"})
-	@Path("/subcontractor") 
+	@Path("subcontractor") 
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showAll() {
 		return controller.showAll();
@@ -55,7 +55,7 @@ public class SubcontractorRoute {
 	 */
 	@GET
 	@RolesAllowed({"admin", "intern"})
-	@Path("/subcontractor/{id}")
+	@Path("subcontractor/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showById(@PathParam("id") int id) {
 		return controller.showById(id);

@@ -41,7 +41,7 @@ public class SCEmployeeRoute {
 	 */
 	@GET
 	@RolesAllowed({"admin", "intern"})
-	@Path("/scemployee") 
+	@Path("scemployee") 
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showAll() {
 		return controller.showAll();
@@ -55,7 +55,7 @@ public class SCEmployeeRoute {
 	 */
 	@GET
 	@RolesAllowed({"admin", "intern"})
-	@Path("/scemployee/{id}")
+	@Path("scemployee/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showById(@PathParam("id") int id) {
 		return controller.showById(id);
@@ -70,7 +70,7 @@ public class SCEmployeeRoute {
 	 */
 	@GET
 	@RolesAllowed({"admin", "intern"})
-	@Path("/scemployee/subcontractor/{id}")
+	@Path("scemployee/subcontractor/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showBySubcontractor(@PathParam("id") int id) {
 		return controller.showByProperty("person_id", id);

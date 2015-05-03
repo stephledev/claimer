@@ -40,7 +40,7 @@ public class GCEmployeeRoute {
 	 */
 	@GET
 	@RolesAllowed({"superadmin", "intern"})
-	@Path("/gcemployee")
+	@Path("gcemployee")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showAll() {
 		return controller.showAll();
@@ -54,7 +54,7 @@ public class GCEmployeeRoute {
 	 */
 	@GET
 	@RolesAllowed({"superadmin", "intern"})
-	@Path("/gcemployee/{id}")
+	@Path("gcemployee/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showById(@PathParam("id") int id) {
 		return controller.showById(id);

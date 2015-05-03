@@ -44,7 +44,7 @@ public class ContactRoute {
 	 */
 	@GET
 	@RolesAllowed({"editor", "extern"})
-	@Path("/contact/subcontractor/{id}")
+	@Path("contact/subcontractor/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showBySubcontractor(@PathParam("id") int id) {
 		return controller.showByProperty("subcontractor_id", id);
@@ -59,7 +59,7 @@ public class ContactRoute {
 	
 	@GET
 	@RolesAllowed({"intern", "admin"})
-	@Path("/contact") 
+	@Path("contact") 
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showAll() {
 		return controller.showAll();
@@ -73,7 +73,7 @@ public class ContactRoute {
 	 */
 	@GET
 	@RolesAllowed({"intern", "admin"})
-	@Path("/contact/{id}")
+	@Path("contact/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showById(@PathParam("id") int id) {
 		return controller.showById(id);

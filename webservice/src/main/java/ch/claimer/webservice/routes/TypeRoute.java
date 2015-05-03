@@ -37,7 +37,7 @@ public class TypeRoute {
 	 */
 	@GET
 	@RolesAllowed({"editor", "intern"})
-	@Path("/type")
+	@Path("type")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response show() {
 		return controller.showAll();
@@ -51,7 +51,7 @@ public class TypeRoute {
 	 */
 	@GET
 	@RolesAllowed({"editor", "intern"})
-	@Path("/type/{id}")
+	@Path("type/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showById(@PathParam("id") int id) {
 		return controller.showById(id);

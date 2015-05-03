@@ -37,7 +37,7 @@ public class StateRoute {
 	 */
 	@GET
 	@PermitAll
-	@Path("/state")
+	@Path("state")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showAll() {
 		return controller.showAll();
@@ -51,7 +51,7 @@ public class StateRoute {
 	 */
 	@GET
 	@PermitAll
-	@Path("/state/{id}")
+	@Path("state/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showById(@PathParam("id") int id) {
 		return controller.showById(id);

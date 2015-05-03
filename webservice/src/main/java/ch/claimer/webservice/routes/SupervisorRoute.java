@@ -43,7 +43,7 @@ public class SupervisorRoute {
 	 */
 	@GET
 	@RolesAllowed({"admin", "intern"})
-	@Path("/supervisor")
+	@Path("supervisor")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showAll() {
 		return controller.showAll();
@@ -57,7 +57,7 @@ public class SupervisorRoute {
 	 */
 	@GET
 	@RolesAllowed({"admin", "intern"})
-	@Path("/supervisor/{id}")
+	@Path("supervisor/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showById(@PathParam("id") int id) {
 		return controller.showById(id);
