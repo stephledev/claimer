@@ -32,6 +32,7 @@ public abstract class Person implements Serializable, Model {
 	private String email;
 	@OneToOne(cascade=CascadeType.ALL)
 	private Login login;
+	private boolean isActive;
 	
 	public Person() {
 		
@@ -82,6 +83,14 @@ public abstract class Person implements Serializable, Model {
 	
 	public void setLogin(Login login) {
 		this.login = login;
+	}
+
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
 	}
 
 }

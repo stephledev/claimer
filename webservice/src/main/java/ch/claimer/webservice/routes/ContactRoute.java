@@ -47,7 +47,7 @@ public class ContactRoute {
 	@Path("/contact/subcontractor/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showBySubcontractor(@PathParam("id") int id) {
-		return controller.showByProperty("person_id", id);
+		return controller.showByProperty("subcontractor_id", id);
 	
 	}
 	

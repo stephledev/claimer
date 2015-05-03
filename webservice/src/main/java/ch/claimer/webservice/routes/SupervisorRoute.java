@@ -45,7 +45,7 @@ public class SupervisorRoute {
 	@RolesAllowed({"admin", "intern"})
 	@Path("/supervisor")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response showAll(@Context HttpServletRequest request) {
+	public Response showAll() {
 		return controller.showAll();
 	}
 	

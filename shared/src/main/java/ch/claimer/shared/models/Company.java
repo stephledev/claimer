@@ -30,6 +30,7 @@ public abstract class Company implements Serializable, Model {
 	private String place;
 	private String phone;
 	private String email;
+	private boolean isActive;
 	
 	public int getId() {
 		return id;
@@ -85,6 +86,14 @@ public abstract class Company implements Serializable, Model {
 	
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
 	}
 	
 }

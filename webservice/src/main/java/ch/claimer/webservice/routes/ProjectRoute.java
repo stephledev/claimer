@@ -39,7 +39,7 @@ public class ProjectRoute {
 	 */
 	@GET
 	@RolesAllowed({"admin", "intern"})
-	@Path("/project") 
+	@Path("project") 
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showAll() {
 		return controller.showAll();
@@ -53,7 +53,7 @@ public class ProjectRoute {
 	 */
 	@GET
 	@RolesAllowed({"admin", "intern"})
-	@Path("/project/{id}")
+	@Path("project/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showById(@PathParam("id") int id) {
 		return controller.showById(id);
@@ -67,7 +67,7 @@ public class ProjectRoute {
 	 */
 	@GET
 	@RolesAllowed({"editor", "intern"})
-	@Path("/project/supervisor/{id}")
+	@Path("project/supervisor/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showBySupervisor(@PathParam("id") int id) {
 		return controller.showByProperty("supervisor_id", id);

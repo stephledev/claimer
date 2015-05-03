@@ -81,7 +81,7 @@ public class GCEmployeeRoute {
 	 * @return Response HTTP-Antwort mit Statusmeldung
 	 */
 	@PUT
-	@RolesAllowed({"super", "intern"})
+	@RolesAllowed({"superadmin", "intern"})
 	@Path("gcemployee")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response update(GCEmployee gcemployee) {
