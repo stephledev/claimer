@@ -11,6 +11,7 @@ import javax.ws.rs.core.Response;
 
 import ch.claimer.shared.models.Comment;
 import ch.claimer.shared.models.Contact;
+import ch.claimer.shared.models.Person;
 import ch.claimer.shared.models.Supervisor;
 import ch.claimer.webservice.controller.Controller;
 
@@ -47,7 +48,7 @@ public class CommentRoute {
 	@Path("comment/supervisor/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showBySupervisor(@PathParam("id") int id) {
-		return controller.showByRelation(Supervisor.class, id);
+		return controller.showByRelation(Person.class, id);
 	}
 
 	/**
@@ -62,6 +63,6 @@ public class CommentRoute {
 	@Path("comment/contact/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showByContact(@PathParam("id") int id) {
-		return controller.showByRelation(Contact.class, id);
+		return controller.showByRelation(Person.class, id);
 	}
 }
