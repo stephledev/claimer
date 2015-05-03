@@ -39,7 +39,7 @@ public class GCEmployeeRoute {
 	 * @return Response HTTP-Antwort mit GU-Sachbearbeitendem
 	 */
 	@GET
-	@RolesAllowed({"superadmin", "intern"})
+	@RolesAllowed("superadmin")
 	@Path("gcemployee")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showAll() {
@@ -53,7 +53,7 @@ public class GCEmployeeRoute {
 	 * @return Response HTTP-Antwort mit Projekt
 	 */
 	@GET
-	@RolesAllowed({"superadmin", "intern"})
+	@RolesAllowed("superadmin")
 	@Path("gcemployee/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showById(@PathParam("id") int id) {
