@@ -200,18 +200,18 @@ public class ProjectAddController implements Initializable {
 		if(projectToEdit.getName() != null) { 
 			txt_projectName.setText(projectToEdit.getName());	
 		}
-		
-		if(projectToEdit.getStart() != null) {
-			date_start.setChronology(projectToEdit.getStart());
-		}
-		
-		if(projectToEdit.getEnd() != null) {
-			date_end.setChronology(projectToEdit.getEnd());
-		}
-		
-		if(projectToEdit.getSupervisor() != null) {
-			combo_supervisor.setSelectionModel(projectToEdit.getSupervisor());
-		}
+		//TODO 
+//		if(projectToEdit.getStart() != null) {
+//			date_start.setChronology(projectToEdit.getStart());
+//		}
+//		
+//		if(projectToEdit.getEnd() != null) {
+//			date_end.setChronology(projectToEdit.getEnd());
+//		}
+//		
+//		if(projectToEdit.getSupervisor() != null) {
+//			combo_supervisor.setSelectionModel(projectToEdit.getSupervisor());
+//		}
 		
 		if(projectToEdit.getStreet() != null) {
 			txt_street.setText(projectToEdit.getStreet());	
@@ -224,16 +224,17 @@ public class ProjectAddController implements Initializable {
 			txt_place.setText(projectToEdit.getPlace());	
 		}
 		
-		if(projectToEdit.getState() != null) {
-			combo_status.setSelectionModel(projectToEdit.getState());	
-		}
+		//TODO
+//		if(projectToEdit.getState() != null) {
+//			combo_status.setSelectionModel(projectToEdit.getState());	
+//		}
+//		
+//		if(projectToEdit.getCategory() != null) {
+//			combo_Category.setSelectionModel(projectToEdit.getCategory());	
+//		}
 		
-		if(projectToEdit.getCategory() != null) {
-			combo_Category.setSelectionModel(projectToEdit.getCategory());	
-		}
 		
-		
-		//Sollte der Kunde sein
+		//TODO Sollte der Kunde sein
 //		if(projectToEdit.getContacts() != null) {
 //			combo_principal.setSelectionModel((SingleSelectionModel<Person>) projectToEdit.getContacts());	
 //		}
@@ -262,17 +263,18 @@ public class ProjectAddController implements Initializable {
 			projectToupdate.setName(txt_projectName.getText());
 		}
 
-		if (projectToupdate.getStart() != null) {
-			projectToupdate.setStart(date_start.getChronology());
-		}
-
-		if (projectToupdate.getEnd() != null) {
-			projectToupdate.setEnd(date_end.getChronology());
-		}
-
-		if (projectToupdate.getSupervisor() != null) {
-			projectToupdate.setSupervisor(combo_supervisor.getSelectionModel());
-		}
+		//TODO
+//		if (projectToupdate.getStart() != null) {
+//			projectToupdate.setStart(date_start.getChronology());
+//		}
+//
+//		if (projectToupdate.getEnd() != null) {
+//			projectToupdate.setEnd(date_end.getChronology());
+//		}
+//
+//		if (projectToupdate.getSupervisor() != null) {
+//			projectToupdate.setSupervisor(combo_supervisor.getSelectionModel());
+//		}
 
 		if (projectToupdate.getStreet() != null) {
 			projectToupdate.setStreet(txt_street.getText());
@@ -285,13 +287,14 @@ public class ProjectAddController implements Initializable {
 			projectToupdate.setPlace(txt_place.getText());
 		}
 
-		if (projectToupdate.getState() != null) {
-			projectToupdate.setState(combo_status.getSelectionModel());
-		}
-
-		if (projectToupdate.getCategory() != null) {
-			projectToupdate.setCategory(combo_Category.getSelectionModel());
-		}
+		//TODO
+//		if (projectToupdate.getState() != null) {
+//			projectToupdate.setState(combo_status.getSelectionModel());
+//		}
+//
+//		if (projectToupdate.getCategory() != null) {
+//			projectToupdate.setCategory(combo_Category.getSelectionModel());
+//		}
 
 		// //Sollte der Kunde sein
 		// if(projectToupdate.getContacts() != null) {
@@ -348,7 +351,7 @@ public class ProjectAddController implements Initializable {
 	    issuesToShow = null;
 	    
 	}
-	
+	@FXML
 	private void editIssue(MouseEvent t) throws IOException {
 
 		// Wenn Doppelklick auf Mangel
