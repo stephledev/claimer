@@ -20,9 +20,6 @@ public class SecurityFilter implements ContainerRequestFilter {
 	
     @Override
     public void filter( ContainerRequestContext requestContext ) throws IOException {
-    	if(true) {
-    		return;
-    	}
     	if(requestContext.getHeaders().get("Authorization") == null) {
     		requestContext.abortWith(ResponseHandlerService.badRequest("Authorization header not found"));
     		return;

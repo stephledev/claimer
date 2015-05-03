@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -24,15 +25,15 @@ public class Issue implements Serializable, Model {
 	private static final long serialVersionUID = -8619970776064713003L;
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	private String description;
 	@Temporal(TemporalType.TIMESTAMP)
 	private GregorianCalendar created;
 	@Temporal(TemporalType.TIMESTAMP)
 	private GregorianCalendar solved;
-//	@OneToMany(cascade=CascadeType.ALL)
-//	private List<Image> images;
+	@OneToMany(cascade=CascadeType.ALL)
+	private List<Image> images;
 	@OneToMany(cascade=CascadeType.ALL)
 	private List<LogEntry> logEntries = new ArrayList<LogEntry>();
 	@OneToMany(cascade=CascadeType.ALL)

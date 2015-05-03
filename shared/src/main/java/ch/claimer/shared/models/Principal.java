@@ -3,12 +3,13 @@ package ch.claimer.shared.models;
 import java.util.List;
 
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 public class Principal implements Model {
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	private String lastname;
 	private String firstname;

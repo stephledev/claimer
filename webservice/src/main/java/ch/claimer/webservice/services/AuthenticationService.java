@@ -4,7 +4,6 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
@@ -18,14 +17,17 @@ import ch.claimer.shared.models.Role;
 public class AuthenticationService {
 
 	private Login login;
-	protected Method<Login> method;
+	private Method<Login> loginMethod;
+	private Method<Role> roleMethod;
 
 	@SuppressWarnings("unchecked")
 	public AuthenticationService() {
 		Config config = ConfigFactory.load();
 		try {
-			this.method = (Method<Login>) Naming.lookup(config
+			this.loginMethod = (Method<Login>) Naming.lookup(config
 					.getString("rmi.url") + "Login");
+			this.roleMethod = (Method<Role>) Naming.lookup(config
+					.getString("rmi.url") + "Role");
 		} catch (MalformedURLException | RemoteException | NotBoundException e) {
 			e.printStackTrace();
 		}
@@ -33,19 +35,16 @@ public class AuthenticationService {
 	}
 
 	public boolean authenticate(String basic) {
-		if(true) {
-			return true;
-		}
 		basic = basic.replaceFirst("Basic ", "");
 		basic = new String(Base64.getDecoder().decode(basic));
 		String[] usernamePassword = basic.split(":");
 		String username = usernamePassword[0]; 
 		String password = usernamePassword[1];
 		try { 
-			if(method.getByProperty("username", username).isEmpty()) {
+			if(loginMethod.getByProperty("username", username).isEmpty()) {
 				return false;
 			}
-			login = method.getByProperty("username", username).get(0);
+			login = loginMethod.getByProperty("username", username).get(0);
 			if(login.getPassword().equals(password)) {
 				return true;
 			} 
@@ -57,14 +56,16 @@ public class AuthenticationService {
 	}
 
 	public boolean authorize(List<String> roles) {
-		if(true) {
+		Role requiredRole = null;
+		try {
+			requiredRole = roleMethod.getByProperty("name", roles.get(0)).get(0);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		if(login.getRole().getValue() >= requiredRole.getValue()) {
 			return true;
 		}
-		List<String> userRoles = new ArrayList<String>();
-		for(Role role : login.getRoles()) {
-			userRoles.add(role.getName());
-		}
-		return userRoles.containsAll(roles);
+		return false;
 	}
 
 }

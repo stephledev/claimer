@@ -1,15 +1,14 @@
 package ch.claimer.shared.models;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Login implements Serializable, Model {
@@ -17,13 +16,13 @@ public class Login implements Serializable, Model {
 	private static final long serialVersionUID = -2199992593798784171L;
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	@Column(unique = true)
 	private String username;
 	private String password;
-	@ManyToMany(fetch=FetchType.EAGER)
-	private List<Role> roles = new ArrayList<Role>();
+	@ManyToOne(fetch=FetchType.EAGER)
+	private Role role;
 	
 	public Login() {
 		
@@ -53,12 +52,11 @@ public class Login implements Serializable, Model {
 		this.password = password;
 	}
 
-	public List<Role> getRoles() {
-		return roles;
+	public Role getRole() {
+		return role;
 	}
 
-	public void setRoles(List<Role> roles) {
-		this.roles = roles;
-	}
-	
+	public void setRole(Role role) {
+		this.role = role;
+	}	
 }
