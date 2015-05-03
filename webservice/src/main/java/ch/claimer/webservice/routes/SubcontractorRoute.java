@@ -39,7 +39,7 @@ public class SubcontractorRoute {
 	 * @return Response HTTP-Antwort mit Subunternehmen
 	 */
 	@GET
-	@RolesAllowed({"admin", "intern"})
+	@RolesAllowed("admin")
 	@Path("subcontractor") 
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showAll() {
@@ -54,7 +54,7 @@ public class SubcontractorRoute {
 	 * @return Response HTTP-Antwort mit Subunternehmen
 	 */
 	@GET
-	@RolesAllowed({"admin", "intern"})
+	@RolesAllowed("admin")
 	@Path("subcontractor/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showById(@PathParam("id") int id) {
@@ -68,7 +68,7 @@ public class SubcontractorRoute {
 	 * @return Response HTTP-Antwort mit Statusmeldung
 	 */
 	@POST
-	@RolesAllowed({"admin", "intern"})
+	@RolesAllowed("admin")
 	@Path("subcontractor")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response create(Subcontractor subcontractor) {	
@@ -82,7 +82,7 @@ public class SubcontractorRoute {
 	 * @return Response HTTP-Antwort mit Statusmeldung
 	 */
 	@PUT
-	@RolesAllowed({"admin", "intern"})
+	@RolesAllowed("admin")
 	@Path("subcontractor")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response update(Subcontractor subcontractor) {

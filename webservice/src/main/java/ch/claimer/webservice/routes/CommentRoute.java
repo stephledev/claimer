@@ -10,6 +10,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import ch.claimer.shared.models.Comment;
+import ch.claimer.shared.models.Contact;
+import ch.claimer.shared.models.Supervisor;
 import ch.claimer.webservice.controller.Controller;
 
 
@@ -41,11 +43,11 @@ public class CommentRoute {
 	 * @return Response HTTP-Antwort mit Kommentaren
 	 */
 	@GET
-	@RolesAllowed({"editor", "intern"})
+	@RolesAllowed("editor-intern")
 	@Path("comment/supervisor/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showBySupervisor(@PathParam("id") int id) {
-		return controller.showByProperty("person_id", id);
+		return controller.showByRelation(Supervisor.class, id);
 	}
 
 	/**
@@ -56,10 +58,10 @@ public class CommentRoute {
 	 * @return Response HTTP-Antwort mit Projekten
 	 */
 	@GET
-	@RolesAllowed({"editor", "extern"})
+	@RolesAllowed("editor-extern")
 	@Path("comment/contact/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showByContact(@PathParam("id") int id) {
-		return controller.showByProperty("person_id", id);
+		return controller.showByRelation(Contact.class, id);
 	}
 }

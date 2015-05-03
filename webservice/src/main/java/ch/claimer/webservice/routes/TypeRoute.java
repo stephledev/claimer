@@ -36,10 +36,10 @@ public class TypeRoute {
 	 * @return Response HTTP-Antwort mit Projekten
 	 */
 	@GET
-	@RolesAllowed({"editor", "intern"})
+	@RolesAllowed("editor-intern")
 	@Path("type")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response show() {
+	public Response showAll() {
 		return controller.showAll();
 	}
 	
@@ -50,7 +50,7 @@ public class TypeRoute {
 	 * @return Response HTTP-Antwort mit Projekt
 	 */
 	@GET
-	@RolesAllowed({"editor", "intern"})
+	@RolesAllowed("editor-intern")
 	@Path("type/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showById(@PathParam("id") int id) {

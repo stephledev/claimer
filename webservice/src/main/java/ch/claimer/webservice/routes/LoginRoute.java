@@ -1,9 +1,7 @@
 package ch.claimer.webservice.routes;
 
-
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
-import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -11,7 +9,6 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -73,7 +70,7 @@ public class LoginRoute {
 	 * @return Response HTTP-Antwort mit Statusmeldung
 	 */
 	@POST
-	@RolesAllowed({"admin", "intern"})
+	@RolesAllowed("admin")
 	@Path("login")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response create(Login login) {	

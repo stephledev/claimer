@@ -27,7 +27,7 @@ public class CategoryRoute {
 	}
 	
 	@GET
-	@RolesAllowed({"intern", "admin"})
+	@RolesAllowed("admin")
 	@Path("category") 
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showAll() {
@@ -35,7 +35,7 @@ public class CategoryRoute {
 	}
 	
 	@GET
-	@RolesAllowed({"intern", "admin"})
+	@RolesAllowed("admin")
 	@Path("category/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showById(@PathParam("id") int id) {

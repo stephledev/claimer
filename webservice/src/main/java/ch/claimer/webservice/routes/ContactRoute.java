@@ -43,7 +43,7 @@ public class ContactRoute {
 	 */
 	
 	@GET
-	@RolesAllowed({"intern", "admin"})
+	@RolesAllowed("admin")
 	@Path("contact") 
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showAll() {
@@ -57,7 +57,7 @@ public class ContactRoute {
 	 * @return Response HTTP-Antwort mit Ansprechsperson
 	 */
 	@GET
-	@RolesAllowed({"intern", "admin"})
+	@RolesAllowed("admin")
 	@Path("contact/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showById(@PathParam("id") int id) {
@@ -72,7 +72,7 @@ public class ContactRoute {
 	 * @return Antwort vom Controller
 	 */
 	@GET
-	@RolesAllowed({"editor", "extern"})
+	@RolesAllowed("editor-extern")
 	@Path("contact/subcontractor/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showBySubcontractor(@PathParam("id") int id) {
@@ -88,7 +88,7 @@ public class ContactRoute {
 	 * @return Response HTTP-Antwort mit Statusmeldung
 	 */
 	@POST
-	@RolesAllowed({"admin", "intern"})
+	@RolesAllowed("admin")
 	@Path("contact")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response create(Contact contact) {	
@@ -103,7 +103,7 @@ public class ContactRoute {
 	 * @return Response HTTP-Antwort mit Statusmeldung
 	 */
 	@PUT
-	@RolesAllowed({"admin", "intern"})
+	@RolesAllowed("admin")
 	@Path("contact")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response update(Contact contact) {

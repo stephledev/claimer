@@ -12,6 +12,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import ch.claimer.shared.models.Project;
+import ch.claimer.shared.models.Supervisor;
 import ch.claimer.webservice.controller.Controller;
 
 /**
@@ -38,7 +39,7 @@ public class ProjectRoute {
 	 * @return Response HTTP-Antwort mit Projekten
 	 */
 	@GET
-	@RolesAllowed({"admin", "intern"})
+	@RolesAllowed("admin")
 	@Path("project") 
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showAll() {
@@ -52,7 +53,7 @@ public class ProjectRoute {
 	 * @return Response HTTP-Antwort mit Projekt
 	 */
 	@GET
-	@RolesAllowed({"admin", "intern"})
+	@RolesAllowed("admin")
 	@Path("project/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showById(@PathParam("id") int id) {
@@ -66,11 +67,11 @@ public class ProjectRoute {
 	 * @return Response HTTP-Antwort mit Projekten
 	 */
 	@GET
-	@RolesAllowed({"editor", "intern"})
+	@RolesAllowed("editor-intern")
 	@Path("project/supervisor/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showBySupervisor(@PathParam("id") int id) {
-		return controller.showByProperty("supervisor_id", id);
+		return controller.showByRelation(Supervisor.class, id);
 	}
 	
 	/**
@@ -80,7 +81,7 @@ public class ProjectRoute {
 	 * @return Response HTTP-Antwort mit Statusmeldung
 	 */
 	@POST
-	@RolesAllowed({"admin", "intern"})
+	@RolesAllowed("admin")
 	@Path("project")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response create(Project project) {	
@@ -94,7 +95,7 @@ public class ProjectRoute {
 	 * @return Response HTTP-Antwort mit Statusmeldung
 	 */
 	@PUT
-	@RolesAllowed({"admin", "intern"})
+	@RolesAllowed("admin")
 	@Path("project")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response update(Project project) {

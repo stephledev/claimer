@@ -12,6 +12,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import ch.claimer.shared.models.SCEmployee;
+import ch.claimer.shared.models.Subcontractor;
 import ch.claimer.webservice.controller.Controller;
 
 /**
@@ -40,7 +41,7 @@ public class SCEmployeeRoute {
 	 * @return Response HTTP-Antwort mit SU-Sachbearbeitenden
 	 */
 	@GET
-	@RolesAllowed({"admin", "intern"})
+	@RolesAllowed("admin")
 	@Path("scemployee") 
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showAll() {
@@ -54,7 +55,7 @@ public class SCEmployeeRoute {
 	 * @return Response HTTP-Antwort mit SU-Sachbearbeitenden
 	 */
 	@GET
-	@RolesAllowed({"admin", "intern"})
+	@RolesAllowed("admin")
 	@Path("scemployee/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showById(@PathParam("id") int id) {
@@ -69,11 +70,11 @@ public class SCEmployeeRoute {
 	 * @return Antwort vom "controller"
 	 */
 	@GET
-	@RolesAllowed({"admin", "intern"})
+	@RolesAllowed("admin")
 	@Path("scemployee/subcontractor/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showBySubcontractor(@PathParam("id") int id) {
-		return controller.showByProperty("person_id", id);
+		return controller.showByRelation(Subcontractor.class, id);
 	}
 	
 	/**
@@ -83,7 +84,7 @@ public class SCEmployeeRoute {
 	 * @return Response HTTP-Antwort mit Statusmeldung
 	 */
 	@POST
-	@RolesAllowed({"admin", "intern"})
+	@RolesAllowed("admin")
 	@Path("scemployee")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response create(SCEmployee scemployee) {	
@@ -97,7 +98,7 @@ public class SCEmployeeRoute {
 	 * @return Response HTTP-Antwort mit Statusmeldung
 	 */
 	@PUT
-	@RolesAllowed({"admin", "intern"})
+	@RolesAllowed("admin")
 	@Path("scemployee")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response update(SCEmployee scemployee) {

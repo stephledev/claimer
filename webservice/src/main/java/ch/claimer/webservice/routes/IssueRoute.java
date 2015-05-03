@@ -12,7 +12,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import ch.claimer.shared.models.Contact;
 import ch.claimer.shared.models.Issue;
+import ch.claimer.shared.models.Project;
+import ch.claimer.shared.models.Subcontractor;
 import ch.claimer.webservice.controller.Controller;
 
 
@@ -40,7 +43,7 @@ public class IssueRoute {
 	 * @return Response HTTP-Antwort mit Projekten
 	 */
 	@GET
-	@RolesAllowed({"admin", "intern"})
+	@RolesAllowed("admin")
 	@Path("issue") 
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showAll() {
@@ -54,7 +57,7 @@ public class IssueRoute {
 	 * @return Response HTTP-Antwort mit dem Mangel
 	 */
 	@GET
-	@RolesAllowed({"admin", "intern"})
+	@RolesAllowed("admin")
 	@Path("issue/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showById(@PathParam("id") int id) {
@@ -69,11 +72,11 @@ public class IssueRoute {
 	 * @return Response HTTP-Antwort mit Mängeln
 	 */
 	@GET
-	@RolesAllowed({"editor", "intern"})
+	@RolesAllowed("editor-intern")
 	@Path("issue/project/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showByProject(@PathParam("id") int id) {
-		return controller.showByProperty("project_id", id);
+		return controller.showByRelation(Project.class, id);
 	}
 
 	/**
@@ -84,11 +87,11 @@ public class IssueRoute {
 	 * @return Antwort vom Controller
 	 */
 	@GET
-	@RolesAllowed({"editor", "extern"})
+	@RolesAllowed("editor-extern")
 	@Path("issue/contact/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showByContact(@PathParam("id") int id) {
-		return controller.showByProperty("contact_id", id);
+		return controller.showByRelation(Contact.class, id);
 	}
 	
 	/**
@@ -99,11 +102,11 @@ public class IssueRoute {
 	 * @return Response HTTP-Antwort mit Mängeln
 	 */
 	@GET
-	@RolesAllowed({"power", "extern"})
+	@RolesAllowed("power-extern")
 	@Path("issue/subcontractor/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showBySubcontractor(@PathParam("id") int id) {
-		return controller.showByProperty("subcontractor_id", id);
+		return controller.showByRelation(Subcontractor.class, id);
 	
 	}
 	
@@ -115,7 +118,7 @@ public class IssueRoute {
 	 * @return Response HTTP-Antwort mit Statusmeldung
 	 */
 	@POST
-	@RolesAllowed({"editor", "intern"})
+	@RolesAllowed("editor-intern")
 	@Path("issue")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response create(Issue issue) {	
@@ -130,7 +133,7 @@ public class IssueRoute {
 	 * @return Response HTTP-Antwort mit Statusmeldung
 	 */
 	@PUT
-	@RolesAllowed({"editor", "intern"})
+	@RolesAllowed("editor-intern")
 	@Path("issue")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response update(Issue issue) {
