@@ -37,7 +37,7 @@ http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
 				<property name="javax.persistence.jdbc.password" value="claimer" />
 				<property name="eclipselink.ddl-generation.output-mode" value="database" />
 				<property name="eclipselink.ddl-generation" value="create-tables" />
-				<property name="eclipselink.logging.level" value="OFF" />
+				<property name="eclipselink.logging.level" value="FINE" />
 				
 			</properties>
 			

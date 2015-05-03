@@ -41,6 +41,16 @@ public class EclipseLinkRepository<T> implements Repository<T> {
 			.setParameter("value", value)
 			.getResultList();
 		em.close();
+		return list;
+	}
+	
+	@Override
+	public List<T> getByRelation(Class<?> relation, int id) {
+		EntityManager em = factory.createEntityManager();
+		List<T> list = em.createQuery("SELECT t FROM " + clazz.getName() + " t WHERE t."+relation.getSimpleName().toLowerCase() + " = :value", clazz)
+			.setParameter("value", em.find(relation, id))
+			.getResultList();
+		em.close();
 		System.out.println(list);
 		return list;
 	}

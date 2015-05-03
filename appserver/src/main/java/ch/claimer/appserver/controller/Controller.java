@@ -34,6 +34,10 @@ public class Controller<T> extends UnicastRemoteObject implements Method<T> {
 		return repository.getByProperty(name, value);
 	}
 	
+	@Override
+	public List<T> getByRelation(Class<?> relation, int id) {
+		return repository.getByRelation(relation, id);
+	}
 
 	@Override
 	public T create(T t) {
