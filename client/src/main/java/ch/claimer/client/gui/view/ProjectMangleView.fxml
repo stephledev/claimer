@@ -65,8 +65,8 @@
                             <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Label text="Festgestellt am:" />
-                              <DatePicker prefWidth="250.0" GridPane.columnIndex="1" />
+                              <Label text="Status:" />
+                              <ComboBox fx:id="combo_status" prefWidth="250.0" GridPane.columnIndex="1" />
                            </children>
                         </GridPane>
                         <GridPane GridPane.rowIndex="5">
@@ -78,8 +78,8 @@
                             <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Label text="Erledigen bis:" />
-                              <DatePicker prefWidth="250.0" GridPane.columnIndex="1" />
+                              <Label text="Erledigen durch:" />
+                              <ComboBox fx:id="combo_subcontractor" prefWidth="250.0" GridPane.columnIndex="1" />
                            </children>
                         </GridPane>
                         <GridPane prefHeight="58.0" prefWidth="242.0" GridPane.rowIndex="6">
@@ -90,10 +90,6 @@
                           <rowConstraints>
                             <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
-                           <children>
-                              <Label text="Status:" />
-                              <ComboBox fx:id="combo_status" prefWidth="250.0" GridPane.columnIndex="1" />
-                           </children>
                         </GridPane>
                         <GridPane prefHeight="124.0" prefWidth="242.0" GridPane.rowIndex="7">
                           <columnConstraints>
@@ -103,10 +99,6 @@
                           <rowConstraints>
                             <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
-                           <children>
-                              <Label text="Erledigen durch:" />
-                              <ComboBox fx:id="combo_subcontractor" prefWidth="250.0" GridPane.columnIndex="1" />
-                           </children>
                         </GridPane>
                         <GridPane GridPane.rowIndex="8">
                           <columnConstraints>
@@ -126,8 +118,8 @@
                             <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Label text="Mangelname:" />
-                              <TextField fx:id="txt_mangleName" prefWidth="250.0" GridPane.columnIndex="1" />
+                              <TextField fx:id="txt_issueId" prefWidth="250.0" text="123" GridPane.columnIndex="1" />
+                              <Label text="Mangel-ID:" />
                            </children>
                         </GridPane>
                         <GridPane GridPane.rowIndex="1">
@@ -152,8 +144,8 @@
                             <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Label text="Teilobjekt:" />
-                              <TextField fx:id="txt_objectName" prefWidth="250.0" GridPane.columnIndex="1" />
+                              <Label text="Festgestellt am:" />
+                              <DatePicker fx:id="issuedate_start" prefWidth="250.0" GridPane.columnIndex="1" />
                            </children>
                         </GridPane>
                         <GridPane GridPane.rowIndex="3">
@@ -165,8 +157,8 @@
                             <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Label text="Bereich:" />
-                              <TextField fx:id="txt_area" prefWidth="250.0" GridPane.columnIndex="1" />
+                              <Label text="Erledigen bis:" />
+                              <DatePicker fx:id="issueDate_end" prefWidth="250.0" GridPane.columnIndex="1" />
                            </children>
                         </GridPane>
                      </children>
@@ -318,11 +310,16 @@
                                     <Insets right="20.0" />
                                  </HBox.margin>
                               </TextField>
-                              <Label fx:id="lbl_author" prefHeight="33.0" prefWidth="100.0" text="Autor">
+                              <TextField fx:id="txt_commentAuthor" text="Hans Muster">
                                  <HBox.margin>
                                     <Insets right="20.0" />
                                  </HBox.margin>
-                              </Label>
+                              </TextField>
+                              <TextField fx:id="txt_commentDate" text="01.01.2015">
+                                 <HBox.margin>
+                                    <Insets right="20.0" />
+                                 </HBox.margin>
+                              </TextField>
                               <Button fx:id="bttn_addComment" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#addComment" styleClass="delete-button" text="Kommentar hinzufügen" />
                            </children>
                         </HBox>

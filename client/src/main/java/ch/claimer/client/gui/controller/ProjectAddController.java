@@ -36,6 +36,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 /**
@@ -49,12 +50,10 @@ public class ProjectAddController implements Initializable {
 	Client client;
     WebTarget target;
     ResteasyWebTarget rtarget;
-    
     ObjectMapper mapper;
+    
     List<Issue> issuesToShow = null;
     List<Project> projectsToShow = null;
-
-
 	ObservableList<Issue> data = FXCollections.observableArrayList();
 
 	private  Integer projectId = null;
@@ -131,30 +130,28 @@ public class ProjectAddController implements Initializable {
 	@FXML
 	private TableColumn<Issue, String> colStatus;
 
-	// "Mangel hinzufügen"-Button: ur ProjectMain-Ansicht wechseln (mainView.xml)
+	
+	// "Mangel hinzufügen"-Button: zur ProjectMangle-Ansicht wechseln
 	@FXML
 	private void loadProjectMangleView(ActionEvent event) throws IOException {
 		Pane myPane = FXMLLoader.load(getClass().getResource("../view/ProjectMangleView.fxml"));
 		mainContent.getChildren().clear();
 		mainContent.getChildren().setAll(myPane);
-
 	}
 
-	// "Abbrechen"-Button: zur ProjectMangle-Ansicht wechseln (mainView.xml)
+	// "Abbrechen"-Button: zur ProjectMain-Ansicht wechseln 
 	@FXML
 	private void loadProjectMainView(ActionEvent event) throws IOException {
 		Pane myPane = FXMLLoader.load(getClass().getResource(
 				"../view/ProjectsMainView.fxml"));
 		mainContent.getChildren().clear();
 		mainContent.getChildren().setAll(myPane);
-
 	}
 
 	// "Speicher"-Button: Speichert das Projekt
 	@FXML
 	private void saveProject(ActionEvent event) throws IOException {
 		
-
 		if (projectId != null) {
 			
 			Client client = new ResteasyClientBuilder().build();
@@ -190,6 +187,9 @@ public class ProjectAddController implements Initializable {
 		
 	}
 
+	/**
+	 * @param projectToEdit
+	 */
 	public void initData(Project projectToEdit) {
 		lbl_title.setText("Benutzer bearbeiten");
 		
@@ -234,9 +234,9 @@ public class ProjectAddController implements Initializable {
 		
 		
 		//Sollte der Kunde sein
-		if(projectToEdit.getContacts() != null) {
-			combo_principal.setSelectionModel((SingleSelectionModel<Person>) projectToEdit.getContacts());	
-		}
+//		if(projectToEdit.getContacts() != null) {
+//			combo_principal.setSelectionModel((SingleSelectionModel<Person>) projectToEdit.getContacts());	
+//		}
 		
 		//Telefonnummer des Kunden
 //		if(projectToEdit.getContacts() != null) {
@@ -250,6 +250,10 @@ public class ProjectAddController implements Initializable {
 	}
 	
 	
+	/**
+	 *
+	 * @param projectToupdate
+	 */
 	public void updateData(Project projectToupdate) {
 		
 		projectId = projectToupdate.getId();
@@ -307,7 +311,7 @@ public class ProjectAddController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-
+		txt_projectId.setEditable(false);
 		getIssue();
 
 		// Spalten-Values definieren (müssen den Parameter des Mangel-Objekts entsprechen)
@@ -343,6 +347,35 @@ public class ProjectAddController implements Initializable {
 		
 	    issuesToShow = null;
 	    
+	}
+	
+	private void editIssue(MouseEvent t) throws IOException {
+
+		// Wenn Doppelklick auf Mangel
+		if (t.getClickCount() == 2) {
+
+			// Angeklickte Mangel laden
+			Issue issueID = (Issue) mangleTableView.getSelectionModel()
+					.getSelectedItem();
+
+			// FXMLLoader erstelen
+			FXMLLoader loader = new FXMLLoader(getClass().getResource(
+					"../view/ProjectMangleView.fxml"));
+
+			// Neuen View laden
+			Pane myPane = loader.load();
+
+			// UserAddController holen
+			ProjectMangleController controller = loader
+					.<ProjectMangleController> getController();
+
+			// Controller starten
+			controller.initData(issueID);
+
+			// Neuen View einfügen
+			mainContent.getChildren().clear();
+			mainContent.getChildren().setAll(myPane);
+		}
 	}
 
 }

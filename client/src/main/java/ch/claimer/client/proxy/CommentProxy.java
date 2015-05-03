@@ -22,4 +22,9 @@ public interface CommentProxy {
 	@Produces(MediaType.APPLICATION_JSON)
 	String getByContact();
 	
+	@GET
+	@Path("/comment/issue/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	String getByIssue();
+	
 }

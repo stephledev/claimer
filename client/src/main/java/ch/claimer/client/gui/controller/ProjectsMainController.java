@@ -11,13 +11,9 @@ import javax.ws.rs.client.WebTarget;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
-import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
-import ch.claimer.client.proxy.GCEmployeeProxy;
 import ch.claimer.client.proxy.ProjectProxy;
-import ch.claimer.shared.models.GCEmployee;
-import ch.claimer.shared.models.Person;
 import ch.claimer.shared.models.Project;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -91,7 +87,7 @@ public class ProjectsMainController implements Initializable{
 	private Label lbl_title;
 	
 
-	// Zur ProjectAdd-Ansicht wechseln (mainView.xml)
+	// Zur ProjectAddView wechseln 
 	@FXML
 	private void loadProjectAddView(ActionEvent event) throws IOException {
 		Pane myPane = FXMLLoader.load(getClass().getResource(
@@ -100,19 +96,19 @@ public class ProjectsMainController implements Initializable{
 		mainContent.getChildren().setAll(myPane);
 	}
 	
+	
 	/**
 	 * Öffnet die Detailansicht für einen User, um diesen zu bearbeiten.
 	 * @param t
 	 * @throws IOException
 	 */
-	
 	@FXML
-	private void editUser(MouseEvent t) throws IOException {
+	private void editProject(MouseEvent t) throws IOException {
 		
-		//Wenn Doppelklick auf Person
+		//Wenn Doppelklick auf Projekt
 		if(t.getClickCount() == 2) {
 			
-			//Angeklickte Person laden
+			//Angeklickte Projekt laden
 			Project projectID = (Project) projectTableView.getSelectionModel().getSelectedItem();
 
 			//FXMLLoader erstelen
@@ -132,9 +128,10 @@ public class ProjectsMainController implements Initializable{
 			//Neuen View einfügen
 			mainContent.getChildren().clear();
 			mainContent.getChildren().setAll(myPane);
-
 		}
 	}
+	
+	
 	
 	/**
 	 * Lädt alle Projekte aus der Datenbank
@@ -176,8 +173,7 @@ public class ProjectsMainController implements Initializable{
 		
 		
 		
-		// Spalten-Values definieren (müssen den Parameter des Company-Objekts
-		// entsprechen)
+		// Spalten-Values definieren (müssen den Parameter des Company-Objekts entsprechen)
 		colProject
 				.setCellValueFactory(new PropertyValueFactory<Project, String>(
 						"name"));
@@ -248,18 +244,5 @@ public class ProjectsMainController implements Initializable{
 		projectTableView.getSortOrder().addAll(sortOrder);
 	}
 		
-	/**
-	 * Webservice-Verbindung herstellen. Wird automatisch von der initiate-Funktion aufgerufen.
-	 */
-	private void initiateWebserviceConnection() {
-		client = new ResteasyClientBuilder().build();
-		target = client.target("http://localhost:8080/webservice");
-		rtarget = (ResteasyWebTarget) target;
-		mapper = new ObjectMapper();
-	}
-		
-
-
-	
 
 }
