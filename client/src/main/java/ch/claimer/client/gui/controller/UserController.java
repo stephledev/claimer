@@ -11,7 +11,6 @@ import javax.ws.rs.client.WebTarget;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
-import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
 import ch.claimer.client.proxy.GCEmployeeProxy;

@@ -26,21 +26,21 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label styleClass="lblViewTitle" text="Neuen Bauherr erfassen" />
+                  <Label fx:id="lblTitel" styleClass="lblViewTitle" text="Neuen Bauherr erfassen" />
                </children>
             </GridPane>
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1">
                <children>
-                  <Label text="Erfassen als:">
+                  <Label fx:id="lblDescription" text="Erfassen als:">
                      <HBox.margin>
                         <Insets right="20.0" />
                      </HBox.margin>
                   </Label>
                </children>
             </HBox>
-            <TabPane tabClosingPolicy="UNAVAILABLE" GridPane.rowIndex="2">
+            <TabPane fx:id="tabPanePrincipal" tabClosingPolicy="UNAVAILABLE" GridPane.rowIndex="2">
               <tabs>
-                <Tab text="Privatperson">
+                <Tab fx:id="tabPerson" text="Privatperson">
                   <content>
                     <AnchorPane fx:id="containerPersonAdd" maxHeight="2000.0">
                            <children>
@@ -81,18 +81,18 @@
                                           <Label text="Email:" GridPane.columnIndex="3" />
                                           <Label text="Telefon:" GridPane.columnIndex="3" GridPane.rowIndex="2" />
                                           <Label text="Ort." GridPane.rowIndex="8" />
-                                          <TextField GridPane.columnIndex="1" />
-                                          <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                          <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                          <TextField GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                                          <TextField GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                                          <TextField GridPane.columnIndex="4" />
-                                          <TextField GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                                          <TextField fx:id="txtPersonLastname" GridPane.columnIndex="1" />
+                                          <TextField fx:id="txtPersonFirstname" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <TextField fx:id="txtPersonAdress" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                          <TextField fx:id="txtPersonZIP" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                          <TextField fx:id="txtPersonPlace" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                                          <TextField fx:id="txtPersonEmail" GridPane.columnIndex="4" />
+                                          <TextField fx:id="txtPersonPhone" GridPane.columnIndex="4" GridPane.rowIndex="2" />
                                        </children>
                                     </GridPane>
                                     <HBox GridPane.rowIndex="2">
                                        <children>
-                                          <Button mnemonicParsing="false" styleClass="save-button" text="Speichern">
+                                          <Button mnemonicParsing="false" onAction="#savePrincipalPerson" styleClass="save-button" text="Speichern">
                                              <HBox.margin>
                                                 <Insets right="20.0" />
                                              </HBox.margin>
@@ -108,7 +108,7 @@
                            </padding></AnchorPane>
                   </content>
                 </Tab>
-                <Tab text="Firma">
+                <Tab fx:id="tabCompany" text="Firma">
                   <content>
                     <AnchorPane fx:id="containerCompanyAdd">
                            <children>
@@ -146,17 +146,17 @@
                                           <Label text="Ort:" GridPane.rowIndex="6" />
                                           <Label text="Email:" GridPane.columnIndex="3" />
                                           <Label text="Telefon:" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                                          <TextField GridPane.columnIndex="1" />
-                                          <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                          <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                          <TextField GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                                          <TextField GridPane.columnIndex="4" />
-                                          <TextField GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                                          <TextField fx:id="txtCompanyName" GridPane.columnIndex="1" />
+                                          <TextField fx:id="txtCompanyAdress" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <TextField fx:id="txtCompanyZIP" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                          <TextField fx:id="txtCompanyPlace" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                          <TextField fx:id="txtCompanyEmail" GridPane.columnIndex="4" />
+                                          <TextField fx:id="txtCompanyPhone" GridPane.columnIndex="4" GridPane.rowIndex="2" />
                                        </children>
                                     </GridPane>
                                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="2">
                                        <children>
-                                          <Button mnemonicParsing="false" styleClass="save-button" text="Speichern">
+                                          <Button mnemonicParsing="false" onAction="#savePrincipalCompany" styleClass="save-button" text="Speichern">
                                              <HBox.margin>
                                                 <Insets right="20.0" />
                                              </HBox.margin>

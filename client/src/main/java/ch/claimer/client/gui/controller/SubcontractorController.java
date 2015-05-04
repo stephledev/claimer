@@ -4,13 +4,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ws.rs.client.WebTarget;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
-import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
-import ch.claimer.client.proxy.GCEmployeeProxy;
 import ch.claimer.client.proxy.SubcontractorProxy;
 import ch.claimer.client.util.ResteasyClientUtil;
 import ch.claimer.shared.models.Company;

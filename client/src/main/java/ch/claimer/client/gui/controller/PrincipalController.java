@@ -9,7 +9,6 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 
 import ch.claimer.client.proxy.PrincipalProxy;
-import ch.claimer.client.proxy.SubcontractorProxy;
 import ch.claimer.client.util.ResteasyClientUtil;
 import ch.claimer.shared.models.Company;
 import ch.claimer.shared.models.Principal;
@@ -25,6 +24,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 /**
@@ -79,19 +79,7 @@ public class PrincipalController implements Initializable {
 		mainContent.getChildren().clear();
 		mainContent.getChildren().setAll(myPane);
 	}
-	
-	/**
-	 * Fenster aufrufen, um einen Bauherr zu bearbeiten
-	 * @param event
-	 * @throws IOException
-	 */
-	@FXML
-	private void editPrincipal(ActionEvent event) throws IOException {
-		// TODO
-	}
-	
-	
-	
+		
 	/** 
 	 * TableView mit Bauherren-Daten befüllen beim Aufruf.
 	 */
@@ -137,6 +125,39 @@ public class PrincipalController implements Initializable {
 			
 		});
 		
+	}
+	
+	/**
+	 * Fenster aufrufen, um einen Bauherr zu bearbeiten
+	 * @param event
+	 * @throws IOException
+	 */
+	@FXML
+	private void editPrincipal(MouseEvent t) throws IOException {
+        
+        //Wenn Doppelklick auf Person
+        if(t.getClickCount() == 2) {
+        		
+	        	//Angeklickte Firma laden
+				Principal principalToEdit = (Principal) principalTableView.getSelectionModel().getSelectedItem();
+	
+				//FXMLLoader erstelen
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/PrincipalAddView.fxml"));
+				
+				//Neuen View laden
+				Pane myPane = loader.load();
+	
+				//UserAddController holen
+				PrincipalAddController controller = loader.<PrincipalAddController>getController();
+				
+				//Controller starten
+				controller.initData(principalToEdit);			
+				
+				//Neuen View einfügen
+				mainContent.getChildren().clear();
+				mainContent.getChildren().setAll(myPane);
+        
+        }
 	}
 	
 }
