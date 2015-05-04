@@ -70,16 +70,24 @@
                                         <RowConstraints fillHeight="false" vgrow="NEVER" />
                                           <RowConstraints fillHeight="false" maxHeight="10.0" minHeight="10.0" prefHeight="10.0" vgrow="NEVER" />
                                           <RowConstraints fillHeight="false" vgrow="NEVER" />
+                                          <RowConstraints fillHeight="false" maxHeight="10.0" minHeight="10.0" prefHeight="10.0" vgrow="NEVER" />
+                                          <RowConstraints fillHeight="false" vgrow="NEVER" />
                                       </rowConstraints>
                                        <children>
                                           <Label text="Name:" />
                                           <Label text="Vorname:" GridPane.rowIndex="2" />
-                                          <Label text="Email:" GridPane.rowIndex="4" />
+                                          <Label text="Strasse:" GridPane.rowIndex="4" />
+                                          <Label text="PLZ:" GridPane.rowIndex="6" />
+                                          <Label text="Email:" GridPane.columnIndex="3" />
+                                          <Label text="Telefon:" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                                          <Label text="Ort." GridPane.rowIndex="8" />
                                           <TextField GridPane.columnIndex="1" />
                                           <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                           <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
                                           <TextField GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                                          <Label text="Telefon:" GridPane.rowIndex="6" />
+                                          <TextField GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                                          <TextField GridPane.columnIndex="4" />
+                                          <TextField GridPane.columnIndex="4" GridPane.rowIndex="2" />
                                        </children>
                                     </GridPane>
                                     <HBox GridPane.rowIndex="2">
@@ -136,14 +144,14 @@
                                           <Label text="Strasse:" GridPane.rowIndex="2" />
                                           <Label text="PLZ:" GridPane.rowIndex="4" />
                                           <Label text="Ort:" GridPane.rowIndex="6" />
-                                          <Label text="E-Mail:" GridPane.columnIndex="3" />
+                                          <Label text="Email:" GridPane.columnIndex="3" />
                                           <Label text="Telefon:" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                                          <TextField GridPane.columnIndex="4" />
-                                          <TextField GridPane.columnIndex="4" GridPane.rowIndex="2" />
                                           <TextField GridPane.columnIndex="1" />
                                           <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                           <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
                                           <TextField GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                          <TextField GridPane.columnIndex="4" />
+                                          <TextField GridPane.columnIndex="4" GridPane.rowIndex="2" />
                                        </children>
                                     </GridPane>
                                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="2">
