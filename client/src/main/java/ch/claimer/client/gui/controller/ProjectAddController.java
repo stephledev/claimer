@@ -346,7 +346,7 @@ public class ProjectAddController implements Initializable {
 	    IssueProxy issueProxy = rtarget.proxy(IssueProxy.class);
 	    
 	    try {
-	    	issuesToShow = mapper.readValue(issueProxy.getByProject(), new TypeReference<List<Issue>>(){});
+	    	issuesToShow = mapper.readValue(issueProxy.getByProject(projectId), new TypeReference<List<Issue>>(){});
 			
 			for(int i = 0; i < issuesToShow.size(); i++) {
 			    	

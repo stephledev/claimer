@@ -4,15 +4,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
-import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
+import ch.claimer.client.proxy.GCEmployeeProxy;
 import ch.claimer.client.proxy.SubcontractorProxy;
+import ch.claimer.client.util.ResteasyClientUtil;
 import ch.claimer.shared.models.Company;
 import ch.claimer.shared.models.Subcontractor;
 import javafx.beans.value.ChangeListener;
@@ -31,7 +31,8 @@ import javafx.scene.layout.Pane;
 
 /**
  * Controller der Subunternehmen-Seite
- * @author Kevin Stadelmann, Alexander Hauck
+ * @author Kevin Stadelmann
+ * @author Alexander Hauck
  * @since 16.04.2015
  * @version 1.1
  *
@@ -123,11 +124,7 @@ public class SubcontractorController {
 	public void initialize() {
 		
 		//Subunternehmen aus Datenbank laden
-		Client client = new ResteasyClientBuilder().build();
-	    WebTarget target = client.target("http://localhost:8080/webservice");
-	    ResteasyWebTarget rtarget = (ResteasyWebTarget)target;
-	    
-	    SubcontractorProxy subcontractorProxy = rtarget.proxy(SubcontractorProxy.class);
+		SubcontractorProxy subcontractorProxy = ResteasyClientUtil.getTarget().proxy(SubcontractorProxy.class);
 	    ObjectMapper mapper = new ObjectMapper();
 	    List<Subcontractor> subcontractorList = null;
 		try {
