@@ -16,7 +16,7 @@ import javax.ws.rs.core.MediaType;
 
 public interface RoleProxy {
 	@GET
-	@Path("category")
+	@Path("role")
 	@Produces(MediaType.APPLICATION_JSON)
 	String getAll();	
 }
