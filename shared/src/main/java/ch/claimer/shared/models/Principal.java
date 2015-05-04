@@ -1,7 +1,5 @@
 package ch.claimer.shared.models;
 
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,6 +19,10 @@ public class Principal implements Model {
 	private String place;
 	private String phone;
 	private String email;
+	
+	public Principal() {
+		
+	}
 	
 	public int getId() {
 		return id;

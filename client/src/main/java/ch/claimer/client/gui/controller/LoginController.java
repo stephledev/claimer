@@ -5,16 +5,12 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.WebTarget;
-
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
-import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
-import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
 import ch.claimer.client.gui.*;
 import ch.claimer.client.proxy.LoginProxy;
+import ch.claimer.client.util.ResteasyClientUtil;
 import ch.claimer.shared.models.Login;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -72,51 +68,39 @@ public class LoginController extends Main implements Initializable {
 		String username = txt_benutzer.getText();
 		
 		//Überprüfen, ob Felder nicht leer
-		if(passwort.length() == 0 && username.length() == 0) {
+		if(passwort.length() == 0 || username.length() == 0) {
 			lbl_warnung.setText("Bitte alle Felder ausfüllen!");
 			return;
 		}
 			
-			//Logins aus Datenbank laden
-			Client client = new ResteasyClientBuilder().build();
-		    WebTarget target = client.target("http://localhost:8080/webservice");
-		    ResteasyWebTarget rtarget = (ResteasyWebTarget)target;
-		    
-		    LoginProxy loginProxy = rtarget.proxy(LoginProxy.class);
-		    ObjectMapper mapper = new ObjectMapper();
-		    List<Login> loginList = null;
-			try {
-				loginList = mapper.readValue(loginProxy.getAll(), new TypeReference<List<Login>>(){});
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-
-			Login login = new Login();
-			
-			//Erhaltene List iterieren
-		    for(int i = 0; i < loginList.size(); i++) {
-		    	
-		    	login = loginList.get(i);
-		    	
-		    	if(login.getUsername().equals(username)) {
-		    		
-					try {
-						go(event);
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						System.out.println("fail");
-						e.printStackTrace();
-					}
-		    		
-		    	} else {
-		    		System.out.println("Login nicht korrekt");
-		    		psw.setText("");
-		    	}
-		    	
-		    	login = null;
-		    		
-		    }
+		//Logins aus Datenbank laden
+		LoginProxy loginProxy = ResteasyClientUtil.getTarget().proxy(LoginProxy.class);
+	    ObjectMapper mapper = new ObjectMapper();
+	    List<Login> loginList = null;
+	    
+		try {
+			loginList = mapper.readValue(loginProxy.getAll(), new TypeReference<List<Login>>(){});
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		//Erhaltene List iterieren
+	    for(Login login : loginList) {
+	    	
+	    	if(login.getUsername().equals(username)) {
+				try {
+					go(event);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					System.out.println("fail");
+					e.printStackTrace();
+				}
+	    		
+	    	} else {
+	    		lbl_warnung.setText("Login nicht korrekt!");
+	    		psw.setText("");
+	    	}
+	    }
 		
 	}
 		
