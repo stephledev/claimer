@@ -14,6 +14,7 @@ import ch.claimer.shared.models.Image;
 import ch.claimer.shared.models.Issue;
 import ch.claimer.shared.models.LogEntry;
 import ch.claimer.shared.models.Login;
+import ch.claimer.shared.models.Principal;
 import ch.claimer.shared.models.Project;
 import ch.claimer.shared.models.Role;
 import ch.claimer.shared.models.SCEmployee;
@@ -35,6 +36,7 @@ public class RMIService {
 			Method<Issue> issueMethod = new Controller<Issue>(Issue.class);
 			Method<LogEntry> logEntryMethod = new Controller<LogEntry>(LogEntry.class);
 			Method<Login> loginMethod = new Controller<Login>(Login.class);
+			Method<Principal> principalMethod = new Controller<Principal>(Principal.class);
 			Method<Project> projectMethod = new Controller<Project>(Project.class);
 			Method<Role> roleMethod = new Controller<Role>(Role.class);
 			Method<SCEmployee> scEmployeeMethod = new Controller<SCEmployee>(SCEmployee.class);
@@ -54,6 +56,7 @@ public class RMIService {
 				reg.rebind("Issue", issueMethod);
 				reg.rebind("LogEntry", logEntryMethod);
 				reg.rebind("Login", loginMethod);
+				reg.rebind("Principal", principalMethod);
 				reg.rebind("Project", projectMethod);
 				reg.rebind("Role", roleMethod);
 				reg.rebind("SCEmployee", scEmployeeMethod);

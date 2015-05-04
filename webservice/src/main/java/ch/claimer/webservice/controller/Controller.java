@@ -13,23 +13,26 @@ import com.typesafe.config.ConfigFactory;
 
 import ch.claimer.shared.methods.Method;
 import ch.claimer.shared.models.Model;
-import ch.claimer.webservice.services.AuthenticationService;
-import ch.claimer.webservice.services.ConverterService;
-import ch.claimer.webservice.services.JsonConverterService;
 import ch.claimer.webservice.services.ResponseHandlerService;
 
+
+/**
+ * Behandelt sämtliche Anfragen, die über die HTTP-Routes vermittelt wurden.
+ * Initiert eine Verbindung zur RMI-Schnittstelle und ruft die entsprechenden Methoden.
+ * 
+ * @author Stephan Beeler
+ * @version 1.0
+ * @since 1.0
+ */
 public class Controller<T extends Model> {
 
 	protected final Class<T> clazz;
-	protected AuthenticationService authentication;
-	protected final ConverterService<T> converter;
 	protected Method<T> method;
 	
 	
 	@SuppressWarnings("unchecked")
 	public Controller(Class<T> clazz) {
 		this.clazz = clazz;
-		this.converter = new JsonConverterService<T>();
 		
 		Config config = ConfigFactory.load();
 		try {
@@ -56,7 +59,7 @@ public class Controller<T extends Model> {
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-		return ResponseHandlerService.success(converter.write(model));
+		return ResponseHandlerService.success(model);
 	}
 	
 	public Response showByProperty(String name, Object value) {
@@ -66,7 +69,7 @@ public class Controller<T extends Model> {
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-		return ResponseHandlerService.success(converter.write(models));
+		return ResponseHandlerService.success(models);
 	}
 	
 	public Response showByRelation(Class<?> relation, int id) {
@@ -76,7 +79,7 @@ public class Controller<T extends Model> {
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-		return ResponseHandlerService.success(converter.write(models));
+		return ResponseHandlerService.success(models);
 	}
 	
 	public Response update(T model) {
