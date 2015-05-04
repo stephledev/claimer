@@ -26,8 +26,9 @@ import javafx.stage.Stage;
 
 /**
  * @author Michael Lötscher
+ * @author Stephan Beeler
  * @since 21.04.2015
- * @version 1.1
+ * @version 1.2
  *
  */
 
@@ -61,7 +62,6 @@ public class LoginController extends Main implements Initializable {
 	
 	@FXML
 	private void anmelden(ActionEvent event) {
-	
 		
 		//Eingegebenen Benutzernamen und Passwort auslesen
 		String passwort = psw.getText();
@@ -95,13 +95,11 @@ public class LoginController extends Main implements Initializable {
 					System.out.println("fail");
 					e.printStackTrace();
 				}
-	    		
 	    	} else {
 	    		lbl_warnung.setText("Login nicht korrekt!");
 	    		psw.setText("");
 	    	}
 	    }
-		
 	}
 		
 	// verweist auf Stage aus der Klasse App.java

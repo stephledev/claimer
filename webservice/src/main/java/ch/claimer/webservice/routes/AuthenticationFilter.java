@@ -16,7 +16,7 @@ import ch.claimer.webservice.services.AuthenticationService;
 import ch.claimer.webservice.services.ResponseHandlerService;
  
 @Provider
-public class SecurityFilter implements ContainerRequestFilter {
+public class AuthenticationFilter implements ContainerRequestFilter {
 	
     @Override
     public void filter( ContainerRequestContext requestContext ) throws IOException {

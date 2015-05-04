@@ -5,6 +5,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -14,7 +15,8 @@ import ch.claimer.shared.models.SCEmployee;
  * 
  * @author Kevin Stadelmann
  * @author Momcilo Bekcic
- * @version 1.0
+ * @author Stephan Beeler
+ * @version 1.1
  * @since 1.0
  *
  */
@@ -28,22 +30,22 @@ public interface SCEmployeeProxy {
 	@GET
 	@Path("scemployee/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	String getById();
+	String getById(@PathParam("id")int id);
 	
 	@GET
 	@Path("scemployee/subcontractor/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	String getBySubcontractor();
+	String getBySubcontractor(@PathParam("id")int id);
 	
     @POST
     @Path("scemployee/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    void create();
+    void create(SCEmployee scEmployee);
     
     @PUT
     @Path("scemployee/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    void update(SCEmployee se);
+    void update(SCEmployee scEmployee);
 
 	
 

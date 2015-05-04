@@ -8,12 +8,13 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import ch.claimer.shared.models.Login;
+
 /**
- * 
  * @author Kevin Stadelmann
+ * @author Stephan Beeler
  * @since 1.0
- * @version 1.0
- *
+ * @version 1.1
  */
 
 public interface LoginProxy {
@@ -30,10 +31,10 @@ public interface LoginProxy {
 	@POST
 	@Path("login")
 	@Consumes(MediaType.APPLICATION_JSON)
-	void add();
+	void create(Login login);
 	
 	@PUT
 	@Path("login")
 	@Consumes(MediaType.APPLICATION_JSON)
-	void update();
+	void update(Login login);
 }

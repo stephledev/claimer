@@ -2,15 +2,15 @@ package ch.claimer.client.proxy;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 /**
- * 
  * @author Kevin Stadelmann
- * @version 1.0
+ * @author Stephan Beeler
  * @since 1.0
- *
+ * @version 1.1
  */
 
 public interface TypeProxy {
@@ -22,7 +22,7 @@ public interface TypeProxy {
 	@GET
 	@Path("type/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	String getType();
+	String getType(@PathParam("id")int id);
 	
 
 }

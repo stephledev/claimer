@@ -2,6 +2,7 @@ package ch.claimer.client.proxy;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -9,7 +10,8 @@ import javax.ws.rs.core.MediaType;
  * 
  * @author Kevin Stadelmann
  * @author Momcilo Bekcic
- * @version 1.0
+ * @author Stephan Beeler
+ * @version 1.1
  * @since 1.0
  *
  */
@@ -23,7 +25,7 @@ public interface StateProxy {
 	@GET
 	@Path("state/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	String getById();
+	String getById(@PathParam("id")int id);
 	
 
 }
