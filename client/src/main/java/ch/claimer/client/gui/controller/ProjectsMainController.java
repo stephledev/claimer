@@ -187,8 +187,7 @@ public class ProjectsMainController implements Initializable{
 				.setCellValueFactory(new PropertyValueFactory<Project, String>(
 						"name"));
 
-		 colPrincipal.setCellValueFactory(new PropertyValueFactory<Project,
-		 String>("principal"));
+
 		
 		colSupervisor
 				.setCellValueFactory(new PropertyValueFactory<Project, String>(

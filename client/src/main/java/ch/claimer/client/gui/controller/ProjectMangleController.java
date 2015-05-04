@@ -216,6 +216,7 @@ public class ProjectMangleController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		txt_issueId.setEditable(false);
+		initiateWebserviceConnection();
 		getComment();
 
 		// Spalten-Values definieren (müssen den Parameter des Mangel-Objekts
@@ -254,11 +255,21 @@ public class ProjectMangleController implements Initializable {
 
 			}
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
 		commentsToShow = null;
 
+	}
+	
+	/**
+	 * Webservice-Verbindung herstellen. Wird automatisch von der
+	 * initiate-Funktion aufgerufen.
+	 */
+	private void initiateWebserviceConnection() {
+		client = new ResteasyClientBuilder().build();
+		target = client.target("http://localhost:8080/webservice");
+		rtarget = (ResteasyWebTarget) target;
+		mapper = new ObjectMapper();
 	}
 }
