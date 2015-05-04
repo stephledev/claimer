@@ -7,26 +7,18 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import javax.management.relation.RoleList;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.WebTarget;
-
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
-import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
-import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
-import ch.claimer.client.proxy.LoginProxy;
 import ch.claimer.client.proxy.RoleProxy;
-import ch.claimer.client.proxy.SubcontractorProxy;
 import ch.claimer.client.util.ResteasyClientUtil;
 import ch.claimer.shared.models.Person;
 import ch.claimer.shared.models.Role;
-import ch.claimer.shared.models.Subcontractor;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -38,6 +30,7 @@ import javafx.stage.Stage;
 public class UserAddController implements Initializable{
 		
 	private Integer personId = null;
+	private String personType = null;
 	
 	@FXML
 	private Pane mainContent;
@@ -66,6 +59,7 @@ public class UserAddController implements Initializable{
 	@FXML
 	private ComboBox<String> dropdownFunction;
 	
+	
 	@FXML
 	private void loadUserMainView() {
 		try {
@@ -84,17 +78,22 @@ public class UserAddController implements Initializable{
 	
 	@FXML
 	private void saveUser(ActionEvent event) throws IOException {
-		System.out.println("Klick auf Button.");
 		
-		//Überprüfen, ob alle Pflichtfelder gesetzt wurden
+		// TODO Alle Felder auslesen
 		
-		//Personen-Objekt erstellen und alle Infos einfügen
-		//Person person = new Person();
-		
+		// TODO Überprüfen, ob alle Pflichtfelder gesetzt wurden
+			
+		//Personenobjekt erstellen:
+		Person person = null;
+
+		//Überprüfen, ob Person aktualisiert oder neu eingefügt werden soll
 		if(personId != null) {
+			
 			//Weiterleiten zum Updaten
 			System.out.println("Update");
 		} else {
+			
+			//Weiterleiten zum Einfügen
 			System.out.println("Insert");
 		}
 		
@@ -123,13 +122,16 @@ public class UserAddController implements Initializable{
 		
 	}
 	
+
+	/**
+	 * Werte für das "Funktionen"-Dropdown setzen
+	 */
 	public void setDropdownValues()  {
 		
-		//Dropdown für "Funktion" initialisieren
-		
 		RoleProxy roleProxy = ResteasyClientUtil.getTarget().proxy(RoleProxy.class);		
-	    ObjectMapper mapper = new ObjectMapper();
+	    ObjectMapper mapper = new ObjectMapper();	    
 	    List<Role> roleList = null;
+	    
 		try {
 			 roleList = mapper.readValue(roleProxy.getAll(), new TypeReference<List<Role>>(){});
 		} catch (IOException e1) {
@@ -150,8 +152,9 @@ public class UserAddController implements Initializable{
 	 */
 	public void initData(Person personToEdit) {
 		lblTitel.setText("Benutzer bearbeiten");
-		
+			
 		personId = personToEdit.getId();
+		personType = personToEdit.getClass().getSimpleName(); //Typ des Objekts auslesen
 		
 		if(personToEdit.getFirstname() != null) { 
 			txtFirstname.setText(personToEdit.getFirstname());	
@@ -179,11 +182,10 @@ public class UserAddController implements Initializable{
 			}
 		}
 		
-		//Dropdown ausgewähltes setzen
 		if(personToEdit.getLogin().getRole().getName() != null) {
-			
 			dropdownFunction.setValue(personToEdit.getLogin().getRole().getName());
 		}
+		
 		
 		
 	

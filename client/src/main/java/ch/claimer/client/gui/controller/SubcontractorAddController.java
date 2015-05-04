@@ -3,13 +3,8 @@ package ch.claimer.client.gui.controller;
 import java.io.IOException;
 import java.util.List;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.WebTarget;
-
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
-import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
-import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,10 +16,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
-import ch.claimer.client.proxy.GCEmployeeProxy;
 import ch.claimer.client.proxy.SCEmployeeProxy;
+import ch.claimer.client.util.ResteasyClientUtil;
 import ch.claimer.shared.models.Company;
-import ch.claimer.shared.models.GCEmployee;
 import ch.claimer.shared.models.Person;
 import ch.claimer.shared.models.SCEmployee;
 
@@ -96,22 +90,20 @@ public class SubcontractorAddController {
 	    
 		
 		//Mitarbeiter der Firma aus der DB laden
-	    Client client = new ResteasyClientBuilder().build();
-	    WebTarget target = client.target("http://localhost:8080/webservice");
-	    ResteasyWebTarget rtarget = (ResteasyWebTarget)target;
+		SCEmployeeProxy sceProxy = ResteasyClientUtil.getTarget().proxy(SCEmployeeProxy.class);
 	    ObjectMapper mapper = new ObjectMapper();
-	    List<Person> personsToShow = null;
+	    List<Person> personList = null;
 	    
 	    Person scEmployee = new SCEmployee();
-	    SCEmployeeProxy sceProxy = rtarget.proxy(SCEmployeeProxy.class);
 	    
 	    try {
-			personsToShow = mapper.readValue(sceProxy.getAll(), new TypeReference<List<SCEmployee>>(){});
+	    	
+			personList = mapper.readValue(sceProxy.getBySubcontractor(subcontractorID), new TypeReference<List<SCEmployee>>(){});
 			
-			for(int i = 0; i < personsToShow.size(); i++) {
+			for(int i = 0; i < personList.size(); i++) {
 				
 					// TODO Überprüfen, ob die Person überhaupt zum Subunternehmen gehört
-					scEmployee = personsToShow.get(i);
+					scEmployee = personList.get(i);
 			    	data.add(scEmployee);
 			    	scEmployee = null;
 			}
@@ -120,7 +112,7 @@ public class SubcontractorAddController {
 			e1.printStackTrace();
 		}
 		
-		personsToShow = null;
+	    personList = null;
 		
 		//Tabelle initialisieren
 		colFirstname.setCellValueFactory(new PropertyValueFactory<Person, String>("firstname"));

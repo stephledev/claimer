@@ -259,7 +259,7 @@ public class UserController implements Initializable {
 	    SupervisorProxy svProxy = rtarget.proxy(SupervisorProxy.class);
 	    
 	    try {
-	    	personsToShow = mapper.readValue(svProxy.getSupervisorAll(), new TypeReference<List<Supervisor>>(){});
+	    	personsToShow = mapper.readValue(svProxy.getAll(), new TypeReference<List<Supervisor>>(){});
 	    	
 	    	for(int i = 0; i < personsToShow.size(); i++) {
 	    		supervisor = personsToShow.get(i);
