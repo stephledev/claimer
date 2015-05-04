@@ -30,6 +30,11 @@ public interface SCEmployeeProxy {
 	@Produces(MediaType.APPLICATION_JSON)
 	String getById();
 	
+	@GET
+	@Path("scemployee/subcontractor/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	String getBySubcontractor();
+	
     @POST
     @Path("scemployee/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
