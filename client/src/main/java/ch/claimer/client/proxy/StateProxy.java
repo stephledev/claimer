@@ -8,19 +8,22 @@ import javax.ws.rs.core.MediaType;
 /**
  * 
  * @author Kevin Stadelmann
+ * @author Momcilo Bekcic
+ * @version 1.0
+ * @since 1.0
  *
  */
 
 public interface StateProxy {
 	@GET
-	@Path("/state")
+	@Path("state")
 	@Produces(MediaType.APPLICATION_JSON)
 	String getAll();
 	
 	@GET
-	@Path("/state/{id}")
+	@Path("state/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	String getState();
+	String getById();
 	
 
 }
