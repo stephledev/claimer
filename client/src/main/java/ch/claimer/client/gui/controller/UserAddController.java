@@ -4,11 +4,20 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.WebTarget;
+
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
+import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
+import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
+
+import ch.claimer.client.proxy.SubcontractorProxy;
 import ch.claimer.shared.models.Person;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import ch.claimer.shared.models.Subcontractor;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -50,7 +59,7 @@ public class UserAddController implements Initializable{
 	private TextField txtPhone;
 	
 	@FXML
-	private ComboBox dropdownFunction;
+	private ComboBox<String> dropdownFunction;
 	
 	@FXML
 	private void loadUserMainView() {
@@ -107,16 +116,37 @@ public class UserAddController implements Initializable{
 		
 		
 		//Dropdown für "Funktion" initialisieren
+		/*
+		Client client = new ResteasyClientBuilder().build();
+	    WebTarget target = client.target("http://localhost:8080/webservice");
+	    ResteasyWebTarget rtarget = (ResteasyWebTarget)target;
+	    
+	    SubcontractorProxy subcontractorProxy = rtarget.proxy(SubcontractorProxy.class);
+	    ObjectMapper mapper = new ObjectMapper();
+	    List<Subcontractor> subcontractorList = null;
+		try {
+			subcontractorList = mapper.readValue(subcontractorProxy.getAll(), new TypeReference<List<Subcontractor>>(){});
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}*/
+		
+		setDropdownValues();
+		
+	}
+	
+	public void setDropdownValues()  {
+		
 		dropdownFunction.getItems().addAll(
-				"Intern, Administrator", 
-				"Intern, Sachbearbeiter",
-				"Intern, Bauleiter",
-				"Extern, Administrator",
-				"Extern, Sachbearbeiter",
-				"Extern, Ansprechperson"
+				"Superadmin", 
+				"Admin",
+				"Power",
+				"Editor-Intern",
+				"Editor-Extern"
 			);
 		
 	}
+	
 	
 	/**
 	 * Detailansicht mit allen Daten der angeklickten Person füllen
@@ -151,6 +181,13 @@ public class UserAddController implements Initializable{
 			if(personToEdit.getLogin().getPassword() != null) {
 				pfPassword.setText(personToEdit.getLogin().getUsername());
 			}
+		}
+		
+		//Dropdown ausgewähltes setzen
+		if(personToEdit.getLogin().getRole().getName() != null) {
+			
+			
+			dropdownFunction.setValue("Power");
 		}
 		
 		

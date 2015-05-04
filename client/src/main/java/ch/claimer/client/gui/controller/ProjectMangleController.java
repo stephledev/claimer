@@ -240,8 +240,10 @@ public class ProjectMangleController implements Initializable {
 		Comment comment = new Comment();
 		CommentProxy commentProxy = rtarget.proxy(CommentProxy.class);
 
+		
+		//ACHTUNG: Hier gibt es zwei: getByContact und getBySupervisor. Evtl muss man das noch anpassen.
 		try {
-			commentsToShow = mapper.readValue(commentProxy.getByIssue(),
+			commentsToShow = mapper.readValue(commentProxy.getByContact(),
 					new TypeReference<List<Issue>>() {
 					});
 

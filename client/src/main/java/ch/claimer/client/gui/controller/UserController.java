@@ -206,7 +206,7 @@ public class UserController implements Initializable {
 	    GCEmployeeProxy gceProxy = rtarget.proxy(GCEmployeeProxy.class);
 	    
 	    try {
-			personsToShow = mapper.readValue(gceProxy.getGcemployeeAll(), new TypeReference<List<GCEmployee>>(){});
+			personsToShow = mapper.readValue(gceProxy.getAll(), new TypeReference<List<GCEmployee>>(){});
 			
 			for(int i = 0; i < personsToShow.size(); i++) {
 			    	

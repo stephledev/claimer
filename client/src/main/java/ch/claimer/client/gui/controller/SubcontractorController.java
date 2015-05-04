@@ -14,7 +14,6 @@ import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
 import ch.claimer.client.proxy.SubcontractorProxy;
 import ch.claimer.shared.models.Company;
-import ch.claimer.shared.models.Person;
 import ch.claimer.shared.models.Subcontractor;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
