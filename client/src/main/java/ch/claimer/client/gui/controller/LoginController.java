@@ -10,6 +10,7 @@ import org.codehaus.jackson.type.TypeReference;
 
 import ch.claimer.client.gui.*;
 import ch.claimer.client.proxy.LoginProxy;
+import ch.claimer.client.util.AuthenticationUtil;
 import ch.claimer.client.util.ResteasyClientUtil;
 import ch.claimer.shared.models.Login;
 import javafx.event.ActionEvent;
@@ -64,11 +65,11 @@ public class LoginController extends Main implements Initializable {
 	private void anmelden(ActionEvent event) {
 		
 		//Eingegebenen Benutzernamen und Passwort auslesen
-		String passwort = psw.getText();
+		String password = psw.getText();
 		String username = txt_benutzer.getText();
 		
 		//Überprüfen, ob Felder nicht leer
-		if(passwort.length() == 0 || username.length() == 0) {
+		if(password.length() == 0 || username.length() == 0) {
 			lbl_warnung.setText("Bitte alle Felder ausfüllen!");
 			return;
 		}
@@ -87,12 +88,11 @@ public class LoginController extends Main implements Initializable {
 		//Erhaltene List iterieren
 	    for(Login login : loginList) {
 	    	
-	    	if(login.getUsername().equals(username)) {
-				try {
+	    	if(login.getUsername().equals(username) && login.getPassword().equals(password)) {
+	    		AuthenticationUtil.setLogin(login);
+	    		try {
 					go(event);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					System.out.println("fail");
 					e.printStackTrace();
 				}
 	    	} else {

@@ -17,6 +17,7 @@ import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 import ch.claimer.client.proxy.GCEmployeeProxy;
 import ch.claimer.client.proxy.SCEmployeeProxy;
 import ch.claimer.client.proxy.SupervisorProxy;
+import ch.claimer.client.util.ResteasyClientUtil;
 import ch.claimer.shared.models.GCEmployee;
 import ch.claimer.shared.models.Person;
 import ch.claimer.shared.models.SCEmployee;
@@ -191,9 +192,7 @@ public class UserController implements Initializable {
 	 * Webservice-Verbindung herstellen. Wird automatisch von der initiate-Funktion aufgerufen.
 	 */
 	private void initiateWebserviceConnection() {
-		client = new ResteasyClientBuilder().build();
-	    target = client.target("http://localhost:8080/webservice");
-	    rtarget = (ResteasyWebTarget)target;
+	    rtarget = ResteasyClientUtil.getTarget();
 	    mapper = new ObjectMapper();
 	}
 

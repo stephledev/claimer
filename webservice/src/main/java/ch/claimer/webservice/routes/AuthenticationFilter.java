@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
@@ -20,6 +21,14 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 	
     @Override
     public void filter( ContainerRequestContext requestContext ) throws IOException {
+    	
+    	ResourceMethodInvoker methodInvoker = (ResourceMethodInvoker) requestContext.getProperty("org.jboss.resteasy.core.ResourceMethodInvoker");
+    	Method method = methodInvoker.getMethod();
+    	
+    	if(method.isAnnotationPresent(PermitAll.class))
+    	{
+    	    return;
+    	}
     	if(requestContext.getHeaders().get("Authorization") == null) {
     		requestContext.abortWith(ResponseHandlerService.badRequest("Authorization header not found"));
     		return;
@@ -34,8 +43,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     		return;
     	}
     	
-    	ResourceMethodInvoker methodInvoker = (ResourceMethodInvoker) requestContext.getProperty("org.jboss.resteasy.core.ResourceMethodInvoker");
-    	Method method = methodInvoker.getMethod();
+    	
     	
     	if (method.isAnnotationPresent(RolesAllowed.class)) {
 			RolesAllowed rolesAnnotation = method.getAnnotation(RolesAllowed.class);
