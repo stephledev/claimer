@@ -12,6 +12,9 @@ import ch.claimer.shared.models.Category;
 import ch.claimer.webservice.controller.Controller;
 
 /**
+ * Definiert die verfügbaren HTTP-Routes der Kategorien.
+ * Lädt anhand der URL und der HTTP-Anfrage die entsprechende Controller-Methode.
+ * Liefert eine HTTP-Antwort mit Statuscode zurück.
  * 
  * @author Stephan Beeler
  *

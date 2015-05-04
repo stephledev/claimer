@@ -31,14 +31,14 @@ public interface SupervisorProxy {
 	String getById();
 	
     @POST
-    @Path("supervisor/{id}")
+    @Path("supervisor")
     @Consumes(MediaType.APPLICATION_JSON)
-    void create();
+    void create(Supervisor supervisor);
     
     @PUT
-    @Path("supervisor/{id}")
+    @Path("supervisor")
     @Consumes(MediaType.APPLICATION_JSON)
-    void update(Supervisor sv);
+    void update(Supervisor supervisor);
 
 	
 

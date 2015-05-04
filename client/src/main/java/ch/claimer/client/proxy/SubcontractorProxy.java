@@ -31,14 +31,14 @@ public interface SubcontractorProxy {
 	String getById();
 	
     @POST
-    @Path("subcontractor/{id}")
+    @Path("subcontractor")
     @Consumes(MediaType.APPLICATION_JSON)
-    void create();
+    void create(Subcontractor subcontractor);
     
     @PUT
-    @Path("subcontractor/{id}")
+    @Path("subcontractor")
     @Consumes(MediaType.APPLICATION_JSON)
-    void update(Subcontractor sc);
+    void update(Subcontractor subcontractor);
 
 	
 
