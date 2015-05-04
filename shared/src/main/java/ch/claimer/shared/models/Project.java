@@ -49,6 +49,8 @@ public class Project implements Serializable, Model {
 	private Type type;
 	@OneToOne(fetch=FetchType.EAGER)
 	private State state;
+	@ManyToMany(fetch=FetchType.EAGER)
+	private List<Principal> principals;
 	
 	public Project() {
 		

@@ -2,10 +2,12 @@ package ch.claimer.shared.models;
 
 import java.util.List;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+@Entity
 public class Principal implements Model {
 	
 	@Id
@@ -19,7 +21,6 @@ public class Principal implements Model {
 	private String place;
 	private String phone;
 	private String email;
-	private List<Project> projects;
 	
 	public int getId() {
 		return id;
@@ -74,11 +75,5 @@ public class Principal implements Model {
 	}
 	public void setEmail(String email) {
 		this.email = email;
-	}
-	public List<Project> getProjects() {
-		return projects;
-	}
-	public void setProjects(List<Project> projects) {
-		this.projects = projects;
 	}
 }
