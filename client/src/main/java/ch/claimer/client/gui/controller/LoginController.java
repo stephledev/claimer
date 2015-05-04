@@ -67,14 +67,15 @@ public class LoginController extends Main implements Initializable {
 	private void anmelden(ActionEvent event) {
 	
 		
-		/*
 		//Eingegebenen Benutzernamen und Passwort auslesen
 		String passwort = psw.getText();
 		String username = txt_benutzer.getText();
 		
-		
 		//Überprüfen, ob Felder nicht leer
-		if(passwort.length() != 0 && username.length() != 0) {
+		if(passwort.length() == 0 && username.length() == 0) {
+			lbl_warnung.setText("Bitte alle Felder ausfüllen!");
+			return;
+		}
 			
 			//Logins aus Datenbank laden
 			Client client = new ResteasyClientBuilder().build();
@@ -116,20 +117,7 @@ public class LoginController extends Main implements Initializable {
 		    	login = null;
 		    		
 		    }
-			
-		} else {
-			lbl_warnung.setText("Bitte alle Felder ausfüllen!");
-		}
-	}
-	*/
-	
-	try {
-		go(event);
-	} catch (IOException e) {
-		// TODO Auto-generated catch block
-		System.out.println("fail");
-		e.printStackTrace();
-	}
+		
 	}
 		
 	// verweist auf Stage aus der Klasse App.java

@@ -21,6 +21,7 @@ http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
 			<class>ch.claimer.shared.models.Login</class>
 			<class>ch.claimer.shared.models.Model</class>
 			<class>ch.claimer.shared.models.Person</class>
+			<class>ch.claimer.shared.models.Principal</class>
 			<class>ch.claimer.shared.models.Project</class>
 			<class>ch.claimer.shared.models.Role</class>
 			<class>ch.claimer.shared.models.SCEmployee</class>

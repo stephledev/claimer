@@ -50,7 +50,7 @@ public class Project implements Serializable, Model {
 	@OneToOne(fetch=FetchType.EAGER)
 	private State state;
 	@ManyToMany(fetch=FetchType.EAGER)
-	private List<Principal> principals;
+	private List<Principal> principals = new ArrayList<Principal>();
 	
 	public Project() {
 		
@@ -158,5 +158,13 @@ public class Project implements Serializable, Model {
 
 	public void setContacts(List<Contact> contacts) {
 		this.contacts = contacts;
+	}
+
+	public List<Principal> getPrincipals() {
+		return principals;
+	}
+
+	public void setPrincipals(List<Principal> principals) {
+		this.principals = principals;
 	}
 }
