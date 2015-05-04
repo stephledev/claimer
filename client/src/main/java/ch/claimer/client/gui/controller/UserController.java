@@ -155,11 +155,7 @@ public class UserController implements Initializable {
 		colFunction.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Person, String>, ObservableValue<String>>() {
 			public ObservableValue<String> call(TableColumn.CellDataFeatures<Person, String> data) {
 				try {
-					String allRoles = "";
-					for(int i = 0; i < data.getValue().getLogin().getRoles().size(); i++) {
-						allRoles += data.getValue().getLogin().getRoles().get(i).getName() + ", ";
-					}
-					return new SimpleStringProperty(allRoles);
+					return new SimpleStringProperty(data.getValue().getLogin().getRole().getName());
 				} catch(NullPointerException e) {
 					return null;
 				}
