@@ -16,7 +16,9 @@ import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
 import ch.claimer.client.proxy.ProjectProxy;
+import ch.claimer.shared.models.Person;
 import ch.claimer.shared.models.Project;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -33,6 +35,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.util.Callback;
 
 /**
  * @author Michael Lötscher
@@ -54,7 +57,7 @@ public class ProjectsMainController implements Initializable{
 	//Beinhaltet alle Projekte bei der Initialisation
 	ObservableList<Project> data = FXCollections.observableArrayList(); 
 	//Contains filtered Data (search-function...)
-	ObservableList<Project> filteredData = FXCollections.observableArrayList(); 
+	ObservableList<Project> dataCopy = FXCollections.observableArrayList(); 
 	
 	
 	// Maincontent, hierhin werden die verschiedenen Views geladen
@@ -157,7 +160,7 @@ public class ProjectsMainController implements Initializable{
 			    	
 					project = projectsToShow.get(i);
 			    	data.add(project);
-			    	filteredData.add(project);
+			    	dataCopy.add(project);
 			    	project = null;
 			    	
 			}
@@ -176,7 +179,7 @@ public class ProjectsMainController implements Initializable{
 	 * Initialisiert den TableView automatisch mit den nötigen Daten, sobald der View aufgerufen wird.
 	 */
 	@Override
-	public void initialize(URL location, ResourceBundle resources) {
+	public void initialize (URL location, ResourceBundle resources) {
 		initiateWebserviceConnection();
 		getProject();
 		
@@ -197,6 +200,10 @@ public class ProjectsMainController implements Initializable{
 		//TODO GregorianCalendar als String ausgeben
 		colStart.setCellValueFactory(new PropertyValueFactory<Project, String>(
 				"start"));
+		
+		
+		
+		
 		colEnd.setCellValueFactory(new PropertyValueFactory<Project, String>(
 				"end"));
 
@@ -207,22 +214,21 @@ public class ProjectsMainController implements Initializable{
 		// Listener für Änderungen im Suchenfeld
 		txt_search.textProperty().addListener(new ChangeListener<String>() {
 
-			public void changed(ObservableValue<? extends String> observable,
-					String oldValue, String newValue) {
+			public void changed(ObservableValue<? extends String> observable,String oldValue, String newValue) {
 
-				updateFilteredData();
+				updateDataCopy();
 			}
 
 		});
 	}
 	
 	// Observable-List mit den gefilterten Daten aktualisieren
-	public void updateFilteredData() {
-		filteredData.clear();
+	public void updateDataCopy() {
+		data.clear();
 
-		for (Project p : data) {
+		for (Project p : dataCopy) {
 			if (matchesFilter(p)) {
-				filteredData.add(p);
+				data.add(p);
 			}
 		}
 
