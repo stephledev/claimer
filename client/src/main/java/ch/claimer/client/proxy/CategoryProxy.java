@@ -8,6 +8,8 @@ import javax.ws.rs.core.MediaType;
 /**
  * 
  * @author Kevin Stadelmann
+ * @since 1.0
+ * @version 1.0
  *
  */
 
@@ -20,6 +22,6 @@ public interface CategoryProxy {
 	@GET
 	@Path("category/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	String getCategory();
+	String getById();
 	
 }
