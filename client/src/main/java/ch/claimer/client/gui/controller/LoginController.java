@@ -1,5 +1,6 @@
 package ch.claimer.client.gui.controller;
 
+import java.awt.Toolkit;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -109,15 +110,21 @@ public class LoginController extends Main implements Initializable {
 
 	// Methode ruft die "Home"-Seite auf
 	public void go(ActionEvent event) throws IOException {
-
+		
+		//Bildschirmauflösung auslesen
+		Integer screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
+		
 		Stage stage = new Stage();
 		stage.setTitle("Mängelmanager");
 		Pane myPane = null;
 		myPane = FXMLLoader.load(getClass().getResource("../view/RootLayout.fxml"));
 	
 		Scene scene = new Scene(myPane);
-		scene.getStylesheets().add(
-				getClass().getResource("../claimer_styles.css").toExternalForm()); // CSS-File wird geladen
+		scene.getStylesheets().add(getClass().getResource("../claimer_styles.css").toExternalForm()); // CSS-File wird geladen
+		if(screenWidth > 1500) {
+			scene.getStylesheets().add(getClass().getResource("../big_font.css").toExternalForm()); /// CSS-File für grosse Bildschirme
+		}
+		
 		stage.setScene(scene);
 		
 		//Close previous Stage:
