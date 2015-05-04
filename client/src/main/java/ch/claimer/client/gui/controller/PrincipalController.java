@@ -62,7 +62,6 @@ public class PrincipalController implements Initializable {
 	
 	@FXML
 	private TableColumn<Company, String> colPhone;
-
 	
 	
 	//Maincontent, hierhin werden die verschiedenen Views geladen

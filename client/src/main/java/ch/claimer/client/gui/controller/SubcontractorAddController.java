@@ -33,6 +33,8 @@ public class SubcontractorAddController {
 
 	ObservableList<Person> data = FXCollections.observableArrayList();
 	
+	Integer subcontractorID = null;
+	
 	@FXML
 	private Pane mainContent;
 	
@@ -77,7 +79,7 @@ public class SubcontractorAddController {
 	 * @param subcontractor
 	 */
 	public void initData(Company subcontractor) {
-		Integer subcontractorID = subcontractor.getId();
+		subcontractorID = subcontractor.getId();
 	
 		lblTitel.setText("Subunternehmen bearbeiten");
 		
@@ -126,6 +128,9 @@ public class SubcontractorAddController {
 
 	}
 	
+	/**
+	 * Lädt die Subunternehmen Hauptansicht
+	 */
 	@FXML
 	private void loadSubcontractorMainView() {
 		try {
@@ -139,6 +144,11 @@ public class SubcontractorAddController {
 		}	catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+	}
+	
+	@FXML
+	private void saveSubcontractor() {
 		
 	}
 	
