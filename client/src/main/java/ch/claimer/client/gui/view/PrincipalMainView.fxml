@@ -29,7 +29,7 @@
               </rowConstraints>
                <children>
                   <Label styleClass="lblViewTitle" text="Bauherren Übersicht" />
-                  <TextField promptText="Suche..." GridPane.columnIndex="1" />
+                  <TextField fx:id="txt_search" promptText="Suche..." GridPane.columnIndex="1" />
                </children>
             </GridPane>
             <TableView prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">

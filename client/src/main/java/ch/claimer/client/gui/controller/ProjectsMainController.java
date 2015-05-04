@@ -3,6 +3,7 @@ package ch.claimer.client.gui.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -11,6 +12,7 @@ import javax.ws.rs.client.WebTarget;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
 import ch.claimer.client.proxy.ProjectProxy;
@@ -132,6 +134,16 @@ public class ProjectsMainController implements Initializable{
 	}
 	
 	
+	/**
+	 * Webservice-Verbindung herstellen. Wird automatisch von der initiate-Funktion aufgerufen.
+	 */
+	private void initiateWebserviceConnection() {
+		client = new ResteasyClientBuilder().build();
+	    target = client.target("http://localhost:8080/webservice");
+	    rtarget = (ResteasyWebTarget)target;
+	    mapper = new ObjectMapper();
+	}
+	
 	
 	/**
 	 * Lädt alle Projekte aus der Datenbank
@@ -168,7 +180,7 @@ public class ProjectsMainController implements Initializable{
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+		initiateWebserviceConnection();
 		getProject();
 		
 		
@@ -181,9 +193,13 @@ public class ProjectsMainController implements Initializable{
 		// TODO Kunde muss sichtbar sein
 		// colPrincipal.setCellValueFactory(new PropertyValueFactory<Project,
 		// String>("principal"));
+		
 		colSupervisor
 				.setCellValueFactory(new PropertyValueFactory<Project, String>(
 						"supervisor"));
+
+
+		//TODO GregorianCalendar als String ausgeben
 		colStart.setCellValueFactory(new PropertyValueFactory<Project, String>(
 				"start"));
 		colEnd.setCellValueFactory(new PropertyValueFactory<Project, String>(
@@ -191,14 +207,14 @@ public class ProjectsMainController implements Initializable{
 
 		// Observable-List, welche die Daten beinhaltet, an die Tabelle
 		// übergeben
-		projectTableView.setItems(filteredData);
+		projectTableView.setItems(data);
 
 		// Listener für Änderungen im Suchenfeld
 		txt_search.textProperty().addListener(new ChangeListener<String>() {
 
 			public void changed(ObservableValue<? extends String> observable,
 					String oldValue, String newValue) {
-				// TODO Auto-generated method stub
+
 				updateFilteredData();
 			}
 
@@ -217,24 +233,33 @@ public class ProjectsMainController implements Initializable{
 
 		reaplyTableSortOrder();
 	}
+	
 
 	// Überprüfen, ob Suchbegriff mit Daten übereinstimmt
 	private boolean matchesFilter(Project p) {
 		String filterString = txt_search.getText();
 
-		if (filterString == null || filterString.isEmpty()) {
-			// No filter --> add all
+		if(filterString == null || filterString.isEmpty()) {
+			//No filter --> add all
 			return true;
 		}
-
+		
 		String lowerCaseFilterString = filterString.toLowerCase();
-
-		if (p.getName().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
+		
+		if(p.getName().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
 			return true;
 		}
-
+		
+		if(p.getSupervisor().getLastname().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
+			return true;
+		}
+		
+		//TODO Kunde
+//		if(p.getPrincipal().getLastname().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
+//			return true;
+//		}
+		
 		return false;
-
 	}
 
 	private void reaplyTableSortOrder() {
