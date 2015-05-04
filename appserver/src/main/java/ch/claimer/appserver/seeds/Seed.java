@@ -18,6 +18,10 @@ public abstract class Seed<T> {
 	protected Repository<T> repository;
 	
 	public static void main(String[] args) {
+		
+		PrincipalSeed principalSeed = new PrincipalSeed();
+		principalSeed.setup();
+		principalSeed.execute();
 
 		CategorySeed categorySeed = new CategorySeed();
 		categorySeed.setup();
