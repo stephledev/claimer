@@ -7,6 +7,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.management.relation.RoleList;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 
@@ -15,8 +16,12 @@ import org.codehaus.jackson.type.TypeReference;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
+import ch.claimer.client.proxy.LoginProxy;
+import ch.claimer.client.proxy.RoleProxy;
 import ch.claimer.client.proxy.SubcontractorProxy;
+import ch.claimer.client.util.ResteasyClientUtil;
 import ch.claimer.shared.models.Person;
+import ch.claimer.shared.models.Role;
 import ch.claimer.shared.models.Subcontractor;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -114,37 +119,28 @@ public class UserAddController implements Initializable{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
-		
-		//Dropdown für "Funktion" initialisieren
-		/*
-		Client client = new ResteasyClientBuilder().build();
-	    WebTarget target = client.target("http://localhost:8080/webservice");
-	    ResteasyWebTarget rtarget = (ResteasyWebTarget)target;
-	    
-	    SubcontractorProxy subcontractorProxy = rtarget.proxy(SubcontractorProxy.class);
-	    ObjectMapper mapper = new ObjectMapper();
-	    List<Subcontractor> subcontractorList = null;
-		try {
-			subcontractorList = mapper.readValue(subcontractorProxy.getAll(), new TypeReference<List<Subcontractor>>(){});
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}*/
-		
 		setDropdownValues();
 		
 	}
 	
 	public void setDropdownValues()  {
 		
-		dropdownFunction.getItems().addAll(
-				"Superadmin", 
-				"Admin",
-				"Power",
-				"Editor-Intern",
-				"Editor-Extern"
-			);
+		//Dropdown für "Funktion" initialisieren
 		
+		RoleProxy roleProxy = ResteasyClientUtil.getTarget().proxy(RoleProxy.class);		
+	    ObjectMapper mapper = new ObjectMapper();
+	    List<Role> roleList = null;
+		try {
+			 roleList = mapper.readValue(roleProxy.getAll(), new TypeReference<List<Role>>(){});
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		//Rollen dem Dropdown hinzufügen
+		for(Role role: roleList) {
+			dropdownFunction.getItems().add(role.getName());
+		}
 	}
 	
 	
@@ -186,8 +182,7 @@ public class UserAddController implements Initializable{
 		//Dropdown ausgewähltes setzen
 		if(personToEdit.getLogin().getRole().getName() != null) {
 			
-			
-			dropdownFunction.setValue("Power");
+			dropdownFunction.setValue(personToEdit.getLogin().getRole().getName());
 		}
 		
 		

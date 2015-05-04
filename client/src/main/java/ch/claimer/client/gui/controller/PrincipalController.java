@@ -1,10 +1,18 @@
 package ch.claimer.client.gui.controller;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
+import ch.claimer.shared.models.Company;
+import ch.claimer.shared.models.Principal;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 
 /**
@@ -14,8 +22,33 @@ import javafx.scene.layout.Pane;
  *
  */
 
-public class PrincipalController {
+public class PrincipalController implements Initializable {
 
+	@FXML
+	private TextField txtSearch;
+	
+	@FXML
+	private TableView<Principal> subcontractorTableView;
+	
+	@FXML
+	private TableColumn<Principal, String> colName;
+	
+	@FXML
+	private TableColumn<Principal, String> colZip;
+	
+	@FXML
+	private TableColumn<Principal, String> colPlace;
+	
+	@FXML
+	private TableColumn<Company, String> colPhone;
+	
+	@FXML
+	private TableColumn<Company, String> colPlz;
+	
+	@FXML
+	private TableColumn<Company, String> colEmail;
+	
+	
 	//Maincontent, hierhin werden die verschiedenen Views geladen
 	@FXML
 	private Pane mainContent;
@@ -26,6 +59,15 @@ public class PrincipalController {
 		Pane myPane = FXMLLoader.load(getClass().getResource("../view/PrincipalAddView.fxml"));
 		mainContent.getChildren().clear();
 		mainContent.getChildren().setAll(myPane);
+	}
+	
+	/** 
+	 * TableView mit Bauherren-Daten befüllen beim Aufruf.
+	 */
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
