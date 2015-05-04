@@ -120,13 +120,17 @@
                     <rowConstraints>
                       <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
+                     <children>
+                        <Label text="Telefon:" />
+                        <TextField fx:id="txt_principalPhone" prefWidth="250.0" GridPane.columnIndex="1">
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </TextField>
+                     </children>
                      <padding>
                         <Insets bottom="5.0" left="25.0" top="5.0" />
                      </padding>
-                     <children>
-                        <Label text="Typ:" />
-                        <ComboBox fx:id="combo_type" prefWidth="250.0" GridPane.columnIndex="1" />
-                     </children>
                   </GridPane>
                   <GridPane GridPane.rowIndex="2">
                     <columnConstraints>
@@ -221,6 +225,10 @@
                      <padding>
                         <Insets left="25.0" top="5.0" />
                      </padding>
+                     <children>
+                        <Label text="Typ:" />
+                        <ComboBox fx:id="combo_type" prefWidth="250.0" GridPane.columnIndex="1" />
+                     </children>
                   </GridPane>
                   <GridPane GridPane.columnIndex="2" GridPane.rowIndex="2">
                     <columnConstraints>

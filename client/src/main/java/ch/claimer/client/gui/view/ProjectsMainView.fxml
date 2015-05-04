@@ -35,7 +35,6 @@
             <TableView fx:id="projectTableView" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
               <columns>
                 <TableColumn fx:id="colProject" prefWidth="75.0" text="Projekt" />
-                <TableColumn fx:id="colPrincipal" prefWidth="75.0" text="Kunde" />
                   <TableColumn fx:id="colSupervisor" prefWidth="75.0" text="Bauleiter" />
                   <TableColumn fx:id="colStart" prefWidth="75.0" text="Beginn" />
                   <TableColumn fx:id="colEnd" prefWidth="75.0" text="Ende" />

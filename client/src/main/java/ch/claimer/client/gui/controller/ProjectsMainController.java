@@ -68,9 +68,6 @@ public class ProjectsMainController implements Initializable{
 	private TableColumn<Project, String> colProject;
 	
 	@FXML
-	private TableColumn<Project, String> colPrincipal;
-
-	@FXML
 	private TableColumn<Project, String> colSupervisor;
 
 	@FXML
@@ -165,7 +162,7 @@ public class ProjectsMainController implements Initializable{
 			    	
 			}
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
+			
 			e1.printStackTrace();
 		}
 		
@@ -190,9 +187,8 @@ public class ProjectsMainController implements Initializable{
 				.setCellValueFactory(new PropertyValueFactory<Project, String>(
 						"name"));
 
-		// TODO Kunde muss sichtbar sein
-		// colPrincipal.setCellValueFactory(new PropertyValueFactory<Project,
-		// String>("principal"));
+		 colPrincipal.setCellValueFactory(new PropertyValueFactory<Project,
+		 String>("principal"));
 		
 		colSupervisor
 				.setCellValueFactory(new PropertyValueFactory<Project, String>(
@@ -253,11 +249,6 @@ public class ProjectsMainController implements Initializable{
 		if(p.getSupervisor().getLastname().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
 			return true;
 		}
-		
-		//TODO Kunde
-//		if(p.getPrincipal().getLastname().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
-//			return true;
-//		}
 		
 		return false;
 	}
