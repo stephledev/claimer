@@ -36,36 +36,13 @@ public interface ProjectProxy {
 	@Produces(MediaType.APPLICATION_JSON)
 	String getBySupervisor();
 	
-	@GET
-	@Path("project/category/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	String getByCategory();
-	
-	@GET
-	@Path("project/state/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	String getByState();
-	
-	@GET
-	@Path("project/type/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	String getByType();
-	
-	@GET
-	@Path("project/logEntry/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	String getLogEntry();
-	
     @POST
-    @Path("project/{id}")
+    @Path("project")
     @Consumes(MediaType.APPLICATION_JSON)
-    void create();
+    void create(Project project);
     
     @PUT
-    @Path("project/{id}")
+    @Path("project")
     @Consumes(MediaType.APPLICATION_JSON)
-    void update(Project pr);
-
-
-	
+    void update(Project project);
 }
