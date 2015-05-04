@@ -21,6 +21,7 @@ import ch.claimer.client.util.ResteasyClientUtil;
 import ch.claimer.shared.models.Company;
 import ch.claimer.shared.models.Person;
 import ch.claimer.shared.models.SCEmployee;
+import ch.claimer.shared.models.Subcontractor;
 
 /**
  * Controller für das Hinzufügen und Ändern von Subunternehmen
@@ -149,6 +150,35 @@ public class SubcontractorAddController {
 	
 	@FXML
 	private void saveSubcontractor() {
+		
+		//Subcontractor erstellen und mit eingegebenen Daten befüllen
+		Subcontractor sc1 = new Subcontractor();
+		sc1.setName(txtName.getText());
+		sc1.setStreet(txtAdress.getText());
+		sc1.setPhone(txtPhone.getText());
+		sc1.setZip(txtZip.getText());
+		sc1.setPlace(txtZip.getText());
+		sc1.setEmail(txtEmail.getText());
+		sc1.setActive(true);
+		
+		
+		//Neuen Subcontractor erstellen oder bestehenden updaten
+		if(subcontractorID != null) {
+			// TODO
+			System.out.println("Update Subcontractor with id " + subcontractorID);
+		} else {
+			// TODO
+			System.out.println("Create new Subcontractor");	
+		}
+		
+		//Subcontractor Mitarbeiter auslesen und Updaten
+		ObservableList<Person> olp = sceTableView.getItems();
+		
+		for(Person p : olp) {
+			// TODO
+			System.out.println("Update SCEmployee with ID" + p.getId());
+		}
+		
 		
 	}
 	
