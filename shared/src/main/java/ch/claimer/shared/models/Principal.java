@@ -10,6 +10,8 @@ import javax.persistence.Id;
 @Entity
 public class Principal implements Serializable, Model {
 	
+	private static final long serialVersionUID = -898049890119969299L;
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;

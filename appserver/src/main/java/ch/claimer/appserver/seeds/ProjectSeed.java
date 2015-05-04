@@ -2,7 +2,6 @@ package ch.claimer.appserver.seeds;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
-import java.util.List;
 
 import ch.claimer.appserver.repositories.eclipselink.EclipseLinkRepository;
 import ch.claimer.shared.models.Category;

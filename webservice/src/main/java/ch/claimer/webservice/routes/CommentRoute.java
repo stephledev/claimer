@@ -10,9 +10,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import ch.claimer.shared.models.Comment;
-import ch.claimer.shared.models.Contact;
 import ch.claimer.shared.models.Person;
-import ch.claimer.shared.models.Supervisor;
 import ch.claimer.webservice.controller.Controller;
 
 
