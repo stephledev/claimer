@@ -2,10 +2,13 @@ package ch.claimer.appserver.seeds;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
+
 import ch.claimer.appserver.repositories.eclipselink.EclipseLinkRepository;
 import ch.claimer.shared.models.Category;
 import ch.claimer.shared.models.Contact;
 import ch.claimer.shared.models.LogEntry;
+import ch.claimer.shared.models.Principal;
 import ch.claimer.shared.models.Project;
 import ch.claimer.shared.models.State;
 import ch.claimer.shared.models.Supervisor;
@@ -13,8 +16,8 @@ import ch.claimer.shared.models.Type;
 
 /**
  * 
- * 
  * @author Raoul Ackermann
+ * @author Fabio Baviera
  */
 
 public class ProjectSeed extends Seed<Project> {
@@ -33,12 +36,14 @@ public class ProjectSeed extends Seed<Project> {
 		p1.setPlace("Lenzburg");
 		p1.setStart(new GregorianCalendar());
 		p1.setEnd(new GregorianCalendar());
+		p1.getPrincipals().add((Principal) seeds.get("Principal").get(0));
 		p1.getLogEntries().add((LogEntry)seeds.get("LogEntry").get(1));
 		p1.setSupervisor((Supervisor) seeds.get("Supervisor").get(0));
 		p1.getContacts().add((Contact)seeds.get("Contact").get(0));
 		p1.setCategory((Category)seeds.get("Category").get(3));
 		p1.setType((Type)seeds.get("Type").get(0));
 		p1.setState((State)seeds.get("State").get(0));
+		
 		
 		Project p2 = new Project();
 		p2.setName("Umbau Bleicherain");
@@ -47,6 +52,7 @@ public class ProjectSeed extends Seed<Project> {
 		p2.setPlace("Aarau");
 		p2.setStart(new GregorianCalendar());
 		p2.setEnd(new GregorianCalendar());
+		p2.getPrincipals().add((Principal) seeds.get("Principal").get(1));
 		p2.setSupervisor((Supervisor)seeds.get("Supervisor").get(1));
 		p2.getContacts().add((Contact)seeds.get("Contact").get(3));
 		p2.setCategory((Category)seeds.get("Category").get(1));
