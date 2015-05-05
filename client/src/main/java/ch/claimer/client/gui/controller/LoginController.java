@@ -124,7 +124,7 @@ public class LoginController extends Main implements Initializable {
 		if(screenWidth > 1500) {
 			scene.getStylesheets().add(getClass().getResource("../big_font.css").toExternalForm()); /// CSS-File für grosse Bildschirme
 		}
-		
+		stage.setMaximized(true);
 		stage.setScene(scene);
 		
 		//Close previous Stage:

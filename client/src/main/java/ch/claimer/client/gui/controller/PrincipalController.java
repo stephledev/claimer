@@ -20,6 +20,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -62,6 +63,9 @@ public class PrincipalController implements Initializable {
 	
 	@FXML
 	private TableColumn<Company, String> colPhone;
+	
+	@FXML
+	private Label lblMeldung;
 	
 	
 	//Maincontent, hierhin werden die verschiedenen Views geladen
@@ -158,6 +162,10 @@ public class PrincipalController implements Initializable {
 				mainContent.getChildren().setAll(myPane);
         
         }
+	}
+	
+	public void initWithMessage(String message) {
+		lblMeldung.setText(message);
 	}
 	
 }

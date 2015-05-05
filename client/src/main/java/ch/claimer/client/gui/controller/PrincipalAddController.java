@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import ch.claimer.client.proxy.PrincipalProxy;
+import ch.claimer.client.util.ResteasyClientUtil;
 import ch.claimer.shared.models.Principal;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -161,15 +163,15 @@ public class PrincipalAddController implements Initializable {
 		pr1.setStreet(txtPersonAdress.getText());
 		pr1.setZip(txtPersonZIP.getText());
 		pr1.setPlace(txtPersonPlace.getText());
-		
-		//Principal speichern oder updaten
+				
 		if(principalID != null) {
-			// TODO
-			System.out.println("Update Principal (Person) with ID " + principalID);
+			pr1.setId(principalID);
+			updatePrincipal(pr1);
 		} else {
-			// TODO
-			System.out.println("Insert new Principal (Person)");
+			createPrincipal(pr1);
 		}
+		
+		loadPrincipalView(); //PrincipalMainView laden inkl. Meldung
 		
 	}
 	
@@ -186,17 +188,65 @@ public class PrincipalAddController implements Initializable {
 		pr2.setStreet(txtCompanyAdress.getText());
 		pr2.setZip(txtCompanyZIP.getText());
 		pr2.setPlace(txtCompanyPlace.getText());
-		
-		//Principal speichern oder updaten
+
 		if(principalID != null) {
-			// TODO
-			System.out.println("Update Principal (Company) with ID " + principalID);
+			pr2.setId(principalID);
+			updatePrincipal(pr2);
 		} else {
-			// TODO
-			System.out.println("Insert new Principal (Company)");
+			createPrincipal(pr2);
 		}
+		
+		loadPrincipalView();
+
+	}
+	
+	/**
+	 * Bestehenden Principal in der Datenbank updaten
+	 * @param principal
+	 */
+	private void updatePrincipal(Principal principal) {
+		PrincipalProxy principalProxy = ResteasyClientUtil.getTarget().proxy(PrincipalProxy.class);
+		principalProxy.update(principal);
+	}
+	
+	
+	/**
+	 * Neuen Principal in der Datenbank speichern
+	 * @param principal
+	 */
+	private void createPrincipal(Principal principal) {
+		PrincipalProxy principalProxy = ResteasyClientUtil.getTarget().proxy(PrincipalProxy.class);
+		principalProxy.create(principal);
 	}
 
+	/**
+	 * PrincipalMainView laden inklusive Statusmeldung.
+	 */
+	private void loadPrincipalView() {
+		//PrincipalMainView laden inkl. Meldung
+		try {
+
+			//FXMLLoader erstelen
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/PrincipalMainView.fxml"));
+			
+			//Neuen View laden
+			Pane myPane;
+			myPane = loader.load();
+			
+			//PrincipalController holen
+			PrincipalController controller = loader.<PrincipalController>getController();
+			
+			//Controller starten
+			controller.initWithMessage("Änderungen erfolgreich vorgenommen.");			
+			
+			//Neuen View einfügen
+			mainContent.getChildren().clear();
+			mainContent.getChildren().setAll(myPane);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	
 }
