@@ -38,15 +38,12 @@ public interface SCEmployeeProxy {
 	String getBySubcontractor(@PathParam("id")int id);
 	
     @POST
-    @Path("scemployee/{id}")
+    @Path("scemployee")
     @Consumes(MediaType.APPLICATION_JSON)
     void create(SCEmployee scEmployee);
     
     @PUT
-    @Path("scemployee/{id}")
+    @Path("scemployee")
     @Consumes(MediaType.APPLICATION_JSON)
     void update(SCEmployee scEmployee);
-
-	
-
 }
