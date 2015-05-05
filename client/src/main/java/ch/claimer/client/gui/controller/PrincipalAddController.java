@@ -20,7 +20,7 @@ import javafx.scene.layout.Pane;
  * Controller für das Hinzufügen und Ändern von Bauherren
  * @author Alexander Hauck
  * @since 02.05.2015
- * @version 1.0
+ * @version 2.0
  *
  */
 

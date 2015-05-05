@@ -10,10 +10,19 @@ import java.util.ResourceBundle;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 
+import ch.claimer.client.proxy.ContactProxy;
+import ch.claimer.client.proxy.GCEmployeeProxy;
 import ch.claimer.client.proxy.RoleProxy;
+import ch.claimer.client.proxy.SCEmployeeProxy;
+import ch.claimer.client.proxy.SupervisorProxy;
 import ch.claimer.client.util.ResteasyClientUtil;
+import ch.claimer.shared.models.Contact;
+import ch.claimer.shared.models.GCEmployee;
+import ch.claimer.shared.models.Login;
 import ch.claimer.shared.models.Person;
 import ch.claimer.shared.models.Role;
+import ch.claimer.shared.models.SCEmployee;
+import ch.claimer.shared.models.Supervisor;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,6 +38,7 @@ import javafx.stage.Stage;
 public class UserAddController implements Initializable{
 		
 	private Integer personId = null;
+	private Integer loginID = null;
 	private String personType = null;
 	
 	@FXML
@@ -67,7 +77,7 @@ public class UserAddController implements Initializable{
 			mainContent.getChildren().setAll(myPane);
 		} catch (NullPointerException npe) {
 			System.out.println("Fehler: View konnte nicht geladen werden");
-			// ToDo Eintrag in Log-Datei
+			// TODO Eintrag in Log-Datei
 			npe.printStackTrace();
 		}	catch (IOException e) {
 			e.printStackTrace();
@@ -77,28 +87,121 @@ public class UserAddController implements Initializable{
 	
 	@FXML
 	private void saveUser(ActionEvent event) throws IOException {
-		
-		// TODO Alle Felder auslesen
-		
-		// TODO Überprüfen, ob alle Pflichtfelder gesetzt wurden
 			
-		//Personenobjekt erstellen:
-		Person person = null;
-
-		//Überprüfen, ob Person aktualisiert oder neu eingefügt werden soll
-		if(personId != null) {
-			
-			//Weiterleiten zum Updaten
-			System.out.println("Update");
-		} else {
-			
-			//Weiterleiten zum Einfügen
-			System.out.println("Insert");
+		// Typ des Personenobjekts bestimmen und passende funktion aufrufen
+		personType = dropdownFunction.getValue();
+		switch(personType) {
+			case "superadmin": saveGCEmployee();
+				break;
+			case "admin": //TODO 
+				break; 
+			case "power": saveSCEmployee();
+				break;
+			case "editor-intern": saveSupervisor();
+				break;
+			case "editor-extern": saveContact();
+				break;
 		}
-		
-		// ToDo: Read Data from Textfields, check them and save into Database
 	}
 	
+
+	private void saveContact() {
+		Contact person = new Contact();
+		
+		//Textfeldproperties (inklusive Login & Rolle) auslesen und zuweisen
+		person = (Contact) getTextfieldProperties(person);
+		
+		ContactProxy cProxy = ResteasyClientUtil.getTarget().proxy(ContactProxy.class);
+		if(personId != null) {
+			cProxy.update(person);
+		} else {
+			cProxy.create(person);
+		}
+		
+		showMainViewWithMessage();
+	}
+
+	private void saveSupervisor() {
+		Supervisor person = new Supervisor();
+		
+		//Textfeldproperties (inklusive Login & Rolle) auslesen und zuweisen
+		person = (Supervisor) getTextfieldProperties(person);
+		
+		SupervisorProxy svProxy = ResteasyClientUtil.getTarget().proxy(SupervisorProxy.class);
+		if(personId != null) {
+			svProxy.update(person);
+		} else {
+			svProxy.create(person);
+		}
+		
+		showMainViewWithMessage();
+	}
+
+	private void saveSCEmployee() {
+		
+		// TODO BUG somewhere in here
+		
+		SCEmployee person = new SCEmployee();
+		
+		//Textfeldproperties (inklusive Login & Rolle) auslesen und zuweisen
+		person = (SCEmployee) getTextfieldProperties(person);
+		
+		SCEmployeeProxy sceProxy = ResteasyClientUtil.getTarget().proxy(SCEmployeeProxy.class);
+		if(personId != null) {
+			sceProxy.update(person);
+		} else {
+			sceProxy.create(person);
+		}
+		
+		showMainViewWithMessage();
+	}
+
+	private void saveGCEmployee() {
+
+		GCEmployee person = new GCEmployee();
+		
+		//Textfeldproperties (inklusive Login & Rolle) auslesen und zuweisen
+		person = (GCEmployee) getTextfieldProperties(person);
+		
+		GCEmployeeProxy gceProxy = ResteasyClientUtil.getTarget().proxy(GCEmployeeProxy.class);
+		if(personId != null) {
+			gceProxy.update(person);
+		} else {
+			gceProxy.create(person);
+		}
+		
+		showMainViewWithMessage();
+	}
+
+
+	/**
+	 * UserMainView laden inklusive Statusmeldung.
+	 */
+	private void showMainViewWithMessage() {
+
+		try {
+			//FXMLLoader erstellen
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/UserMainView.fxml"));
+			
+			//Neuen View laden
+			Pane myPane;
+			myPane = loader.load();
+			
+			//PrincipalController holen
+			UserController controller = loader.<UserController>getController();
+			
+			//Controller starten
+			controller.initWithMessage("Änderungen erfolgreich vorgenommen.");			
+			
+			//Neuen View einfügen
+			mainContent.getChildren().clear();
+			mainContent.getChildren().setAll(myPane);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	@FXML
 	private void uploadImage(ActionEvent event) throws IOException {
         final FileChooser fileChooser = new FileChooser();
@@ -110,15 +213,11 @@ public class UserAddController implements Initializable{
         if (file != null) {
         	 desktop.open(file);
         }
-       
-       
 	} 
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
 		setDropdownValues();
-		
 	}
 	
 
@@ -154,7 +253,7 @@ public class UserAddController implements Initializable{
 			
 		personId = personToEdit.getId();
 		personType = personToEdit.getClass().getSimpleName(); //Typ des Objekts auslesen
-		
+
 		if(personToEdit.getFirstname() != null) { 
 			txtFirstname.setText(personToEdit.getFirstname());	
 		}
@@ -172,6 +271,7 @@ public class UserAddController implements Initializable{
 		}
 		
 		if(personToEdit.getLogin() != null) {
+			loginID = personToEdit.getLogin().getId();
 			if(personToEdit.getLogin().getUsername() != null) {
 				txtUsername.setText(personToEdit.getLogin().getUsername());
 			}
@@ -181,7 +281,7 @@ public class UserAddController implements Initializable{
 			}
 		}
 		
-		if(personToEdit.getLogin().getRole().getName() != null) {
+		if(personToEdit.getLogin().getRole().getName() != null) {			
 			dropdownFunction.setValue(personToEdit.getLogin().getRole().getName());
 		}
 		
@@ -190,4 +290,46 @@ public class UserAddController implements Initializable{
 	
 	}
 	
+	
+	private Person getTextfieldProperties(Person person) {
+		// Alle Felder auslesen und dem Personen-Objekt zuweisen
+		person.setFirstname(txtFirstname.getText());
+		person.setLastname(txtLastname.getText());
+		person.setEmail(txtEmail.getText());
+		person.setPhone(txtPhone.getText());
+		person.setActive(true);
+		if(personId != null) {
+			person.setId(personId);
+		}
+		
+		// Neues Login erstellen und Feldinhalte zuweisen
+		Login login = new Login();
+		login.setPassword(pfPassword.getText());
+		login.setUsername(txtUsername.getText());
+		if(loginID != null) {
+			login.setId(loginID);
+		}
+		
+		//Rollen aus DB holen und dem Login zuweisen
+		RoleProxy roleProxy = ResteasyClientUtil.getTarget().proxy(RoleProxy.class);		
+	    ObjectMapper mapper = new ObjectMapper();	    
+	    List<Role> roleList = null;
+
+		 try {
+				roleList = mapper.readValue(roleProxy.getAll(), new TypeReference<List<Role>>(){});
+		} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+		}
+		 
+		 for(Role role : roleList) {
+			 if(role.getName().equals(dropdownFunction.getValue())) {
+				 login.setRole(role);
+			 }
+		}
+		
+		 //Login der Person zuweisen
+		person.setLogin(login);
+		return person;
+	}
 }

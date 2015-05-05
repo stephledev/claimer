@@ -13,10 +13,12 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
+import ch.claimer.client.proxy.ContactProxy;
 import ch.claimer.client.proxy.GCEmployeeProxy;
 import ch.claimer.client.proxy.SCEmployeeProxy;
 import ch.claimer.client.proxy.SupervisorProxy;
 import ch.claimer.client.util.ResteasyClientUtil;
+import ch.claimer.shared.models.Contact;
 import ch.claimer.shared.models.GCEmployee;
 import ch.claimer.shared.models.Person;
 import ch.claimer.shared.models.SCEmployee;
@@ -30,6 +32,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -84,6 +87,9 @@ public class UserController implements Initializable {
 	
 	@FXML
 	private TextField txtSearch;
+	
+	@FXML
+	private Label lblMessage;
 	
 	/**
 	 * Öffnet die Detailansicht für einen User, um diesen zu bearbeiten.
@@ -145,6 +151,8 @@ public class UserController implements Initializable {
 	    getSCEmployee();
 	   
 	    getSupervisors();
+	    
+	    getContacts();
 	    
 		//Spalten-Values definieren (müssen den Parameter des Personen-Objekts entsprechen)
 		colLastname.setCellValueFactory(new PropertyValueFactory<Person, String>("lastname"));
@@ -273,6 +281,29 @@ public class UserController implements Initializable {
 
 	}
 	
+	/**
+	 * Lädt alle Contacts aus der Datenbank
+	 */
+	private void getContacts() {
+		Person contact = new Contact();
+	    ContactProxy cProxy = rtarget.proxy(ContactProxy.class);
+	    
+	    try {
+	    	personsToShow = mapper.readValue(cProxy.getAll(), new TypeReference<List<Contact>>(){});
+	    	
+	    	for(int i = 0; i < personsToShow.size(); i++) {
+	    		contact = personsToShow.get(i);
+	    		data.add(contact);
+	    		dataCopy.add(contact);
+	    		contact = null;
+	    	}
+	    } catch (IOException e1) {
+	    	e1.printStackTrace();
+	    }
+	    
+	    personsToShow = null;
+	}
+	
 	//Observable-List mit den gefilterten Daten aktualisieren
 		public void updateFilteredData() {
 			data.clear();
@@ -313,6 +344,11 @@ public class UserController implements Initializable {
 			ArrayList<TableColumn<Person, ?>> sortOrder = new ArrayList<>(userTableView.getSortOrder());
 			userTableView.getSortOrder().clear();
 			userTableView.getSortOrder().addAll(sortOrder);
+		}
+
+		public void initWithMessage(String string) {
+			lblMessage.setText(string);
+			
 		}
 
 	

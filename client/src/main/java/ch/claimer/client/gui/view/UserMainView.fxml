@@ -14,6 +14,7 @@
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
             <RowConstraints fillHeight="false" maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="NEVER" />
+            <RowConstraints fillHeight="false" vgrow="NEVER" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints fillHeight="false" maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="NEVER" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
@@ -32,7 +33,7 @@
                   <TextField fx:id="txtSearch" promptText="Suche..." GridPane.columnIndex="1" />
                </children>
             </GridPane>
-            <TableView fx:id="userTableView" onMouseClicked="#editUser" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
+            <TableView fx:id="userTableView" onMouseClicked="#editUser" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
               <columns>
                 <TableColumn fx:id="colFunction" prefWidth="75.0" text="Funktion" />
                 <TableColumn fx:id="colLastname" prefWidth="75.0" text="Name" />
@@ -46,7 +47,8 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <Button mnemonicParsing="false" onAction="#loadUserAddView" styleClass="add-button" text="Benutzer hinzufügen" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
+            <Button mnemonicParsing="false" onAction="#loadUserAddView" styleClass="add-button" text="Benutzer hinzufügen" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
+            <Label fx:id="lblMessage" GridPane.rowIndex="2" />
          </children>
       </GridPane>
    </children>
