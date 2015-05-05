@@ -3,5 +3,7 @@ dependencies {
 
     compile 'org.eclipse.persistence:javax.persistence:2.1.0'
     compile 'org.eclipse.persistence:eclipselink:2.5.0'
+    compile 'org.jboss.resteasy:resteasy-jackson-provider:2.2.1.GA'
+    compile 'org.codehaus.jackson:jackson-jaxrs:1.9.13'
 
 }
