@@ -34,7 +34,7 @@ public class Main extends Application {
 		try {
 			Pane pane = (Pane) myLoader.load(); // FXML File wird auf das login-Pane geladen
 			Scene login = new Scene(pane);
-			login.getStylesheets().add("http://fonts.googleapis.com/css?family=Roboto+Condensed");
+			login.getStylesheets().add("http://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,700");
 			login.getStylesheets().add(getClass().getResource("claimer_styles.css").toExternalForm()); // CSS-File wird geladen
 			
 			if(screenWidth > 1500) {
