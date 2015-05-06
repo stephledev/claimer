@@ -76,6 +76,7 @@ public class TestRepository {
 		issueRepo.create(iss1);
 		
 	}
+
 	
     @Test
     public void testGetById() {
@@ -104,5 +105,28 @@ public class TestRepository {
     	assertEquals("Projectname2", projectRepo.getByRelation(Supervisor.class, 4).get(0).getName());
 
     }
-   
+    
+    @Test
+    public void testCreate(){
+     Project p3 = new Project();
+     p3.setName("Projectname3");
+     projectRepo.create(p3);
+     assertEquals("Projectname3", projectRepo.getById(3).getName());
+     
+    }
+    
+    @Test
+    public void testUpdate(){
+     Project p1 = projectRepo.getById(1);
+     p1.setName("ProjectX");
+     projectRepo.update(p1);
+     assertEquals("ProjectX", projectRepo.getById(1).getName());
+    }
+
+    @Test
+    public void testDelete(){
+    	stateRepo.delete(1);
+    	assertEquals(null, stateRepo.getById(1));
+    }
+    
 }

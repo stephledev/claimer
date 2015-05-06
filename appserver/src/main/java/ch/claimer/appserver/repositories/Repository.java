@@ -2,7 +2,9 @@ package ch.claimer.appserver.repositories;
 
 import java.util.List;
 
-public interface Repository<T> {
+import ch.claimer.shared.models.Model;
+
+public interface Repository<T extends Model> {
 	
     T getById(int id);
     List<T> getAll();

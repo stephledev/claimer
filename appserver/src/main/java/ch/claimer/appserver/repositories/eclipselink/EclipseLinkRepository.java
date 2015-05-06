@@ -7,8 +7,9 @@ import javax.persistence.EntityManagerFactory;
 
 import ch.claimer.appserver.repositories.Repository;
 import ch.claimer.appserver.util.EclipseLinkUtil;
+import ch.claimer.shared.models.Model;
 
-public class EclipseLinkRepository<T> implements Repository<T> {
+public class EclipseLinkRepository<T extends Model> implements Repository<T> {
 	
 	private final Class<T> clazz;
 	private final EntityManagerFactory factory;
@@ -79,7 +80,7 @@ public class EclipseLinkRepository<T> implements Repository<T> {
 	public void delete(int id) {
 		EntityManager em = factory.createEntityManager();
 		em.getTransaction().begin();
-		em.remove(id);
+		em.remove(em.find(this.clazz, id));
 		em.getTransaction().commit();
 		em.close();
 	}

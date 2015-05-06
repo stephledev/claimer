@@ -7,8 +7,9 @@ import java.util.List;
 import ch.claimer.appserver.repositories.Repository;
 import ch.claimer.appserver.repositories.eclipselink.EclipseLinkRepository;
 import ch.claimer.shared.methods.Method;
+import ch.claimer.shared.models.Model;
 
-public class Controller<T> extends UnicastRemoteObject implements Method<T> {
+public class Controller<T extends Model> extends UnicastRemoteObject implements Method<T> {
 
 	private static final long serialVersionUID = -2398155992360834786L;
 	protected final Class<T> clazz;

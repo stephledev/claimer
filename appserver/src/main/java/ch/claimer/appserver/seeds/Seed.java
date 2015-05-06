@@ -5,13 +5,14 @@ import java.util.List;
 import java.util.Map;
 
 import ch.claimer.appserver.repositories.Repository;
+import ch.claimer.shared.models.Model;
 
 /**
  * 
  * @author Stephan Beeler
  * @author Raoul Ackermann
  */
-public abstract class Seed<T> {
+public abstract class Seed<T extends Model> {
 	
 	protected static Map<String, List<?>> seeds = new HashMap<String, List<?>>();
 	protected List<T> seed;

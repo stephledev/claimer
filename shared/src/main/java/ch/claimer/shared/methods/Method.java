@@ -4,7 +4,9 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
-public interface Method<T> extends Remote {
+import ch.claimer.shared.models.Model;
+
+public interface Method<T extends Model> extends Remote {
 	public List<T> getAll() throws RemoteException;
 	public T getById(int id) throws RemoteException;
 	public List<T> getByProperty(String name, Object value) throws RemoteException;
