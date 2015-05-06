@@ -1,10 +1,10 @@
 .root{
 	-fx-font-size: 12pt;
 	-fx-text-fill: #777777;
-	-fx-font-family: "Roboto+Condensed";
-	-fx-base: #E6E2E1;
-	-fx-background: #E6E2E1;
-	-fx-focus-color: #E6E2E1;
+	-fx-font-family: 'Roboto Condensed', sans-serif;
+	-fx-base: #FFF;
+	-fx-background: #FFF;
+	-fx-focus-color: #FFF;
 }
 
 .lbl_title{
@@ -12,15 +12,15 @@
 }
 
 .button {
-	-fx-background-color: #777777;
+	-fx-background-color: #FF5B72;
     -fx-background-radius: 2,2,2;
     -fx-background-insets: 0,1,2;
-    -fx-text-fill: #E6E2E1;
+    -fx-text-fill: #FFF;
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.3) , 1, 0.0 , 0 , 1 );
 }
 
 .button:hover {
-    -fx-background-color: linear-gradient(#929292, #929292);
+    -fx-background-color: linear-gradient(#E55267, #E55267);
 }
 
 .add-button {
@@ -54,22 +54,23 @@
 }
 	
 #lbl_mangelmanager{
-	-fx-background-color: #777777;
-	-fx-text-fill: #E6E2E1;
-	-fx-font-weight: bold;
+	-fx-width: 100%;
+	-fx-background-color: #60AACC;
+	-fx-text-fill: #FFF;
+	-fx-font-weight: lighter;
     -fx-font-size: 32px;
     -fx-text-alignment: center;
     -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.3) , 1, 0.0 , 0 , 0 );
-    -fx-padding:0.0px 
+    -fx-padding: 10px 0 10px 20px; 
 }
 
 #lbl_warnung{
-	-fx-text-fill: #B70F0A;
+	-fx-text-fill: #FF0000;
 	-fx-text-alignment: center;
 }
 
 #body {
-	-fx-background-color: #E6E2E1;
+	-fx-background-color: #FFF;
 }
 
 #navigation {
