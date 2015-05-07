@@ -2,7 +2,6 @@ package ch.claimer.appserver.repositories;
 
 import static org.junit.Assert.*;
 
-import java.util.List;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -14,6 +13,16 @@ import ch.claimer.shared.models.Project;
 import ch.claimer.shared.models.SCEmployee;
 import ch.claimer.shared.models.State;
 import ch.claimer.shared.models.Supervisor;
+
+/**
+ * 
+ * @author Raoul Ackermann
+ * @author Stephan Beeler
+ * 
+ * @version 1.0
+ * @since 1.0
+ *
+ */
 
 public class TestRepository {
 	

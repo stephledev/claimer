@@ -22,6 +22,16 @@ import ch.claimer.shared.models.State;
 import ch.claimer.shared.models.Subcontractor;
 import ch.claimer.shared.models.Supervisor;
 
+/**
+ * 
+ * @author Raoul Ackermann
+ * @author Stephan Beeler
+ * 
+ * @version 1.0
+ * @since 1.0
+ *
+ */
+
 public class TestRMI {
 	
 	private static Method<Project> projectMethod;
