@@ -6,7 +6,12 @@ import ch.claimer.appserver.repositories.eclipselink.EclipseLinkRepository;
 import ch.claimer.shared.models.Subcontractor;
 
 /** 
+ * In der SubcontractorSeed-Klasse werden die Subunternehmer mit den 
+ * Adressen und Kontaktdaten in die Datenbank geschrieben.
+ * 
  * @author Fabio Baviera
+ * @version 1.0
+ * @since 1.0
  */
 
 public class SubcontractorSeed extends Seed<Subcontractor> {

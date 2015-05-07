@@ -7,7 +7,12 @@ import ch.claimer.shared.models.Login;
 import ch.claimer.shared.models.Supervisor;
 
 /** 
+ * In der SupervisorSeed-Klasse werden die Bauleiter in die Datenbank
+ * geschrieben und ein Login zugewiesen.
+ * 
  * @author Fabio Baviera
+ * @version 1.0
+ * @since 1.0
  */
 
 public class SupervisorSeed extends Seed<Supervisor> {

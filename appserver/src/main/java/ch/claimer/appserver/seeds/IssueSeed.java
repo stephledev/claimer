@@ -13,9 +13,13 @@ import ch.claimer.shared.models.State;
 import ch.claimer.shared.models.Subcontractor;
 
 /**
- * 
+ * In der IssueSeed-Klasse werden Beispiele für Mängel in die Datenbank
+ * geschrieben und dem jeweiligen LogEntry, Projekt, Comment, Subunternehmer,
+ * Status und Kontakt zugewiesen.
  * 
  * @author Raoul Ackermann
+ * @version 1.0
+ * @since 1.0
  */
 
 public class IssueSeed extends Seed<Issue> {
@@ -51,7 +55,7 @@ public class IssueSeed extends Seed<Issue> {
 		iss2.setContact((Contact)seeds.get("Contact").get(1));
 		
 		Issue iss3 = new Issue();
-		iss3.setDescription("Fassade auf der Nordseite weisst Schäden auf.");
+		iss3.setDescription("Fassade auf der Nordseite weist Schäden auf.");
 		iss3.setCreated(new GregorianCalendar());
 		iss3.setSolved(new GregorianCalendar());
 		iss3.getLogEntries().add((LogEntry)seeds.get("LogEntry").get(3));
@@ -86,6 +90,7 @@ public class IssueSeed extends Seed<Issue> {
 		seed.add(iss3);
 		seed.add(iss4);
 		seed.add(iss5);
+		
 		Seed.seeds.put("Issue", seed);
 	}
 

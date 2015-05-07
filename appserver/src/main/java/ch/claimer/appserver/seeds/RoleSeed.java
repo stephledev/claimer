@@ -6,9 +6,12 @@ import ch.claimer.appserver.repositories.eclipselink.EclipseLinkRepository;
 import ch.claimer.shared.models.Role;
 
 /**
- * 
+ * In der RoleSeed-Klasse werden die verschiedene Rollen definiert,
+ * die Rechte zugewiesen und in die Datenbank geschrieben.
  * 
  * @author Fabio Baviera
+ * @version 1.0
+ * @since 1.0
  */
 
 public class RoleSeed extends Seed<Role> {

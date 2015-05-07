@@ -7,9 +7,12 @@ import ch.claimer.appserver.repositories.eclipselink.EclipseLinkRepository;
 import ch.claimer.shared.models.LogEntry;
 
 /**
- * 
+ * In der LogEntry-Klasse werden die Beschreibungen einer Änderung
+ * an einem Projekt oder Mangel in die Datenbank geschrieben.
  * 
  * @author Raoul Ackermann
+ * @version 1.0
+ * @since 1.0
  */
 
 public class LogEntrySeed extends Seed<LogEntry> {

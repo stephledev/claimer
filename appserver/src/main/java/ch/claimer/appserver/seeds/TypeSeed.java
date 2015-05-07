@@ -6,9 +6,13 @@ import ch.claimer.appserver.repositories.eclipselink.EclipseLinkRepository;
 import ch.claimer.shared.models.Type;
 
 /**
+ * In der TypeSeed-Klasse werden die Typen erfasst, welche ein Projekt 
+ * haben kann und in die Datenbank geschrieben.
  * 
  * @author Fabio Baviera
  * @author Raoul Ackermann
+ * @version 1.0
+ * @since 1.0
  */
 
 public class TypeSeed extends Seed<Type> {
