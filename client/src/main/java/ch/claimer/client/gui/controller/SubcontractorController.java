@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
+
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 
@@ -19,6 +21,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -66,6 +69,9 @@ public class SubcontractorController {
 	
 	@FXML
 	private TableColumn<Company, String> colEmail;
+	
+	@FXML
+	private Label lblMessage;
 	
 
 	//Zur Home-Ansicht wechseln (mainView.xml)
@@ -199,6 +205,10 @@ public class SubcontractorController {
 		ArrayList<TableColumn<Company, ?>> sortOrder = new ArrayList<>(subcontractorTableView.getSortOrder());
 		subcontractorTableView.getSortOrder().clear();
 		subcontractorTableView.getSortOrder().addAll(sortOrder);
+	}
+
+	public void initWithMessage(String string) {
+		lblMessage.setText(string);
 	}
 	
 	

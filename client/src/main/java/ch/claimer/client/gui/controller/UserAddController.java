@@ -22,11 +22,14 @@ import ch.claimer.shared.models.Login;
 import ch.claimer.shared.models.Person;
 import ch.claimer.shared.models.Role;
 import ch.claimer.shared.models.SCEmployee;
+import ch.claimer.shared.models.Subcontractor;
 import ch.claimer.shared.models.Supervisor;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -68,6 +71,11 @@ public class UserAddController implements Initializable{
 	@FXML
 	private ComboBox<String> dropdownFunction;
 	
+	@FXML
+	private Button btnSave;
+	
+	@FXML
+	private Button btnBack;
 	
 	@FXML
 	private void loadUserMainView() {
@@ -240,7 +248,7 @@ public class UserAddController implements Initializable{
 		//Rollen dem Dropdown hinzufügen
 		for(Role role: roleList) {
 			dropdownFunction.getItems().add(role.getName());
-		}
+		}		
 	}
 	
 	
@@ -284,10 +292,6 @@ public class UserAddController implements Initializable{
 		if(personToEdit.getLogin().getRole().getName() != null) {			
 			dropdownFunction.setValue(personToEdit.getLogin().getRole().getName());
 		}
-		
-		
-		
-	
 	}
 	
 	
@@ -328,8 +332,42 @@ public class UserAddController implements Initializable{
 			 }
 		}
 		
+		
 		 //Login der Person zuweisen
 		person.setLogin(login);
 		return person;
 	}
+
+	public void initSCEAdd() {
+		
+		dropdownFunction.getItems().clear();
+		dropdownFunction.getItems().add("power");
+		dropdownFunction.setValue("power");
+
+		btnSave.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				SCEmployee sce = new SCEmployee();
+				sce = (SCEmployee) getTextfieldProperties(sce);
+
+				SubcontractorAddController.data2.add(sce);
+				SubcontractorAddController.data2.clear();
+				Stage stage = (Stage) btnSave.getScene().getWindow();
+			    stage.close();
+				
+			}
+		});
+		
+		btnBack.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				Stage stage = (Stage) btnSave.getScene().getWindow();
+			    stage.close();
+			}
+		});		
+	}
+	
 }

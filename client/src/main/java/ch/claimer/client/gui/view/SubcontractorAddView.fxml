@@ -109,7 +109,7 @@
                 <RowConstraints fillHeight="false" vgrow="NEVER" />
               </rowConstraints>
                <children>
-                  <Button mnemonicParsing="false" styleClass="add-button" text="Mitarbeiter hinzufügen" />
+                  <Button mnemonicParsing="false" onAction="#addSCEmployee" styleClass="add-button" text="Mitarbeiter hinzufügen" />
                </children>
             </GridPane>
             <HBox GridPane.rowIndex="8">

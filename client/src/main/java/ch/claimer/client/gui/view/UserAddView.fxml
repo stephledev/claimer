@@ -24,8 +24,8 @@
             <Label fx:id="lblTitel" styleClass="lblViewTitle" text="Neuen Benutzer hinzufügen" />
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="3">
                <children>
-                  <Button mnemonicParsing="false" onAction="#saveUser" styleClass="save-button" text="Speichern" />
-                  <Button mnemonicParsing="false" onAction="#loadUserMainView" styleClass="back-button" text="Abbrechen">
+                  <Button fx:id="btnSave" mnemonicParsing="false" onAction="#saveUser" styleClass="save-button" text="Speichern" />
+                  <Button fx:id="btnBack" mnemonicParsing="false" onAction="#loadUserMainView" styleClass="back-button" text="Abbrechen">
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>
