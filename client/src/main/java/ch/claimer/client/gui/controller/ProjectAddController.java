@@ -12,16 +12,21 @@ import org.codehaus.jackson.type.TypeReference;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
+import ch.claimer.client.proxy.CategoryProxy;
 import ch.claimer.client.proxy.GCEmployeeProxy;
 import ch.claimer.client.proxy.IssueProxy;
+import ch.claimer.client.proxy.PrincipalProxy;
 import ch.claimer.client.proxy.ProjectProxy;
 import ch.claimer.client.proxy.RoleProxy;
+import ch.claimer.client.proxy.StateProxy;
 import ch.claimer.client.proxy.SupervisorProxy;
+import ch.claimer.client.proxy.TypeProxy;
 import ch.claimer.client.util.ResteasyClientUtil;
 import ch.claimer.shared.models.Category;
 import ch.claimer.shared.models.GCEmployee;
 import ch.claimer.shared.models.Issue;
 import ch.claimer.shared.models.Person;
+import ch.claimer.shared.models.Principal;
 import ch.claimer.shared.models.Project;
 import ch.claimer.shared.models.Role;
 import ch.claimer.shared.models.State;
@@ -101,7 +106,7 @@ public class ProjectAddController implements Initializable {
 	private ComboBox<String> combo_supervisor;
 
 	@FXML
-	private ComboBox<String> combo_status;
+	private ComboBox<String> combo_Status;
 	
 	@FXML
 	private ComboBox<String> combo_type;
@@ -175,18 +180,104 @@ public class ProjectAddController implements Initializable {
 		p1.setName(txt_projectName.getText());
 //		p1.setStart(date_start.getValue());
 //		p1.setEnd(date_end.getValue());
-//		p1.setSupervisor(combo_supervisor.getValue());
 		p1.setStreet(txt_street.getText());
 		p1.setZip(txt_Zip.getText());
 		p1.setPlace(txt_place.getText());
-//		p1.setState(combo_status.getValue());
 //		p1.setCategory(combo_Category.getValue());
 //		p1.setContacts(combo_principal.getValue());
 //		p1.setType(combo_type.getValue());
 		if(projectId != null) {
 			p1.setId(projectId);
 		}	
-			return p1;
+		
+		//Supervisor aus DB holen 
+		SupervisorProxy supervisorProxy = ResteasyClientUtil.getTarget().proxy(SupervisorProxy.class);		
+		ObjectMapper mapper = new ObjectMapper();	    
+		List<Supervisor> supervisorList = null;
+
+		try {
+			supervisorList = mapper.readValue(supervisorProxy.getAll(), new TypeReference<List<Supervisor>>(){});
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		//Bauleiter dem Dropdown hinzufügen
+		for(Supervisor supervisor: supervisorList) {
+			if(supervisor.getLastname().equals(combo_supervisor.getValue()))
+				p1.setSupervisor(supervisor);	
+		
+		}
+		
+		//Status aus DB holen 
+		StateProxy stateProxy = ResteasyClientUtil.getTarget().proxy(StateProxy.class);			    
+	    List<State> stateList = null;
+	    
+		try {
+			stateList = mapper.readValue(stateProxy.getAll(), new TypeReference<List<State>>(){});
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		//Status dem Dropdown hinzufügen
+		for(State state: stateList) {
+			if(state.getName().equals(combo_Status.getValue()))
+				p1.setState(state);	
+		}
+
+		//Typ aus DB holen 
+		TypeProxy typeProxy = ResteasyClientUtil.getTarget().proxy(TypeProxy.class);		
+		List<Type> typeList = null;
+
+		try {
+			typeList = mapper.readValue(typeProxy.getAll(), new TypeReference<List<Type>>(){});
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		//Typ dem Dropdown hinzufügen
+		for(Type type: typeList) {
+			if(type.getName().equals(combo_type.getValue()))
+				p1.setType(type);	
+		}
+		
+		//Kategory aus DB holen 
+		CategoryProxy categoryProxy = ResteasyClientUtil.getTarget().proxy(CategoryProxy.class);		
+		List<Category> categoryList = null;
+
+		try {
+			categoryList = mapper.readValue(categoryProxy.getAll(), new TypeReference<List<Category>>(){});
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		//Kategorie dem Dropdown hinzufügen
+		for(Category category: categoryList) {
+			if(category.getName().equals(combo_Category.getValue()))
+				p1.setCategory(category);
+		}
+		
+		PrincipalProxy principalProxy = ResteasyClientUtil.getTarget().proxy(PrincipalProxy.class);		
+		List<Principal> principalList = null;
+
+		try {
+			principalList = mapper.readValue(principalProxy.getAll(), new TypeReference<List<Principal>>(){});
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+//TODO Kunden im Dropdown anzeigen - .setPrincipals(principal) nicht möglich
+//		//Rollen dem Dropdown hinzufügen
+//		for(Principal principal: principalList) {
+//			if(principal.getLastname().equals(combo_principal.getValue()))
+//				p1.setPrincipals(principalList);
+//		}
+		
+		return p1;
 
 	}
 
@@ -236,9 +327,9 @@ public class ProjectAddController implements Initializable {
 //		if(project.getEnd() != null) { 
 //		date_end.setEnd(project.getEnd());
 //		}
-		if(project.getSupervisor().getLastname() != null) { 
+		//if(project.getSupervisor() != null) { 
 		combo_supervisor.setValue(project.getSupervisor().getLastname());
-		}
+	//	}
 		if(project.getStreet() != null) { 
 		txt_street.setText(project.getStreet());
 		}
@@ -249,11 +340,12 @@ public class ProjectAddController implements Initializable {
 		txt_place.setText(project.getPlace());	
 		}
 //		if(project.getState().getName() != null) { 
-//		combo_status.setValue(project.getState().getName());	
+//		combo_Status.setValue(project.getState().getName());	
 //		}
 //		if(project.getCategory().getName() != null) { 
 //		combo_Category.setValue(project.getCategory().getName());	
 //		}
+//		TODO
 //		if(project.getPrincipals() != null) { 
 //		combo_principal.setValue(project.getPrincipals());
 //		}
@@ -283,6 +375,10 @@ public class ProjectAddController implements Initializable {
 		
 		initiateWebserviceConnection();
 		setDropdownSupervisor();
+		setDropdownPrincipal();
+		setDropdownCategory();
+		setDropdownState();
+		setDropdownType();
 	}
 	
 	@FXML
@@ -320,17 +416,17 @@ public class ProjectAddController implements Initializable {
 		try {
 			//FXMLLoader erstellen
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/ProjectsMainView.fxml"));
-			
+
 			//Neuen View laden
 			Pane myPane;
 			myPane = loader.load();
-			
+
 			//ProjectMainController holen
 			ProjectsMainController controller = loader.<ProjectsMainController>getController();
-			
+
 			//Controller starten
 			controller.initWithMessage("Änderungen erfolgreich vorgenommen.");			
-			
+
 			//Neuen View einfügen
 			mainContent.getChildren().clear();
 			mainContent.getChildren().setAll(myPane);
@@ -339,27 +435,101 @@ public class ProjectAddController implements Initializable {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Werte für das "Funktionen"-Dropdown setzen
 	 */
 	public void setDropdownSupervisor()  {
-		
+
 		SupervisorProxy supervisorProxy = ResteasyClientUtil.getTarget().proxy(SupervisorProxy.class);		
-	    ObjectMapper mapper = new ObjectMapper();	    
-	    List<Supervisor> supervisorList = null;
-	    
+		ObjectMapper mapper = new ObjectMapper();	    
+		List<Supervisor> supervisorList = null;
+
 		try {
 			supervisorList = mapper.readValue(supervisorProxy.getAll(), new TypeReference<List<Supervisor>>(){});
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
-		//Rollen dem Dropdown hinzufügen
+
+		//Bauleiter dem Dropdown hinzufügen
 		for(Supervisor supervisor: supervisorList) {
 			combo_supervisor.getItems().add(supervisor.getLastname());
 		}
 	}
 
+	public void setDropdownState()  {
+		
+		StateProxy stateProxy = ResteasyClientUtil.getTarget().proxy(StateProxy.class);		
+	    ObjectMapper mapper = new ObjectMapper();	    
+	    List<State> stateList = null;
+	    
+		try {
+			stateList = mapper.readValue(stateProxy.getAll(), new TypeReference<List<State>>(){});
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		//Status dem Dropdown hinzufügen
+		for(State state: stateList) {
+			combo_Status.getItems().add(state.getName());
+		}
+	}
+	
+	public void setDropdownType()  {
+	
+		TypeProxy typeProxy = ResteasyClientUtil.getTarget().proxy(TypeProxy.class);		
+		ObjectMapper mapper = new ObjectMapper();	    
+		List<Type> typeList = null;
+
+		try {
+			typeList = mapper.readValue(typeProxy.getAll(), new TypeReference<List<Type>>(){});
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		//Typ dem Dropdown hinzufügen
+		for(Type type: typeList) {
+			combo_type.getItems().add(type.getName());
+		}
+	}
+
+	public void setDropdownCategory()  {
+
+		CategoryProxy categoryProxy = ResteasyClientUtil.getTarget().proxy(CategoryProxy.class);		
+		ObjectMapper mapper = new ObjectMapper();	    
+		List<Category> categoryList = null;
+
+		try {
+			categoryList = mapper.readValue(categoryProxy.getAll(), new TypeReference<List<Category>>(){});
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		//Kategorie dem Dropdown hinzufügen
+		for(Category category: categoryList) {
+			combo_Category.getItems().add(category.getName());
+		}
+	}
+	public void setDropdownPrincipal()  {
+
+		PrincipalProxy principalProxy = ResteasyClientUtil.getTarget().proxy(PrincipalProxy.class);		
+		ObjectMapper mapper = new ObjectMapper();	    
+		List<Principal> principalList = null;
+
+		try {
+			principalList = mapper.readValue(principalProxy.getAll(), new TypeReference<List<Principal>>(){});
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		//Rollen dem Dropdown hinzufügen
+		for(Principal principal: principalList) {
+			combo_principal.getItems().add(principal.getLastname());
+		}
+	}
 }
