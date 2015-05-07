@@ -6,10 +6,13 @@ import ch.claimer.appserver.repositories.eclipselink.EclipseLinkRepository;
 import ch.claimer.shared.models.State;
 
 /**
- * 
+ * In der StateSeed-Klasse werden die möglichen Status der Projekte
+ * in die Datenbank geschrieben.
  * 
  * @author Fabio Baviera
  * @author Raoul Ackermann
+ * @version 1.0
+ * @since 1.0
  */
 
 public class StateSeed extends Seed<State> {

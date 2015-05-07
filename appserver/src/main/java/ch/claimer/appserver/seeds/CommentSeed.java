@@ -8,9 +8,12 @@ import ch.claimer.shared.models.Comment;
 import ch.claimer.shared.models.Supervisor;
 
 /**
- * 
+ * In der CommentSeed-Klasse werden einige mögliche Kommentare
+ * in die Datenbank geschrieben.
  * 
  * @author Raoul Ackermann
+ * @version 1.0
+ * @since 1.0
  */
 
 public class CommentSeed extends Seed<Comment> {

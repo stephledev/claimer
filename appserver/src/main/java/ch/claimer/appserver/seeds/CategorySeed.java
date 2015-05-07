@@ -6,8 +6,14 @@ import ch.claimer.appserver.repositories.eclipselink.EclipseLinkRepository;
 import ch.claimer.shared.models.Category;
 
 /** 
+ * In der CategorySeed-Klasse werden die verschiedenen Kategorien
+ * von Gebäuden in die Datenbank abgefüllt.
+ * 
+ * 
  * @author Raoul Ackermann
  * @author Fabio Baviera
+ * @version 1.0
+ * @since 1.0
  */
 public class CategorySeed extends Seed<Category> {
 	

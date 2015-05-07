@@ -6,7 +6,12 @@ import ch.claimer.appserver.repositories.eclipselink.EclipseLinkRepository;
 import ch.claimer.shared.models.Principal;
 
 /** 
+ * In der PrincipalSeed-Klasse werden die Bauherren in die
+ * Datenbank geschrieben, welche einem Projekt zugewiesen werden.
+ * 
  * @author Fabio Baviera
+ * @version 1.0
+ * @since 1.0
  */
 
 public class PrincipalSeed extends Seed<Principal> {

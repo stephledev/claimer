@@ -8,7 +8,12 @@ import ch.claimer.shared.models.Login;
 import ch.claimer.shared.models.Subcontractor;
 
 /** 
+ * In der ContactSeed-Klasse werden die Kontaktpersonen der Subunternehmen 
+ * in die Datenbank geschrieben.
+ * 
  * @author Fabio Baviera
+ * @version 1.0
+ * @since 1.0
  */
 
 public class ContactSeed extends Seed<Contact> {

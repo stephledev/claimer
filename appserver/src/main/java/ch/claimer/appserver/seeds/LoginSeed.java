@@ -7,9 +7,12 @@ import ch.claimer.shared.models.Login;
 import ch.claimer.shared.models.Role;
 
 /**
- * 
+ * In der LoginSeed-Klasse werden die Logins den User zugeteilt
+ * mit den jeweiligen Rechten die in den Rollen definiert sind.
  * 
  * @author Fabio Baviera
+ * @version 1.0
+ * @since 1.0
  */
 
 public class LoginSeed extends Seed<Login> {

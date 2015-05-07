@@ -2,9 +2,13 @@ package ch.claimer.client.gui.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.TimeZone;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
@@ -16,7 +20,9 @@ import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
 import ch.claimer.client.proxy.ProjectProxy;
 import ch.claimer.client.util.ResteasyClientUtil;
+import ch.claimer.shared.models.Person;
 import ch.claimer.shared.models.Project;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -33,6 +39,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.util.Callback;
 
 /**
  * @author Michael Lötscher
@@ -89,10 +96,9 @@ public class ProjectsMainController implements Initializable{
 	// Zur ProjectAddView wechseln 
 	@FXML
 	private void loadProjectAddView(ActionEvent event) throws IOException {
-		Pane myPane = FXMLLoader.load(getClass().getResource(
-				"../view/ProjectAddView.fxml"));
+		Pane myPane = FXMLLoader.load(getClass().getResource("../view/ProjectAddView.fxml"));
 		mainContent.getChildren().clear();
-		mainContent.getChildren().setAll(myPane);
+		mainContent.getChildren().setAll(myPane);		
 	}
 	
 	
@@ -111,9 +117,7 @@ public class ProjectsMainController implements Initializable{
 			Project projectID = (Project) projectTableView.getSelectionModel().getSelectedItem();
 
 			//FXMLLoader erstelen
-			FXMLLoader loader = new FXMLLoader(
-					getClass().getResource("../view/ProjectAddView.fxml")
-				);
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/ProjectAddView.fxml"));
 			
 			//Neuen View laden
 			Pane myPane = loader.load();
@@ -180,26 +184,19 @@ public class ProjectsMainController implements Initializable{
 		
 		
 		// Spalten-Values definieren (müssen den Parameter des Company-Objekts entsprechen)
-		colProject
-				.setCellValueFactory(new PropertyValueFactory<Project, String>(
-						"name"));
+		colProject.setCellValueFactory(new PropertyValueFactory<Project, String>("name"));
+		colSupervisor.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Project, String>, ObservableValue<String>>() {
+			public ObservableValue<String> call(TableColumn.CellDataFeatures<Project, String> data) {
+				try {
+					return new SimpleStringProperty(data.getValue().getSupervisor().getLastname());
+				} catch(NullPointerException e) {
+					return null;
+				}
+			}
+		  });
 
-
-		
-		colSupervisor
-				.setCellValueFactory(new PropertyValueFactory<Project, String>(
-						"supervisor"));
-
-
-		//TODO GregorianCalendar als String ausgeben
-		colStart.setCellValueFactory(new PropertyValueFactory<Project, String>(
-				"start"));
-		
-		
-		
-		
-		colEnd.setCellValueFactory(new PropertyValueFactory<Project, String>(
-				"end"));
+		colStart.setCellValueFactory(new PropertyValueFactory<Project, String>("end"));
+		colEnd.setCellValueFactory(new PropertyValueFactory<Project, String>("end"));
 
 		// Observable-List, welche die Daten beinhaltet, an die Tabelle
 		// übergeben
@@ -215,6 +212,7 @@ public class ProjectsMainController implements Initializable{
 
 		});
 	}
+	
 	
 	// Observable-List mit den gefilterten Daten aktualisieren
 	public void updateDataCopy() {
@@ -258,6 +256,10 @@ public class ProjectsMainController implements Initializable{
 		projectTableView.getSortOrder().clear();
 		projectTableView.getSortOrder().addAll(sortOrder);
 	}
+	
+	public void initWithMessage(String string) {
+		lbl_title.setText(string);
 		
+	}
 
 }

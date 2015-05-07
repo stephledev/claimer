@@ -7,7 +7,13 @@ import ch.claimer.shared.models.GCEmployee;
 import ch.claimer.shared.models.Login;
 
 /** 
+ * In der GCEmployeeSeed-Klasse werden die Mitarbeiter des Generalunternehmens
+ * in die Datenbank geschrieben mit den jeweiligen Rechten, welche zugleich alle Mitglieder
+ * der Projektgruppe sind.
+ * 
  * @author Fabio Baviera
+ * @version 1.0
+ * @since 1.0
  */
 
 public class GCEmployeeSeed extends Seed<GCEmployee> {
