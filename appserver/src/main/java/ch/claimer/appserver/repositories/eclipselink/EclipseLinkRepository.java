@@ -52,7 +52,6 @@ public class EclipseLinkRepository<T extends Model> implements Repository<T> {
 			.setParameter("value", em.find(relation, id))
 			.getResultList();
 		em.close();
-		System.out.println(list);
 		return list;
 	}
 	
