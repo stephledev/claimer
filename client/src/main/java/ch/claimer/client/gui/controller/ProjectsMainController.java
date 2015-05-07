@@ -3,7 +3,6 @@ package ch.claimer.client.gui.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -16,9 +15,8 @@ import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
 import ch.claimer.client.proxy.ProjectProxy;
-import ch.claimer.shared.models.Person;
+import ch.claimer.client.util.ResteasyClientUtil;
 import ch.claimer.shared.models.Project;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -35,7 +33,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.util.Callback;
 
 /**
  * @author Michael Lötscher
@@ -138,9 +135,7 @@ public class ProjectsMainController implements Initializable{
 	 * Webservice-Verbindung herstellen. Wird automatisch von der initiate-Funktion aufgerufen.
 	 */
 	private void initiateWebserviceConnection() {
-		client = new ResteasyClientBuilder().build();
-	    target = client.target("http://localhost:8080/webservice");
-	    rtarget = (ResteasyWebTarget)target;
+	    rtarget = ResteasyClientUtil.getTarget();
 	    mapper = new ObjectMapper();
 	}
 	
@@ -157,7 +152,6 @@ public class ProjectsMainController implements Initializable{
 	    	projectsToShow = mapper.readValue(projectProxy.getAll(), new TypeReference<List<Project>>(){});
 			
 			for(int i = 0; i < projectsToShow.size(); i++) {
-			    	
 					project = projectsToShow.get(i);
 			    	data.add(project);
 			    	dataCopy.add(project);

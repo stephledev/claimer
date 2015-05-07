@@ -43,7 +43,7 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <Button fx:id="bttn_addProject" mnemonicParsing="false" onAction="#loadProjectAddView" styleClass="add-button" text="Projekt hinzufügen" GridPane.rowIndex="4" />
+            <Button fx:id="bttn_addProject" mnemonicParsing="false" onAction="#loadProjectAddView" styleClass="add-button" text="Projekt hinzufügen" GridPane.rowIndex="3" />
          </children>
       </GridPane>
    </children>

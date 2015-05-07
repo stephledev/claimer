@@ -1,8 +1,7 @@
 package ch.claimer.client.gui.controller;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.List;
+import java.net.URL;import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.ws.rs.client.Client;
@@ -14,13 +13,14 @@ import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
 import ch.claimer.client.proxy.IssueProxy;
-import ch.claimer.client.proxy.ProjectProxy;
+import ch.claimer.client.util.ResteasyClientUtil;
 import ch.claimer.shared.models.Category;
 import ch.claimer.shared.models.Issue;
 import ch.claimer.shared.models.Person;
 import ch.claimer.shared.models.Project;
 import ch.claimer.shared.models.State;
 import ch.claimer.shared.models.Supervisor;
+import ch.claimer.shared.models.Type;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -31,7 +31,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -57,9 +56,7 @@ public class ProjectAddController implements Initializable {
 	ObservableList<Issue> data = FXCollections.observableArrayList();
 
 	private  Integer projectId = null;
-	private  Integer id = null;
 
-	
 	// Maincontent, hierhin werden die verschiedenen Views geladen
 	@FXML
 	private Pane mainContent;
@@ -101,7 +98,7 @@ public class ProjectAddController implements Initializable {
 	private ComboBox<State> combo_status;
 	
 	@FXML
-	private ComboBox<State> combo_type;
+	private ComboBox<Type> combo_type;
 
 	@FXML
 	private ComboBox<Person> combo_principal;
@@ -151,175 +148,108 @@ public class ProjectAddController implements Initializable {
 	// "Speicher"-Button: Speichert das Projekt
 	@FXML
 	private void saveProject(ActionEvent event) throws IOException {
-		
-		if (projectId != null) {
-			
-			Client client = new ResteasyClientBuilder().build();
-			WebTarget target = client.target("http://localhost:8080/webservice");
-			ResteasyWebTarget rtarget = (ResteasyWebTarget) target;
 
-			ProjectProxy projectProxy = rtarget.proxy(ProjectProxy.class);
-			List<Project> projectList = null;
-			try {
-				projectsToShow = mapper.readValue(projectProxy.getAll(), new TypeReference<List<Project>>(){});
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+		Project p1 = new Project();
 
-			// Mangel der ObservableList zuweisen
-			Project projectFromDB = new Project();
-			for (int i = 0; i < projectList.size(); i++) {
-				projectFromDB = projectList.get(i);
-				
-				if(projectFromDB.getId() == id){
-					
-					updateData(projectFromDB);
-				}
-				
-			}
-			
-		//TODO save as a new project
+		p1.setName(txt_projectName.getText());
+//		p1.setStart(date_start.getValue());
+//		p1.setEnd(date_end.getValue());
+		p1.setSupervisor(combo_supervisor.getValue());
+		p1.setStreet(txt_street.getText());
+		p1.setZip(txt_Zip.getText());
+		p1.setPlace(txt_place.getText());
+		p1.setState(combo_status.getValue());
+		p1.setCategory(combo_Category.getValue());
+//		p1.setContacts(combo_principal.getValue());
+		p1.setType(combo_type.getValue());
+
+		//Neues Projekt erstellen oder bestehendes updaten
+		if(projectId != null) {
+			// TODO
+			System.out.println("Update Project with id " + projectId);
 		} else {
-			System.out.println("Insert");
+			// TODO
+			System.out.println("Create new Project");	
 		}
 
+		//Subcontractor Mitarbeiter auslesen und Updaten
+		ObservableList<Issue> pList = mangleTableView.getItems();
+
+		for(Issue i : pList) {
+			// TODO
+			System.out.println("Update Project with ID" + i.getId());
+		}
 		
+		showMainViewWithMessage();
+
 	}
 
-	/**
-	 * @param projectToEdit
-	 */
-	public void initData(Project projectToEdit) {
+		
+	public void initData(Project project) {
+		
 		lbl_title.setText("Benutzer bearbeiten");
+		projectId = project.getId();
+	
+		txt_projectId.setText(project.toString());
+		txt_projectName.setText(project.getName());	
+//		date_start.setStart(project.getStart());
+//		date_end.setEnd(project.getEnd());
+		combo_supervisor.setValue(project.getSupervisor());
+		txt_street.setText(project.getStreet());	
+		txt_Zip.setText(project.getZip());	
+		txt_place.setText(project.getPlace());	
+		combo_status.setValue(project.getState());	
+		combo_Category.setValue(project.getCategory());	
+//		combo_principal.setValue(project.getPrincipals());	
+		combo_type.setValue(project.getType());
 		
-		projectId = projectToEdit.getId();
-		id = projectToEdit.getId();
-		txt_projectId.setText(projectId.toString());
-		
-		if(projectToEdit.getName() != null) { 
-			txt_projectName.setText(projectToEdit.getName());	
+		//Mängel des Projekts aus der DB laden
+		IssueProxy IssueProxy = ResteasyClientUtil.getTarget().proxy(IssueProxy.class);
+		ObjectMapper mapper = new ObjectMapper();
+		List<Issue> issueList = null;
+
+		Issue issue = new Issue();
+
+		try {
+
+			issueList = mapper.readValue(IssueProxy.getById(projectId), new TypeReference<List<Issue>>(){});
+
+			for(int i = 0; i < issueList.size(); i++) {
+
+				// TODO Überprüfen, ob die Person überhaupt zum Subunternehmen gehört
+				issue = issueList.get(i);
+				data.add(issue);
+				issue = null;
+			}
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
-		//TODO 
-//		if(projectToEdit.getStart() != null) {
-//			date_start.setChronology(projectToEdit.getStart());
-//		}
-//		
-//		if(projectToEdit.getEnd() != null) {
-//			date_end.setChronology(projectToEdit.getEnd());
-//		}
-//		
-//		if(projectToEdit.getSupervisor() != null) {
-//			combo_supervisor.setSelectionModel(projectToEdit.getSupervisor());
-//		}
-		
-		if(projectToEdit.getStreet() != null) {
-			txt_street.setText(projectToEdit.getStreet());	
-		}
-		if(projectToEdit.getZip() != null) {
-			txt_Zip.setText(projectToEdit.getZip());	
-		}
-		
-		if(projectToEdit.getPlace() != null) {
-			txt_place.setText(projectToEdit.getPlace());	
-		}
-		
-		//TODO
-//		if(projectToEdit.getState() != null) {
-//			combo_status.setSelectionModel(projectToEdit.getState());	
-//		}
-//		
-//		if(projectToEdit.getCategory() != null) {
-//			combo_Category.setSelectionModel(projectToEdit.getCategory());	
-//		}
-		
-		
-		//TODO Sollte der Kunde sein
-//		if(projectToEdit.getContacts() != null) {
-//			combo_principal.setSelectionModel((SingleSelectionModel<Person>) projectToEdit.getContacts());	
-//		}
-		
-		//Telefonnummer des Kunden
-//		if(projectToEdit.getContacts() != null) {
-//			txt_principalPhone.setSelectionModel((SingleSelectionModel<Person>) projectToEdit.getContacts());	
-//		}
-		
-//		if(projectToEdit.getType() != null) {
-//			combo_type.setSelectionModel(projectToEdit.getType());
-//		}
-		
+
+		issueList = null;
+
+		//Tabelle initialisieren
+		colMangle.setCellValueFactory(new PropertyValueFactory<Issue, String>("description"));
+		colSubcontractor.setCellValueFactory(new PropertyValueFactory<Issue, String>("subcontractor"));
+		colDeadline.setCellValueFactory(new PropertyValueFactory<Issue, String>("solved"));
+		colStatus.setCellValueFactory(new PropertyValueFactory<Issue, String>("state"));
+
+		//Observable-List, welche die Daten beinhaltet, an die Tabelle übergeben
+		mangleTableView.setItems(data);
+
 	}
+	
+	
 	
 	/**
 	 * Webservice-Verbindung herstellen. Wird automatisch von der initiate-Funktion aufgerufen.
 	 */
 	private void initiateWebserviceConnection() {
-		client = new ResteasyClientBuilder().build();
-	    target = client.target("http://localhost:8080/webservice");
-	    rtarget = (ResteasyWebTarget)target;
+	    rtarget = ResteasyClientUtil.getTarget();
 	    mapper = new ObjectMapper();
 	}
 	
-	/**
-	 *
-	 * @param projectToupdate
-	 */
-	public void updateData(Project projectToupdate) {
-		
-		projectId = projectToupdate.getId();
-
-		if (projectToupdate.getName() != null) {
-			projectToupdate.setName(txt_projectName.getText());
-		}
-
-		//TODO
-//		if (projectToupdate.getStart() != null) {
-//			projectToupdate.setStart(date_start.getChronology());
-//		}
-//
-//		if (projectToupdate.getEnd() != null) {
-//			projectToupdate.setEnd(date_end.getChronology());
-//		}
-//
-//		if (projectToupdate.getSupervisor() != null) {
-//			projectToupdate.setSupervisor(combo_supervisor.getSelectionModel());
-//		}
-
-		if (projectToupdate.getStreet() != null) {
-			projectToupdate.setStreet(txt_street.getText());
-		}
-		if (projectToupdate.getZip() != null) {
-			projectToupdate.setZip(txt_Zip.getText());
-		}
-
-		if (projectToupdate.getPlace() != null) {
-			projectToupdate.setPlace(txt_place.getText());
-		}
-
-		//TODO
-//		if (projectToupdate.getState() != null) {
-//			projectToupdate.setState(combo_status.getSelectionModel());
-//		}
-//
-//		if (projectToupdate.getCategory() != null) {
-//			projectToupdate.setCategory(combo_Category.getSelectionModel());
-//		}
-
-		// //Sollte der Kunde sein
-		// if(projectToupdate.getContacts() != null) {
-		// projectToupdate.setContacts(combo_principal.getSelectionModel());
-		// }
-
-		// Telefonnummer des Kunden
-		// if(projectToupdate.getContacts() != null) {
-		// projectToupdate.setContacts(txt_principalPhone.getSelectionModel());
-		// }
-
-		// if(projectToupdate.getType() != null) {
-		// projectToupdate.setType(combo_type.getSelectionModel());
-		// }
-
-	}
+	
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -389,6 +319,31 @@ public class ProjectAddController implements Initializable {
 			// Neuen View einfügen
 			mainContent.getChildren().clear();
 			mainContent.getChildren().setAll(myPane);
+		}
+	}
+	
+	private void showMainViewWithMessage() {
+
+		try {
+			//FXMLLoader erstellen
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/ProjectMainView.fxml"));
+			
+			//Neuen View laden
+			Pane myPane;
+			myPane = loader.load();
+			
+			//PrincipalController holen
+			UserController controller = loader.<UserController>getController();
+			
+			//Controller starten
+			controller.initWithMessage("Änderungen erfolgreich vorgenommen.");			
+			
+			//Neuen View einfügen
+			mainContent.getChildren().clear();
+			mainContent.getChildren().setAll(myPane);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
