@@ -1,10 +1,44 @@
 .root{
 	-fx-font-size: 12pt;
-	-fx-text-fill: #777777;
 	-fx-font-family: 'Roboto Condensed', sans-serif;
 	-fx-base: #FFF;
 	-fx-background: #FFF;
 	-fx-focus-color: #FFF;
+}
+
+.header {
+	-fx-background-color: #60AACC;
+	-fx-padding: 0;
+}
+
+.header-title {
+	-fx-text-fill: #FFFFFF;
+	-fx-font-size: 32px;
+	-fx-font-weight: 300;
+}
+
+.header-name {
+	-fx-text-fill: #FFFFFF;
+	-fx-font-size: 18px;
+	-fx-font-weight: 400;
+}
+
+.navigation {
+	-fx-background-color: #ACA1CC;
+	
+}
+
+.navigation .navigation-button {
+	-fx-background-color: #ACA1CC;
+	-fx-background-radius: 0, 0, 0;
+	-fx-background-insets: 0,0,0;
+	-fx-font-weight: 400;
+	-fx-font-size: 16px;
+	-fx-padding: 0px;
+}
+
+.navigation .navigation-button:hover {
+	-fx-background-color: #A593CC;
 }
 
 .lbl_title{
@@ -48,13 +82,12 @@
 	-fx-graphic-text-gap: 10px;
 }
    
-.label{
+/* .label{
 	-fx-background: #E6E2E1;
 	-fx-text-fill: #777777;
-}
+} */
 	
 #lbl_mangelmanager{
-	-fx-width: 100%;
 	-fx-background-color: #60AACC;
 	-fx-text-fill: #FFF;
 	-fx-font-weight: lighter;
@@ -73,18 +106,6 @@
 	-fx-background-color: #FFF;
 }
 
-#navigation {
-	-fx-background-color: #777777;
-}
-
-#navigation .navButton {
-	-fx-background-color: #777777;
-	-fx-background-radius: 0, 0, 0;
-	-fx-background-insets: 0,0,0;
-	-fx-text-fill: #E6E2E1;
-	-fx-font-size: 13px;
-	-fx-font-weight: bold;
-}
 
 .lblViewTitle {
 	-fx-color: black;
