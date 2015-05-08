@@ -327,9 +327,9 @@ public class ProjectAddController implements Initializable {
 //		if(project.getEnd() != null) { 
 //		date_end.setEnd(project.getEnd());
 //		}
-		//if(project.getSupervisor() != null) { 
+		if(project.getSupervisor() != null) { 
 		combo_supervisor.setValue(project.getSupervisor().getLastname());
-	//	}
+		}
 		if(project.getStreet() != null) { 
 		txt_street.setText(project.getStreet());
 		}
