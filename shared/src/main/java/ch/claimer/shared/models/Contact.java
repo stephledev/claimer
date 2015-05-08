@@ -4,10 +4,13 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
 /**
- * Extends the base person, providing access to contact specific 
- * relations. Is also used to determine the permissions.
+ * Representiert die Entität Kontakt und gewährleistet Zugriff auf die Eigenschaften 
+ * der Klasse. Beispielsweise benutzt die ContactSeed-Klasse die Eigenschaften.
+ * Getter- und Settermethoden werden gesetzt.
  * 
  * @author Stephan Beeler
+ * @version 1.0
+ * @since 1.0
  */
 
 @Entity

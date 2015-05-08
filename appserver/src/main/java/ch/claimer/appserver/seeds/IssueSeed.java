@@ -16,6 +16,7 @@ import ch.claimer.shared.models.Subcontractor;
  * In der IssueSeed-Klasse werden Beispiele für Mängel in die Datenbank
  * geschrieben und dem jeweiligen LogEntry, Projekt, Comment, Subunternehmer,
  * Status und Kontakt zugewiesen.
+ * Die Klasse erbt von der Klasse Seed und setzt Issue als Generic.
  * 
  * @author Raoul Ackermann
  * @version 1.0

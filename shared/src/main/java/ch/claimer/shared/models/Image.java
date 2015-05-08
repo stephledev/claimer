@@ -8,7 +8,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
+ * Representiert die Entität Bild und gewährleistet Zugriff auf die Eigenschaften 
+ * der Klasse.
+ * Getter- und Settermethoden werden gesetzt.
+ * 
  * @author Stephan Beeler
+ * @version 1.0
+ * @since 1.0
  */
 
 @Entity

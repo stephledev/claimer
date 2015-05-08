@@ -7,8 +7,8 @@ import ch.claimer.shared.models.Category;
 
 /** 
  * In der CategorySeed-Klasse werden die verschiedenen Kategorien
- * von Gebäuden in die Datenbank abgefüllt.
- * 
+ * von Gebäuden in die Datenbank abgefüllt. 
+ * Die Klasse erbt von der Seed Klasse und setzt Category als Generic.
  * 
  * @author Raoul Ackermann
  * @author Fabio Baviera

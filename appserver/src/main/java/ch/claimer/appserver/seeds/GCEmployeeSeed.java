@@ -10,6 +10,7 @@ import ch.claimer.shared.models.Login;
  * In der GCEmployeeSeed-Klasse werden die Mitarbeiter des Generalunternehmens
  * in die Datenbank geschrieben mit den jeweiligen Rechten, welche zugleich alle Mitglieder
  * der Projektgruppe sind.
+ * Die Klasse erbt von der Klasse Seed und setzt GCEmployee als Generic.
  * 
  * @author Fabio Baviera
  * @version 1.0

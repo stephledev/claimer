@@ -10,6 +10,7 @@ import ch.claimer.shared.models.Subcontractor;
 /** 
  * In der SCEployeeSeed-Klasse werden die Mitarbeiter der Subunternehmer
  * erstellt und in die Datenbank geschrieben.
+ * Die Klasse erbt von der Klasse Seed und setzt SCEmployee als Generic.
  * 
  * @author Fabio Baviera
  * @version 1.0

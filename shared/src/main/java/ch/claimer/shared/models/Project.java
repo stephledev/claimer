@@ -18,7 +18,13 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 /**
+ * Representiert die Entität Projekt und gewährleistet Zugriff auf die Eigenschaften 
+ * der Klasse. Beispielsweise benutzt die ProjectSeed-Klasse die Eigenschaften.
+ * Getter- und Settermethoden werden gesetzt.
+ * 
  * @author Stephan Beeler
+ * @version 1.0
+ * @since 1.0
  */
 
 @Entity

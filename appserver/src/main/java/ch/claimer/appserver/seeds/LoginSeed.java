@@ -9,6 +9,7 @@ import ch.claimer.shared.models.Role;
 /**
  * In der LoginSeed-Klasse werden die Logins den User zugeteilt
  * mit den jeweiligen Rechten die in den Rollen definiert sind.
+ * Die Klasse erbt von der Klasse Seed und setzt Login als Generic.
  * 
  * @author Fabio Baviera
  * @version 1.0

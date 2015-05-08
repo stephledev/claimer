@@ -10,6 +10,7 @@ import ch.claimer.shared.models.Supervisor;
 /**
  * In der CommentSeed-Klasse werden einige mögliche Kommentare
  * in die Datenbank geschrieben.
+ * Die Klasse erbt von der Klasse Seed und setzt Comment als Generic.
  * 
  * @author Raoul Ackermann
  * @version 1.0

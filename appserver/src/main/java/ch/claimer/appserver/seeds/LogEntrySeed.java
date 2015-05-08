@@ -9,6 +9,7 @@ import ch.claimer.shared.models.LogEntry;
 /**
  * In der LogEntry-Klasse werden die Beschreibungen einer Änderung
  * an einem Projekt oder Mangel in die Datenbank geschrieben.
+ * Die Klasse erbt von der Klasse Seed und setzt LogEntry als Generic.
  * 
  * @author Raoul Ackermann
  * @version 1.0

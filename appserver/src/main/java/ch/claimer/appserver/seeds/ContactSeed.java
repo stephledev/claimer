@@ -10,6 +10,7 @@ import ch.claimer.shared.models.Subcontractor;
 /** 
  * In der ContactSeed-Klasse werden die Kontaktpersonen der Subunternehmen 
  * in die Datenbank geschrieben.
+ * Die Klasse erbt von der Klasse Seed und setzt Contact als Generic.
  * 
  * @author Fabio Baviera
  * @version 1.0

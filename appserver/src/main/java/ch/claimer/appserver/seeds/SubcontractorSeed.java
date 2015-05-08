@@ -8,6 +8,7 @@ import ch.claimer.shared.models.Subcontractor;
 /** 
  * In der SubcontractorSeed-Klasse werden die Subunternehmer mit den 
  * Adressen und Kontaktdaten in die Datenbank geschrieben.
+ * Die Klasse erbt von der Klasse Seed und setzt Subcontractor als Generic.
  * 
  * @author Fabio Baviera
  * @version 1.0

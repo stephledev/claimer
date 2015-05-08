@@ -8,6 +8,7 @@ import ch.claimer.shared.models.Type;
 /**
  * In der TypeSeed-Klasse werden die Typen erfasst, welche ein Projekt 
  * haben kann und in die Datenbank geschrieben.
+ * Die Klasse erbt von der Klasse Seed und setzt Type als Generic.
  * 
  * @author Fabio Baviera
  * @author Raoul Ackermann

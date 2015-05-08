@@ -10,6 +10,17 @@ import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+/**
+ * Representiert die Entität LogEntry und gewährleistet Zugriff auf die Eigenschaften 
+ * der Klasse. Beispielsweise benutzt die LogEntrySeed-Klasse die Eigenschaften.
+ * Getter- und Settermethoden werden gesetzt.
+ * 
+ * @author Stephan Beeler
+ * @version 1.0
+ * @since 1.0
+ */
+
+
 @Entity
 public class LogEntry implements Serializable, Model {
 	

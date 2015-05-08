@@ -8,6 +8,7 @@ import ch.claimer.shared.models.State;
 /**
  * In der StateSeed-Klasse werden die möglichen Status der Projekte
  * in die Datenbank geschrieben.
+ * Die Klasse erbt von der Klasse Seed und setzt State als Generic.
  * 
  * @author Fabio Baviera
  * @author Raoul Ackermann

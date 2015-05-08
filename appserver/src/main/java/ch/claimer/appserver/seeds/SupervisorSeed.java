@@ -9,6 +9,7 @@ import ch.claimer.shared.models.Supervisor;
 /** 
  * In der SupervisorSeed-Klasse werden die Bauleiter in die Datenbank
  * geschrieben und ein Login zugewiesen.
+ * Die Klasse erbt von der Klasse Seed und setzt Supervisor als Generic.
  * 
  * @author Fabio Baviera
  * @version 1.0

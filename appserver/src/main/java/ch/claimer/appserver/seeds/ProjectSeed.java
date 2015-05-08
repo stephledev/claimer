@@ -17,6 +17,7 @@ import ch.claimer.shared.models.Type;
  * In der ProjectSeed-Klasse werden die Projekte angelegt. Den Projekten werden
  * Bauherr, LogEntries, Supervisor, Kontakt, Kategorie, Typ und Status
  * zugewiesen und die Adresse der Baustelle in die Datenbank geschrieben.
+ * Die Klasse erbt von der Klasse Seed und setzt Project als Generic.
  * 
  * @author Raoul Ackermann
  * @author Fabio Baviera

@@ -12,11 +12,14 @@ import javax.persistence.InheritanceType;
 import javax.persistence.OneToOne;
 
 /**
-  * Represents the base person, providing access to the person's lastname
-  * firstname, telephone, email and login.
-  * 
-  * @author Stephan Beeler
-  */
+ * Representiert die Entität Person und gewährleistet Zugriff auf die Eigenschaften 
+ * der Klasse. Beispielsweise benutzt die SCEmployee- und GCEmployee-Klasse die Eigenschaften.
+ * Getter- und Settermethoden werden gesetzt.
+ * 
+ * @author Stephan Beeler
+ * @version 1.0
+ * @since 1.0
+ */
 
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)

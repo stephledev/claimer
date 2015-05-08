@@ -4,11 +4,15 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
 /**
- * Extends the base person, providing access to subcontractor
- * employee specific relations. Is also used to determine the 
- * permissions.
+ * Representiert die Entität SCEmployee und gewährleistet Zugriff auf die Eigenschaften 
+ * der Klasse. Beispielsweise benutzt die SCEmployeeSeed-Klasse die Eigenschaften.
+ * Zudem erbt SCEmployee von der Klasse Person.
+ * Getter- und Settermethoden werden gesetzt.
+ * 
  * 
  * @author Stephan Beeler
+ * @version 1.0
+ * @since 1.0
  */
 
 @Entity

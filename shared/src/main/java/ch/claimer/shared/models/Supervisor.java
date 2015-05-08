@@ -3,10 +3,12 @@ package ch.claimer.shared.models;
 import javax.persistence.Entity;
 
 /**
- * Extends the base person, providing access to  supervisor specific
- * relations. Is also used to determine the permissions.
+ * Representiert die Entität Supervisor und gewährleistet Zugriff auf die Eigenschaften 
+ * der Klasse. Beispielsweise benutzt die SupervisorSeed-Klasse die Eigenschaften.
  * 
  * @author Stephan Beeler
+ * @version 1.0
+ * @since 1.0
  */
 
 @Entity

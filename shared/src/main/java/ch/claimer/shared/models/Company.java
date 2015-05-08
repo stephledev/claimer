@@ -10,10 +10,13 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
 /**
- * Represents the base company, providing access to the company's name,
- * street, zip, place, phone and email.
+ * Representiert die Entität Kategorie und gewährleistet Zugriff auf die Eigenschaften 
+ * der Klasse. Beispielsweise benutzt die CategorySeed-Klasse die Eigenschaften.
+ * Getter- und Settermethoden werden gesetzt.
  * 
  * @author Stephan Beeler
+ * @version 1.0
+ * @since 1.0
  */
 
 @Entity

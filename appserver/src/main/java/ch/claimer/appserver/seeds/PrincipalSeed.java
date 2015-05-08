@@ -8,6 +8,7 @@ import ch.claimer.shared.models.Principal;
 /** 
  * In der PrincipalSeed-Klasse werden die Bauherren in die
  * Datenbank geschrieben, welche einem Projekt zugewiesen werden.
+ * Die Klasse erbt von der Klasse Seed und setzt Principal als Generic.
  * 
  * @author Fabio Baviera
  * @version 1.0

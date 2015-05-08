@@ -3,10 +3,14 @@ package ch.claimer.shared.models;
 import javax.persistence.Entity;
 
 /**
- * Extends the base company, providing access to general contractor
- * specific relations. Is also used to determine the permissions.
+ * Representiert die Entität Generalunternehmer und gewährleistet Zugriff auf die Eigenschaften 
+ * der Klasse. 
+ * Zudem erbt die Klasse von der Company-Klasse.
+ * 
  * 
  * @author Stephan Beeler
+ * @version 1.0
+ * @since 1.0
  */
 
 @Entity

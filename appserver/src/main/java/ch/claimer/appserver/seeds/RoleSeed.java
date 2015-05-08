@@ -8,6 +8,7 @@ import ch.claimer.shared.models.Role;
 /**
  * In der RoleSeed-Klasse werden die verschiedene Rollen definiert,
  * die Rechte zugewiesen und in die Datenbank geschrieben.
+ * Die Klasse erbt von der Klasse Seed und setzt Role als Generic.
  * 
  * @author Fabio Baviera
  * @version 1.0

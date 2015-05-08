@@ -9,6 +9,15 @@ import javax.persistence.Entity;
  * 
  * @author Stephan Beeler
  */
+/**
+ * Representiert die Entität GCEmployee und gewährleistet Zugriff auf die Eigenschaften 
+ * der Klasse. Beispielsweise benutzt die GCEmployeeSeed-Klasse die Eigenschaften.
+ * GCEmployee erbt von der Klasse Person.
+ * 
+ * @author Stephan Beeler
+ * @version 1.0
+ * @since 1.0
+ */
 
 @Entity
 public class GCEmployee extends Person {
