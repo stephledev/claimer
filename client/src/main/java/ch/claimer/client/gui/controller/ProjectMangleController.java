@@ -19,14 +19,28 @@ import org.codehaus.jackson.type.TypeReference;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
+import ch.claimer.client.proxy.CategoryProxy;
 import ch.claimer.client.proxy.CommentProxy;
 import ch.claimer.client.proxy.IssueProxy;
 import ch.claimer.client.proxy.LoginProxy;
+import ch.claimer.client.proxy.PrincipalProxy;
+import ch.claimer.client.proxy.ProjectProxy;
+import ch.claimer.client.proxy.StateProxy;
+import ch.claimer.client.proxy.SubcontractorProxy;
+import ch.claimer.client.proxy.SupervisorProxy;
+import ch.claimer.client.proxy.TypeProxy;
+import ch.claimer.client.util.ResteasyClientUtil;
+import ch.claimer.shared.models.Category;
 import ch.claimer.shared.models.Comment;
 import ch.claimer.shared.models.Issue;
 import ch.claimer.shared.models.Login;
 import ch.claimer.shared.models.Person;
+import ch.claimer.shared.models.Principal;
 import ch.claimer.shared.models.Project;
+import ch.claimer.shared.models.State;
+import ch.claimer.shared.models.Subcontractor;
+import ch.claimer.shared.models.Supervisor;
+import ch.claimer.shared.models.Type;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -64,8 +78,7 @@ public class ProjectMangleController implements Initializable {
     ObservableList<Comment> data = FXCollections.observableArrayList();
     List<Comment> commentsToShow = null;
     
-    private Integer issueID;
-    private Integer id;
+    private Integer issueId;
 	
 	// Maincontent, hierhin werden die verschiedenen Views geladen
 	@FXML
@@ -111,13 +124,13 @@ public class ProjectMangleController implements Initializable {
 	private TextField txt_principalPhone;
 
 	@FXML
-	private ComboBox<?> combo_principalName;
+	private ComboBox<String> combo_principalName;
 
 	@FXML
-	private ComboBox<?> combo_status;
+	private ComboBox<String> combo_status;
 
 	@FXML
-	private ComboBox<?> combo_subcontractor;
+	private ComboBox<String> combo_subcontractor;
 
 	@FXML
 	private Button bttn_saveMangle;
@@ -153,7 +166,6 @@ public class ProjectMangleController implements Initializable {
 				"../view/ProjectAddView.fxml"));
 		mainContent.getChildren().clear();
 		mainContent.getChildren().setAll(myPane);
-
 	}
 		
 	@FXML
@@ -162,15 +174,77 @@ public class ProjectMangleController implements Initializable {
 		String comment = txt_addComment.getText();
 		Comment c1 = new Comment();
 		c1.setContent(comment);
+	}
+	
+	// "Speicher"-Button: Speichert den Mangel
+	@FXML
+	private void saveIssue() {
 
+		Issue issue = new Issue();
+
+		//Textfeldproperties (inklusive Login & Rolle) auslesen und zuweisen
+		issue = (Issue) getTextfieldProperties(issue);
+
+		IssueProxy issueProxy = ResteasyClientUtil.getTarget().proxy(IssueProxy.class);
+		if(issueId != null) {
+			issueProxy.update(issue);
+		} else {
+			issueProxy.create(issue);
+		}
+
+		showAddViewWithMessage();
+	}
+	
+	// "Speicher"-Button: Speichert den Mangel
+		@FXML
+		private void saveComment() {
+
+			Comment comment = new Comment();
+			Issue issue = new Issue();
+
+			//Textfeldproperties (inklusive Login & Rolle) auslesen und zuweisen
+			comment = (Comment)  getIssueTextfieldProperties(issue, comment);
+
+			CommentProxy commentProxy = ResteasyClientUtil.getTarget().proxy(CommentProxy.class);
+			commentProxy.create(comment);
+
+
+			showIssueViewWithMessage(issue);
+		}
+	
+	
+	
+	private void showAddViewWithMessage() {
+
+		try {
+			//FXMLLoader erstellen
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/ProjectAddView.fxml"));
+
+			//Neuen View laden
+			Pane myPane;
+			myPane = loader.load();
+
+			//ProjectAddController holen
+			ProjectAddController controller = loader.<ProjectAddController>getController();
+
+			//Controller starten
+			controller.initWithMessage("Änderungen erfolgreich vorgenommen.");			
+
+			//Neuen View einfügen
+			mainContent.getChildren().clear();
+			mainContent.getChildren().setAll(myPane);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void initData(Issue issueToEdit) {
 		lbl_title.setText("Benutzer bearbeiten");
+		issueId = issueToEdit.getId();
+		
+		txt_issueId.setText(issueId.toString());
+		initiateWebserviceConnection();
 
-		issueID = issueToEdit.getId();
-		id = issueToEdit.getId();
-		txt_issueId.setText(issueID.toString());
 
 		if (issueToEdit.getDescription() != null) {
 			txt_mangleName.setText(issueToEdit.getDescription());
@@ -185,7 +259,6 @@ public class ProjectMangleController implements Initializable {
 			Date a = issueToEdit.getCreated().getTime();
 			long diff = a.getTime() - b.getTime();
 			issueDate_start.setValue(LocalDate.now().plusDays(diff));
-			
 		}
 		
 		if (issueToEdit.getSolved() != null) {
@@ -195,21 +268,13 @@ public class ProjectMangleController implements Initializable {
 			issueDate_end.setValue(LocalDate.now().plusDays(diff));
 		}
 		
-		//TODO Value von Object zu Combobox hinzufügen
-//		if (issueToEdit.getState() != null) {
-//			combo_status.setSelectedItem(issueToEdit.getState().getName());
-//		}
-//		
-//		if (issueToEdit.getSubcontractor() != null) {
-//			combo_subcontractor.setSelectedItem(issueToEdit.getSubcontractor());
-//		}
-//		
-//		if (issueToEdit.getSubcontractor() != null) {
-//			combo_subcontractor.setSelectedItem(issueToEdit.getSubcontractor());
-//		}
-//		if (issueToEdit.getProject().getContacts() != null) {
-//			combo_principalName.setSelectedItem(issueToEdit.getProject().getContacts());
-//		}
+		if(issueToEdit.getState() != null) { 
+			combo_status.setValue(issueToEdit.getState().getName());	
+		}
+		
+		if(issueToEdit.getSubcontractor() != null) { 
+			combo_subcontractor.setValue(issueToEdit.getSubcontractor().getName());	
+		}
 		
 	}
 	
@@ -218,7 +283,10 @@ public class ProjectMangleController implements Initializable {
 		txt_issueId.setEditable(false);
 		initiateWebserviceConnection();
 		getComment();
-
+		setDropdownState();
+		setDropdownPrincipal();
+		setDropdownSubcontractor();
+		
 		// Spalten-Values definieren (müssen den Parameter des Mangel-Objekts
 		// entsprechen)
 		colComment.setCellValueFactory(new PropertyValueFactory<Comment, String>(
@@ -263,13 +331,174 @@ public class ProjectMangleController implements Initializable {
 	}
 	
 	/**
-	 * Webservice-Verbindung herstellen. Wird automatisch von der
-	 * initiate-Funktion aufgerufen.
+	 * Webservice-Verbindung herstellen. Wird automatisch von der initiate-Funktion aufgerufen.
 	 */
 	private void initiateWebserviceConnection() {
-		client = new ResteasyClientBuilder().build();
-		target = client.target("http://localhost:8080/webservice");
-		rtarget = (ResteasyWebTarget) target;
-		mapper = new ObjectMapper();
+	    rtarget = ResteasyClientUtil.getTarget();
+	    mapper = new ObjectMapper();
 	}
+	
+	// liest Textfelder aus und speichert Daten des Projektes in der DB
+		// Dropdown-Felder füllen
+		private Issue getTextfieldProperties(Issue i1) {
+
+			
+			i1.setDescription(txt_mangleDescription.getText());
+//			i1.setContact(txt_contactPerson.getText());	
+			if(issueId != null) {
+				i1.setId(issueId);
+			}	
+			
+			//Principal aus DB holen 
+			PrincipalProxy principalProxy = ResteasyClientUtil.getTarget().proxy(PrincipalProxy.class);		
+			ObjectMapper mapper = new ObjectMapper();	    
+			List<Principal> principalList = null;
+
+//			try {
+//				principalList = mapper.readValue(principalProxy.getAll(), new TypeReference<List<Principal>>(){});
+//			} catch (IOException e1) {
+//				e1.printStackTrace();
+//				}
+
+			//Principal dem Dropdown hinzufügen
+//			for(Principal principal: principalList) {
+//				if(principal.getLastname().equals(combo_principalName.getValue()))
+//					i1.setPrincipal(principal);	
+//				}
+			
+			// Status aus DB holen 
+			StateProxy stateProxy = ResteasyClientUtil.getTarget().proxy(StateProxy.class);			    
+		    List<State> stateList = null;
+		    
+			try {
+				stateList = mapper.readValue(stateProxy.getAll(), new TypeReference<List<State>>(){});
+			} catch (IOException e1) {
+				e1.printStackTrace();
+				}
+			
+			//Status dem Dropdown hinzufügen
+			for(State state: stateList) {
+				if(state.getName().equals(combo_status.getValue()))
+					i1.setState(state);	
+				}
+			
+//			// Subcontractor aus DB holen 
+//			SubcontractorProxy subcontractorProxy = ResteasyClientUtil.getTarget().proxy(SubcontractorProxy.class);			    
+//			List<Subcontractor> subcontractorList = null;
+//
+//			try {
+//				subcontractorList = mapper.readValue(subcontractorProxy.getAll(), new TypeReference<List<Subcontractor>>(){});
+//			} catch (IOException e1) {
+//				e1.printStackTrace();
+//			}
+//
+//			//Status dem Dropdown hinzufügen
+//			for(Subcontractor subcontractor: subcontractorList) {
+//				if(subcontractor.getName().equals(combo_subcontractor.getValue()))
+//					i1.setSubcontractor(subcontractor);	
+//			}
+			
+			return i1;
+		}
+		
+
+		
+		public void setDropdownState()  {
+
+			StateProxy stateProxy = ResteasyClientUtil.getTarget().proxy(StateProxy.class);		
+			ObjectMapper mapper = new ObjectMapper();	    
+			List<State> stateList = null;
+
+			try {
+				stateList = mapper.readValue(stateProxy.getAll(), new TypeReference<List<State>>(){});
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+
+			//Status dem Dropdown hinzufügen
+			for(State state: stateList) {
+				combo_status.getItems().add(state.getName());
+			}
+		}
+		
+		public void setDropdownPrincipal()  {
+
+			PrincipalProxy principalProxy = ResteasyClientUtil.getTarget().proxy(PrincipalProxy.class);		
+			ObjectMapper mapper = new ObjectMapper();	    
+			List<Principal> principalList = null;
+
+			try {
+				principalList = mapper.readValue(principalProxy.getAll(), new TypeReference<List<Principal>>(){});
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+
+			//Rollen dem Dropdown hinzufügen
+			for(Principal principal: principalList) {
+				combo_principalName.getItems().add(principal.getLastname());
+			}
+		}
+		
+		public void setDropdownSubcontractor()  {
+
+			SubcontractorProxy subcontractorProxy = ResteasyClientUtil.getTarget().proxy(SubcontractorProxy.class);		
+			ObjectMapper mapper = new ObjectMapper();	    
+			List<Subcontractor> subcontractorList = null;
+
+			try {
+				subcontractorList = mapper.readValue(subcontractorProxy.getAll(), new TypeReference<List<Subcontractor>>(){});
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+
+			//Rollen dem Dropdown hinzufügen
+			for(Subcontractor subcontractor: subcontractorList) {
+//				combo_subcontractor.getItems().add((subcontractor.getName());
+			}
+		}
+
+		
+		// liest Textfelder aus und speichert Daten des Projektes in der DB
+		// Dropdown-Felder füllen
+		private Comment getIssueTextfieldProperties(Issue i1, Comment c1) {
+			issueId = i1.getId();
+			i1.setComments(commentsToShow);
+			
+			
+			Comment comment = new Comment();
+			comment.setContent(txt_addComment.getText());
+			commentsToShow.add(comment);
+			
+			return comment;
+		}
+		private void showIssueViewWithMessage(Issue issue) {
+
+			try {
+				//FXMLLoader erstellen
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/ProjectMangleView.fxml"));
+
+				//Neuen View laden
+				Pane myPane;
+				myPane = loader.load();
+
+				//ProjectAddController holen
+				ProjectMangleController controller = loader.<ProjectMangleController>getController();
+
+				//Controller starten
+				controller.initWithMessage("Änderungen erfolgreich vorgenommen.");			
+
+				//Neuen View einfügen
+				mainContent.getChildren().clear();
+				mainContent.getChildren().setAll(myPane);
+				initData(issue);
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		public void initWithMessage(String string) {
+			lbl_title.setText(string);
+
+		}
 }

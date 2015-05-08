@@ -267,10 +267,6 @@
                           <rowConstraints>
                             <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
-                           <children>
-                              <Label text="Telefon:" />
-                              <TextField fx:id="txt_principalPhone" prefWidth="250.0" GridPane.columnIndex="1" />
-                           </children>
                         </GridPane>
                         <Label minHeight="30.0" text="Mangelbeschrieb:">
                            <GridPane.margin>
@@ -320,7 +316,7 @@
                                     <Insets right="20.0" />
                                  </HBox.margin>
                               </TextField>
-                              <Button fx:id="bttn_addComment" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#addComment" styleClass="delete-button" text="Kommentar hinzufügen" />
+                              <Button fx:id="bttn_addComment" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#saveComment" styleClass="delete-button" text="Kommentar hinzufügen" />
                            </children>
                         </HBox>
                      </children>
@@ -329,7 +325,7 @@
             </GridPane>
             <HBox maxWidth="870.0" GridPane.rowIndex="3">
                <children>
-                  <Button fx:id="bttn_saveMangle" mnemonicParsing="false" styleClass="save-button" text="Speichern">
+                  <Button fx:id="bttn_saveMangle" mnemonicParsing="false" onAction="#saveIssue" styleClass="save-button" text="Speichern">
                      <HBox.margin>
                         <Insets right="20.0" />
                      </HBox.margin></Button>

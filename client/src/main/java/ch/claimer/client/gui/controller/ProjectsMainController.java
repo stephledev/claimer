@@ -2,25 +2,16 @@ package ch.claimer.client.gui.controller;
 
 import java.io.IOException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.TimeZone;
-
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
-
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
-import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
-
 import ch.claimer.client.proxy.ProjectProxy;
 import ch.claimer.client.util.ResteasyClientUtil;
-import ch.claimer.shared.models.Person;
 import ch.claimer.shared.models.Project;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;

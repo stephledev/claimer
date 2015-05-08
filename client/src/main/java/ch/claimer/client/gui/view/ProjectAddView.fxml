@@ -240,7 +240,7 @@
                   </GridPane>
                </children>
             </GridPane>
-            <TableView fx:id="mangleTableView" prefHeight="375.0" prefWidth="737.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS">
+            <TableView fx:id="mangleTableView" onMouseClicked="#editProject" prefHeight="375.0" prefWidth="737.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS">
               <columns>
                 <TableColumn fx:id="colMangle" prefWidth="75.0" text="Mangel" />
                 <TableColumn fx:id="colSubcontractor" prefWidth="75.0" text="Subunternehmen" />
