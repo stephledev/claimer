@@ -13,6 +13,8 @@ import ch.claimer.shared.models.Model;
  * 
  * @author Stephan Beeler
  * @author Raoul Ackermann
+ * @version 1.0
+ * @since 1.0
  */
 public abstract class Seed<T extends Model> {
 

@@ -9,10 +9,26 @@ import javax.persistence.Persistence;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 
+/**
+ * Hilft eine Instanz von EntityManagerFactory zurückzulieferen. Lädt die
+ * Einstellungen aus einer Konfigurationsdatei.
+ * 
+ * @see <a href="http://www.eclipse.org/eclipselink/api/2.5/javax/persistence/EntityManagerFactory.html">EntityManagerFactory</a>
+ * 
+ * @author Stephan Beeler
+ * @version 1.0
+ * @since 1.0
+ *
+ */
 public class EclipseLinkUtil {
 
 	private static EntityManagerFactory entityManagerFactory = null;
 
+	/**
+	 * Holt eine Instanz von EntityManagerFactory
+	 * 
+	 * @return Instanz von EntityManagerFactory
+	 */
 	public static synchronized EntityManagerFactory getEntityManagerFactory() {
 		if (entityManagerFactory == null) {
 			Config config = ConfigFactory.load();

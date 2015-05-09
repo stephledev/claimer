@@ -30,10 +30,18 @@ import ch.claimer.shared.models.Supervisor;
 import ch.claimer.shared.models.Type;
 
 /**
+ * Hilft sämtliche RMI-Dienste zu registrieren
+ * 
+ * @author Stephan Beeler
+ * @version 1.0
+ * @since 1.0
  * 
  */
 public class RMIUtil {
 
+	/**
+	 * Registriert sämtliche RMI-Dienste
+	 */
 	public static void register() {
 		try {
 
@@ -71,7 +79,7 @@ public class RMIUtil {
 			}
 
 		} catch (RemoteException e) {
-			Logger.error(e, "Probleme mit der Initialiserung des RMI-Dienstes");
+			Logger.error(e, "Initialiserung des RMI-Dienstes fehlgeschlagen");
 		}
 	}
 }
