@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.pmw.tinylog.Logger;
+
 import com.typesafe.config.ConfigFactory;
 
 import ch.claimer.appserver.controller.Controller;
@@ -27,56 +29,49 @@ import ch.claimer.shared.models.Subcontractor;
 import ch.claimer.shared.models.Supervisor;
 import ch.claimer.shared.models.Type;
 
+/**
+ * 
+ */
 public class RMIUtil {
 
 	public static void register() {
 		try {
-			
-			Map<String,Controller<?>> methods = new HashMap<String, Controller<?>>();
-			
-			methods.put("category", new Controller<Category>(
-					Category.class));
-			methods.put("comment", new Controller<Comment>(
-					Comment.class));
-			methods.put("contact", new Controller<Contact>(
-					Contact.class));
+
+			Map<String, Controller<?>> methods = new HashMap<String, Controller<?>>();
+
+			methods.put("category", new Controller<Category>(Category.class));
+			methods.put("comment", new Controller<Comment>(Comment.class));
+			methods.put("contact", new Controller<Contact>(Contact.class));
 			methods.put("gcemployee", new Controller<GCEmployee>(
 					GCEmployee.class));
-			methods.put("image", new Controller<Image>(
-					Image.class));
-			methods.put("issue", new Controller<Issue>(
-					Issue.class));
-			methods.put("logentry", new Controller<LogEntry>(
-					LogEntry.class));
-			methods.put("login", new Controller<Login>(
-					Login.class));
-			methods.put("principal", new Controller<Principal>(
-					Principal.class));
-			methods.put("project", new Controller<Project>(
-					Project.class));
-			methods.put("role", new Controller<Role>(
-					Role.class));
+			methods.put("image", new Controller<Image>(Image.class));
+			methods.put("issue", new Controller<Issue>(Issue.class));
+			methods.put("logentry", new Controller<LogEntry>(LogEntry.class));
+			methods.put("login", new Controller<Login>(Login.class));
+			methods.put("principal", new Controller<Principal>(Principal.class));
+			methods.put("project", new Controller<Project>(Project.class));
+			methods.put("role", new Controller<Role>(Role.class));
 			methods.put("scemployee", new Controller<SCEmployee>(
 					SCEmployee.class));
-			methods.put("state", new Controller<State>(
-					State.class));
+			methods.put("state", new Controller<State>(State.class));
 			methods.put("subcontractor", new Controller<Subcontractor>(
 					Subcontractor.class));
 			methods.put("supervisor", new Controller<Supervisor>(
 					Supervisor.class));
-			methods.put("type", new Controller<Type>(
-					Type.class));
+			methods.put("type", new Controller<Type>(Type.class));
 
-			Registry registry = LocateRegistry.createRegistry(ConfigFactory.load().getInt("rmi.port"));
-			
-			if(registry != null) {
-				for(Entry<String, Controller<?>> method : methods.entrySet()) {
+			Registry registry = LocateRegistry.createRegistry(ConfigFactory
+					.load().getInt("rmi.port"));
+
+			if (registry != null) {
+				for (Entry<String, Controller<?>> method : methods.entrySet()) {
 					registry.rebind(method.getKey(), method.getValue());
+					Logger.info(method.getKey() + " wurde registriert.");
 				}
 			}
 
-		} catch (RemoteException re) {
-			re.printStackTrace();
+		} catch (RemoteException e) {
+			Logger.error(e, "Probleme mit der Initialiserung des RMI-Dienstes");
 		}
 	}
 }

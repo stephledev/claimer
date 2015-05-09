@@ -30,18 +30,6 @@ http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
 			<class>ch.claimer.shared.models.Supervisor</class>
 			<class>ch.claimer.shared.models.Type</class>
 			
-			<properties>
-				
-				<property name="javax.persistence.driver.class" value="com.mysql.jdbc.Driver" />
-				<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/claimer" />
-				<property name="javax.persistence.jdbc.user" value="claimer" />
-				<property name="javax.persistence.jdbc.password" value="claimer" />
-				<property name="eclipselink.ddl-generation.output-mode" value="database" />
-				<property name="eclipselink.ddl-generation" value="create-tables" />
-				<property name="eclipselink.logging.level" value="OFF" />
-				
-			</properties>
-			
 	</persistence-unit>
 	
 </persistence>

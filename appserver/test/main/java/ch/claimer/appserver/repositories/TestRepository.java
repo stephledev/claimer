@@ -94,48 +94,48 @@ public class TestRepository {
     	assertEquals("Projectname1", projectRepo.getById(1).getName());
     }
     
-//    @Test
-//    public void testGetAll() {
-//    	assertEquals(2, gcEmployeeRepo.getAll().size());
-//    	assertEquals("Projectname2", projectRepo.getAll().get(1).getName());
-//      	
-//    }
-//    
-//    @Test
-//    public void testGetByProperty() {
-//    	assertEquals("Projectname1", projectRepo.getByProperty("place", "Luzern").get(0).getName());
-//    	assertEquals("Nachname2", gcEmployeeRepo.getByProperty("firstname", "Firstname2").get(0).getLastname());
-//
-//    }
-//  
-//    @Test
-//    public void testGetByRelation(){
-//    	assertEquals("Issue1", issueRepo.getByRelation(Project.class, 1).get(0).getDescription());
-//    	assertEquals("Projectname2", projectRepo.getByRelation(Supervisor.class, 4).get(0).getName());
-//
-//    }
-//    
-//    @Test
-//    public void testCreate(){
-//     Project p3 = new Project();
-//     p3.setName("Projectname3");
-//     projectRepo.create(p3);
-//     assertEquals("Projectname3", projectRepo.getById(3).getName());
-//     
-//    }
-//    
-//    @Test
-//    public void testUpdate(){
-//     Project p1 = projectRepo.getById(1);
-//     p1.setName("ProjectX");
-//     projectRepo.update(p1);
-//     assertEquals("ProjectX", projectRepo.getById(1).getName());
-//    }
-//
-//    @Test
-//    public void testDelete(){
-//    	stateRepo.delete(1);
-//    	assertEquals(null, stateRepo.getById(1));
-//    }
+    @Test
+    public void testGetAll() {
+    	assertEquals(2, gcEmployeeRepo.getAll().size());
+    	assertEquals("Projectname2", projectRepo.getAll().get(1).getName());
+      	
+    }
+    
+    @Test
+    public void testGetByProperty() {
+    	assertEquals("Projectname1", projectRepo.getByProperty("place", "Luzern").get(0).getName());
+    	assertEquals("Nachname2", gcEmployeeRepo.getByProperty("firstname", "Firstname2").get(0).getLastname());
+
+    }
+  
+    @Test
+    public void testGetByRelation(){
+    	assertEquals("Issue1", issueRepo.getByRelation(Project.class, 1).get(0).getDescription());
+    	assertEquals("Projectname2", projectRepo.getByRelation(Supervisor.class, 4).get(0).getName());
+
+    }
+    
+    @Test
+    public void testCreate(){
+     Project p3 = new Project();
+     p3.setName("Projectname3");
+     projectRepo.create(p3);
+     assertEquals("Projectname3", projectRepo.getById(3).getName());
+     
+    }
+    
+    @Test
+    public void testUpdate(){
+     Project p1 = projectRepo.getById(1);
+     p1.setName("ProjectX");
+     projectRepo.update(p1);
+     assertEquals("ProjectX", projectRepo.getById(1).getName());
+    }
+
+    @Test
+    public void testDelete(){
+    	stateRepo.delete(1);
+    	assertEquals(null, stateRepo.getById(1));
+    }
     
 }
