@@ -6,9 +6,9 @@ import ch.claimer.appserver.repositories.eclipselink.EclipseLinkRepository;
 import ch.claimer.shared.models.State;
 
 /**
- * In der StateSeed-Klasse werden die möglichen Status der Projekte
- * in die Datenbank geschrieben.
- * Die Klasse erbt von der Klasse Seed und setzt State als Generic.
+ * In der StateSeed-Klasse werden die möglichen Status der Projekte in die
+ * Datenbank geschrieben. Die Klasse erbt von der Klasse Seed und setzt State
+ * als Typ-Variable.
  * 
  * @author Fabio Baviera
  * @author Raoul Ackermann
@@ -17,7 +17,7 @@ import ch.claimer.shared.models.State;
  */
 
 public class StateSeed extends Seed<State> {
-	
+
 	public StateSeed() {
 		this.repository = new EclipseLinkRepository<State>(State.class);
 		this.seed = new ArrayList<State>();
@@ -43,7 +43,7 @@ public class StateSeed extends Seed<State> {
 		seed.add(s3);
 		seed.add(s4);
 		seed.add(s5);
-		
+
 		Seed.seeds.put("State", seed);
 	}
 

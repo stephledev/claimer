@@ -36,7 +36,8 @@ public class Controller<T extends Model> {
 		
 		Config config = ConfigFactory.load();
 		try {
-			this.method = (Method<T>) Naming.lookup(config.getString("rmi.url") + clazz.getSimpleName());
+			System.out.println("rmi://" + config.getString("rmi.host") + ":" + config.getString("rmi.port") + clazz.getSimpleName().toLowerCase());
+			this.method = (Method<T>) Naming.lookup("rmi://" + config.getString("rmi.host") + ":" + config.getString("rmi.port") + "/" + clazz.getSimpleName().toLowerCase());
 		} catch (MalformedURLException | RemoteException | NotBoundException e) {
 			e.printStackTrace();
 		}

@@ -6,10 +6,10 @@ import ch.claimer.appserver.repositories.eclipselink.EclipseLinkRepository;
 import ch.claimer.shared.models.Login;
 import ch.claimer.shared.models.Supervisor;
 
-/** 
+/**
  * In der SupervisorSeed-Klasse werden die Bauleiter in die Datenbank
- * geschrieben und ein Login zugewiesen.
- * Die Klasse erbt von der Klasse Seed und setzt Supervisor als Generic.
+ * geschrieben und ein Login zugewiesen. Die Klasse erbt von der Klasse Seed und
+ * setzt Supervisor als Typ-Variable.
  * 
  * @author Fabio Baviera
  * @version 1.0
@@ -17,9 +17,10 @@ import ch.claimer.shared.models.Supervisor;
  */
 
 public class SupervisorSeed extends Seed<Supervisor> {
-	
+
 	public SupervisorSeed() {
-		this.repository = new EclipseLinkRepository<Supervisor>(Supervisor.class);
+		this.repository = new EclipseLinkRepository<Supervisor>(
+				Supervisor.class);
 		this.seed = new ArrayList<Supervisor>();
 	}
 
@@ -31,7 +32,7 @@ public class SupervisorSeed extends Seed<Supervisor> {
 		Supervisor1.setEmail("sebastian.mueller@bluewin.ch.ch");
 		Supervisor1.setPhone("041 111 11 11");
 		Supervisor1.setLogin((Login) seeds.get("Login").get(9));
-		
+
 		Supervisor Supervisor2 = new Supervisor();
 		Supervisor2.setLastname("Ferrari");
 		Supervisor2.setFirstname("Enzo");
@@ -41,7 +42,7 @@ public class SupervisorSeed extends Seed<Supervisor> {
 
 		seed.add(Supervisor1);
 		seed.add(Supervisor2);
-			
+
 		Seed.seeds.put("Supervisor", seed);
 	}
 

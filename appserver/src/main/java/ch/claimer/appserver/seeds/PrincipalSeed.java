@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import ch.claimer.appserver.repositories.eclipselink.EclipseLinkRepository;
 import ch.claimer.shared.models.Principal;
 
-/** 
- * In der PrincipalSeed-Klasse werden die Bauherren in die
- * Datenbank geschrieben, welche einem Projekt zugewiesen werden.
- * Die Klasse erbt von der Klasse Seed und setzt Principal als Generic.
+/**
+ * In der PrincipalSeed-Klasse werden die Bauherren in die Datenbank
+ * geschrieben, welche einem Projekt zugewiesen werden. Die Klasse erbt von der
+ * Klasse Seed und setzt Principal als Typ-Variable.
  * 
  * @author Fabio Baviera
  * @version 1.0
@@ -16,7 +16,7 @@ import ch.claimer.shared.models.Principal;
  */
 
 public class PrincipalSeed extends Seed<Principal> {
-	
+
 	public PrincipalSeed() {
 		this.repository = new EclipseLinkRepository<Principal>(Principal.class);
 		this.seed = new ArrayList<Principal>();
@@ -31,7 +31,7 @@ public class PrincipalSeed extends Seed<Principal> {
 		Principal1.setPlace("Zürich");
 		Principal1.setPhone("0444356787");
 		Principal1.setEmail("info@siemens.ch");
-		
+
 		Principal Principal2 = new Principal();
 		Principal2.setLastname("Tobias");
 		Principal2.setFirstname("Spengler");
@@ -40,7 +40,7 @@ public class PrincipalSeed extends Seed<Principal> {
 		Principal2.setPlace("Zürich");
 		Principal2.setPhone("044673297");
 		Principal2.setEmail("tobias.spengler@bluewin.ch");
-		
+
 		Principal Principal3 = new Principal();
 
 		Principal3.setCompany("Exon GmbH");
@@ -49,7 +49,7 @@ public class PrincipalSeed extends Seed<Principal> {
 		Principal3.setPlace("Zürich");
 		Principal3.setPhone("0445556743");
 		Principal3.setEmail("exon@bluewin.ch");
-		
+
 		Principal Principal4 = new Principal();
 		Principal4.setLastname("Celine");
 		Principal4.setFirstname("Hofstetter");
@@ -58,13 +58,12 @@ public class PrincipalSeed extends Seed<Principal> {
 		Principal4.setPlace("Luzern");
 		Principal4.setPhone("0413245633");
 		Principal4.setEmail("celine.hofstetter@bluewin.ch");
-				
-		
+
 		seed.add(Principal1);
 		seed.add(Principal2);
 		seed.add(Principal3);
 		seed.add(Principal4);
-		
+
 		Seed.seeds.put("Principal", seed);
 	}
 }

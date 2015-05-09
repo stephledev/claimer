@@ -24,10 +24,14 @@ public class AuthenticationService {
 	public AuthenticationService() {
 		Config config = ConfigFactory.load();
 		try {
-			this.loginMethod = (Method<Login>) Naming.lookup(config
-					.getString("rmi.url") + "Login");
-			this.roleMethod = (Method<Role>) Naming.lookup(config
-					.getString("rmi.url") + "Role");
+			this.loginMethod = (Method<Login>) Naming.lookup("rmi://"
+					+ config.getString("rmi.host") + ":"
+					+ config.getString("rmi.port") + "/"
+					+ "login");
+			this.roleMethod = (Method<Role>) Naming.lookup("rmi://"
+					+ config.getString("rmi.host") + ":"
+					+ config.getString("rmi.port") + "/"
+					+ "role");
 		} catch (MalformedURLException | RemoteException | NotBoundException e) {
 			e.printStackTrace();
 		}

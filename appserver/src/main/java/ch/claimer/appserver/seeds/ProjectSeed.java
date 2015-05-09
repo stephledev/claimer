@@ -16,8 +16,8 @@ import ch.claimer.shared.models.Type;
 /**
  * In der ProjectSeed-Klasse werden die Projekte angelegt. Den Projekten werden
  * Bauherr, LogEntries, Supervisor, Kontakt, Kategorie, Typ und Status
- * zugewiesen und die Adresse der Baustelle in die Datenbank geschrieben.
- * Die Klasse erbt von der Klasse Seed und setzt Project als Generic.
+ * zugewiesen und die Adresse der Baustelle in die Datenbank geschrieben. Die
+ * Klasse erbt von der Klasse Seed und setzt Project als Typ-Variable.
  * 
  * @author Raoul Ackermann
  * @author Fabio Baviera
@@ -26,7 +26,7 @@ import ch.claimer.shared.models.Type;
  */
 
 public class ProjectSeed extends Seed<Project> {
-	
+
 	public ProjectSeed() {
 		this.repository = new EclipseLinkRepository<Project>(Project.class);
 		this.seed = new ArrayList<Project>();
@@ -42,14 +42,13 @@ public class ProjectSeed extends Seed<Project> {
 		p1.setStart(new GregorianCalendar());
 		p1.setEnd(new GregorianCalendar());
 		p1.getPrincipals().add((Principal) seeds.get("Principal").get(0));
-		p1.getLogEntries().add((LogEntry)seeds.get("LogEntry").get(1));
+		p1.getLogEntries().add((LogEntry) seeds.get("LogEntry").get(1));
 		p1.setSupervisor((Supervisor) seeds.get("Supervisor").get(0));
-		p1.getContacts().add((Contact)seeds.get("Contact").get(0));
-		p1.setCategory((Category)seeds.get("Category").get(3));
-		p1.setType((Type)seeds.get("Type").get(0));
-		p1.setState((State)seeds.get("State").get(0));
-		
-		
+		p1.getContacts().add((Contact) seeds.get("Contact").get(0));
+		p1.setCategory((Category) seeds.get("Category").get(3));
+		p1.setType((Type) seeds.get("Type").get(0));
+		p1.setState((State) seeds.get("State").get(0));
+
 		Project p2 = new Project();
 		p2.setName("Umbau Bleicherain");
 		p2.setStreet("Bleicherain 14");
@@ -58,17 +57,16 @@ public class ProjectSeed extends Seed<Project> {
 		p2.setStart(new GregorianCalendar());
 		p2.setEnd(new GregorianCalendar());
 		p2.getPrincipals().add((Principal) seeds.get("Principal").get(1));
-		p2.setSupervisor((Supervisor)seeds.get("Supervisor").get(1));
-		p2.getContacts().add((Contact)seeds.get("Contact").get(3));
-		p2.setCategory((Category)seeds.get("Category").get(1));
-		p2.setType((Type)seeds.get("Type").get(1));
-		p2.setState((State)seeds.get("State").get(0));
+		p2.setSupervisor((Supervisor) seeds.get("Supervisor").get(1));
+		p2.getContacts().add((Contact) seeds.get("Contact").get(3));
+		p2.setCategory((Category) seeds.get("Category").get(1));
+		p2.setType((Type) seeds.get("Type").get(1));
+		p2.setState((State) seeds.get("State").get(0));
 
 		seed.add(p1);
 		seed.add(p2);
-		
+
 		Seed.seeds.put("Project", seed);
 	}
 
 }
-

@@ -21,10 +21,17 @@ public class EclipseLinkRepository<T extends Model> implements Repository<T> {
 
 	@Override
 	public T getById(int id) {
-		EntityManager em = factory.createEntityManager();
-		T t = em.find(clazz, id);
-		em.close();
+		T t = null;
+		try {
+			EntityManager em = factory.createEntityManager();
+			t = em.find(clazz, id);
+			em.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return t;
+		
 	}
 	
 	@Override

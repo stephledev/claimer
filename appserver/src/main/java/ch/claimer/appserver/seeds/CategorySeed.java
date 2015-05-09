@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import ch.claimer.appserver.repositories.eclipselink.EclipseLinkRepository;
 import ch.claimer.shared.models.Category;
 
-/** 
- * In der CategorySeed-Klasse werden die verschiedenen Kategorien
- * von Gebäuden in die Datenbank abgefüllt. 
- * Die Klasse erbt von der Seed Klasse und setzt Category als Generic.
+/**
+ * In der CategorySeed-Klasse werden die verschiedenen Kategorien von Gebäuden
+ * in die Datenbank abgefüllt. Die Klasse erbt von der Seed Klasse und setzt
+ * Category als Typ-Variable.
  * 
  * @author Raoul Ackermann
  * @author Fabio Baviera
@@ -16,7 +16,7 @@ import ch.claimer.shared.models.Category;
  * @since 1.0
  */
 public class CategorySeed extends Seed<Category> {
-	
+
 	public CategorySeed() {
 		this.repository = new EclipseLinkRepository<Category>(Category.class);
 		this.seed = new ArrayList<Category>();
@@ -34,15 +34,15 @@ public class CategorySeed extends Seed<Category> {
 		c4.setName("Geschäftshaus");
 		Category c5 = new Category();
 		c5.setName("Lagerhaus");
-		
+
 		seed.add(c1);
 		seed.add(c2);
 		seed.add(c3);
 		seed.add(c4);
 		seed.add(c5);
-		
+
 		Seed.seeds.put("Category", seed);
-		
+
 	}
 
 }

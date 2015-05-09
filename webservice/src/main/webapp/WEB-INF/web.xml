@@ -11,8 +11,12 @@
 
 	<context-param>
 		<param-name>resteasy.providers</param-name>
-		<param-value>ch.claimer.webservice.routes.AuthenticationFilter</param-value>
+		<param-value>ch.claimer.webservice.filter.AuthenticationFilter</param-value>
 	</context-param>
+	
+	<listener>
+    	<listener-class>ch.claimer.webservice.listener.EventListener</listener-class>
+	</listener>
 
 	<servlet>
 		<servlet-name>resteasy-servlet</servlet-name>

@@ -1,4 +1,4 @@
-package ch.claimer.webservice.routes;
+package ch.claimer.webservice.filter;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
