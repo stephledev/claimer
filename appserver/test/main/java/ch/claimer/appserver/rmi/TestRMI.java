@@ -79,6 +79,10 @@ public class TestRMI {
 			State s1 = new State();
 			s1.setName("Status1");
 			stateMethod.create(s1);
+			
+			State s2 = new State();
+			s2.setName("Status1");
+			stateMethod.create(s2);
 
 			Subcontractor subc1 = new Subcontractor();
 			subc1.setName("Subunternehmen1");
@@ -202,11 +206,11 @@ public class TestRMI {
 	@Test
 	public void testUpdate() {
 		try {
-			Project p1 = new Project();
-			p1 = projectMethod.getById(2);
-			p1.setName("Projectname1");
-			projectMethod.update(p1);
-			assertEquals("Projectname1", projectMethod.getById(1).getName());
+			Project p3 = new Project();
+			p3 = projectMethod.getById(3);
+			p3.setName("Projectname3_update");
+			projectMethod.update(p3);
+			assertEquals("Projectname3_update", projectMethod.getById(3).getName());
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -215,8 +219,8 @@ public class TestRMI {
 	@Test
 	public void testDelete() {
 		try {
-			stateMethod.delete(1);
-			assertEquals(null, stateMethod.getById(1));
+			stateMethod.delete(2);
+			assertEquals(null, stateMethod.getById(2));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}

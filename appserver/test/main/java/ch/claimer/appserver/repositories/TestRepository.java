@@ -48,6 +48,10 @@ public class TestRepository {
 		s1.setName("Status1");
 		stateRepo.create(s1);
 		
+		State s2 = new State();
+		s2.setName("Status2");
+		stateRepo.create(s2);
+		
 		GCEmployee g1 = new GCEmployee();
 		g1.setLastname("Nachname1");
 		gcEmployeeRepo.create(g1);
@@ -134,8 +138,8 @@ public class TestRepository {
 
     @Test
     public void testDelete(){
-    	stateRepo.delete(1);
-    	assertEquals(null, stateRepo.getById(1));
+    	stateRepo.delete(2);
+    	assertEquals(null, stateRepo.getById(2));
     }
     
 }
