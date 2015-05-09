@@ -11,6 +11,10 @@ public class ResponseHandlerService {
 	public static Response success(Object model) {
 		return Response.status(Status.OK).entity(model).type(mediaType).build();
 	}
+	
+	public static Response success() {
+		return Response.status(Status.OK).build();
+	}
 
 	public static Response unauthorized(String message) {
 		return Response.status(Status.UNAUTHORIZED).entity(message).build();
@@ -22,6 +26,10 @@ public class ResponseHandlerService {
 
 	public static Response badRequest(String message) {
 		return Response.status(Status.BAD_REQUEST).entity(message).build();
+	}
+	
+	public static Response internalServerError(String message) {
+		return Response.status(Status.INTERNAL_SERVER_ERROR).entity(message).build();
 	}
 
 }

@@ -1,5 +1,7 @@
 package ch.claimer.appserver;
 
+import org.pmw.tinylog.Logger;
+
 import ch.claimer.appserver.util.RMIUtil;
 import ch.claimer.shared.util.LoggerUtil;
 
@@ -15,6 +17,8 @@ public class Appserver {
 	public static void main(String[] args) {
 
 		LoggerUtil.loadConfig();
+		
+		Logger.info("Appserver gestartet");
 
 		RMIUtil.register();
 
