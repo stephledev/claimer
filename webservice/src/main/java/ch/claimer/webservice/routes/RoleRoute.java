@@ -32,7 +32,7 @@ public class RoleRoute {
 	/**
 	 * Zeigt alle Rollen an
 	 * 
-	 * @return Response HTTP-Antwort mit Projekten
+	 * @return Response HTTP-Antwort mit Rollen
 	 */
 	@GET
 	@RolesAllowed("admin")

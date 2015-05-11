@@ -80,8 +80,7 @@ public class ContactRoute {
 	}
 	
 	/**
-	 * Legt eine neue Ansprechsperson an 
-	 * (siehe 'Ansprechsperson nach Subunternehmen erstellen')
+	 * Legt eine neue Ansprechsperson an
 	 * 
 	 * @param contact neu anzulegendee Ansprechsperson
 	 * @return Response HTTP-Antwort mit Statusmeldung
@@ -96,7 +95,6 @@ public class ContactRoute {
 	
 	/**
 	 * Aktualisiert eine bestehende Ansprechsperson
-	 * (siehe 'Ansprechsperson nach Subunternehmen aktualisieren')
 	 * 
 	 * @param contact zu aktualisierende Ansprechsperson
 	 * @return Response HTTP-Antwort mit Statusmeldung

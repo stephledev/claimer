@@ -78,7 +78,7 @@ public class SubcontractorRoute {
 	/**
 	 * Aktualisiert ein bestehendes Subunternehmen
 	 * 
-	 * @param subcontractor zu aktualisierendes Projekt
+	 * @param subcontractor zu aktualisierendes Subunternehmen
 	 * @return Response HTTP-Antwort mit Statusmeldung
 	 */
 	@PUT

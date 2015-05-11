@@ -78,7 +78,7 @@ public class SupervisorRoute {
 	/**
 	 * Aktualisiert einen bestehenden Bauleiter
 	 * 
-	 * @param supervisor zu aktualisierendes Projekt
+	 * @param supervisor zu aktualisierender Bauleiter
 	 * @return Response HTTP-Antwort mit Statusmeldung
 	 */
 	@PUT

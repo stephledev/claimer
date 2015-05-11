@@ -33,7 +33,7 @@ public class StateRoute {
 	/**
 	 * Zeigt alle Status an
 	 * 
-	 * @return Response HTTP-Antwort mit Projekten
+	 * @return Response HTTP-Antwort mit Status
 	 */
 	@GET
 	@PermitAll

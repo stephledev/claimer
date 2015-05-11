@@ -50,7 +50,7 @@ public class GCEmployeeRoute {
 	 * Zeigt einen bestimmten GU-Sachbearbeitenden an
 	 * 
 	 * @param id-Identifikator des anzuzeigenden GU-Sachbearbeitenden
-	 * @return Response HTTP-Antwort mit Projekt
+	 * @return Response HTTP-Antwort mit GU-Sachbearbeiter
 	 */
 	@GET
 	@RolesAllowed("superadmin")
