@@ -15,15 +15,18 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import ch.claimer.client.proxy.SCEmployeeProxy;
 import ch.claimer.client.proxy.SubcontractorProxy;
+import ch.claimer.client.util.AuthenticationUtil;
 import ch.claimer.client.util.ResteasyClientUtil;
 import ch.claimer.shared.models.Company;
 import ch.claimer.shared.models.Person;
@@ -41,6 +44,8 @@ public class SubcontractorAddController implements Initializable {
 
 	private ObservableList<Person> data = FXCollections.observableArrayList();
 	public static ObservableList<Person> data2 = FXCollections.observableArrayList(); 
+	
+	private SCEmployee sceToEdit = null;
 	
 	private Integer subcontractorID = null;
 	
@@ -83,11 +88,23 @@ public class SubcontractorAddController implements Initializable {
 	@FXML
 	private TableColumn<Person, String> colPhone;
 	
+	@FXML
+	private Label lblEmployees;
+	
+	@FXML
+	private Button btnAddSCEmployee;
+	
 	/**
 	 * Initialisiert den View mit den Daten des angeklickten Unternehmens
 	 * @param subcontractor
 	 */
 	public void initData(Company subcontractor) {
+		
+		lblEmployees.setVisible(true);
+		sceTableView.setVisible(true);
+		btnAddSCEmployee.setVisible(true);
+		
+		
 		subcontractorID = subcontractor.getId();
 	
 		lblTitel.setText("Subunternehmen bearbeiten");
@@ -177,15 +194,26 @@ public class SubcontractorAddController implements Initializable {
 		showMainViewWithMessage();
 		
 		
-		// TODO Subcontractor Mitarbeiter auslesen und Updaten
+		// Subcontractor Mitarbeiter auslesen und Updaten
 		ObservableList<Person> olp = sceTableView.getItems();
 
-		
+		SCEmployeeProxy sceProxy = ResteasyClientUtil.getTarget().proxy(SCEmployeeProxy.class);
+		SCEmployee sce = null;
 		for(Person p : olp) {
-			System.out.println((Integer)p.getId());
-			if((Integer)p.getId() == null) {
-				System.out.println("Update SCEmployee with ID" + p.getId());
+			sce = (SCEmployee)p;
+			
+			if(sce.getId() != 0) {
+				sce.setSubcontractor(sc);
+				System.out.println(sce.getEmail());
+				System.out.println(sce.getLastname());
+				System.out.println(sce.getLogin());
+				System.out.println(sce.getSubcontractor().getId());
+				//SCEmployee updaten
+				sceProxy.update(sce);
 			} else {
+				//Neuen SCEmployee erstellen
+				sce.setSubcontractor(sc);
+				sceProxy.create(sce);
 				System.out.println("Create new SCE");
 			}
 				
@@ -247,27 +275,58 @@ public class SubcontractorAddController implements Initializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
 	
-		
-
-		
+	@FXML
+	private void editSCEmployee (MouseEvent t){
+		if(t.getClickCount() == 2) {
+			try {
+				
+				sceToEdit = (SCEmployee) sceTableView.getSelectionModel().getSelectedItem();
+				
+				Stage stage = new Stage();
+				stage.setTitle("Mitarbeiter von Subunternehmen bearbeiten");
+				
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/UserAddView.fxml"));
+				Pane myPane = loader.load();
+				UserAddController controller = loader.<UserAddController>getController();
+				
+				//Controller starten
+				controller.initSCEEdit(sceToEdit);
+	
+				Scene scene = new Scene(myPane);
+				scene.getStylesheets().add(getClass().getResource("../claimer_styles.css").toExternalForm()); // CSS-File wird geladen
+				stage.setScene(scene);
+			    
+			    //Open new Stage
+				stage.show();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		 
+		sceTableView.setVisible(false);
+		lblEmployees.setVisible(false);
+		btnAddSCEmployee.setVisible(false);
+		
 		//Listener,um Änderungen zu überprüfen.
 		data2.addListener(new ListChangeListener<Person>() {
 
 			@Override
 			public void onChanged(javafx.collections.ListChangeListener.Change<? extends Person> c) {
-				
-				//TableView neu Laden
-				data.addAll(data2);
-				System.out.println(data.size());
-				System.out.println(data2.size());
-				fillTableView();
+				if(data2.size() > 0) {
+						
+					data.remove(sceToEdit);	//den aktualisierten aus der Liste entfernen		
+					//TableView neu Laden
+					data.addAll(data2);
+					fillTableView();
+				}
 				
 			}
 		 

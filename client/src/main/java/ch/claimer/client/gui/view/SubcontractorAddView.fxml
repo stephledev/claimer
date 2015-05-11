@@ -17,7 +17,7 @@
           <RowConstraints fillHeight="false" minHeight="10.0" valignment="TOP" vgrow="NEVER" />
             <RowConstraints fillHeight="false" minHeight="20.0" prefHeight="20.0" valignment="TOP" vgrow="NEVER" />
             <RowConstraints fillHeight="false" valignment="TOP" vgrow="NEVER" />
-            <RowConstraints minHeight="100.0" prefHeight="100.0" valignment="TOP" vgrow="ALWAYS" />
+            <RowConstraints valignment="TOP" vgrow="ALWAYS" />
             <RowConstraints fillHeight="false" minHeight="10.0" prefHeight="10.0" valignment="TOP" vgrow="NEVER" />
             <RowConstraints fillHeight="false" valignment="TOP" vgrow="NEVER" />
             <RowConstraints fillHeight="false" minHeight="20.0" prefHeight="20.0" valignment="TOP" vgrow="NEVER" />
@@ -89,8 +89,8 @@
                   <TextField fx:id="txtEmail" GridPane.columnIndex="6" GridPane.rowIndex="2" />
                </children>
             </GridPane>
-            <Label text="Mitarbeiter:" GridPane.rowIndex="3" />
-            <TableView fx:id="sceTableView" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS">
+            <Label fx:id="lblEmployees" text="Mitarbeiter:" GridPane.rowIndex="3" />
+            <TableView fx:id="sceTableView" onMouseClicked="#editSCEmployee" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS">
               <columns>
                 <TableColumn fx:id="colFirstname" prefWidth="75.0" text="Vorname" />
                 <TableColumn fx:id="colLastname" prefWidth="75.0" text="Name" />
@@ -109,7 +109,7 @@
                 <RowConstraints fillHeight="false" vgrow="NEVER" />
               </rowConstraints>
                <children>
-                  <Button mnemonicParsing="false" onAction="#addSCEmployee" styleClass="add-button" text="Mitarbeiter hinzufügen" />
+                  <Button fx:id="btnAddSCEmployee" mnemonicParsing="false" onAction="#addSCEmployee" styleClass="add-button" text="Mitarbeiter hinzufügen" />
                </children>
             </GridPane>
             <HBox GridPane.rowIndex="8">

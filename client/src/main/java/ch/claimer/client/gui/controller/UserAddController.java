@@ -370,4 +370,40 @@ public class UserAddController implements Initializable{
 		});		
 	}
 	
+	public void initSCEEdit(SCEmployee scEmployeeToEdit) {
+		
+		initData(scEmployeeToEdit);
+		
+		dropdownFunction.getItems().clear();
+		dropdownFunction.getItems().add("power");
+		dropdownFunction.setValue("power");
+
+		btnSave.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				SCEmployee sce = new SCEmployee();
+				sce = (SCEmployee) getTextfieldProperties(sce);
+
+				SubcontractorAddController.data2.add(sce);
+				SubcontractorAddController.data2.clear();
+				Stage stage = (Stage) btnSave.getScene().getWindow();
+			    stage.close();
+				
+			}
+		});
+		
+		btnBack.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				Stage stage = (Stage) btnSave.getScene().getWindow();
+			    stage.close();
+			}
+		});	
+		
+		
+	}
+	
 }

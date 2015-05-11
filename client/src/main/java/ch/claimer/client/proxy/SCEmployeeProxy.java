@@ -43,7 +43,7 @@ public interface SCEmployeeProxy {
     void create(SCEmployee scEmployee);
     
     @PUT
-    @Path("scemployee/{id}")
+    @Path("scemployee")
     @Consumes(MediaType.APPLICATION_JSON)
     void update(SCEmployee scEmployee);
 }
