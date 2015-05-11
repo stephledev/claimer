@@ -22,7 +22,6 @@ import ch.claimer.shared.models.Login;
 import ch.claimer.shared.models.Person;
 import ch.claimer.shared.models.Role;
 import ch.claimer.shared.models.SCEmployee;
-import ch.claimer.shared.models.Subcontractor;
 import ch.claimer.shared.models.Supervisor;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

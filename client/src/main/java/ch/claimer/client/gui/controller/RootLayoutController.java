@@ -1,11 +1,15 @@
 package ch.claimer.client.gui.controller;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import ch.claimer.shared.models.Person;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.Pane;
 
@@ -16,9 +20,12 @@ import javafx.scene.layout.Pane;
  *
  */
 
-public class RootLayoutController {
+public class RootLayoutController implements Initializable {
 
 	public static Person personToTransmit;
+	
+	@FXML
+	private Label lblName;
 	
 	@FXML
 	private MenuItem logoutButton;
@@ -80,5 +87,10 @@ public class RootLayoutController {
 	@FXML
 	private void closeClaimer(ActionEvent event) throws IOException {
 		System.exit(0);
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		// TODO namen des angemgeldeten Users auslesen
 	}
 }

@@ -29,10 +29,6 @@
                      <padding>
                         <Insets left="25.0" right="25.0" />
                      </padding></Button>
-                  <Button mnemonicParsing="false" onAction="#loadSupervisorMainView" prefHeight="40.0" styleClass="navigation-button" text="Bauleiter">
-                     <padding>
-                        <Insets left="25.0" right="25.0" />
-                     </padding></Button>
                   <Button mnemonicParsing="false" onAction="#loadSubcontractorMainView" prefHeight="40.0" styleClass="navigation-button" text="Subunternehmen">
                      <padding>
                         <Insets left="25.0" right="25.0" />
@@ -64,7 +60,7 @@
                               <Insets right="20.0" />
                            </HBox.margin>
                         </ImageView>
-                        <Label styleClass="header-name" text="Max Muster" />
+                        <Label fx:id="lblName" styleClass="header-name" text="Max Muster" />
                         <SplitMenuButton mnemonicParsing="false" style="-fx-color: transparent; -fx-background-color: transparent;" styleClass=".split-menu-button">
                           <items>
                             <MenuItem mnemonicParsing="false" text="Profildaten bearbeiten" />
