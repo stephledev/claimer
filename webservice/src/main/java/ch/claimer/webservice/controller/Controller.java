@@ -51,7 +51,7 @@ public class Controller<T extends Model> {
 		try {
 			models = method.getAll();
 		} catch (RemoteException e) {
-			Logger.error(e, "Verbindung mit RMI-Diensttttt fehlgeschlagen");
+			Logger.error(e, "Verbindung mit RMI-Dienst fehlgeschlagen");
 		}
 		return ResponseHandlerService.success(models);
 	}
