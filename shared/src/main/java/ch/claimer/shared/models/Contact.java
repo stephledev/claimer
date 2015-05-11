@@ -3,6 +3,8 @@ package ch.claimer.shared.models;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
+import org.codehaus.jackson.annotate.JsonTypeName;
+
 /**
  * Representiert die Entität Kontakt und gewährleistet Zugriff auf die Eigenschaften 
  * der Klasse. Beispielsweise benutzt die ContactSeed-Klasse die Eigenschaften.
@@ -14,6 +16,7 @@ import javax.persistence.ManyToOne;
  */
 
 @Entity
+@JsonTypeName("Contact")
 public class Contact extends Person {
 
 	private static final long serialVersionUID = -8763273254775352447L;

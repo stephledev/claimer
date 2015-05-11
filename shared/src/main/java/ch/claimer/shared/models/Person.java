@@ -11,6 +11,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToOne;
 
+import org.codehaus.jackson.annotate.JsonSubTypes;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 /**
@@ -25,7 +26,6 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
-@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
 public abstract class Person implements Serializable, Model {
 
 	private static final long serialVersionUID = -7793558619197649513L;
