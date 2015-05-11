@@ -7,8 +7,9 @@
 }
 
 .header {
-	-fx-background-color: #60AACC;
+	-fx-background-color: #A4C5D4;
 	-fx-padding: 0;
+
 }
 
 .header-title {
@@ -21,24 +22,39 @@
 	-fx-text-fill: #FFFFFF;
 	-fx-font-size: 18px;
 	-fx-font-weight: 400;
+	-fx-background-color: #A4C5D4;
+	-fx-padding: 5px 20px;
+}
+
+.header-split-button {
+	-fx-color: #A4C5D4;
+	-fx-background-color: #60AACC;
+	-fx-background-radius: 0px, 0px;
+
+}
+
+.header-split-button:hover {
+	-fx-color: #A4C5D4;
+	-fx-background-color: #60AACC;
+	-fx-background-radius: 0px, 0px;
 }
 
 .navigation {
-	-fx-background-color: #FF875E;
-	
+	-fx-background-color: #60AACC;
 }
 
 .navigation .navigation-button {
-	-fx-background-color: #FF875E;
+	-fx-background-color: #60AACC;
 	-fx-background-radius: 0, 0, 0;
 	-fx-background-insets: 0,0,0;
 	-fx-font-weight: 400;
 	-fx-font-size: 16px;
 	-fx-padding: 10px 20px;
+	-fx-cursor: hand;
 }
 
 .navigation .navigation-button:hover {
-	-fx-background-color: #FF7440;
+	-fx-background-color: #A4C5D4;
 }
 
 .lbl_title{
@@ -46,15 +62,16 @@
 }
 
 .button {
-	-fx-background-color: #FF5B72;
+	-fx-background-color: #60AACC;
     -fx-background-radius: 2,2,2;
     -fx-background-insets: 0,1,2;
     -fx-text-fill: #FFF;
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.3) , 1, 0.0 , 0 , 1 );
+    -fx-cursor: hand;
 }
 
 .button:hover {
-    -fx-background-color: linear-gradient(#E55267, #E55267);
+    -fx-background-color: #487F99;
 }
 
 .add-button {
@@ -88,7 +105,7 @@
 } */
 	
 #lbl_mangelmanager{
-	-fx-background-color: #60AACC;
+	-fx-background-color: #A4C5D4;
 	-fx-text-fill: #FFF;
 	-fx-font-weight: lighter;
     -fx-font-size: 32px;
