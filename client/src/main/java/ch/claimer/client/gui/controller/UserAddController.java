@@ -28,13 +28,19 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBoxBuilder;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class UserAddController implements Initializable{
@@ -91,6 +97,15 @@ public class UserAddController implements Initializable{
 		}
 		
 	}
+	
+	@FXML
+	private void deleteUser() {
+		Stage dialogStage = new Stage();
+		dialogStage.initModality(Modality.WINDOW_MODAL);
+		dialogStage.setScene(new Scene(VBoxBuilder.create().
+		    children(new Text("Hi"), new Button("Ok.")).
+		    alignment(Pos.CENTER).padding(new Insets(5)).build()));
+		dialogStage.show();	}
 	
 	@FXML
 	private void saveUser(ActionEvent event) throws IOException {

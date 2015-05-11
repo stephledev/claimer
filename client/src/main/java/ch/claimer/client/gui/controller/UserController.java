@@ -90,6 +90,7 @@ public class UserController implements Initializable {
 	
 	@FXML
 	private Label lblMessage;
+
 	
 	/**
 	 * Öffnet die Detailansicht für einen User, um diesen zu bearbeiten.
@@ -144,9 +145,7 @@ public class UserController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
-	    initiateWebserviceConnection();
-	    
-	    getGCEmployee();
+		getGCEmployee();
 	    
 	    getSCEmployee();
 	   
@@ -179,7 +178,7 @@ public class UserController implements Initializable {
 				}
 			}
 		  });
-		
+				
 		//Observable-List, welche die Daten beinhaltet, an die Tabelle übergeben
 		userTableView.setItems(data);
 			
@@ -196,38 +195,23 @@ public class UserController implements Initializable {
 	}
 	
 	/**
-	 * Webservice-Verbindung herstellen. Wird automatisch von der initiate-Funktion aufgerufen.
-	 */
-	private void initiateWebserviceConnection() {
-	    rtarget = ResteasyClientUtil.getTarget();
-	    mapper = new ObjectMapper();
-	}
-
-	/**
 	 * Lädt alle gcEmployee aus der Datenbank
 	 */
 	private void getGCEmployee() {
 
-	    Person gcEmployee = new GCEmployee();
-	    GCEmployeeProxy gceProxy = rtarget.proxy(GCEmployeeProxy.class);
-	    
-	    try {
-			personsToShow = mapper.readValue(gceProxy.getAll(), new TypeReference<List<GCEmployee>>(){});
-			
-			for(int i = 0; i < personsToShow.size(); i++) {
-			    	
-			    	gcEmployee = personsToShow.get(i);
-			    	data.add(gcEmployee);
-			    	dataCopy.add(gcEmployee);
-			    	gcEmployee = null;
-			    	
-			}
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		personsToShow = null;
+		try {
+	    	GCEmployeeProxy gceProxy = ResteasyClientUtil.getTarget().proxy(GCEmployeeProxy.class);
+		    ObjectMapper mapper = new ObjectMapper();
+		    List<GCEmployee> personList = null;
+		    personList = mapper.readValue(gceProxy.getAll(), new TypeReference<List<GCEmployee>>(){});
+		    
+		    for(GCEmployee gce : personList) {
+		    	data.add(gce);
+		    }
+	    }
+	    catch (IOException e1) {
+	    	e1.printStackTrace();
+	    }
 	    
 	}
 
@@ -235,24 +219,20 @@ public class UserController implements Initializable {
 	 * Lädt alle SCEmployees aus der Datebank
 	 */
 	private void getSCEmployee() {
-	    Person scEmployee = new SCEmployee();
-	    SCEmployeeProxy sceProxy = rtarget.proxy(SCEmployeeProxy.class);
-	    
+    
 	    try {
-	    	personsToShow = mapper.readValue(sceProxy.getAll(), new TypeReference<List<SCEmployee>>(){});
-	    	
-	    	for(int i = 0; i < personsToShow.size(); i++) {
-	    		scEmployee = personsToShow.get(i);
-	    		data.add(scEmployee);
-	    		dataCopy.add(scEmployee);
-	    		scEmployee = null;
-	    	}
-	    	
-	    } catch (IOException e1) {
+	    	SCEmployeeProxy sceProxy = ResteasyClientUtil.getTarget().proxy(SCEmployeeProxy.class);
+		    ObjectMapper mapper = new ObjectMapper();
+		    List<SCEmployee> personList = null;
+		    personList = mapper.readValue(sceProxy.getAll(), new TypeReference<List<SCEmployee>>(){});
+		    
+		    for(SCEmployee sce : personList) {
+		    	data.add(sce);
+		    }
+	    }
+	    catch (IOException e1) {
 	    	e1.printStackTrace();
 	    }
-	    
-	    personsToShow = null;
 	}
 	
 	
@@ -260,48 +240,38 @@ public class UserController implements Initializable {
 	 * Lädt alle Supervisors aus der Datenbank
 	 */
 	private void getSupervisors() {
-
-		Person supervisor = new Supervisor();
-	    SupervisorProxy svProxy = rtarget.proxy(SupervisorProxy.class);
-	    
 	    try {
-	    	personsToShow = mapper.readValue(svProxy.getAll(), new TypeReference<List<Supervisor>>(){});
-	    	
-	    	for(int i = 0; i < personsToShow.size(); i++) {
-	    		supervisor = personsToShow.get(i);
-	    		data.add(supervisor);
-	    		dataCopy.add(supervisor);
-	    		supervisor = null;
-	    	}
+	    	SupervisorProxy svProxy = ResteasyClientUtil.getTarget().proxy(SupervisorProxy.class);
+		    ObjectMapper mapper = new ObjectMapper();
+		    List<Supervisor> personList = null;
+		    personList = mapper.readValue(svProxy.getAll(), new TypeReference<List<Supervisor>>(){});
+		    
+		    for(Supervisor sv : personList) {
+		    	data.add(sv);
+		    }
+
 	    } catch (IOException e1) {
 	    	e1.printStackTrace();
 	    }
-	    
-	    personsToShow = null;
-
 	}
 	
 	/**
 	 * Lädt alle Contacts aus der Datenbank
 	 */
 	private void getContacts() {
-		Person contact = new Contact();
-	    ContactProxy cProxy = rtarget.proxy(ContactProxy.class);
-	    
-	    try {
-	    	personsToShow = mapper.readValue(cProxy.getAll(), new TypeReference<List<Contact>>(){});
-	    	
-	    	for(int i = 0; i < personsToShow.size(); i++) {
-	    		contact = personsToShow.get(i);
-	    		data.add(contact);
-	    		dataCopy.add(contact);
-	    		contact = null;
-	    	}
-	    } catch (IOException e1) {
+		try {
+	    	ContactProxy cProxy = ResteasyClientUtil.getTarget().proxy(ContactProxy.class);
+		    ObjectMapper mapper = new ObjectMapper();
+		    List<Contact> personList = null;
+		    personList = mapper.readValue(cProxy.getAll(), new TypeReference<List<Contact>>(){});
+		    
+		    for(Contact c : personList) {
+		    	data.add(c);
+		    }
+	    }
+	    catch (IOException e1) {
 	    	e1.printStackTrace();
 	    }
-	    
-	    personsToShow = null;
 	}
 	
 	//Observable-List mit den gefilterten Daten aktualisieren

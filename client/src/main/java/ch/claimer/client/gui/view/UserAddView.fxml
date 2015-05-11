@@ -30,6 +30,11 @@
                         <Insets left="20.0" />
                      </HBox.margin>
                   </Button>
+                  <Button mnemonicParsing="false" onAction="#deleteUser" styleClass="delete-button" text="Löschen">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </Button>
                </children>
             </HBox>
             <GridPane GridPane.rowIndex="1">
