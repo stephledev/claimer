@@ -5,5 +5,4 @@ dependencies {
     compile 'org.jboss.resteasy:resteasy-jackson-provider:2.2.1.GA'
     compile 'org.codehaus.jackson:jackson-jaxrs:1.9.13'
     compile 'org.tinylog:tinylog:1.0'
-    compile 'org.easymock:easymock:3.1'
 }

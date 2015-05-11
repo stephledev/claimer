@@ -45,7 +45,7 @@
             </HBox>
             <GridPane prefHeight="97.0" prefWidth="795.0" styleClass="header">
                <children>
-                  <Label styleClass="header-title" text="Claimer">
+                  <Label styleClass="header-title" text="Mängelmanager">
                      <padding>
                         <Insets left="20.0" />
                      </padding>
@@ -61,7 +61,7 @@
                            </HBox.margin>
                         </ImageView>
                         <Label fx:id="lblName" styleClass="header-name" text="Max Muster" />
-                        <SplitMenuButton mnemonicParsing="false" styleClass="header-split-button">
+                        <SplitMenuButton mnemonicParsing="false" style="-fx-color: transparent; -fx-background-color: transparent;" styleClass=".split-menu-button">
                           <items>
                             <MenuItem mnemonicParsing="false" text="Profildaten bearbeiten" />
                             <MenuItem fx:id="logoutButton" mnemonicParsing="false" onAction="#closeClaimer" text="Abmelden" />
