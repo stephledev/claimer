@@ -2,16 +2,21 @@ package ch.claimer.client.gui.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
+
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
+
 import ch.claimer.client.proxy.ProjectProxy;
 import ch.claimer.client.util.ResteasyClientUtil;
+import ch.claimer.shared.models.Issue;
 import ch.claimer.shared.models.Project;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
@@ -186,8 +191,28 @@ public class ProjectsMainController implements Initializable{
 			}
 		  });
 
-		colStart.setCellValueFactory(new PropertyValueFactory<Project, String>("end"));
-		colEnd.setCellValueFactory(new PropertyValueFactory<Project, String>("end"));
+		colStart.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Project, String>, ObservableValue<String>>() {
+			public ObservableValue<String> call(TableColumn.CellDataFeatures<Project, String> data) {
+				try {
+					SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+					String a = format.format(data.getValue().getStart().getTime());
+					return new SimpleStringProperty(a);
+				} catch(NullPointerException e) {
+					return null;
+				}
+			}
+		  });
+		colEnd.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Project, String>, ObservableValue<String>>() {
+			public ObservableValue<String> call(TableColumn.CellDataFeatures<Project, String> data) {
+				try {
+					SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+					String a = format.format(data.getValue().getEnd().getTime());
+					return new SimpleStringProperty(a);
+				} catch(NullPointerException e) {
+					return null;
+				}
+			}
+		  });
 
 		// Observable-List, welche die Daten beinhaltet, an die Tabelle
 		// übergeben
