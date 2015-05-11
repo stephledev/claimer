@@ -44,7 +44,7 @@ public class Issue implements Serializable, Model {
 	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	private List<LogEntry> logEntries = new ArrayList<LogEntry>();
 	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
-//	private List<Comment> comments = new ArrayList<Comment>();
+	private List<Comment> comments = new ArrayList<Comment>();
 	@OneToOne
 	private Project project;
 	@OneToOne
@@ -106,13 +106,13 @@ public class Issue implements Serializable, Model {
 		this.logEntries = logEntries;
 	}
 
-//	public List<Comment> getComments() {
-//		return comments;
-//	}
-//
-//	public void setComments(List<Comment> comments) {
-//		this.comments = comments;
-//	}
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
 
 	public Project getProject() {
 		return project;
