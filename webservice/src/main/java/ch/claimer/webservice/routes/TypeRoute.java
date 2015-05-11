@@ -12,7 +12,7 @@ import ch.claimer.shared.models.Type;
 import ch.claimer.webservice.controller.Controller;
 
 /**
- * Definiert die verfügbaren HTTP-Routes der Typen.
+ * Definiert die verfügbaren HTTP-Routes der Bautypen.
  * Lädt anhand der URL und der HTTP-Anfrage die entsprechende Controller-Methode.
  * Liefert eine HTTP-Antwort mit Statuscode zurück.
  * 
@@ -31,9 +31,9 @@ public class TypeRoute {
 	}
 	
 	/**
-	 * Zeigt alle Projekte an
+	 * Zeigt alle Bautypen an
 	 * 
-	 * @return Response HTTP-Antwort mit Projekten
+	 * @return Response HTTP-Antwort mit Bautypen
 	 */
 	@GET
 	@RolesAllowed("editor-intern")
@@ -44,10 +44,10 @@ public class TypeRoute {
 	}
 	
 	/**
-	 * Zeigt einen bestimmten Typen an
+	 * Zeigt einen bestimmten Bautypen an
 	 * 
-	 * @param id Identifikator des anzuzeigenden Typen
-	 * @return Response HTTP-Antwort mit Projekt
+	 * @param id Identifikator des anzuzeigenden Bautypen
+	 * @return Response HTTP-Antwort mit dem Bautypen
 	 */
 	@GET
 	@RolesAllowed("editor-intern")

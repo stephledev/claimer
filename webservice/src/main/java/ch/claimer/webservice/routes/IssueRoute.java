@@ -40,7 +40,7 @@ public class IssueRoute {
 	/**
 	 * Zeigt alle Mängel an
 	 * 
-	 * @return Response HTTP-Antwort mit Projekten
+	 * @return Response HTTP-Antwort mit Mängeln
 	 */
 	@GET
 	@RolesAllowed("admin")
@@ -80,11 +80,10 @@ public class IssueRoute {
 	}
 
 	/**
-	 * Zeigt alle Mängel, die zu einer Ansprechsperson gehören, an
+	 * Zeigt alle Mängel, die zu einer Ansprechspersone gehören, an
 	 * 
-	 * @param id Identifikator des Mangels der anzuzeigenden Ansprechsperson
-	 * 
-	 * @return Antwort vom Controller
+	 * @param id Identifikator der Ansprechsperson der anzuzeigenden Mängel
+	 * @return Response HTTP-Antwort mit Mängeln
 	 */
 	@GET
 	@RolesAllowed("editor-extern")
@@ -95,10 +94,9 @@ public class IssueRoute {
 	}
 	
 	/**
-	 * Zeigt alles Mängel eines Subunternehmens an
+	 * Zeigt alle Mängel eines Subunternehmens an
 	 * 
-	 * @param id Subunternehmen-identifikator der anzuzeigenden Mängel
-	 * 
+	 * @param id Identifikator des Subunternehmens der anzuzeigenden Mängel
 	 * @return Response HTTP-Antwort mit Mängeln
 	 */
 	@GET
@@ -112,7 +110,6 @@ public class IssueRoute {
 	
 	/**
 	 * Legt einen neuen Mangel an
-	 * (siehe 'Mangel nach Projekt erstellen')
 	 * 
 	 * @param issue neu anzulegender Mangel
 	 * @return Response HTTP-Antwort mit Statusmeldung
@@ -127,7 +124,6 @@ public class IssueRoute {
 	
 	/**
 	 * Aktualisiert einen bestehenden Mangel
-	 * (Siehe 'Mangel nach Projekt erstellen')
 	 * 
 	 * @param issue zu aktualisierender Mangel
 	 * @return Response HTTP-Antwort mit Statusmeldung

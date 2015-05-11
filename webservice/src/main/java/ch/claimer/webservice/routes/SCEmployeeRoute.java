@@ -63,11 +63,10 @@ public class SCEmployeeRoute {
 	}
 	
 	/**
-	 * Benutzt den Controller um die Subunternehmen zu lesen
+	 * Zeigt alle SU-Angestellten eines Subunternehmens an
 	 * 
-	 * @param id-Subunternehmen-Identifizierer um diese gemäss der URL anzuzeigen
-	 * 
-	 * @return Antwort vom "controller"
+	 * @param id Identifikator des Subunternehmens der anzuzeigenden SU-Angestellten
+	 * @return Response HTTP-Antwort mit SU-Angestellten
 	 */
 	@GET
 	@RolesAllowed("admin")

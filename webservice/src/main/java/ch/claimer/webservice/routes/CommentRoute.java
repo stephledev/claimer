@@ -15,7 +15,7 @@ import ch.claimer.webservice.controller.Controller;
 
 
 /**
- * Definiert die verfügbaren HTTP-Routes der Projekte.
+ * Definiert die verfügbaren HTTP-Routes der Kommentare.
  * Lädt anhand der URL und der HTTP-Anfrage die entsprechende Controller-Methode.
  * Liefert eine HTTP-Antwort mit Statuscode zurück.
  * 
@@ -37,8 +37,7 @@ public class CommentRoute {
 	/**
 	 * Zeigt alle Kommentare eine Bauleiters an
 	 * 
-	 * @param id Identifikator des Bauleiters der anzuzeigenden Projeke
-	 * 
+	 * @param id Identifikator des Bauleiters der anzuzeigenden Kommentare
 	 * @return Response HTTP-Antwort mit Kommentaren
 	 */
 	@GET
@@ -50,11 +49,10 @@ public class CommentRoute {
 	}
 
 	/**
-	 * Zeigt den Controller um die Kommentare einer Ansprechsperson zu zeigen
+	 * Zeigt alle Kommentare einer Ansprechsperson an
 	 *            
 	 * @param id Identifikator der Ansprechperson der anzuzeigenden Kommentare
-	 * 
-	 * @return Response HTTP-Antwort mit Projekten
+	 * @return Response HTTP-Antwort mit Kommentaren
 	 */
 	@GET
 	@RolesAllowed("editor-extern")

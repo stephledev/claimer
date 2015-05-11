@@ -35,9 +35,8 @@ public class LoginRoute {
 	}
 	
 	/**
-	 * Zeigt alle logins an
+	 * Zeigt alle Logins an
 	 * 
-	 * @param request HTTP-Anfrage
 	 * @return Response HTTP-Antwort mit Logins
 	 */
 	@GET

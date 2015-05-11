@@ -65,11 +65,10 @@ public class ContactRoute {
 	}
 
 	/**
-	 * Benutzt den Controller um die Subunternehmen zu lesen
+	 * Zeigt alle Ansprechspersonen eines Subunternehmens an
 	 * 
-	 * @param id Ansprechperson-Identifizierer um diese gemäss der URL anzuzeigen
-	 * 
-	 * @return Antwort vom Controller
+	 * @param id Identifikator des Subunternehmens der anzuzeigenden Ansprechspersonen
+	 * @return Response HTTP-Antwort mit Projekten
 	 */
 	@GET
 	@RolesAllowed("editor-extern")
