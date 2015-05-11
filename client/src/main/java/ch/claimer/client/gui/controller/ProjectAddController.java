@@ -184,21 +184,20 @@ public class ProjectAddController implements Initializable {
 		
 		//Supervisor aus DB holen 
 		SupervisorProxy supervisorProxy = ResteasyClientUtil.getTarget().proxy(SupervisorProxy.class);		
-		ObjectMapper mapper = new ObjectMapper();	    
 		List<Supervisor> supervisorList = null;
 
 		try {
-			supervisorList = mapper.readValue(supervisorProxy.getAll(), new TypeReference<List<Supervisor>>(){});
+			supervisorList = mapper.readValue(supervisorProxy.getAll(), new TypeReference<List<Type>>(){});
 		} catch (IOException e1) {
 			e1.printStackTrace();
-			}
+		}
 
-		//Bauleiter dem Dropdown hinzufügen
+		//Typ dem Dropdown hinzufügen
 		for(Supervisor supervisor: supervisorList) {
 			if(supervisor.getLastname().equals(combo_supervisor.getValue()))
 				p1.setSupervisor(supervisor);	
-			}
-		
+		}
+
 		// Status aus DB holen 
 		StateProxy stateProxy = ResteasyClientUtil.getTarget().proxy(StateProxy.class);			    
 	    List<State> stateList = null;
@@ -247,6 +246,7 @@ public class ProjectAddController implements Initializable {
 				p1.setCategory(category);
 			}
 		
+		//KUNDE aus DB holen
 		PrincipalProxy principalProxy = ResteasyClientUtil.getTarget().proxy(PrincipalProxy.class);		
 		List<Principal> principalList = null;
 
@@ -258,11 +258,11 @@ public class ProjectAddController implements Initializable {
 			}
 		
 //TODO Kunden im Dropdown anzeigen - .setPrincipals(principal) nicht möglich
-//		//Rollen dem Dropdown hinzufügen
-//		for(Principal principal: principalList) {
-//			if(principal.getLastname().equals(combo_principal.getValue()))
-//				p1.setPrincipals(principalList);
-//		}
+		//Rollen dem Dropdown hinzufügen
+		for(Principal principal: principalList) {
+			if(principal.getLastname().equals(combo_principal.getValue()))
+				p1.setPrincipals(principalList);
+		}
 		
 		return p1;
 	}
@@ -270,7 +270,6 @@ public class ProjectAddController implements Initializable {
 		
 		
 	public void initData(Project project) {
-		Integer b = project.getId();
 		initiateWebserviceConnection();
 		
 		lbl_title.setText("Benutzer bearbeiten");
@@ -317,13 +316,13 @@ public class ProjectAddController implements Initializable {
 
 		try {
 
-			issueProxy = mapper.readValue(issueProxy.getByProject(projectId), new TypeReference<List<Issue>>(){});
+			issueList = mapper.readValue(issueProxy.getByProject(projectId), new TypeReference<List<Issue>>(){});
 			for(Issue i : issueList) {
 				data.add(i);
 			}
 
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
+			
 			e1.printStackTrace();
 		}
 		

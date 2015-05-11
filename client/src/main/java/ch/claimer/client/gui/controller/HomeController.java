@@ -13,6 +13,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -27,9 +28,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.util.Callback;
 import ch.claimer.client.proxy.IssueProxy;
 import ch.claimer.client.util.ResteasyClientUtil;
 import ch.claimer.shared.models.Issue;
+import ch.claimer.shared.models.Project;
 
 /**
  * @author Michael Lötscher
@@ -153,11 +156,27 @@ public class HomeController implements Initializable {
 
 
 		// Spalten-Values definieren (müssen den Parameter des Personen-Objekts entsprechen)
-		colProject.setCellValueFactory(new PropertyValueFactory<Issue, String>("project"));
+		colProject.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Issue, String>, ObservableValue<String>>() {
+			public ObservableValue<String> call(TableColumn.CellDataFeatures<Issue, String> data) {
+				try {
+					return new SimpleStringProperty(data.getValue().getProject().getName());
+				} catch(NullPointerException e) {
+					return null;
+				}
+			}
+		  });
 		colMangel.setCellValueFactory(new PropertyValueFactory<Issue, String>("description"));
-		colStatus.setCellValueFactory(new PropertyValueFactory<Issue, String>("state"));
+		colStatus.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Issue, String>, ObservableValue<String>>() {
+			public ObservableValue<String> call(TableColumn.CellDataFeatures<Issue, String> data) {
+				try {
+					return new SimpleStringProperty(data.getValue().getState().getName());
+				} catch(NullPointerException e) {
+					return null;
+				}
+			}
+		  });
 		colDeadline.setCellValueFactory(new PropertyValueFactory<Issue, String>("end"));
-		// colProject.setSortTyp(descending);
+		
 
 		// Observable-List, welche die Daten beinhaltet, an die Tabelle
 		// übergeben
