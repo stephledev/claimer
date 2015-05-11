@@ -26,6 +26,14 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
+@JsonTypeInfo(
+use = JsonTypeInfo.Id.NAME,
+include = JsonTypeInfo.As.PROPERTY,
+property = "type")
+@JsonSubTypes({
+@JsonSubTypes.Type(value = Supervisor.class, name = "Supervisor"),
+@JsonSubTypes.Type(value = Contact.class, name = "Contact"),
+})
 public abstract class Person implements Serializable, Model {
 
 	private static final long serialVersionUID = -7793558619197649513L;

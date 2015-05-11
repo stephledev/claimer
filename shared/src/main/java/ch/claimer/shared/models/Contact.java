@@ -16,7 +16,6 @@ import org.codehaus.jackson.annotate.JsonTypeName;
  */
 
 @Entity
-@JsonTypeName("Contact")
 public class Contact extends Person {
 
 	private static final long serialVersionUID = -8763273254775352447L;
