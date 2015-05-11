@@ -26,7 +26,6 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import ch.claimer.client.proxy.SCEmployeeProxy;
 import ch.claimer.client.proxy.SubcontractorProxy;
-import ch.claimer.client.util.AuthenticationUtil;
 import ch.claimer.client.util.ResteasyClientUtil;
 import ch.claimer.shared.models.Company;
 import ch.claimer.shared.models.Person;
@@ -204,17 +203,13 @@ public class SubcontractorAddController implements Initializable {
 			
 			if(sce.getId() != 0) {
 				sce.setSubcontractor(sc);
-				System.out.println(sce.getEmail());
-				System.out.println(sce.getLastname());
-				System.out.println(sce.getLogin());
-				System.out.println(sce.getSubcontractor().getId());
+
 				//SCEmployee updaten
 				sceProxy.update(sce);
 			} else {
 				//Neuen SCEmployee erstellen
 				sce.setSubcontractor(sc);
 				sceProxy.create(sce);
-				System.out.println("Create new SCE");
 			}
 				
 		}
