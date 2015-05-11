@@ -33,6 +33,8 @@ property = "type")
 @JsonSubTypes({
 @JsonSubTypes.Type(value = Supervisor.class, name = "Supervisor"),
 @JsonSubTypes.Type(value = Contact.class, name = "Contact"),
+@JsonSubTypes.Type(value = GCEmployee.class, name = "GCEmployee"),
+@JsonSubTypes.Type(value = SCEmployee.class, name = "SCEmployee"),
 })
 public abstract class Person implements Serializable, Model {
 
