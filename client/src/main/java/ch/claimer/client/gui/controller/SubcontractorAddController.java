@@ -283,7 +283,7 @@ public class SubcontractorAddController implements Initializable {
 			sc.setEmail(email);
 		}
 	
-		if(hasError == false) {
+		if(!hasError) {
 			//Neuen Subcontractor erstellen oder bestehenden updaten
 			SubcontractorProxy scProxy = ResteasyClientUtil.getTarget().proxy(SubcontractorProxy.class);
 			
@@ -293,10 +293,7 @@ public class SubcontractorAddController implements Initializable {
 			} else {
 				scProxy.create(sc);
 			}
-			
-			showMainViewWithMessage();
-			
-			
+
 			// Subcontractor Mitarbeiter auslesen und Updaten
 			ObservableList<Person> olp = sceTableView.getItems();
 	
@@ -304,19 +301,20 @@ public class SubcontractorAddController implements Initializable {
 			SCEmployee sce = null;
 			for(Person p : olp) {
 				sce = (SCEmployee)p;
-				
+				sce.setSubcontractor(sc);
 				if(sce.getId() != 0) {
-					sce.setSubcontractor(sc);
-	
 					//SCEmployee updaten
 					sceProxy.update(sce);
 				} else {
 					//Neuen SCEmployee erstellen
-					sce.setSubcontractor(sc);
 					sceProxy.create(sce);
 				}
 					
 			}
+			
+
+			showMainViewWithMessage();
+			
 		}
 			
 		

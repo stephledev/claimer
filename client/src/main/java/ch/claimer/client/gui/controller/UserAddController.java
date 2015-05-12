@@ -134,111 +134,222 @@ public class UserAddController implements Initializable{
 	@FXML
 	private void deleteUser() {
 		toDelete = true;
-		
 		//TODO Confirmation Window
-		
-		getPersonType();
-		showMainViewWithMessage("Benutzer erfolgreich gelöscht");
+	
+		personHandler();
 	}
 	
 	@FXML
 	private void saveUser(ActionEvent event) throws IOException {
-		getPersonType();
-		showMainViewWithMessage("Benutzer erfolgreich gespeichert");
+		
+		personHandler();
 	}
 	
-
-	private void getPersonType() {
+	/**
+	 * Entscheidet anhand des Dropdowns automatisch, welche Person aktualisiert werden soll.
+	 */
+	private void personHandler() {
 		// Typ des Personenobjekts bestimmen und passende funktion aufrufen
 		personType = dropdownFunction.getValue();
-		switch(personType) {
-			case "superadmin": saveGCEmployee();
-				break;
-			case "admin": //TODO 
-				break; 
-			case "power": saveSCEmployee();
-				break;
-			case "editor-intern": saveSupervisor();
-				break;
-			case "editor-extern": saveContact();
-				break;
+	
+		if(personType.equals("superadmin")) {
+			GCEmployee gce = new GCEmployee();
+			gce = (GCEmployee)validateInputs(gce);
+			if(gce != null) {
+				saveGCEmployee(gce);
+				showMainViewWithMessage("Änderungen erfolgreich gespeichert.");
+			}
+		} else if(personType.equals("admin")) {
+			//TODO
+		} else if(personType.equals("power")) {
+			SCEmployee sce = new SCEmployee();
+			sce = (SCEmployee) validateInputs(sce);
+			if(sce != null) {
+				saveSCEmployee(sce);
+				showMainViewWithMessage("Änderungen erfolgreich gespeichert.");
+			}
+		} else if(personType.equals("editor-intern")) {
+			Supervisor sv = new Supervisor();
+			sv = (Supervisor) validateInputs(sv);
+			if(sv != null) {
+				saveSupervisor(sv);
+				showMainViewWithMessage("Änderungen erfolgreich gespeichert.");
+			}
+		} else if(personType.equals("editor-extern")) {
+			Contact contact = new Contact();
+			contact = (Contact) validateInputs(contact);
+			if(contact != null) {
+				saveContact(contact);
+				showMainViewWithMessage("Änderungen erfolgreich gespeichert.");
+			}
 		}
-		
 	}
 
-
-	private void saveContact() {
-		Contact person = new Contact();
+	/**
+	 * Liest alle Inputs aus, validiert diese und gibt das Objekt an die entsprechende Speicher-Funktion weiter.
+	 */
+	private Person validateInputs(Person person) {
+		// Alle Felder auslesen, Validieren und dem Personen-Objekt zuweisen
+				
+		Boolean validationError = false;
 		
-		//Textfeldproperties (inklusive Login & Rolle) auslesen und zuweisen
-		person = (Contact) getTextfieldProperties(person);
+		String firstname = txtFirstname.getText();
+		if(checkLength(firstname, 1, 255)) {
+			validationError = true;
+			txtFirstname.getStyleClass().add("txtError");
+		} else {
+			person.setFirstname(firstname);
+		}
+		
+		String lastname = txtLastname.getText();
+		if(checkLength(lastname, 1, 255)) {
+			validationError = true;
+			txtLastname.getStyleClass().add("txtError");
+		} else {
+			person.setLastname(lastname);
+		}
+		
+		String email = txtEmail.getText();
+		if(checkLength(email, 0, 255)) {
+			validationError = true;
+			txtEmail.getStyleClass().add("txtError");
+		} else {
+			person.setEmail(email);
+		}
+		
+		String phone = txtPhone.getText();
+		if(checkLength(phone, 0, 255)) {
+			validationError = true;
+			txtPhone.getStyleClass().add("txtError");
+		} else {
+			person.setPhone(phone);
+		}
+		
+
+		if(personId != null) {
+			person.setId(personId);
+		}
+		
+		// Neues Login erstellen und Feldinhalte zuweisen
+		Login login = new Login();
+		
+		String password = pfPassword.getText();
+		if(checkLength(password, 1, 255)) {
+			validationError = true;
+			pfPassword.getStyleClass().add("txtError");
+		} else {
+			login.setPassword(password);
+		}
+		
+		String userName = txtUsername.getText();
+		if(checkLength(userName, 1, 255)) {
+			validationError = true;
+			txtUsername.getStyleClass().add("txtError");
+		} else {
+			login.setUsername(userName);
+		}
+		
+		if(loginID != null) {
+			login.setId(loginID);
+		}
+	
+		 //Login der Person zuweisen
+		person.setLogin(login);
+		
+		
+		if(dropdownFunction.getValue() == null) {
+			validationError = true;
+		} else {
+			//Rollen aus DB holen und dem Login zuweisen
+			RoleProxy roleProxy = ResteasyClientUtil.getTarget().proxy(RoleProxy.class);		
+		    ObjectMapper mapper = new ObjectMapper();	    
+		    List<Role> roleList = null;
+	
+			 try {
+					roleList = mapper.readValue(roleProxy.getAll(), new TypeReference<List<Role>>(){});
+			} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+			}
+			 
+			 for(Role role : roleList) {
+				 if(role.getName().equals(dropdownFunction.getValue())) {
+					 login.setRole(role);
+				 }
+			}
+		}
+
+		if(validationError == false) {
+			return person;
+		} else {
+			return null;
+		}
+			
+	}
+	
+	private void saveContact(Person person) {
+		Contact contact = new Contact();
+		contact = (Contact)person;
 		
 		if(toDelete) {
-			person.setActive(false);
+			contact.setActive(false);
 		}
 		
 		ContactProxy cProxy = ResteasyClientUtil.getTarget().proxy(ContactProxy.class);
 		if(personId != null) {
-			cProxy.update(person);
+			cProxy.update(contact);
 		} else {
-			cProxy.create(person);
+			cProxy.create(contact);
 		}
 	}
 
-	private void saveSupervisor() {
-		Supervisor person = new Supervisor();
-		
-		//Textfeldproperties (inklusive Login & Rolle) auslesen und zuweisen
-		person = (Supervisor) getTextfieldProperties(person);
+	private void saveSupervisor(Person person) {
+		Supervisor supervisor = new Supervisor();
+		supervisor = (Supervisor) person;
 		
 		if(toDelete) {
-			person.setActive(false);
+			supervisor.setActive(false);
 		}
 		
 		SupervisorProxy svProxy = ResteasyClientUtil.getTarget().proxy(SupervisorProxy.class);
 		if(personId != null) {
-			svProxy.update(person);
+			svProxy.update(supervisor);
 		} else {
-			svProxy.create(person);
+			svProxy.create(supervisor);
 		}
 	}
 
-	private void saveSCEmployee() {
-		
-		// TODO BUG somewhere in here
-		
-		SCEmployee person = new SCEmployee();
-		//Textfeldproperties (inklusive Login & Rolle) auslesen und zuweisen
-		person = (SCEmployee) getTextfieldProperties(person);
+	private void saveSCEmployee(Person person) {
+
+		SCEmployee scEmployee = new SCEmployee();
+		scEmployee = (SCEmployee) person;
 		
 		if(toDelete) {
-			person.setActive(false);
+			scEmployee.setActive(false);
 		}
 		
 		SCEmployeeProxy sceProxy = ResteasyClientUtil.getTarget().proxy(SCEmployeeProxy.class);
 		if(personId != null) {
-			sceProxy.update(person);
+			sceProxy.update(scEmployee);
 		} else {
-			sceProxy.create(person);
+			sceProxy.create(scEmployee);
 		}
 	}
 
-	private void saveGCEmployee() {
+	private void saveGCEmployee(Person person) {
 
-		GCEmployee person = new GCEmployee();
-		
+		GCEmployee gcEmployee = new GCEmployee();
+		gcEmployee = (GCEmployee)person;
+
 		if(toDelete) {
-			person.setActive(false);
+			gcEmployee.setActive(false);
 		}
-		
-		//Textfeldproperties (inklusive Login & Rolle) auslesen und zuweisen
-		person = (GCEmployee) getTextfieldProperties(person);
-		
+
 		GCEmployeeProxy gceProxy = ResteasyClientUtil.getTarget().proxy(GCEmployeeProxy.class);
 		if(personId != null) {
-			gceProxy.update(person);
+			gceProxy.update(gcEmployee);
 		} else {
-			gceProxy.create(person);
+			gceProxy.create(gcEmployee);
 		}
 	}
 
@@ -329,52 +440,17 @@ public class UserAddController implements Initializable{
 			lblFunction.setText(personToEdit.getLogin().getRole().getName());
 		}
 	}
-	
-	
-	private Person getTextfieldProperties(Person person) {
-		// Alle Felder auslesen und dem Personen-Objekt zuweisen
-		person.setFirstname(txtFirstname.getText());
-		person.setLastname(txtLastname.getText());
-		person.setEmail(txtEmail.getText());
-		person.setPhone(txtPhone.getText());
 
-		if(personId != null) {
-			person.setId(personId);
+	
+	private boolean checkLength(String text, int minLength, int maxLength) {
+		if((text.length() > maxLength) || (text.length() < minLength)) {
+			return true;
+		} else {
+			return false;
 		}
-		
-		// Neues Login erstellen und Feldinhalte zuweisen
-		Login login = new Login();
-		login.setPassword(pfPassword.getText());
-		login.setUsername(txtUsername.getText());
-		if(loginID != null) {
-			login.setId(loginID);
-		}
-		
-		//Rollen aus DB holen und dem Login zuweisen
-		RoleProxy roleProxy = ResteasyClientUtil.getTarget().proxy(RoleProxy.class);		
-	    ObjectMapper mapper = new ObjectMapper();	    
-	    List<Role> roleList = null;
-
-		 try {
-				roleList = mapper.readValue(roleProxy.getAll(), new TypeReference<List<Role>>(){});
-		} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-		}
-		 
-		 for(Role role : roleList) {
-			 if(role.getName().equals(dropdownFunction.getValue())) {
-				 login.setRole(role);
-			 }
-		}
-		
-		
-		 //Login der Person zuweisen
-		person.setLogin(login);
-		return person;
 	}
 
-	
+
 	/**
 	 * Spezielle Behandlung von Subunternehmen-Mitarbeitern, die über den "Subcontractor"-View hinzugefügt werden.
 	 */
@@ -389,12 +465,13 @@ public class UserAddController implements Initializable{
 			@Override
 			public void handle(ActionEvent arg0) {
 				SCEmployee sce = new SCEmployee();
-				sce = (SCEmployee) getTextfieldProperties(sce);
-
-				SubcontractorAddController.data2.add(sce);
-				SubcontractorAddController.data2.clear();
-				Stage stage = (Stage) btnSave.getScene().getWindow();
-			    stage.close();
+				sce = (SCEmployee) validateInputs(sce);
+				if(sce != null) {
+					SubcontractorAddController.data2.add(sce);
+					SubcontractorAddController.data2.clear();
+					Stage stage = (Stage) btnSave.getScene().getWindow();
+				    stage.close();
+				}
 				
 			}
 		});
@@ -424,13 +501,14 @@ public class UserAddController implements Initializable{
 			public void handle(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				SCEmployee sce = new SCEmployee();
-				sce = (SCEmployee) getTextfieldProperties(sce);
-
-				SubcontractorAddController.data2.add(sce);
-				SubcontractorAddController.data2.clear();
-				Stage stage = (Stage) btnSave.getScene().getWindow();
-			    stage.close();
+				sce = (SCEmployee) validateInputs(sce);
 				
+				if(sce != null) {
+					SubcontractorAddController.data2.add(sce);
+					SubcontractorAddController.data2.clear();
+					Stage stage = (Stage) btnSave.getScene().getWindow();
+				    stage.close();
+				}
 			}
 		});
 		
