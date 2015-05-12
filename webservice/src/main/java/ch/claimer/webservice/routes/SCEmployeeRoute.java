@@ -21,7 +21,7 @@ import ch.claimer.webservice.controller.Controller;
  * Liefert eine HTTP-Antwort mit Statuscode zurück.
  * 
  * @author Momcilo Bekcic
- * @version 1.0
+ * @version 1.1
  * @since 1.0
  */
 
@@ -45,7 +45,7 @@ public class SCEmployeeRoute {
 	@Path("scemployee") 
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showAll() {
-		return controller.showAll();
+		return controller.showByProperty("isActive", true);
 	}
 	
 	/**

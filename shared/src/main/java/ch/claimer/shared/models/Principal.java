@@ -33,9 +33,10 @@ public class Principal implements Serializable, Model {
 	private String place;
 	private String phone;
 	private String email;
+	private boolean isActive;
 	
 	public Principal() {
-		
+		this.isActive = true;
 	}
 	
 	public int getId() {
@@ -91,5 +92,13 @@ public class Principal implements Serializable, Model {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
 	}
 }

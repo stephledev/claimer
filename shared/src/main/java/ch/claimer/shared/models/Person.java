@@ -38,7 +38,7 @@ public abstract class Person implements Serializable, Model {
 	private boolean isActive;
 	
 	public Person() {
-		
+		this.isActive = true;
 	}
 
 	public int getId() {

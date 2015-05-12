@@ -24,7 +24,7 @@ import ch.claimer.webservice.controller.Controller;
  * 
  * @author Raoul Ackermann
  * @author Momcilo Bekcic
- * @version 1.0
+ * @version 1.1
  * @since 1.0
  */
 @Path("/")
@@ -47,7 +47,7 @@ public class ContactRoute {
 	@Path("contact") 
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showAll() {
-		return controller.showAll();
+		return controller.showByProperty("isActive", true);
 	}
 	
 	/**
