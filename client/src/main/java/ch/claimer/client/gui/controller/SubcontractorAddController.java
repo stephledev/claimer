@@ -167,51 +167,107 @@ public class SubcontractorAddController implements Initializable {
 		sceTableView.setItems(data);
 	}
 	
-	@FXML
-	private void saveSubcontractor() {
+	
+	private Boolean checkLength(String text, Integer minLength, Integer maxLength) {
 		
-		//Subcontractor erstellen und mit eingegebenen Daten befüllen
-		Subcontractor sc = new Subcontractor();
-		sc.setName(txtName.getText());
-		sc.setStreet(txtAdress.getText());
-		sc.setPhone(txtPhone.getText());
-		sc.setZip(txtZip.getText());
-		sc.setPlace(txtPlace.getText());
-		sc.setEmail(txtEmail.getText());
-		sc.setActive(true);
-		
-		//Neuen Subcontractor erstellen oder bestehenden updaten
-		SubcontractorProxy scProxy = ResteasyClientUtil.getTarget().proxy(SubcontractorProxy.class);
-		
-		if(subcontractorID != null) {
-			sc.setId(subcontractorID);
-			scProxy.update(sc);
+		if((text.length() > maxLength) || (text.length() < minLength)) {
+			return true;
 		} else {
-			scProxy.create(sc);
+			return false;
 		}
 		
-		showMainViewWithMessage();
+	}
+	
+	@FXML
+	private void saveSubcontractor() {
+		Boolean hasError = false;
 		
+		//Subcontractor erstellen, Validation und mit eingegebenen Daten befüllen
+		Subcontractor sc = new Subcontractor();
+		sc.setActive(true);
 		
-		// Subcontractor Mitarbeiter auslesen und Updaten
-		ObservableList<Person> olp = sceTableView.getItems();
-
-		SCEmployeeProxy sceProxy = ResteasyClientUtil.getTarget().proxy(SCEmployeeProxy.class);
-		SCEmployee sce = null;
-		for(Person p : olp) {
-			sce = (SCEmployee)p;
+		String name = txtName.getText();
+		if(checkLength(name, 1, 255)) {
+			hasError = true;
+			txtName.getStyleClass().add("txtError");
+		} else {
+			sc.setName(name);
+		}
+		
+		String street = txtAdress.getText();
+		if(checkLength(street, 1, 255)) {
+			hasError = true;
+			txtAdress.getStyleClass().add("txtError");
+		} else {
+			sc.setStreet(street);
+		}
+		
+		String phone = txtPhone.getText();
+		if(checkLength(phone, 0, 255)) {
+			hasError = true;
+			txtPhone.getStyleClass().add("txtError");
+		} else {
+			sc.setPhone(phone);
+		}
+		
+		String zip = txtZip.getText();
+		if(checkLength(zip, 4, 5)) {
+			hasError = true;
+			txtZip.getStyleClass().add("txtError");
+		} else {
+			sc.setZip(zip);
+		}
+		
+		String place = txtPlace.getText();
+		if(checkLength(place, 1, 255)) {
+			hasError = true;
+			txtPlace.getStyleClass().add("txtError");
+		} else {
+			sc.setPlace(place);
+		}
+		
+		String email = txtEmail.getText();
+		if(checkLength(email, 0, 255)) {
+			hasError = true;
+			txtEmail.getStyleClass().add("txtError");
+		} else {
+			sc.setEmail(email);
+		}
+	
+		if(hasError == false) {
+			//Neuen Subcontractor erstellen oder bestehenden updaten
+			SubcontractorProxy scProxy = ResteasyClientUtil.getTarget().proxy(SubcontractorProxy.class);
 			
-			if(sce.getId() != 0) {
-				sce.setSubcontractor(sc);
-
-				//SCEmployee updaten
-				sceProxy.update(sce);
+			if(subcontractorID != null) {
+				sc.setId(subcontractorID);
+				scProxy.update(sc);
 			} else {
-				//Neuen SCEmployee erstellen
-				sce.setSubcontractor(sc);
-				sceProxy.create(sce);
+				scProxy.create(sc);
 			}
+			
+			showMainViewWithMessage();
+			
+			
+			// Subcontractor Mitarbeiter auslesen und Updaten
+			ObservableList<Person> olp = sceTableView.getItems();
+	
+			SCEmployeeProxy sceProxy = ResteasyClientUtil.getTarget().proxy(SCEmployeeProxy.class);
+			SCEmployee sce = null;
+			for(Person p : olp) {
+				sce = (SCEmployee)p;
 				
+				if(sce.getId() != 0) {
+					sce.setSubcontractor(sc);
+	
+					//SCEmployee updaten
+					sceProxy.update(sce);
+				} else {
+					//Neuen SCEmployee erstellen
+					sce.setSubcontractor(sc);
+					sceProxy.create(sce);
+				}
+					
+			}
 		}
 			
 		

@@ -43,15 +43,15 @@
                 <RowConstraints fillHeight="false" vgrow="NEVER" />
               </rowConstraints>
                <children>
-                  <Label text="Name:" />
-                  <Label text="Adresse:" GridPane.rowIndex="2" />
+                  <Label text="Name:*" />
+                  <Label text="Adresse:*" GridPane.rowIndex="2" />
                   <Label text="Telefon:" GridPane.columnIndex="4" />
                   <Label text="E-Mail:" GridPane.columnIndex="4" GridPane.rowIndex="2">
                      <GridPane.margin>
                         <Insets />
                      </GridPane.margin>
                   </Label>
-                  <Label text="PLZ:" GridPane.rowIndex="4" />
+                  <Label text="PLZ:*" GridPane.rowIndex="4" />
                   <TextField fx:id="txtName" GridPane.columnIndex="2" />
                   <TextField fx:id="txtAdress" GridPane.columnIndex="2" GridPane.rowIndex="2">
                      <GridPane.margin>
@@ -72,7 +72,7 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Label text="Ort:" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                        <Label text="Ort:*" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                         <TextField fx:id="txtZip" GridPane.rowIndex="2">
                            <GridPane.margin>
                               <Insets />
