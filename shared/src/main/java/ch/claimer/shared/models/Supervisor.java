@@ -2,8 +2,6 @@ package ch.claimer.shared.models;
 
 import javax.persistence.Entity;
 
-import org.codehaus.jackson.annotate.JsonTypeName;
-
 /**
  * Representiert die Entität Supervisor und gewährleistet Zugriff auf die Eigenschaften 
  * der Klasse. Beispielsweise benutzt die SupervisorSeed-Klasse die Eigenschaften.

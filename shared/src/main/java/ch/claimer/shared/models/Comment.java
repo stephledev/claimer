@@ -34,7 +34,9 @@ public class Comment implements Serializable, Model {
 	private GregorianCalendar created;
 	private String content;
 	@ManyToOne
-	private Person person;
+	private Supervisor supervisor;
+	@ManyToOne
+	private Contact contact;
 	
 	public Comment() {
 		
@@ -64,12 +66,20 @@ public class Comment implements Serializable, Model {
 		this.content = content;
 	}
 
-	public Person getPerson() {
-		return person;
+	public Supervisor getSupervisor() {
+		return supervisor;
 	}
 
-	public void setPerson(Person person) {
-		this.person = person;
+	public void setSupervisor(Supervisor supervisor) {
+		this.supervisor = supervisor;
+	}
+	
+	public Contact getContact() {
+		return contact;
+	}
+
+	public void setContact(Contact contact) {
+		this.contact = contact;
 	}
 	
 }
