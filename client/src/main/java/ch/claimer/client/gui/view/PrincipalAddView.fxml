@@ -97,7 +97,11 @@
                                                 <Insets right="20.0" />
                                              </HBox.margin>
                                           </Button>
-                                          <Button mnemonicParsing="false" onAction="#loadPrincipalMainView" styleClass="back-button" text="Abbrechen" />
+                                          <Button mnemonicParsing="false" onAction="#loadPrincipalMainView" styleClass="back-button" text="Abbrechen">
+                                             <HBox.margin>
+                                                <Insets right="20.0" />
+                                             </HBox.margin></Button>
+                                          <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#deletePrincipal" styleClass="delete-button" text="Löschen" />
                                        </children>
                                     </HBox>
                                  </children>
@@ -161,7 +165,11 @@
                                                 <Insets right="20.0" />
                                              </HBox.margin>
                                           </Button>
-                                          <Button mnemonicParsing="false" onAction="#loadPrincipalMainView" styleClass="back-button" text="Abbrechen" />
+                                          <Button mnemonicParsing="false" onAction="#loadPrincipalMainView" styleClass="back-button" text="Abbrechen">
+                                             <HBox.margin>
+                                                <Insets right="20.0" />
+                                             </HBox.margin></Button>
+                                          <Button fx:id="btnDelete2" mnemonicParsing="false" onAction="#deletePrincipal" styleClass="delete-button" text="Löschen" />
                                        </children>
                                     </HBox>
                                  </children>

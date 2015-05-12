@@ -10,6 +10,7 @@ import ch.claimer.shared.models.Principal;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -27,6 +28,7 @@ import javafx.scene.layout.Pane;
 public class PrincipalAddController implements Initializable {
 	
 	private Integer principalID = null;
+	private Principal principalContainer = null;
 	
 	@FXML
 	private Pane mainContent;
@@ -86,6 +88,12 @@ public class PrincipalAddController implements Initializable {
 	private Label lblTitel;
 	
 	@FXML
+	private Button btnDelete;
+	
+	@FXML
+	private Button btnDelete2;
+	
+	@FXML
 	private void loadPrincipalMainView() {
 		try {
 			Pane myPane = FXMLLoader.load(getClass().getResource("../view/PrincipalMainView.fxml"));
@@ -100,25 +108,27 @@ public class PrincipalAddController implements Initializable {
 		}
 		
 	}
-	
-	
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-		
-		
-	}
 
+	@FXML
+	public void deletePrincipal() {
+		//TODO principal auf Inaktiv setzen + updaten
+	}
+	
 	/**
 	 * Fenster mit zu bearbeitendem Bauherr füllen.
 	 * @param principalToEdit
 	 */
 	public void initData(Principal principalToEdit) {
 		
+		principalContainer = principalToEdit;
 		principalID = principalToEdit.getId();
+		
 		
 		//Texte im View anpassen
 		lblTitel.setText("Bauherr bearbeiten");
 		lblDescription.setText("");
+		btnDelete.setVisible(true);
+		btnDelete2.setVisible(true);
 		
 		// Überprüfen ob Principal eine Person oder eine Firma ist
 		if(principalToEdit.getCompany() != null) {
@@ -133,7 +143,6 @@ public class PrincipalAddController implements Initializable {
 			txtCompanyZIP.setText(principalToEdit.getZip());
 			
 		} else {
-		
 			tabPanePrincipal.getSelectionModel().select(tabPerson);
 			tabCompany.setDisable(true);
 			txtPersonFirstname.setText(principalToEdit.getFirstname());
@@ -147,6 +156,15 @@ public class PrincipalAddController implements Initializable {
 		
 		
 	}
+	
+	
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		btnDelete.setVisible(false); //Löschen-Button ausblenden
+		btnDelete2.setVisible(false);
+		
+	}
+
 	
 	/**
 	 * Principal als Person speichern
@@ -171,7 +189,7 @@ public class PrincipalAddController implements Initializable {
 			createPrincipal(pr1);
 		}
 		
-		loadPrincipalView(); //PrincipalMainView laden inkl. Meldung
+		loadPrincipalMainViewWithMessage("Änderungen erfolgreich gespeichert."); //PrincipalMainView laden inkl. Meldung
 		
 	}
 	
@@ -196,7 +214,7 @@ public class PrincipalAddController implements Initializable {
 			createPrincipal(pr2);
 		}
 		
-		loadPrincipalView();
+		loadPrincipalMainViewWithMessage("Änderungen erfolgreich gespeichert");
 
 	}
 	
@@ -222,7 +240,7 @@ public class PrincipalAddController implements Initializable {
 	/**
 	 * PrincipalMainView laden inklusive Statusmeldung.
 	 */
-	private void loadPrincipalView() {
+	private void loadPrincipalMainViewWithMessage(String message) {
 		//PrincipalMainView laden inkl. Meldung
 		try {
 
@@ -237,7 +255,7 @@ public class PrincipalAddController implements Initializable {
 			PrincipalController controller = loader.<PrincipalController>getController();
 			
 			//Controller starten
-			controller.initWithMessage("Änderungen erfolgreich vorgenommen.");			
+			controller.initWithMessage(message);			
 			
 			//Neuen View einfügen
 			mainContent.getChildren().clear();
