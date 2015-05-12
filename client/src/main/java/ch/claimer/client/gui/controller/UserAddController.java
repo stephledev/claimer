@@ -15,6 +15,7 @@ import ch.claimer.client.proxy.GCEmployeeProxy;
 import ch.claimer.client.proxy.RoleProxy;
 import ch.claimer.client.proxy.SCEmployeeProxy;
 import ch.claimer.client.proxy.SupervisorProxy;
+import ch.claimer.client.util.AuthenticationUtil;
 import ch.claimer.client.util.ResteasyClientUtil;
 import ch.claimer.shared.models.Contact;
 import ch.claimer.shared.models.GCEmployee;
@@ -83,6 +84,10 @@ public class UserAddController implements Initializable{
 	private Button btnBack;
 	
 	@FXML
+	private Button btnDelete;
+
+	
+	@FXML
 	private void loadUserMainView() {
 		try {
 			Pane myPane = FXMLLoader.load(getClass().getResource("../view/UserMainView.fxml"));
@@ -98,14 +103,40 @@ public class UserAddController implements Initializable{
 		
 	}
 	
+
+	/**
+	 * UserMainView laden inklusive Statusmeldung.
+	 */
+	private void showMainViewWithMessage(String message) {
+
+		try {
+			//FXMLLoader erstellen
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/UserMainView.fxml"));
+			
+			//Neuen View laden
+			Pane myPane;
+			myPane = loader.load();
+			
+			//PrincipalController holen
+			UserController controller = loader.<UserController>getController();
+			
+			//Controller starten
+			controller.initWithMessage(message);			
+			
+			//Neuen View einfügen
+			mainContent.getChildren().clear();
+			mainContent.getChildren().setAll(myPane);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	@FXML
 	private void deleteUser() {
-		Stage dialogStage = new Stage();
-		dialogStage.initModality(Modality.WINDOW_MODAL);
-		dialogStage.setScene(new Scene(VBoxBuilder.create().
-		    children(new Text("Hi"), new Button("Ok.")).
-		    alignment(Pos.CENTER).padding(new Insets(5)).build()));
-		dialogStage.show();	}
+//TODO
+		
+	}
 	
 	@FXML
 	private void saveUser(ActionEvent event) throws IOException {
@@ -140,7 +171,7 @@ public class UserAddController implements Initializable{
 			cProxy.create(person);
 		}
 		
-		showMainViewWithMessage();
+		showMainViewWithMessage("Benutzer erfolgreich gespeichert.");
 	}
 
 	private void saveSupervisor() {
@@ -156,7 +187,7 @@ public class UserAddController implements Initializable{
 			svProxy.create(person);
 		}
 		
-		showMainViewWithMessage();
+		showMainViewWithMessage("Benutzer erfolgreich gespeichert");
 	}
 
 	private void saveSCEmployee() {
@@ -175,7 +206,7 @@ public class UserAddController implements Initializable{
 			sceProxy.create(person);
 		}
 		
-		showMainViewWithMessage();
+		showMainViewWithMessage("Benutzer erfolgreich gespeichert");
 	}
 
 	private void saveGCEmployee() {
@@ -192,37 +223,9 @@ public class UserAddController implements Initializable{
 			gceProxy.create(person);
 		}
 		
-		showMainViewWithMessage();
+		showMainViewWithMessage("Benutzer erfolgreich gespeichert");
 	}
 
-
-	/**
-	 * UserMainView laden inklusive Statusmeldung.
-	 */
-	private void showMainViewWithMessage() {
-
-		try {
-			//FXMLLoader erstellen
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/UserMainView.fxml"));
-			
-			//Neuen View laden
-			Pane myPane;
-			myPane = loader.load();
-			
-			//PrincipalController holen
-			UserController controller = loader.<UserController>getController();
-			
-			//Controller starten
-			controller.initWithMessage("Änderungen erfolgreich vorgenommen.");			
-			
-			//Neuen View einfügen
-			mainContent.getChildren().clear();
-			mainContent.getChildren().setAll(myPane);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 
 	@FXML
 	private void uploadImage(ActionEvent event) throws IOException {
@@ -239,15 +242,25 @@ public class UserAddController implements Initializable{
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		setDropdownValues();
-	}
-	
-
-	/**
-	 * Werte für das "Funktionen"-Dropdown setzen
-	 */
-	public void setDropdownValues()  {
+				
+		String loginRole = AuthenticationUtil.getLogin().getRole().getName();
 		
+		/*
+		 * Supervisor (aka editor-intern) darf nichts sehen
+		 * GCEmployee (aka Power) darf nichts sehen
+		 */
+		
+		
+		switch(loginRole) {
+			case "superadmin": dropdownFunction.getItems().addAll("Hauptunternehmen Sachbearbeiter", "Hauptunternehmen Mitarbeiter", "Bauleiter", "Sachbearbeiter Subunternehmen");
+				break;
+			case "admin": dropdownFunction.getItems().addAll("Hauptunternehmen Mitarbeiter", "Bauleiter");
+				break;
+			
+		}
+		
+		/*
+		//Dropdown Values initialisieren
 		RoleProxy roleProxy = ResteasyClientUtil.getTarget().proxy(RoleProxy.class);		
 	    ObjectMapper mapper = new ObjectMapper();	    
 	    List<Role> roleList = null;
@@ -262,9 +275,11 @@ public class UserAddController implements Initializable{
 		//Rollen dem Dropdown hinzufügen
 		for(Role role: roleList) {
 			dropdownFunction.getItems().add(role.getName());
-		}		
-	}
-	
+		}	*/	
+		
+		//Delete-Button aktivieren
+		btnDelete.setVisible(false);
+	}	
 	
 	/**
 	 * Detailansicht mit allen Daten der angeklickten Person füllen
@@ -272,6 +287,8 @@ public class UserAddController implements Initializable{
 	 */
 	public void initData(Person personToEdit) {
 		lblTitel.setText("Benutzer bearbeiten");
+		btnDelete.setVisible(true);
+		
 			
 		personId = personToEdit.getId();
 		personType = personToEdit.getClass().getSimpleName(); //Typ des Objekts auslesen
@@ -352,6 +369,10 @@ public class UserAddController implements Initializable{
 		return person;
 	}
 
+	
+	/**
+	 * Spezielle Behandlung von Subunternehmen-Mitarbeitern, die über den "Subcontractor"-View hinzugefügt werden.
+	 */
 	public void initSCEAdd() {
 		
 		dropdownFunction.getItems().clear();
@@ -362,7 +383,6 @@ public class UserAddController implements Initializable{
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				// TODO Auto-generated method stub
 				SCEmployee sce = new SCEmployee();
 				sce = (SCEmployee) getTextfieldProperties(sce);
 
@@ -386,6 +406,7 @@ public class UserAddController implements Initializable{
 	
 	public void initSCEEdit(SCEmployee scEmployeeToEdit) {
 		
+		btnDelete.setVisible(true);
 		initData(scEmployeeToEdit);
 		
 		dropdownFunction.getItems().clear();
