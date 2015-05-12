@@ -165,6 +165,15 @@ public class PrincipalAddController implements Initializable {
 		
 	}
 
+	private Boolean checkLength(String text, int minLength, int maxLength) {
+		
+		if((text.length() > maxLength) || (text.length() < minLength)) {
+			return true;
+		} else {
+			return false;
+		}
+		
+	}
 	
 	/**
 	 * Principal als Person speichern
@@ -172,25 +181,80 @@ public class PrincipalAddController implements Initializable {
 	@FXML
 	private void savePrincipalPerson() {
 		
-		//Eingegebene Daten auslesen
+		Boolean hasError = false;
+		
+		//Eingegebene Daten auslesen und überprüfen
 		Principal pr1 = new Principal();
-		pr1.setFirstname(txtPersonFirstname.getText());
-		pr1.setLastname(txtPersonLastname.getText());
-		pr1.setEmail(txtPersonEmail.getText());
-		pr1.setPhone(txtPersonPhone.getText());
-		pr1.setStreet(txtPersonAdress.getText());
-		pr1.setZip(txtPersonZIP.getText());
-		pr1.setPlace(txtPersonPlace.getText());
-				
-		if(principalID != null) {
-			pr1.setId(principalID);
-			updatePrincipal(pr1);
+		
+		
+		String lastname = txtPersonLastname.getText();
+		if(checkLength(lastname, 1, 255)) {
+			hasError = true;
+			txtPersonLastname.getStyleClass().add("txtError");
 		} else {
-			createPrincipal(pr1);
+			pr1.setLastname(lastname);
 		}
 		
-		loadPrincipalMainViewWithMessage("Änderungen erfolgreich gespeichert."); //PrincipalMainView laden inkl. Meldung
+		String firstname = txtPersonFirstname.getText();
+		if(checkLength(firstname, 1, 255)) {
+			hasError = true;
+			txtPersonFirstname.getStyleClass().add("txtError");
+		} else {
+			pr1.setFirstname(firstname);
+		}
 		
+		String email = txtPersonEmail.getText();
+		if(checkLength(email, 0, 255)) {
+			hasError = true;
+			txtPersonEmail.getStyleClass().add("txtError");
+		} else {
+			pr1.setEmail(email);
+		}
+		
+		String phone = txtPersonPhone.getText();
+		if(checkLength(phone, 0, 255)) {
+			hasError = true;
+			txtPersonPhone.getStyleClass().add("txtError");
+		} else {
+			pr1.setPhone(phone);
+		}
+		
+		String street = txtPersonAdress.getText();
+		if(checkLength(street, 1, 255)) {
+			hasError = true;
+			txtPersonAdress.getStyleClass().add("txtError");
+		} else {
+			pr1.setStreet(street);
+		}
+		
+		String zip = txtPersonZIP.getText();
+		if(checkLength(zip, 4, 5)) {
+			hasError = true;
+			txtPersonZIP.getStyleClass().add("txtError");
+		} else {
+			pr1.setZip(zip);
+		}
+		
+		String place = txtPersonPlace.getText();
+		if(checkLength(place, 1, 255)) {
+			hasError = true;
+			txtPersonPlace.getStyleClass().add("txtError");
+		} else {
+			pr1.setPlace(place);
+		}
+		
+		
+		//Prüfen ob fehler. Wenn nein, Bauherr speichern oder updaten
+		if(hasError == false) {		
+			if(principalID != null) {
+				pr1.setId(principalID);
+				updatePrincipal(pr1);
+			} else {
+				createPrincipal(pr1);
+			}
+			
+			loadPrincipalMainViewWithMessage("Änderungen erfolgreich gespeichert."); //PrincipalMainView laden inkl. Meldung
+		}
 	}
 	
 	/**
@@ -198,24 +262,70 @@ public class PrincipalAddController implements Initializable {
 	 */
 	@FXML
 	private void savePrincipalCompany() {
-		//Eingegebene Daten auslesen
+		
+		Boolean hasError = false;
+		
+		//Eingegebene Daten auslesen und auf Fehler überprüfen
 		Principal pr2 = new Principal();
-		pr2.setCompany(txtCompanyName.getText());
-		pr2.setEmail(txtCompanyEmail.getText());
-		pr2.setPhone(txtCompanyPhone.getText());
-		pr2.setStreet(txtCompanyAdress.getText());
-		pr2.setZip(txtCompanyZIP.getText());
-		pr2.setPlace(txtCompanyPlace.getText());
-
-		if(principalID != null) {
-			pr2.setId(principalID);
-			updatePrincipal(pr2);
+		
+		String name = txtCompanyName.getText();
+		if(checkLength(name, 1, 255)) {
+			hasError = true;
+			txtCompanyName.getStyleClass().add("txtError");
 		} else {
-			createPrincipal(pr2);
+			pr2.setCompany(name);
 		}
 		
-		loadPrincipalMainViewWithMessage("Änderungen erfolgreich gespeichert");
-
+		String email = txtCompanyEmail.getText();
+		if(checkLength(email, 0, 255)) {
+			hasError = true;
+			txtCompanyEmail.getStyleClass().add("txtError");
+		} else {
+			pr2.setEmail(email);
+		}
+		
+		String phone = txtCompanyPhone.getText();
+		if(checkLength(phone, 0, 255))  {
+			hasError = true;
+			txtCompanyPhone.getStyleClass().add("txtError");
+		} else {
+			pr2.setPhone(phone);
+		}
+		
+		String street = txtCompanyAdress.getText();
+		if(checkLength(street, 1, 255)) {
+			hasError = true;
+			txtCompanyAdress.getStyleClass().add("txtError");
+		} else {
+			pr2.setStreet(street);
+		}
+		
+		String zip = txtCompanyZIP.getText();
+		if(checkLength(zip, 4, 5)) {
+			hasError = true;
+			txtCompanyZIP.getStyleClass().add("txtError");
+		} else {
+			pr2.setZip(zip);
+		}
+		
+		String place = txtCompanyPlace.getText();
+		if(checkLength(place,1,255)) {
+			hasError = true;
+			txtCompanyPlace.getStyleClass().add("txtError");
+		} else {
+			pr2.setPlace(place);
+		}
+		
+		if(hasError == false) {
+			if(principalID != null) {
+				pr2.setId(principalID);
+				updatePrincipal(pr2);
+			} else {
+				createPrincipal(pr2);
+			}
+			
+			loadPrincipalMainViewWithMessage("Änderungen erfolgreich gespeichert");
+		}
 	}
 	
 	/**

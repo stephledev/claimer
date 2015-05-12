@@ -74,13 +74,13 @@
                                           <RowConstraints fillHeight="false" vgrow="NEVER" />
                                       </rowConstraints>
                                        <children>
-                                          <Label text="Name:" />
-                                          <Label text="Vorname:" GridPane.rowIndex="2" />
-                                          <Label text="Strasse:" GridPane.rowIndex="4" />
-                                          <Label text="PLZ:" GridPane.rowIndex="6" />
+                                          <Label text="Name:*" />
+                                          <Label text="Vorname:*" GridPane.rowIndex="2" />
+                                          <Label text="Strasse:*" GridPane.rowIndex="4" />
+                                          <Label text="PLZ:*" GridPane.rowIndex="6" />
                                           <Label text="Email:" GridPane.columnIndex="3" />
                                           <Label text="Telefon:" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                                          <Label text="Ort." GridPane.rowIndex="8" />
+                                          <Label text="Ort.*" GridPane.rowIndex="8" />
                                           <TextField fx:id="txtPersonLastname" GridPane.columnIndex="1" />
                                           <TextField fx:id="txtPersonFirstname" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                           <TextField fx:id="txtPersonAdress" GridPane.columnIndex="1" GridPane.rowIndex="4" />
@@ -144,10 +144,10 @@
                                           <RowConstraints fillHeight="false" vgrow="NEVER" />
                                       </rowConstraints>
                                        <children>
-                                          <Label text="Name:" />
-                                          <Label text="Strasse:" GridPane.rowIndex="2" />
-                                          <Label text="PLZ:" GridPane.rowIndex="4" />
-                                          <Label text="Ort:" GridPane.rowIndex="6" />
+                                          <Label text="Name:*" />
+                                          <Label text="Strasse:*" GridPane.rowIndex="2" />
+                                          <Label text="PLZ:*" GridPane.rowIndex="4" />
+                                          <Label text="Ort:*" GridPane.rowIndex="6" />
                                           <Label text="Email:" GridPane.columnIndex="3" />
                                           <Label text="Telefon:" GridPane.columnIndex="3" GridPane.rowIndex="2" />
                                           <TextField fx:id="txtCompanyName" GridPane.columnIndex="1" />
