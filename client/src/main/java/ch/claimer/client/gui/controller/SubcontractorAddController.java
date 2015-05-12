@@ -11,19 +11,27 @@ import org.codehaus.jackson.type.TypeReference;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import ch.claimer.client.proxy.SCEmployeeProxy;
 import ch.claimer.client.proxy.SubcontractorProxy;
 import ch.claimer.client.util.ResteasyClientUtil;
@@ -86,6 +94,9 @@ public class SubcontractorAddController implements Initializable {
 	
 	@FXML
 	private TableColumn<Person, String> colPhone;
+	
+	@FXML
+	private TableColumn<Person, String> colDeleteButton;
 	
 	@FXML
 	private Label lblEmployees;
@@ -162,6 +173,44 @@ public class SubcontractorAddController implements Initializable {
 		colLastname.setCellValueFactory(new PropertyValueFactory<Person, String>("lastname"));
 		colPhone.setCellValueFactory(new PropertyValueFactory<Person, String>("phone"));
 		colEmail.setCellValueFactory(new PropertyValueFactory<Person, String>("email"));
+		
+		
+		colDeleteButton.setCellFactory(new Callback<TableColumn<Person, String>, TableCell<Person, String>>() {
+		      @Override
+		      public TableCell<Person, String> call(TableColumn<Person, String> param) {
+		             final TableCell<Person, String> cell = new TableCell<Person, String>() {
+	                      @Override
+	                      public void updateItem(String value, boolean empty) {
+	                            super.updateItem(value, empty);
+
+	                            final VBox vbox = new VBox(0);
+	                            Image image = new Image(getClass().getResourceAsStream("../../../../../delete.png"));
+	                            Button button = new Button("", new ImageView(image));
+	                            button.getStyleClass().add("deleteButton");
+	                            final TableCell<Person, String> c = this;
+	                            button.setOnAction(new EventHandler<ActionEvent>() {
+	                                  @Override
+	                                  public void handle(ActionEvent event) {
+	                                          TableRow tableRow = c.getTableRow();
+	                                          SCEmployee person= (SCEmployee) tableRow.getTableView().getItems().get(tableRow.getIndex());
+	                                          // TODO : Delete this item from your data list and refresh the table 
+	                                         data.remove(person);
+	                                         person.setActive(false);
+	                                         person.setSubcontractor(null);
+	                                         SCEmployeeProxy sceProxy = ResteasyClientUtil.getTarget().proxy(SCEmployeeProxy.class);
+	                                         sceProxy.update(person);
+	                                         
+	                                         
+	                                  }
+	                            });
+	                      vbox.getChildren().add(button);
+	                      setGraphic(vbox);
+		               }
+		        };
+		        return cell;
+		    }
+		});
+		
 		
 		//Observable-List, welche die Daten beinhaltet, an die Tabelle übergeben
 		sceTableView.setItems(data);

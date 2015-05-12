@@ -29,19 +29,13 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBoxBuilder;
-import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class UserAddController implements Initializable{
@@ -49,6 +43,8 @@ public class UserAddController implements Initializable{
 	private Integer personId = null;
 	private Integer loginID = null;
 	private String personType = null;
+	private Person personContainer = null;
+	private Boolean toDelete = false;
 	
 	@FXML
 	private Pane mainContent;
@@ -85,6 +81,9 @@ public class UserAddController implements Initializable{
 	
 	@FXML
 	private Button btnDelete;
+	
+	@FXML
+	private Label lblFunction;
 
 	
 	@FXML
@@ -134,13 +133,22 @@ public class UserAddController implements Initializable{
 	
 	@FXML
 	private void deleteUser() {
-//TODO
+		toDelete = true;
 		
+		//TODO Confirmation Window
+		
+		getPersonType();
+		showMainViewWithMessage("Benutzer erfolgreich gelöscht");
 	}
 	
 	@FXML
 	private void saveUser(ActionEvent event) throws IOException {
-			
+		getPersonType();
+		showMainViewWithMessage("Benutzer erfolgreich gespeichert");
+	}
+	
+
+	private void getPersonType() {
 		// Typ des Personenobjekts bestimmen und passende funktion aufrufen
 		personType = dropdownFunction.getValue();
 		switch(personType) {
@@ -155,8 +163,9 @@ public class UserAddController implements Initializable{
 			case "editor-extern": saveContact();
 				break;
 		}
+		
 	}
-	
+
 
 	private void saveContact() {
 		Contact person = new Contact();
@@ -164,14 +173,16 @@ public class UserAddController implements Initializable{
 		//Textfeldproperties (inklusive Login & Rolle) auslesen und zuweisen
 		person = (Contact) getTextfieldProperties(person);
 		
+		if(toDelete) {
+			person.setActive(false);
+		}
+		
 		ContactProxy cProxy = ResteasyClientUtil.getTarget().proxy(ContactProxy.class);
 		if(personId != null) {
 			cProxy.update(person);
 		} else {
 			cProxy.create(person);
 		}
-		
-		showMainViewWithMessage("Benutzer erfolgreich gespeichert.");
 	}
 
 	private void saveSupervisor() {
@@ -180,14 +191,16 @@ public class UserAddController implements Initializable{
 		//Textfeldproperties (inklusive Login & Rolle) auslesen und zuweisen
 		person = (Supervisor) getTextfieldProperties(person);
 		
+		if(toDelete) {
+			person.setActive(false);
+		}
+		
 		SupervisorProxy svProxy = ResteasyClientUtil.getTarget().proxy(SupervisorProxy.class);
 		if(personId != null) {
 			svProxy.update(person);
 		} else {
 			svProxy.create(person);
 		}
-		
-		showMainViewWithMessage("Benutzer erfolgreich gespeichert");
 	}
 
 	private void saveSCEmployee() {
@@ -195,9 +208,12 @@ public class UserAddController implements Initializable{
 		// TODO BUG somewhere in here
 		
 		SCEmployee person = new SCEmployee();
-		
 		//Textfeldproperties (inklusive Login & Rolle) auslesen und zuweisen
 		person = (SCEmployee) getTextfieldProperties(person);
+		
+		if(toDelete) {
+			person.setActive(false);
+		}
 		
 		SCEmployeeProxy sceProxy = ResteasyClientUtil.getTarget().proxy(SCEmployeeProxy.class);
 		if(personId != null) {
@@ -205,13 +221,15 @@ public class UserAddController implements Initializable{
 		} else {
 			sceProxy.create(person);
 		}
-		
-		showMainViewWithMessage("Benutzer erfolgreich gespeichert");
 	}
 
 	private void saveGCEmployee() {
 
 		GCEmployee person = new GCEmployee();
+		
+		if(toDelete) {
+			person.setActive(false);
+		}
 		
 		//Textfeldproperties (inklusive Login & Rolle) auslesen und zuweisen
 		person = (GCEmployee) getTextfieldProperties(person);
@@ -222,8 +240,6 @@ public class UserAddController implements Initializable{
 		} else {
 			gceProxy.create(person);
 		}
-		
-		showMainViewWithMessage("Benutzer erfolgreich gespeichert");
 	}
 
 
@@ -241,25 +257,10 @@ public class UserAddController implements Initializable{
 	} 
 	
 	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-				
-		String loginRole = AuthenticationUtil.getLogin().getRole().getName();
+	public void initialize(URL location, ResourceBundle resources) {		
+
+		lblFunction.setVisible(false);
 		
-		/*
-		 * Supervisor (aka editor-intern) darf nichts sehen
-		 * GCEmployee (aka Power) darf nichts sehen
-		 */
-		
-		
-		switch(loginRole) {
-			case "superadmin": dropdownFunction.getItems().addAll("Hauptunternehmen Sachbearbeiter", "Hauptunternehmen Mitarbeiter", "Bauleiter", "Sachbearbeiter Subunternehmen");
-				break;
-			case "admin": dropdownFunction.getItems().addAll("Hauptunternehmen Mitarbeiter", "Bauleiter");
-				break;
-			
-		}
-		
-		/*
 		//Dropdown Values initialisieren
 		RoleProxy roleProxy = ResteasyClientUtil.getTarget().proxy(RoleProxy.class);		
 	    ObjectMapper mapper = new ObjectMapper();	    
@@ -275,7 +276,7 @@ public class UserAddController implements Initializable{
 		//Rollen dem Dropdown hinzufügen
 		for(Role role: roleList) {
 			dropdownFunction.getItems().add(role.getName());
-		}	*/	
+		}	
 		
 		//Delete-Button aktivieren
 		btnDelete.setVisible(false);
@@ -286,10 +287,12 @@ public class UserAddController implements Initializable{
 	 * @param personToEdit
 	 */
 	public void initData(Person personToEdit) {
+		personContainer = personToEdit;
 		lblTitel.setText("Benutzer bearbeiten");
 		btnDelete.setVisible(true);
+		lblFunction.setVisible(true);
+		dropdownFunction.setVisible(false);
 		
-			
 		personId = personToEdit.getId();
 		personType = personToEdit.getClass().getSimpleName(); //Typ des Objekts auslesen
 
@@ -322,6 +325,8 @@ public class UserAddController implements Initializable{
 		
 		if(personToEdit.getLogin().getRole().getName() != null) {			
 			dropdownFunction.setValue(personToEdit.getLogin().getRole().getName());
+			//dropdownFunction.set
+			lblFunction.setText(personToEdit.getLogin().getRole().getName());
 		}
 	}
 	
@@ -332,7 +337,7 @@ public class UserAddController implements Initializable{
 		person.setLastname(txtLastname.getText());
 		person.setEmail(txtEmail.getText());
 		person.setPhone(txtPhone.getText());
-		person.setActive(true);
+
 		if(personId != null) {
 			person.setId(personId);
 		}

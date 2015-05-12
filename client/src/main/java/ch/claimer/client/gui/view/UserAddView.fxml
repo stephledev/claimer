@@ -97,6 +97,7 @@
                         <ComboBox fx:id="dropdownFunction" maxWidth="5000.0" GridPane.columnIndex="4" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" />
                         <TextField fx:id="txtUsername" GridPane.columnIndex="4" GridPane.rowIndex="4" />
                         <PasswordField fx:id="pfPassword" GridPane.columnIndex="4" GridPane.rowIndex="6" />
+                        <Label fx:id="lblFunction" text="Label" GridPane.columnIndex="4" />
                      </children>
                   </GridPane>
                </children>

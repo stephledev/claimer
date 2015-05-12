@@ -111,7 +111,11 @@ public class PrincipalAddController implements Initializable {
 
 	@FXML
 	public void deletePrincipal() {
-		//TODO principal auf Inaktiv setzen + updaten
+		//TODO Confirmation Dialog
+		
+		principalContainer.setActive(false);
+		updatePrincipal(principalContainer);
+		loadPrincipalMainViewWithMessage("Bauherr erfolgreich gelöscht.");
 	}
 	
 	/**
