@@ -119,7 +119,11 @@
                      <HBox.margin>
                         <Insets right="20.0" />
                      </HBox.margin></Button>
-                  <Button mnemonicParsing="false" onAction="#loadSubcontractorMainView" styleClass="back-button" text="Abbrechen" />
+                  <Button mnemonicParsing="false" onAction="#loadSubcontractorMainView" styleClass="back-button" text="Abbrechen">
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin></Button>
+                  <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#deleteSubcontractor" styleClass="delete-button" text="Löschen" />
                </children>
             </HBox>
          </children>

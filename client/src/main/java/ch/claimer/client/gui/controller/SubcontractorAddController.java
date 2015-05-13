@@ -51,7 +51,7 @@ public class SubcontractorAddController implements Initializable {
 
 	private ObservableList<Person> data = FXCollections.observableArrayList();
 	public static ObservableList<Person> data2 = FXCollections.observableArrayList(); 
-	
+	private Subcontractor subcontractorContainer = null;
 	private SCEmployee sceToEdit = null;
 	
 	private Integer subcontractorID = null;
@@ -104,6 +104,9 @@ public class SubcontractorAddController implements Initializable {
 	@FXML
 	private Button btnAddSCEmployee;
 	
+	@FXML
+	private Button btnDelete;
+	
 	/**
 	 * Initialisiert den View mit den Daten des angeklickten Unternehmens
 	 * @param subcontractor
@@ -113,8 +116,8 @@ public class SubcontractorAddController implements Initializable {
 		lblEmployees.setVisible(true);
 		sceTableView.setVisible(true);
 		btnAddSCEmployee.setVisible(true);
-		
-		
+		btnDelete.setVisible(true);
+		subcontractorContainer = (Subcontractor) subcontractor;
 		subcontractorID = subcontractor.getId();
 	
 		lblTitel.setText("Subunternehmen bearbeiten");
@@ -227,6 +230,16 @@ public class SubcontractorAddController implements Initializable {
 		
 	}
 	
+	
+	@FXML
+	private void deleteSubcontractor() {
+		subcontractorContainer.setActive(false);
+		System.out.println(subcontractorContainer.getName());
+		SubcontractorProxy scProxy = ResteasyClientUtil.getTarget().proxy(SubcontractorProxy.class);
+		scProxy.update(subcontractorContainer);
+		showMainViewWithMessage("Subunternehmen wurde gelöscht.");
+	}
+	
 	@FXML
 	private void saveSubcontractor() {
 		Boolean hasError = false;
@@ -313,7 +326,7 @@ public class SubcontractorAddController implements Initializable {
 			}
 			
 
-			showMainViewWithMessage();
+			showMainViewWithMessage("Änderungen erfolgreich gespeichert.");
 			
 		}
 			
@@ -321,7 +334,7 @@ public class SubcontractorAddController implements Initializable {
 		
 	}
 	
-	private void showMainViewWithMessage() {
+	private void showMainViewWithMessage(String message) {
 		try {
 			//FXMLLoader erstellen
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/SubcontractorMainView.fxml"));
@@ -334,7 +347,7 @@ public class SubcontractorAddController implements Initializable {
 			SubcontractorController controller = loader.<SubcontractorController>getController();
 			
 			//Controller starten
-			controller.initWithMessage("Änderungen erfolgreich vorgenommen.");			
+			controller.initWithMessage(message);			
 			
 			//Neuen View einfügen
 			mainContent.getChildren().clear();
@@ -412,6 +425,7 @@ public class SubcontractorAddController implements Initializable {
 		sceTableView.setVisible(false);
 		lblEmployees.setVisible(false);
 		btnAddSCEmployee.setVisible(false);
+		btnDelete.setVisible(false);
 		
 		//Listener,um Änderungen zu überprüfen.
 		data2.addListener(new ListChangeListener<Person>() {
