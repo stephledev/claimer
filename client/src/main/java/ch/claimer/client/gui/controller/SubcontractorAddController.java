@@ -150,7 +150,7 @@ public class SubcontractorAddController implements Initializable {
 				data.add(p);
 			}
 			
-			personList = mapper.readValue(cProxy.getBySubcontractor(subcontractorID), new TypeReference<List<SCEmployee>>(){});
+			personList = mapper.readValue(cProxy.getBySubcontractor(subcontractorID), new TypeReference<List<Contact>>(){});
 			for(Person p : personList) {
 				data.add(p);
 			}	
@@ -226,13 +226,29 @@ public class SubcontractorAddController implements Initializable {
 	                                  @Override
 	                                  public void handle(ActionEvent event) {
 	                                          TableRow tableRow = c.getTableRow();
-	                                          SCEmployee person= (SCEmployee) tableRow.getTableView().getItems().get(tableRow.getIndex());
-	                                          // TODO : Delete this item from your data list and refresh the table 
-	                                         data.remove(person);
-	                                         person.setActive(false);
-	                                         person.setSubcontractor(null);
-	                                         SCEmployeeProxy sceProxy = ResteasyClientUtil.getTarget().proxy(SCEmployeeProxy.class);
-	                                         sceProxy.update(person);
+	                                          //System.out.println(tableRow.getIndex());
+	                                          Person person= (Person)tableRow.getTableView().getItems().get(tableRow.getIndex());
+	                                          person.setActive(false);
+	                                          data.remove(person);
+	                                         
+	                                          switch(person.getLogin().getRole().getName()) {
+	                                        	  
+	                                          	case("power"): {
+	                                          		SCEmployee sce = (SCEmployee)person;
+	                                          		sce.setSubcontractor(null);
+	                                          		SCEmployeeProxy sceProxy = ResteasyClientUtil.getTarget().proxy(SCEmployeeProxy.class);
+	    	                                        sceProxy.update(sce);
+	                                          	} break;
+	                                          	case("editor-extern"): {
+	                                          		Contact contact = (Contact)person;
+	                                          		contact.setSubcontractor(null);
+	                                          		ContactProxy cProxy = ResteasyClientUtil.getTarget().proxy(ContactProxy.class);
+	    	                                        cProxy.update(contact);
+	                                          	}break;
+	                                        	  
+	                                          }
+	                                          
+
 	                                         
 	                                         
 	                                  }
@@ -265,7 +281,6 @@ public class SubcontractorAddController implements Initializable {
 	@FXML
 	private void deleteSubcontractor() {
 		subcontractorContainer.setActive(false);
-		System.out.println(subcontractorContainer.getName());
 		SubcontractorProxy scProxy = ResteasyClientUtil.getTarget().proxy(SubcontractorProxy.class);
 		scProxy.update(subcontractorContainer);
 		showMainViewWithMessage("Subunternehmen wurde gelöscht.");
@@ -363,10 +378,8 @@ public class SubcontractorAddController implements Initializable {
 						contact.setSubcontractor(sc);
 						if(contact.getId() != 0) {
 							//Contact updaten
-							System.out.println("update" + contact);
 							cProxy.update(contact);
 						} else {
-							System.out.println("create" + contact);
 							//Neuen Contact erstellen
 							cProxy.create(contact);
 						}
