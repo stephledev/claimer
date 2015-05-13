@@ -42,7 +42,7 @@ public class LoginController {
 		}
 		if(!checkLogin.isEmpty()) {
 			if(checkLogin.get(0).getPassword().equals(login.getPassword())) {
-				return ResponseHandlerService.success(login);
+				return ResponseHandlerService.success(checkLogin.get(0));
 			} 
 		}
 		return ResponseHandlerService.success(new Login());
