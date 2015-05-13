@@ -26,6 +26,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -428,6 +429,7 @@ public class UserAddController implements Initializable{
 	 */
 	public void initScStaffAdd() {
 		
+		mainContent.setPadding(new Insets(20));
 		dropdownFunction.getItems().clear();
 		dropdownFunction.getItems().add("Sachbearbeiter");
 		dropdownFunction.getItems().add("Ansprechperson");
@@ -474,8 +476,8 @@ public class UserAddController implements Initializable{
 	
 	public void initscStaffEdit(Person personToEdit) {
 		
+		mainContent.setPadding(new Insets(20));
 		initData(personToEdit);
-		
 		dropdownFunction.setVisible(false);
 		lblFunction.setVisible(true);
 		

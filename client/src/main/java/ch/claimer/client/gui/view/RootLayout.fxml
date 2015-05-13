@@ -21,23 +21,23 @@
          <children>
             <HBox fx:id="navigation" minWidth="800.0" prefHeight="0.0" prefWidth="821.0" styleClass="navigation" GridPane.rowIndex="1">
                <children>
-                  <Button mnemonicParsing="false" onAction="#loadHomeView" prefHeight="40.0" styleClass="navigation-button" text="Home" HBox.hgrow="NEVER">
+                  <Button fx:id="naviHome" mnemonicParsing="false" onAction="#loadHomeView" prefHeight="40.0" styleClass="navigation-button" text="Home" HBox.hgrow="NEVER">
                      <padding>
                         <Insets left="25.0" right="25.0" />
                      </padding></Button>
-                  <Button mnemonicParsing="false" onAction="#loadProjectsMainView" prefHeight="40.0" styleClass="navigation-button" text="Projekte">
+                  <Button fx:id="naviProjects" mnemonicParsing="false" onAction="#loadProjectsMainView" prefHeight="40.0" styleClass="navigation-button" text="Projekte">
                      <padding>
                         <Insets left="25.0" right="25.0" />
                      </padding></Button>
-                  <Button mnemonicParsing="false" onAction="#loadSubcontractorMainView" prefHeight="40.0" styleClass="navigation-button" text="Subunternehmen">
+                  <Button fx:id="naviSubcontractors" mnemonicParsing="false" onAction="#loadSubcontractorMainView" prefHeight="40.0" styleClass="navigation-button" text="Subunternehmen">
                      <padding>
                         <Insets left="25.0" right="25.0" />
                      </padding></Button>
-                  <Button mnemonicParsing="false" onAction="#loadPrincipalMainView" prefHeight="40.0" styleClass="navigation-button" text="Bauherren">
+                  <Button fx:id="naviPrincipals" mnemonicParsing="false" onAction="#loadPrincipalMainView" prefHeight="40.0" styleClass="navigation-button" text="Bauherren">
                      <padding>
                         <Insets left="25.0" right="25.0" />
                      </padding></Button>
-                  <Button mnemonicParsing="false" onAction="#loadUserMainView" prefHeight="40.0" styleClass="navigation-button" text="Benutzer">
+                  <Button fx:id="naviUsers" mnemonicParsing="false" onAction="#loadUserMainView" prefHeight="40.0" styleClass="navigation-button" text="Benutzer">
                      <padding>
                         <Insets left="25.0" right="25.0" />
                      </padding></Button>
@@ -64,7 +64,8 @@
                         <SplitMenuButton mnemonicParsing="false" style="-fx-color: transparent; -fx-background-color: transparent;" styleClass=".split-menu-button">
                           <items>
                             <MenuItem mnemonicParsing="false" text="Profildaten bearbeiten" />
-                            <MenuItem fx:id="logoutButton" mnemonicParsing="false" onAction="#closeClaimer" text="Abmelden" />
+                            <MenuItem fx:id="logoutButton" mnemonicParsing="false" text="Abmelden" />
+                              <MenuItem mnemonicParsing="false" onAction="#closeClaimer" text="Schliessen" />
                           </items>
                            <HBox.margin>
                               <Insets right="20.0" />
