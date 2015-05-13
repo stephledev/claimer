@@ -93,33 +93,18 @@ public class PrincipalAddController implements Initializable {
 	@FXML
 	private Button btnDelete2;
 	
-	@FXML
-	private void loadPrincipalMainView() {
-		try {
-			Pane myPane = FXMLLoader.load(getClass().getResource("../view/PrincipalMainView.fxml"));
-			mainContent.getChildren().clear();
-			mainContent.getChildren().setAll(myPane);
-		} catch (NullPointerException npe) {
-			System.out.println("Fehler: View konnte nicht geladen werden");
-			// ToDo Eintrag in Log-Datei
-			npe.printStackTrace();
-		}	catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-	}
-
-	@FXML
-	public void deletePrincipal() {
-		//TODO Confirmation Dialog
-		
-		principalContainer.setActive(false);
-		updatePrincipal(principalContainer);
-		loadPrincipalMainViewWithMessage("Bauherr erfolgreich gelöscht.");
+	/**
+	 * Initialisiert den View.
+	 */
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		//Löschen-Buttons ausblenden
+		btnDelete.setVisible(false);
+		btnDelete2.setVisible(false);
 	}
 	
 	/**
-	 * Fenster mit zu bearbeitendem Bauherr füllen.
+	 * Füllt den View mit den Daten von dem zu bearbeitenden Bauherr.
 	 * @param principalToEdit
 	 */
 	public void initData(Principal principalToEdit) {
@@ -134,7 +119,6 @@ public class PrincipalAddController implements Initializable {
 		btnDelete.setVisible(true);
 		btnDelete2.setVisible(true);
 		
-		// Überprüfen ob Principal eine Person oder eine Firma ist
 		if(principalToEdit.getCompany() != null) {
 			
 			tabPanePrincipal.getSelectionModel().select(tabCompany);
@@ -157,18 +141,68 @@ public class PrincipalAddController implements Initializable {
 			txtPersonZIP.setText(principalToEdit.getZip());
 			txtPersonAdress.setText(principalToEdit.getStreet());
 		}
-		
+	}
+	
+	/**
+	 * Kehrt zurück zum Bauherren Hauptview.
+	 */
+	@FXML
+	private void loadPrincipalMainView() {
+		try {
+			Pane myPane = FXMLLoader.load(getClass().getResource("../view/PrincipalMainView.fxml"));
+			mainContent.getChildren().clear();
+			mainContent.getChildren().setAll(myPane);
+		} catch (NullPointerException npe) {
+			// TODO Eintrag in Log-Datei
+			npe.printStackTrace();
+		}	catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 	}
 	
-	
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-		btnDelete.setVisible(false); //Löschen-Button ausblenden
-		btnDelete2.setVisible(false);
-		
+	/**
+	 * Kehrt zurück zum Bauherren Hauptview und gibt dort eine Meldung aus.
+	 * @param message 
+	 */
+	private void loadPrincipalMainViewWithMessage(String message) {
+
+		try {
+
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/PrincipalMainView.fxml")); //FXMLLoader erstellen
+			Pane myPane = loader.load(); //Neuen View laden
+			PrincipalController controller = loader.<PrincipalController>getController(); //PrincipalController holen
+			controller.initWithMessage(message); //Controller starten			
+			
+			//Neuen View einfügen
+			mainContent.getChildren().clear();
+			mainContent.getChildren().setAll(myPane);
+		} catch (IOException e) {
+			// TODO LOGGIN-EINTRAG
+			e.printStackTrace();
+		}
 	}
 
+	/**
+	 * Löscht einen Bauherr.
+	 */
+	@FXML
+	public void deletePrincipal() {
+		//TODO Confirmation Dialog
+		
+		principalContainer.setActive(false);
+		updatePrincipal(principalContainer);
+		loadPrincipalMainViewWithMessage("Bauherr erfolgreich gelöscht.");
+	}
+	
+
+	/**
+	 * Überprüft beim übergebenen Parameter, ob dieser die Mindest- und Maximallänge besitzt.
+	 * @param text
+	 * @param minLength
+	 * @param maxLength
+	 * @return
+	 */
 	private Boolean checkLength(String text, int minLength, int maxLength) {
 		
 		if((text.length() > maxLength) || (text.length() < minLength)) {
@@ -248,7 +282,7 @@ public class PrincipalAddController implements Initializable {
 		}
 		
 		
-		//Prüfen ob fehler. Wenn nein, Bauherr speichern oder updaten
+		//Wenn kein Validations-Fehler: Bauherr speichern oder updaten
 		if(hasError == false) {		
 			if(principalID != null) {
 				pr1.setId(principalID);
@@ -320,6 +354,7 @@ public class PrincipalAddController implements Initializable {
 			pr2.setPlace(place);
 		}
 		
+		//Wenn keine Validations-Fehler: Bauherr speichern oder updaten.
 		if(hasError == false) {
 			if(principalID != null) {
 				pr2.setId(principalID);
@@ -333,7 +368,7 @@ public class PrincipalAddController implements Initializable {
 	}
 	
 	/**
-	 * Bestehenden Principal in der Datenbank updaten
+	 * Aktualisiert einen bestehenden Bauherr in der Datenbank.
 	 * @param principal
 	 */
 	private void updatePrincipal(Principal principal) {
@@ -343,42 +378,12 @@ public class PrincipalAddController implements Initializable {
 	
 	
 	/**
-	 * Neuen Principal in der Datenbank speichern
+	 * Speichert einen neuen Bauherr in der Datenbank.
 	 * @param principal
 	 */
 	private void createPrincipal(Principal principal) {
 		PrincipalProxy principalProxy = ResteasyClientUtil.getTarget().proxy(PrincipalProxy.class);
 		principalProxy.create(principal);
 	}
-
-	/**
-	 * PrincipalMainView laden inklusive Statusmeldung.
-	 */
-	private void loadPrincipalMainViewWithMessage(String message) {
-		//PrincipalMainView laden inkl. Meldung
-		try {
-
-			//FXMLLoader erstelen
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/PrincipalMainView.fxml"));
-			
-			//Neuen View laden
-			Pane myPane;
-			myPane = loader.load();
-			
-			//PrincipalController holen
-			PrincipalController controller = loader.<PrincipalController>getController();
-			
-			//Controller starten
-			controller.initWithMessage(message);			
-			
-			//Neuen View einfügen
-			mainContent.getChildren().clear();
-			mainContent.getChildren().setAll(myPane);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
 	
 }

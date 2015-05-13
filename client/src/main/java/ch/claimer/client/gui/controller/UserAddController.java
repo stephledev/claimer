@@ -36,12 +36,18 @@ import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+/**
+ * Controller für das Hinzufügen und Bearbeiten von Benutzern.
+ * @author Alexander
+ * @since 20.04.2015
+ * @version 2.0
+ *
+ */
 public class UserAddController implements Initializable{
 		
 	private Integer personId = null;
 	private Integer loginID = null;
 	private String personType = null;
-	private Person personContainer = null;
 	private Boolean toDelete = false;
 	
 	@FXML
@@ -83,7 +89,88 @@ public class UserAddController implements Initializable{
 	@FXML
 	private Label lblFunction;
 
+	/**
+	 * Initialisiert den View.
+	 */
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {		
+
+		lblFunction.setVisible(false);
+		
+		//Dropdown Values initialisieren
+		dropdownFunction.getItems().addAll( 
+				"Sachbearbeiter GU Admin",
+				"Sachbearbeiter GU",
+				"Bauleiter"
+		);
+		
+		//Delete-Button deaktivieren
+		btnDelete.setVisible(false);
+	}	
+
+	/**
+	 * Detailansicht mit allen Daten der angeklickten Person füllen
+	 * @param personToEdit
+	 */
+	public void initData(Person personToEdit) {
+		lblTitel.setText("Benutzer bearbeiten");
+		btnDelete.setVisible(true);
+		lblFunction.setVisible(true);
+		dropdownFunction.setVisible(false);
+		
+		personId = personToEdit.getId();
+		personType = personToEdit.getClass().getSimpleName(); //Typ des Objekts auslesen
+
+		if(personToEdit.getFirstname() != null) { 
+			txtFirstname.setText(personToEdit.getFirstname());	
+		}
+		
+		if(personToEdit.getLastname() != null) {
+			txtLastname.setText(personToEdit.getLastname());
+		}
+		
+		if(personToEdit.getEmail() != null) {
+		txtEmail.setText(personToEdit.getEmail());
+		}
+		
+		if(personToEdit.getPhone() != null) {
+			txtPhone.setText(personToEdit.getPhone());
+		}
+		
+		if(personToEdit.getLogin() != null) {
+			loginID = personToEdit.getLogin().getId();
+			if(personToEdit.getLogin().getUsername() != null) {
+				txtUsername.setText(personToEdit.getLogin().getUsername());
+			}
+			
+			if(personToEdit.getLogin().getPassword() != null) {
+				pfPassword.setText(personToEdit.getLogin().getUsername());
+			}
+		}
+		
+		if(personToEdit.getLogin().getRole().getName() != null) {			
+			String personType = personToEdit.getLogin().getRole().getName();
+			
+			switch(personType) {
+				case("superadmin"): personType = "Sachbearbeiter GU Admin";
+				break;
+				case("admin"): personType = "Sachbearbeiter GU";
+				break;
+				case("editor-intern"): personType = "Bauleiter";
+				break;
+				case("power"): personType= "Sachbearbeiter"; //Sachbearbeiter SU
+				break;
+				case("edit-extern"): personType = "Ansprechperson";
+				break;
+			}
+			dropdownFunction.setValue(personType);
+			lblFunction.setText(personType);
+		}
+	}
 	
+	/**
+	 * Lädt den Benutzer Hauptview.
+	 */
 	@FXML
 	private void loadUserMainView() {
 		try {
@@ -102,7 +189,8 @@ public class UserAddController implements Initializable{
 	
 
 	/**
-	 * UserMainView laden inklusive Statusmeldung.
+	 * Lädt den Benutzer Hauptview und gibt eine Meldung aus.
+	 * @param String
 	 */
 	private void showMainViewWithMessage(String message) {
 
@@ -129,6 +217,9 @@ public class UserAddController implements Initializable{
 		}
 	}
 	
+	/**
+	 * Löscht einen Benutzer.
+	 */
 	@FXML
 	private void deleteUser() {
 		toDelete = true;
@@ -137,6 +228,11 @@ public class UserAddController implements Initializable{
 		personHandler();
 	}
 	
+	/**
+	 * Speichert einen User.
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	private void saveUser(ActionEvent event) throws IOException {
 		
@@ -144,7 +240,7 @@ public class UserAddController implements Initializable{
 	}
 	
 	/**
-	 * Entscheidet anhand des Dropdowns automatisch, welche Person aktualisiert werden soll.
+	 * Entscheidet anhand des Dropdowns, um was für eine Person es sich handelt und speichert diese.
 	 */
 	private void personHandler() {
 		// Typ des Personenobjekts bestimmen und passende funktion aufrufen
@@ -285,6 +381,10 @@ public class UserAddController implements Initializable{
 			
 	}
 
+	/**
+	 * Speichert oder aktualisiert einen Bauleiter.
+	 * @param person
+	 */
 	private void saveSupervisor(Person person) {
 		Supervisor supervisor = new Supervisor();
 		supervisor = (Supervisor) person;
@@ -303,7 +403,10 @@ public class UserAddController implements Initializable{
 		}
 	}
 
-
+	/**
+	 * Speichert oder aktualisiert einen Generalunternehmen-Mitarbeiter.
+	 * @param person
+	 */
 	private void saveGCEmployee(Person person) {
 
 		GCEmployee gcEmployee = new GCEmployee();
@@ -323,7 +426,11 @@ public class UserAddController implements Initializable{
 		}
 	}
 
-
+	/**
+	 * Öffnet ein Updload-Fenster, um ein Profilbild hochzuladen.
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	private void uploadImage(ActionEvent event) throws IOException {
         final FileChooser fileChooser = new FileChooser();
@@ -337,95 +444,8 @@ public class UserAddController implements Initializable{
         }
 	} 
 	
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {		
-
-		lblFunction.setVisible(false);
-		
-		//Dropdown Values initialisieren
-		dropdownFunction.getItems().addAll( 
-				"Sachbearbeiter GU Admin",
-				"Sachbearbeiter GU",
-				"Bauleiter"
-		);
-		
-		//Delete-Button deaktivieren
-		btnDelete.setVisible(false);
-	}	
-	
 	/**
-	 * Detailansicht mit allen Daten der angeklickten Person füllen
-	 * @param personToEdit
-	 */
-	public void initData(Person personToEdit) {
-		personContainer = personToEdit;
-		lblTitel.setText("Benutzer bearbeiten");
-		btnDelete.setVisible(true);
-		lblFunction.setVisible(true);
-		dropdownFunction.setVisible(false);
-		
-		personId = personToEdit.getId();
-		personType = personToEdit.getClass().getSimpleName(); //Typ des Objekts auslesen
-
-		if(personToEdit.getFirstname() != null) { 
-			txtFirstname.setText(personToEdit.getFirstname());	
-		}
-		
-		if(personToEdit.getLastname() != null) {
-			txtLastname.setText(personToEdit.getLastname());
-		}
-		
-		if(personToEdit.getEmail() != null) {
-		txtEmail.setText(personToEdit.getEmail());
-		}
-		
-		if(personToEdit.getPhone() != null) {
-			txtPhone.setText(personToEdit.getPhone());
-		}
-		
-		if(personToEdit.getLogin() != null) {
-			loginID = personToEdit.getLogin().getId();
-			if(personToEdit.getLogin().getUsername() != null) {
-				txtUsername.setText(personToEdit.getLogin().getUsername());
-			}
-			
-			if(personToEdit.getLogin().getPassword() != null) {
-				pfPassword.setText(personToEdit.getLogin().getUsername());
-			}
-		}
-		
-		if(personToEdit.getLogin().getRole().getName() != null) {			
-			String personType = personToEdit.getLogin().getRole().getName();
-			
-			switch(personType) {
-				case("superadmin"): personType = "Sachbearbeiter GU Admin";
-				break;
-				case("admin"): personType = "Sachbearbeiter GU";
-				break;
-				case("editor-intern"): personType = "Bauleiter";
-				break;
-				case("power"): personType= "Sachbearbeiter"; //Sachbearbeiter SU
-				break;
-				case("edit-extern"): personType = "Ansprechperson";
-				break;
-			}
-			dropdownFunction.setValue(personType);
-			lblFunction.setText(personType);
-		}
-	}
-
-	
-	private boolean checkLength(String text, int minLength, int maxLength) {
-		if((text.length() > maxLength) || (text.length() < minLength)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-
-	/**
-	 * Spezielle Behandlung von Subunternehmen-Mitarbeitern, die über den "Subcontractor"-View hinzugefügt werden.
+	 * Initialisiert den View, um einen Subunternehmen-Mitarbeiter zu erfassen.
 	 */
 	public void initScStaffAdd() {
 		
@@ -474,6 +494,10 @@ public class UserAddController implements Initializable{
 		});		
 	}
 	
+	/**
+	 * Initialisiert den View, um einen Subunternehmen-Mitarbeiter zu bearbeiten.
+	 * @param personToEdit
+	 */
 	public void initscStaffEdit(Person personToEdit) {
 		
 		mainContent.setPadding(new Insets(20));
@@ -532,6 +556,21 @@ public class UserAddController implements Initializable{
 		});	
 		
 		
+	}
+	
+	/**
+	 * Überprüft beim übergebenen Parameter, ob dieser die Mindest- und Maximallänge besitzt.
+	 * @param text
+	 * @param minLength
+	 * @param maxLength
+	 * @return
+	 */	
+	private boolean checkLength(String text, int minLength, int maxLength) {
+		if((text.length() > maxLength) || (text.length() < minLength)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 }

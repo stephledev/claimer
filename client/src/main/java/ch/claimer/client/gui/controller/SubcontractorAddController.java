@@ -115,7 +115,37 @@ public class SubcontractorAddController implements Initializable {
 	private Button btnDelete;
 	
 	/**
-	 * Initialisiert den View mit den Daten des angeklickten Unternehmens
+	 * Initialisiert den View.
+	 */
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		 
+		sceTableView.setVisible(false);
+		lblEmployees.setVisible(false);
+		btnAddSCEmployee.setVisible(false);
+		btnDelete.setVisible(false);
+		
+		//Listener,um Änderungen zu überprüfen.
+		data2.addListener(new ListChangeListener<Person>() {
+
+			@Override
+			public void onChanged(javafx.collections.ListChangeListener.Change<? extends Person> c) {
+				if(data2.size() > 0) {
+						
+					data.remove(persontoEdit);	//den aktualisierten aus der Liste entfernen		
+					//TableView neu Laden
+					data.addAll(data2);
+					fillTableView();
+				}
+				
+			}
+		 
+		 });
+		
+	}
+	
+	/**
+	 * Befüllt den View mit den Daten des zu bearbeitenden Subunternehmens.
 	 * @param subcontractor
 	 */
 	public void initData(Company subcontractor) {
@@ -164,6 +194,36 @@ public class SubcontractorAddController implements Initializable {
 
 	}
 	
+	
+	/**
+	 * Lädt den Subunternehmen Hauptview mit einer Nachricht.
+	 * @param message
+	 */
+	private void showMainViewWithMessage(String message) {
+		try {
+			//FXMLLoader erstellen
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/SubcontractorMainView.fxml"));
+			
+			//Neuen View laden
+			Pane myPane;
+			myPane = loader.load();
+			
+			//SubcontractorController holen
+			SubcontractorController controller = loader.<SubcontractorController>getController();
+			
+			//Controller starten
+			controller.initWithMessage(message);			
+			
+			//Neuen View einfügen
+			mainContent.getChildren().clear();
+			mainContent.getChildren().setAll(myPane);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 	/**
 	 * Lädt die Subunternehmen Hauptansicht
 	 */
@@ -183,8 +243,10 @@ public class SubcontractorAddController implements Initializable {
 		
 	}
 	
+	/**
+	 * Befüllt den TableView mit den Mitarbeitern des entsprechenden Subunternehmens.
+	 */
 	private void fillTableView() {
-		//Tabelle initialisieren
 		colFirstname.setCellValueFactory(new PropertyValueFactory<Person, String>("firstname"));
 		colLastname.setCellValueFactory(new PropertyValueFactory<Person, String>("lastname"));
 		colPhone.setCellValueFactory(new PropertyValueFactory<Person, String>("phone"));
@@ -225,8 +287,8 @@ public class SubcontractorAddController implements Initializable {
 	                            button.setOnAction(new EventHandler<ActionEvent>() {
 	                                  @Override
 	                                  public void handle(ActionEvent event) {
-	                                          TableRow tableRow = c.getTableRow();
-	                                          //System.out.println(tableRow.getIndex());
+	                                          @SuppressWarnings("unchecked")
+											TableRow<Person> tableRow = c.getTableRow();
 	                                          Person person= (Person)tableRow.getTableView().getItems().get(tableRow.getIndex());
 	                                          person.setActive(false);
 	                                          data.remove(person);
@@ -266,7 +328,13 @@ public class SubcontractorAddController implements Initializable {
 		sceTableView.setItems(data);
 	}
 	
-	
+	/**
+	 * Überprüft beim übergebenen Parameter, ob dieser die Mindest- und Maximallänge besitzt.
+	 * @param text
+	 * @param minLength
+	 * @param maxLength
+	 * @return
+	 */
 	private Boolean checkLength(String text, Integer minLength, Integer maxLength) {
 		
 		if((text.length() > maxLength) || (text.length() < minLength)) {
@@ -277,7 +345,9 @@ public class SubcontractorAddController implements Initializable {
 		
 	}
 	
-	
+	/**
+	 * Löscht ein Subunternehmen.
+	 */
 	@FXML
 	private void deleteSubcontractor() {
 		subcontractorContainer.setActive(false);
@@ -286,6 +356,9 @@ public class SubcontractorAddController implements Initializable {
 		showMainViewWithMessage("Subunternehmen wurde gelöscht.");
 	}
 	
+	/**
+	 * Speichert ein Subunternehmen
+	 */
 	@FXML
 	private void saveSubcontractor() {
 		Boolean hasError = false;
@@ -342,8 +415,9 @@ public class SubcontractorAddController implements Initializable {
 			sc.setEmail(email);
 		}
 	
+		//Wenn kein Fehler bei Validation: Subunternehmen speichern oder updaten.
 		if(!hasError) {
-			//Neuen Subcontractor erstellen oder bestehenden updaten
+
 			SubcontractorProxy scProxy = ResteasyClientUtil.getTarget().proxy(SubcontractorProxy.class);
 			
 			if(subcontractorID != null) {
@@ -398,33 +472,10 @@ public class SubcontractorAddController implements Initializable {
 		
 	}
 	
-	private void showMainViewWithMessage(String message) {
-		try {
-			//FXMLLoader erstellen
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/SubcontractorMainView.fxml"));
-			
-			//Neuen View laden
-			Pane myPane;
-			myPane = loader.load();
-			
-			//SubcontractorController holen
-			SubcontractorController controller = loader.<SubcontractorController>getController();
-			
-			//Controller starten
-			controller.initWithMessage(message);			
-			
-			//Neuen View einfügen
-			mainContent.getChildren().clear();
-			mainContent.getChildren().setAll(myPane);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
+	
 
 	/**
-	 * Neuen View öffnen, um einen SCEmployee zu erfassen
+	 * Öffnet ein neues Fenster, um einen Subunternehmen-Mitarbeiter zu erfassen
 	 */
 	@FXML
 	private void addSubcontractorStaff() {
@@ -452,6 +503,10 @@ public class SubcontractorAddController implements Initializable {
 		}
 	}
 	
+	/**
+	 * Öffnet ein neues Fenster, um den angeklickten Subunternehmen-Mitarbeiter zu bearbeiten.
+	 * @param t
+	 */
 	@FXML
 	private void editSubcontractorStaff (MouseEvent t){
 		if(t.getClickCount() == 2) {
@@ -480,35 +535,5 @@ public class SubcontractorAddController implements Initializable {
 				e.printStackTrace();
 			}
 		}
-	}
-
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		 
-		sceTableView.setVisible(false);
-		lblEmployees.setVisible(false);
-		btnAddSCEmployee.setVisible(false);
-		btnDelete.setVisible(false);
-		
-		//Listener,um Änderungen zu überprüfen.
-		data2.addListener(new ListChangeListener<Person>() {
-
-			@Override
-			public void onChanged(javafx.collections.ListChangeListener.Change<? extends Person> c) {
-				if(data2.size() > 0) {
-						
-					data.remove(persontoEdit);	//den aktualisierten aus der Liste entfernen		
-					//TableView neu Laden
-					data.addAll(data2);
-					fillTableView();
-				}
-				
-			}
-		 
-		 });
-		
-	}
-
-	
+	}	
 }
