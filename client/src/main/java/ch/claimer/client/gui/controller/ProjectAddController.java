@@ -280,7 +280,7 @@ public class ProjectAddController implements Initializable {
 		projectId = project.getId();
 		Integer a = project.getId();
 		
-		txt_projectId.setText(project.toString());
+		txt_projectId.setText(a.toString());
 	
 		if(project.getName() != null) { 
 		txt_projectName.setText(project.getName());	
@@ -309,10 +309,13 @@ public class ProjectAddController implements Initializable {
 		if(project.getCategory() != null) { 
 		combo_Category.setValue(project.getCategory().getName());	
 		}
-//		//TODO
-//		if(project.getPrincipals() != null) { 
-//		combo_principal.setValue(project.getPrincipals().get(0).getLastname());
-//		}	
+		if(project.getType() != null) { 
+			combo_Category.setValue(project.getType().getName());	
+		}
+		//TODO
+		if(project.getPrincipals() != null) { 
+		combo_principal.setValue(project.getPrincipals().get(0).getLastname());
+		}	
 		
 		initiateWebserviceConnection();
 		
@@ -385,7 +388,7 @@ public class ProjectAddController implements Initializable {
 		txt_projectId.setEditable(false);
 
 		initiateWebserviceConnection();
-//		setDropdownSupervisor();
+		setDropdownSupervisor();
 		setDropdownPrincipal();
 		setDropdownCategory();
 		setDropdownState();
@@ -448,26 +451,26 @@ public class ProjectAddController implements Initializable {
 		}
 	}
 //TODO Auskommentieren
-//	/**
-//	 * Werte für das "Funktionen"-Dropdown setzen
-//	 */
-//	public void setDropdownSupervisor()  {
-//
-//		SupervisorProxy supervisorProxy = ResteasyClientUtil.getTarget().proxy(SupervisorProxy.class);		
-//		ObjectMapper mapper = new ObjectMapper();	    
-//		List<Supervisor> supervisorList = null;
-//
-//		try {
-//			supervisorList = mapper.readValue(supervisorProxy.getAll(), new TypeReference<List<Supervisor>>(){});
-//		} catch (IOException e1) {
-//			e1.printStackTrace();
-//		}
-//
-//		//Bauleiter dem Dropdown hinzufügen
-//		for(Supervisor supervisor: supervisorList) {
-//			combo_supervisor.getItems().add(supervisor.getLastname());
-//		}
-//	}
+	/**
+	 * Werte für das "Funktionen"-Dropdown setzen
+	 */
+	public void setDropdownSupervisor()  {
+
+		SupervisorProxy supervisorProxy = ResteasyClientUtil.getTarget().proxy(SupervisorProxy.class);		
+		ObjectMapper mapper = new ObjectMapper();	    
+		List<Supervisor> supervisorList = null;
+
+		try {
+			supervisorList = mapper.readValue(supervisorProxy.getAll(), new TypeReference<List<Supervisor>>(){});
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+
+		//Bauleiter dem Dropdown hinzufügen
+		for(Supervisor supervisor: supervisorList) {
+			combo_supervisor.getItems().add(supervisor.getLastname());
+		}
+	}
 
 	public void setDropdownState()  {
 		

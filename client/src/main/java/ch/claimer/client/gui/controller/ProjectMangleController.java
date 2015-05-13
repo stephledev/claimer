@@ -239,7 +239,6 @@ public class ProjectMangleController implements Initializable {
 	}
 
 	public void initData(Issue issueToEdit) {
-		lbl_title.setText("Benutzer bearbeiten");
 		issueId = issueToEdit.getId();
 		
 		txt_issueId.setText(issueId.toString());
