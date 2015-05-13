@@ -1,0 +1,29 @@
+{
+  "rmi": {
+    "port": 9090
+  },
+  "tinylog": {
+    "filename": "log.txt",
+    "backups": "7",
+    "level": "INFO"
+  },
+  "javax": {
+    "persistence": {
+      "jdbc": {
+        "driver": "com.mysql.jdbc.Driver",
+        "url": "jdbc:mysql://localhost/claimer",
+        "user": "claimer",
+        "password": "claimer"
+      }
+    }
+  },
+  "eclipselink": {
+    "ddl-generation": {
+      "value": "create-tables",
+      "output-mode": "database"
+    },
+    "logging": {
+      "level": "OFF"
+    }
+  }
+}

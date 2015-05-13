@@ -12,3 +12,14 @@ task rmiRun(type:JavaExec) {
    main = 'ch.claimer.appserver.Appserver'
    classpath = sourceSets.main.runtimeClasspath
 }
+
+task fatJar(type: Jar) {
+	manifest {
+        attributes 'Implementation-Title': 'Appserver',  
+        	'Implementation-Version': version,
+        	'Main-Class': 'ch.claimer.appserver.Appserver'
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}

@@ -9,7 +9,16 @@ import ch.claimer.appserver.repositories.eclipselink.EclipseLinkRepository;
 import ch.claimer.shared.methods.Method;
 import ch.claimer.shared.models.Model;
 
-
+/**
+ * Implementiert das Method-Interface.
+ * @see Method
+ * 
+ * @author Stephan Beeler
+ * @version 1.0
+ * @since 1.0
+ *
+ * @param <T> Entität, die behandelt werden soll
+ */
 public class Controller<T extends Model> extends UnicastRemoteObject implements
 		Method<T> {
 

@@ -19,7 +19,7 @@ import ch.claimer.shared.models.Model;
  * @version 1.0
  * @since 1.0
  *
- * @param <T> Entität, die behandlet werden soll
+ * @param <T> Entität, die behandelt werden soll
  */
 public class EclipseLinkRepository<T extends Model> implements Repository<T> {
 
