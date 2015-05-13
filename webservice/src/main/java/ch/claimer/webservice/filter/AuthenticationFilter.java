@@ -33,8 +33,6 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     		requestContext.abortWith(ResponseHandlerService.badRequest("Authorization header not found"));
     		return;
     	} 
-    	System.out.println(requestContext.getHeaders().get("Authorization"));
-    	
     	String basic = requestContext.getHeaders().get("Authorization").get(0);
     	
     	AuthenticationService authentication = new AuthenticationService();

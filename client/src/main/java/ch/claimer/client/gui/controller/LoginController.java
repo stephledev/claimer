@@ -78,29 +78,22 @@ public class LoginController extends Main implements Initializable {
 		//Logins aus Datenbank laden
 		LoginProxy loginProxy = ResteasyClientUtil.getTarget().proxy(LoginProxy.class);
 	    ObjectMapper mapper = new ObjectMapper();
-	    List<Login> loginList = null;
+	    
+	    Login login = new Login();
+	    login.setUsername(username);
+	    login.setPassword(password);
 	    
 		try {
-			loginList = mapper.readValue(loginProxy.getAll(), new TypeReference<List<Login>>(){});
+			login = mapper.readValue(loginProxy.check(login), new TypeReference<Login>(){});
+			if(login.getUsername() == null) {
+				lbl_warnung.setText("Login nicht korrekt!");
+				return;
+			}
+			AuthenticationUtil.setLogin(login);
+			go(event);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		//Erhaltene List iterieren
-	    for(Login login : loginList) {
-	    	
-	    	if(login.getUsername().equals(username) && login.getPassword().equals(password)) {
-	    		AuthenticationUtil.setLogin(login);
-	    		try {
-					go(event);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-	    	} else {
-	    		lbl_warnung.setText("Login nicht korrekt!");
-	    		psw.setText("");
-	    	}
-	    }
 	}
 		
 	// verweist auf Stage aus der Klasse App.java

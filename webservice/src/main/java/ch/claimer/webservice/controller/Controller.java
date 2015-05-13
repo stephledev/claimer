@@ -14,6 +14,7 @@ import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 
 import ch.claimer.shared.methods.Method;
+import ch.claimer.shared.models.Login;
 import ch.claimer.shared.models.Model;
 import ch.claimer.webservice.services.ResponseHandlerService;
 

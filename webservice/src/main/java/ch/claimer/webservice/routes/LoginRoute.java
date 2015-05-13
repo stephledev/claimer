@@ -14,6 +14,7 @@ import javax.ws.rs.core.Response;
 
 import ch.claimer.shared.models.Login;
 import ch.claimer.webservice.controller.Controller;
+import ch.claimer.webservice.controller.LoginController;
 
 
 /**
@@ -22,16 +23,19 @@ import ch.claimer.webservice.controller.Controller;
  * Liefert eine HTTP-Antwort mit Statuscode zurück.
  * 
  * @author Momcilo Bekcic
- * @version 1.0
+ * @author Stephan Beeler
+ * @version 1.1
  * @since 1.0
  */
 @Path("/")
 public class LoginRoute {
 
 	private Controller<Login> controller;
+	private LoginController loginController;
 
 	public LoginRoute() {
 		this.controller = new Controller<Login>(Login.class);
+		this.loginController = new LoginController();
 	}
 	
 	/**
@@ -40,7 +44,7 @@ public class LoginRoute {
 	 * @return Response HTTP-Antwort mit Logins
 	 */
 	@GET
-	@PermitAll
+	@RolesAllowed("admin")
 	@Path("login") 
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showAll() {
@@ -55,7 +59,7 @@ public class LoginRoute {
 	 * @return Response HTTP-Antwort mit dem Login
 	 */
 	@GET
-	@PermitAll
+	@RolesAllowed("admin")
 	@Path("login/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showById(@PathParam("id") int id) {
@@ -74,6 +78,20 @@ public class LoginRoute {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response create(Login login) {	
 		return controller.store(login);
+	}
+	
+	/**
+	 * Legt ein neues Login an
+	 * 
+	 * @param login neu anzulegender Login
+	 * @return Response HTTP-Antwort mit Statusmeldung
+	 */
+	@POST
+	@PermitAll
+	@Path("check")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response check(Login login) {	
+		return loginController.check(login);
 	}
 	
 	/**

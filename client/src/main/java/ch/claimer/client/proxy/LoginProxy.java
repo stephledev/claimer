@@ -33,6 +33,11 @@ public interface LoginProxy {
 	@Consumes(MediaType.APPLICATION_JSON)
 	void create(Login login);
 	
+	@POST
+	@Path("check")
+	@Consumes(MediaType.APPLICATION_JSON)
+	String check(Login login);
+	
 	@PUT
 	@Path("login")
 	@Consumes(MediaType.APPLICATION_JSON)

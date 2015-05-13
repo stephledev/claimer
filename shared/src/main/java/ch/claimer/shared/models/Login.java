@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 /**
  * Representiert die Entität Login und gewährleistet Zugriff auf die Eigenschaften 
  * der Klasse. Beispielsweise benutzt die LoginSeed-Klasse die Eigenschaften.
