@@ -10,12 +10,9 @@ import java.util.ResourceBundle;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 
-import ch.claimer.client.proxy.ContactProxy;
 import ch.claimer.client.proxy.GCEmployeeProxy;
 import ch.claimer.client.proxy.RoleProxy;
-import ch.claimer.client.proxy.SCEmployeeProxy;
 import ch.claimer.client.proxy.SupervisorProxy;
-import ch.claimer.client.util.AuthenticationUtil;
 import ch.claimer.client.util.ResteasyClientUtil;
 import ch.claimer.shared.models.Contact;
 import ch.claimer.shared.models.GCEmployee;
@@ -152,37 +149,21 @@ public class UserAddController implements Initializable{
 		// Typ des Personenobjekts bestimmen und passende funktion aufrufen
 		personType = dropdownFunction.getValue();
 	
-		if(personType.equals("superadmin")) {
+		if(personType.equals("Sachbearbeiter GU") || personType.equals("Sachbearbeiter GU Admin")) {
 			GCEmployee gce = new GCEmployee();
 			gce = (GCEmployee)validateInputs(gce);
 			if(gce != null) {
 				saveGCEmployee(gce);
 				showMainViewWithMessage("Änderungen erfolgreich gespeichert.");
 			}
-		} else if(personType.equals("admin")) {
-			//TODO
-		} else if(personType.equals("power")) {
-			SCEmployee sce = new SCEmployee();
-			sce = (SCEmployee) validateInputs(sce);
-			if(sce != null) {
-				saveSCEmployee(sce);
-				showMainViewWithMessage("Änderungen erfolgreich gespeichert.");
-			}
-		} else if(personType.equals("editor-intern")) {
+		} else if(personType.equals("Bauleiter")) {
 			Supervisor sv = new Supervisor();
 			sv = (Supervisor) validateInputs(sv);
 			if(sv != null) {
 				saveSupervisor(sv);
 				showMainViewWithMessage("Änderungen erfolgreich gespeichert.");
 			}
-		} else if(personType.equals("editor-extern")) {
-			Contact contact = new Contact();
-			contact = (Contact) validateInputs(contact);
-			if(contact != null) {
-				saveContact(contact);
-				showMainViewWithMessage("Änderungen erfolgreich gespeichert.");
-			}
-		}
+		} 
 	}
 
 	/**
@@ -272,11 +253,18 @@ public class UserAddController implements Initializable{
 					e.printStackTrace();
 			}
 			 
+			 //Rolle bestimmen und zuweisen
 			 String dropdownValue = dropdownFunction.getValue();
 			 switch(dropdownValue) {
 			 	case "Sachbearbeiter": dropdownValue = "power";
 			 	break;
 			 	case "Ansprechperson": dropdownValue = "editor-extern";
+			 	break;
+			 	case "Sachbearbeiter GU Admin": dropdownValue = "superadmin";
+			 	break;
+			 	case "Sachbearbeiter GU": dropdownValue = "admin";
+			 	break;
+			 	case "Bauleiter": dropdownValue = "editor-intern";
 			 	break;
 			 	
 			 }
@@ -295,22 +283,6 @@ public class UserAddController implements Initializable{
 		}
 			
 	}
-	
-	private void saveContact(Person person) {
-		Contact contact = new Contact();
-		contact = (Contact)person;
-		
-		if(toDelete) {
-			contact.setActive(false);
-		}
-		
-		ContactProxy cProxy = ResteasyClientUtil.getTarget().proxy(ContactProxy.class);
-		if(personId != null) {
-			cProxy.update(contact);
-		} else {
-			cProxy.create(contact);
-		}
-	}
 
 	private void saveSupervisor(Person person) {
 		Supervisor supervisor = new Supervisor();
@@ -318,6 +290,8 @@ public class UserAddController implements Initializable{
 		
 		if(toDelete) {
 			supervisor.setActive(false);
+		} else {
+			supervisor.setActive(true);
 		}
 		
 		SupervisorProxy svProxy = ResteasyClientUtil.getTarget().proxy(SupervisorProxy.class);
@@ -328,22 +302,6 @@ public class UserAddController implements Initializable{
 		}
 	}
 
-	private void saveSCEmployee(Person person) {
-
-		SCEmployee scEmployee = new SCEmployee();
-		scEmployee = (SCEmployee) person;
-		
-		if(toDelete) {
-			scEmployee.setActive(false);
-		}
-		
-		SCEmployeeProxy sceProxy = ResteasyClientUtil.getTarget().proxy(SCEmployeeProxy.class);
-		if(personId != null) {
-			sceProxy.update(scEmployee);
-		} else {
-			sceProxy.create(scEmployee);
-		}
-	}
 
 	private void saveGCEmployee(Person person) {
 
@@ -352,6 +310,8 @@ public class UserAddController implements Initializable{
 
 		if(toDelete) {
 			gcEmployee.setActive(false);
+		} else {
+			gcEmployee.setActive(true);
 		}
 
 		GCEmployeeProxy gceProxy = ResteasyClientUtil.getTarget().proxy(GCEmployeeProxy.class);
@@ -382,23 +342,13 @@ public class UserAddController implements Initializable{
 		lblFunction.setVisible(false);
 		
 		//Dropdown Values initialisieren
-		RoleProxy roleProxy = ResteasyClientUtil.getTarget().proxy(RoleProxy.class);		
-	    ObjectMapper mapper = new ObjectMapper();	    
-	    List<Role> roleList = null;
-	    
-		try {
-			 roleList = mapper.readValue(roleProxy.getAll(), new TypeReference<List<Role>>(){});
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		dropdownFunction.getItems().addAll( 
+				"Sachbearbeiter GU Admin",
+				"Sachbearbeiter GU",
+				"Bauleiter"
+		);
 		
-		//Rollen dem Dropdown hinzufügen
-		for(Role role: roleList) {
-			dropdownFunction.getItems().add(role.getName());
-		}	
-		
-		//Delete-Button aktivieren
+		//Delete-Button deaktivieren
 		btnDelete.setVisible(false);
 	}	
 	
@@ -444,9 +394,22 @@ public class UserAddController implements Initializable{
 		}
 		
 		if(personToEdit.getLogin().getRole().getName() != null) {			
-			dropdownFunction.setValue(personToEdit.getLogin().getRole().getName());
-			//dropdownFunction.set
-			lblFunction.setText(personToEdit.getLogin().getRole().getName());
+			String personType = personToEdit.getLogin().getRole().getName();
+			
+			switch(personType) {
+				case("superadmin"): personType = "Sachbearbeiter GU Admin";
+				break;
+				case("admin"): personType = "Sachbearbeiter GU";
+				break;
+				case("editor-intern"): personType = "Bauleiter";
+				break;
+				case("power"): personType= "Sachbearbeiter"; //Sachbearbeiter SU
+				break;
+				case("edit-extern"): personType = "Ansprechperson";
+				break;
+			}
+			dropdownFunction.setValue(personType);
+			lblFunction.setText(personType);
 		}
 	}
 
@@ -511,7 +474,6 @@ public class UserAddController implements Initializable{
 	
 	public void initscStaffEdit(Person personToEdit) {
 		
-		btnDelete.setVisible(true);
 		initData(personToEdit);
 		
 		dropdownFunction.setVisible(false);

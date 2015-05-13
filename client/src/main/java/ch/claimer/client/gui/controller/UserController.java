@@ -13,15 +13,11 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
-import ch.claimer.client.proxy.ContactProxy;
 import ch.claimer.client.proxy.GCEmployeeProxy;
-import ch.claimer.client.proxy.SCEmployeeProxy;
 import ch.claimer.client.proxy.SupervisorProxy;
 import ch.claimer.client.util.ResteasyClientUtil;
-import ch.claimer.shared.models.Contact;
 import ch.claimer.shared.models.GCEmployee;
 import ch.claimer.shared.models.Person;
-import ch.claimer.shared.models.SCEmployee;
 import ch.claimer.shared.models.Supervisor;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
@@ -146,14 +142,10 @@ public class UserController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		
 		getGCEmployee();
-	    
-	    getSCEmployee();
-	   
+	    	   
 	    getSupervisors();
 	    
-	    getContacts();
-	    
-		//Spalten-Values definieren (müssen den Parameter des Personen-Objekts entsprechen)
+	    //Spalten-Values definieren (müssen den Parameter des Personen-Objekts entsprechen)
 		colLastname.setCellValueFactory(new PropertyValueFactory<Person, String>("lastname"));
 		colName.setCellValueFactory(new PropertyValueFactory<Person, String>("firstname"));
 		colEmail.setCellValueFactory(new PropertyValueFactory<Person, String>("email"));
@@ -162,7 +154,16 @@ public class UserController implements Initializable {
 		colFunction.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Person, String>, ObservableValue<String>>() {
 			public ObservableValue<String> call(TableColumn.CellDataFeatures<Person, String> data) {
 				try {
-					return new SimpleStringProperty(data.getValue().getLogin().getRole().getName());
+					String roleName = data.getValue().getLogin().getRole().getName();
+					switch(roleName) {
+						case("superadmin"): roleName = "Sachbearbeiter GU Admin";
+						break;
+						case("admin"): roleName = "Sachbearbeiter GU";
+						break;
+						case("editor-intern"): roleName = "Bauleiter";
+						break;
+					}
+					return new SimpleStringProperty(roleName);
 				} catch(NullPointerException e) {
 					return null;
 				}
@@ -213,28 +214,7 @@ public class UserController implements Initializable {
 	    	e1.printStackTrace();
 	    }
 	    
-	}
-
-	/**
-	 * Lädt alle SCEmployees aus der Datebank
-	 */
-	private void getSCEmployee() {
-    
-	    try {
-	    	SCEmployeeProxy sceProxy = ResteasyClientUtil.getTarget().proxy(SCEmployeeProxy.class);
-		    ObjectMapper mapper = new ObjectMapper();
-		    List<SCEmployee> personList = null;
-		    personList = mapper.readValue(sceProxy.getAll(), new TypeReference<List<SCEmployee>>(){});
-		    
-		    for(SCEmployee sce : personList) {
-		    	data.add(sce);
-		    }
-	    }
-	    catch (IOException e1) {
-	    	e1.printStackTrace();
-	    }
-	}
-	
+	}	
 	
 	/**
 	 * Lädt alle Supervisors aus der Datenbank
@@ -251,25 +231,6 @@ public class UserController implements Initializable {
 		    }
 
 	    } catch (IOException e1) {
-	    	e1.printStackTrace();
-	    }
-	}
-	
-	/**
-	 * Lädt alle Contacts aus der Datenbank
-	 */
-	private void getContacts() {
-		try {
-	    	ContactProxy cProxy = ResteasyClientUtil.getTarget().proxy(ContactProxy.class);
-		    ObjectMapper mapper = new ObjectMapper();
-		    List<Contact> personList = null;
-		    personList = mapper.readValue(cProxy.getAll(), new TypeReference<List<Contact>>(){});
-		    
-		    for(Contact c : personList) {
-		    	data.add(c);
-		    }
-	    }
-	    catch (IOException e1) {
 	    	e1.printStackTrace();
 	    }
 	}
