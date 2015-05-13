@@ -40,7 +40,7 @@ import javafx.util.Callback;
 
 
 /**
- * User-Übersicht erstellen (als TableView)
+ * Controller für den UserMainView
  * @author Alexander Hauck
  * @since 20.04.2015
  * @version 2.0
@@ -57,9 +57,8 @@ public class UserController implements Initializable {
     List<Person> personsToShow = null;
 
 	ObservableList<Person> data = FXCollections.observableArrayList();
-	ObservableList<Person> dataCopy = FXCollections.observableArrayList();
+	ObservableList<Person> filteredData = FXCollections.observableArrayList();
 	
-	//Maincontent, hierhin werden die verschiedenen Views geladen
 	@FXML
 	private Pane mainContent;
 	
@@ -89,54 +88,7 @@ public class UserController implements Initializable {
 
 	
 	/**
-	 * Öffnet die Detailansicht für einen User, um diesen zu bearbeiten.
-	 * @param t
-	 * @throws IOException
-	 */
-	@FXML
-	private void editUser(MouseEvent t) throws IOException {
-		
-		//Wenn Doppelklick auf Person
-		if(t.getClickCount() == 2) {
-			
-			//Angeklickte Person laden
-			Person personID = (Person) userTableView.getSelectionModel().getSelectedItem();
-
-			//FXMLLoader erstelen
-			FXMLLoader loader = new FXMLLoader(
-					getClass().getResource("../view/UserAddView.fxml")
-				);
-			
-			//Neuen View laden
-			Pane myPane = loader.load();
-
-			//UserAddController holen
-			UserAddController controller = loader.<UserAddController>getController();
-			
-			//Controller starten
-			controller.initData(personID);			
-			
-			//Neuen View einfügen
-			mainContent.getChildren().clear();
-			mainContent.getChildren().setAll(myPane);
-
-		}
-	}
-	
-	/**
-	 * Zum UserAddView wechseln. Bei Klick auf Button "Neuen Benutzer erstellen"
-	 * @param event
-	 * @throws IOException
-	 */
-	@FXML
-	private void loadUserAddView(ActionEvent event) throws IOException {
-		Pane myPane = FXMLLoader.load(getClass().getResource("../view/UserAddView.fxml"));
-		mainContent.getChildren().clear();
-		mainContent.getChildren().setAll(myPane);		
-	}
-
-	/**
-	 * Initialisiert den TableView automatisch mit den nötigen Daten, sobald der View aufgerufen wird.
+	 * Initialisiert den TableView mit den Benutzer-Daten aus der Datenbank.
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -145,7 +97,7 @@ public class UserController implements Initializable {
 	    	   
 	    getSupervisors();
 	    
-	    //Spalten-Values definieren (müssen den Parameter des Personen-Objekts entsprechen)
+	    //Spalten-Values definieren
 		colLastname.setCellValueFactory(new PropertyValueFactory<Person, String>("lastname"));
 		colName.setCellValueFactory(new PropertyValueFactory<Person, String>("firstname"));
 		colEmail.setCellValueFactory(new PropertyValueFactory<Person, String>("email"));
@@ -181,7 +133,7 @@ public class UserController implements Initializable {
 		  });
 				
 		//Observable-List, welche die Daten beinhaltet, an die Tabelle übergeben
-		userTableView.setItems(data);
+		userTableView.setItems(filteredData);
 			
 		//Listener für Änderungen im Suchenfeld
 		txtSearch.textProperty().addListener(new ChangeListener<String>() {
@@ -196,6 +148,62 @@ public class UserController implements Initializable {
 	}
 	
 	/**
+	 * Initialisiert die Hauptansicht und gibt die übergebene Meldung im GUI aus.
+	 * @param string
+	 */
+	public void initWithMessage(String string) {
+		lblMessage.setText(string);
+		
+	}
+	
+	/**
+	 * Öffnen einen neuen View, in dem ein neuer Benutzer erfasst werden kann.
+	 * @param event
+	 * @throws IOException
+	 */
+	@FXML
+	private void loadUserAddView(ActionEvent event) throws IOException {
+		Pane myPane = FXMLLoader.load(getClass().getResource("../view/UserAddView.fxml"));
+		mainContent.getChildren().clear();
+		mainContent.getChildren().setAll(myPane);		
+	}
+	
+	/**
+	 * Öffnet einen neuen View, in dem der angeklickte Benutzer bearbeitet werden kann.
+	 * @param t
+	 * @throws IOException
+	 */
+	@FXML
+	private void editUser(MouseEvent t) throws IOException {
+		
+		//Wenn Doppelklick auf Person
+		if(t.getClickCount() == 2) {
+			
+			//Angeklickte Person laden
+			Person personID = (Person) userTableView.getSelectionModel().getSelectedItem();
+
+			//FXMLLoader erstelen
+			FXMLLoader loader = new FXMLLoader(
+					getClass().getResource("../view/UserAddView.fxml")
+				);
+			
+			//Neuen View laden
+			Pane myPane = loader.load();
+
+			//UserAddController holen
+			UserAddController controller = loader.<UserAddController>getController();
+			
+			//Controller starten
+			controller.initData(personID);			
+			
+			//Neuen View einfügen
+			mainContent.getChildren().clear();
+			mainContent.getChildren().setAll(myPane);
+
+		}
+	}
+		
+	/**
 	 * Lädt alle gcEmployee aus der Datenbank
 	 */
 	private void getGCEmployee() {
@@ -208,16 +216,18 @@ public class UserController implements Initializable {
 		    
 		    for(GCEmployee gce : personList) {
 		    	data.add(gce);
+		    	filteredData.add(gce);
 		    }
 	    }
 	    catch (IOException e1) {
+	    	// TODO ERROR-LOGGIN
 	    	e1.printStackTrace();
 	    }
 	    
 	}	
 	
 	/**
-	 * Lädt alle Supervisors aus der Datenbank
+	 * Lädt alle Supervisors aus der Datenbank.
 	 */
 	private void getSupervisors() {
 	    try {
@@ -228,61 +238,63 @@ public class UserController implements Initializable {
 		    
 		    for(Supervisor sv : personList) {
 		    	data.add(sv);
+		    	filteredData.add(sv);
 		    }
 
 	    } catch (IOException e1) {
+	    	//TODO ERROR LOGGIN
 	    	e1.printStackTrace();
 	    }
 	}
 	
-	//Observable-List mit den gefilterten Daten aktualisieren
-		public void updateFilteredData() {
-			data.clear();
+	/**
+	 * Aktualisiert die angezeigten Benutzer. Gehört zur "Suchen.." - Funktion.
+	 */
+	public void updateFilteredData() {
+		filteredData.clear();
 
-			for(Person p : dataCopy) {
-				if(matchesFilter(p)) {
-					data.add(p);
-				}
+		for(Person p : data) {
+			if(matchesFilter(p)) {
+				filteredData.add(p);
 			}
-			
-			reaplyTableSortOrder();
 		}
 		
-		//Überprüfen, ob Suchbegriff mit Daten übereinstimmt
-		private boolean matchesFilter(Person p) {
-			String filterString = txtSearch.getText();
-
-			if(filterString == null || filterString.isEmpty()) {
-				//No filter --> add all
-				return true;
-			}
-			
-			String lowerCaseFilterString = filterString.toLowerCase();
-			
-			if(p.getFirstname().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
-				return true;
-			}
-			
-			if(p.getLastname().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
-				return true;
-			}
-			
-			return false;
-			
-		}
-		
-		private void reaplyTableSortOrder() {
-			ArrayList<TableColumn<Person, ?>> sortOrder = new ArrayList<>(userTableView.getSortOrder());
-			userTableView.getSortOrder().clear();
-			userTableView.getSortOrder().addAll(sortOrder);
-		}
-
-		public void initWithMessage(String string) {
-			lblMessage.setText(string);
-			
-		}
-
+		reaplyTableSortOrder();
+	}
 	
+	/**
+	 * Überprüft, ob ein Bauherr dem "Suchen..." - Kriterium entspricht. Gehört zur "Suchen..." - Funktion
+	 * @param p
+	 * @return
+	 */
+	private boolean matchesFilter(Person p) {
+		String filterString = txtSearch.getText();
+
+		if(filterString == null || filterString.isEmpty()) {
+			//No filter --> add all
+			return true;
+		}
+		
+		String lowerCaseFilterString = filterString.toLowerCase();
+		
+		if(p.getFirstname().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
+			return true;
+		}
+		
+		if(p.getLastname().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
+			return true;
+		}
+		
+		return false;
+		
+	}
+	
+	/**
+	 * Aktualisiert den TableView. Gehört zur "Suchen.."-Funktion.
+	 */
+	private void reaplyTableSortOrder() {
+		ArrayList<TableColumn<Person, ?>> sortOrder = new ArrayList<>(userTableView.getSortOrder());
+		userTableView.getSortOrder().clear();
+		userTableView.getSortOrder().addAll(sortOrder);
+	}
 }
-
-

@@ -2,6 +2,7 @@ package ch.claimer.client.gui.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -29,16 +30,16 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 /**
+ * Controller für den Bauherren Hauptview.
  * @author Alexander Hauck
  * @since 20.04.2015
- * @version 2.0
- *
+ * @version 2.1
  */
 
 public class PrincipalController implements Initializable {
 
 	ObservableList<Principal> data = FXCollections.observableArrayList(); //Beinhaltet alle Bauherren bei der Initialisation
-	ObservableList<Principal> filteredData = FXCollections.observableArrayList(); //Enthält gefilterte Daten (suchen-funktion)
+	ObservableList<Principal> filteredData = FXCollections.observableArrayList(); //Beinhaltet eine Kopie aller Bauherren bei der Initialisation
 	
 	@FXML
 	private TextField txtSearch;
@@ -67,25 +68,11 @@ public class PrincipalController implements Initializable {
 	@FXML
 	private Label lblMeldung;
 	
-	
-	//Maincontent, hierhin werden die verschiedenen Views geladen
 	@FXML
 	private Pane mainContent;
 
-	/**
-	 * Zum PrincipalAddView wechseln
-	 * @param event
-	 * @throws IOException
-	 */
-	@FXML
-	private void loadPrincipalAddView(ActionEvent event) throws IOException {
-		Pane myPane = FXMLLoader.load(getClass().getResource("../view/PrincipalAddView.fxml"));
-		mainContent.getChildren().clear();
-		mainContent.getChildren().setAll(myPane);
-	}
-		
 	/** 
-	 * TableView mit Bauherren-Daten befüllen beim Aufruf.
+	 * Wird automatisch aufgerufen. Füllt den TableView mit den Bauherren-Daten aus der Datenbank
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -97,17 +84,14 @@ public class PrincipalController implements Initializable {
 		try {
 			principalList = mapper.readValue(principalProxy.getAll(), new TypeReference<List<Principal>>(){});
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
 		
 		//Bauherren der ObservableList zuweisen
 		for(Principal principal : principalList) {
 			data.add(principal);
 			filteredData.add(principal);
 		}
-		
 		
 		//Spalten-Values definieren (müssen den Parameter des Principal-Objekts entsprechen)
 		colFirstname.setCellValueFactory(new PropertyValueFactory<Principal, String>("firstname"));
@@ -124,15 +108,26 @@ public class PrincipalController implements Initializable {
 		txtSearch.textProperty().addListener(new ChangeListener<String>() {
 
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				//updateFilteredData();				
+				updateFilteredData();				
 			}
-			
 		});
 		
 	}
 	
 	/**
-	 * Fenster aufrufen, um einen Bauherr zu bearbeiten
+	 * Wechselt zum PrincipalAddView, um einen neuen Bauherr hinzuzufügen.
+	 * @param event
+	 * @throws IOException
+	 */
+	@FXML
+	private void loadPrincipalAddView(ActionEvent event) throws IOException {
+		Pane myPane = FXMLLoader.load(getClass().getResource("../view/PrincipalAddView.fxml"));
+		mainContent.getChildren().clear();
+		mainContent.getChildren().setAll(myPane);
+	}
+	
+	/**
+	 * Wechselt zum PrincipalAddView, um einen Bauherr zu bearbeiten
 	 * @param event
 	 * @throws IOException
 	 */
@@ -145,7 +140,7 @@ public class PrincipalController implements Initializable {
 	        	//Angeklickte Firma laden
 				Principal principalToEdit = (Principal) principalTableView.getSelectionModel().getSelectedItem();
 	
-				//FXMLLoader erstelen
+				//FXMLLoader erstellen
 				FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/PrincipalAddView.fxml"));
 				
 				//Neuen View laden
@@ -164,8 +159,66 @@ public class PrincipalController implements Initializable {
         }
 	}
 	
+	/**
+	 * Initialisiert den PrincipalAddController mit einer Meldung, welche im GUI ausgegeben wird.
+	 * @param message
+	 */
 	public void initWithMessage(String message) {
 		lblMeldung.setText(message);
 	}
 	
+	/**
+	 * Aktualisiert die angezeigten Bauherren. Gehört zur "Suchen.." - Funktion.
+	 */
+	private void updateFilteredData() {
+		filteredData.clear();
+
+		for(Principal p : data) {
+			if(matchesFilter(p)) {
+				filteredData.add(p);
+			}
+		}
+		
+		reaplyTableSortOrder();
+	}
+			
+	/**
+	 * Überprüft, ob ein Bauherr dem "Suchen..." - Kriterium entspricht. Gehört zur "Suchen..." - Funktion
+	 * @param p
+	 * @return
+	 */
+	private boolean matchesFilter(Principal p) {
+		String filterString = txtSearch.getText();
+
+		if(filterString == null || filterString.isEmpty()) {
+			//No filter --> add all
+			return true;
+		}
+		
+		String lowerCaseFilterString = filterString.toLowerCase();
+		if((p.getFirstname() != null) && (p.getFirstname().toLowerCase().indexOf(lowerCaseFilterString) != -1)) {
+			return true;
+		}
+		
+		if((p.getLastname() != null) && (p.getLastname().toLowerCase().indexOf(lowerCaseFilterString) != -1)) {
+			return true;
+		}
+		
+		if((p.getCompany() != null) && (p.getCompany().toLowerCase().indexOf(lowerCaseFilterString) != -1)) {
+			return true;
+		}
+		
+		return false;
+		
+	}
+	
+	/**
+	 * Aktualisiert den TableView. Gehört zur "Suchen.."-Funktion.
+	 */
+	private void reaplyTableSortOrder() {
+		ArrayList<TableColumn<Principal, ?>> sortOrder = new ArrayList<>(principalTableView.getSortOrder());
+		principalTableView.getSortOrder().clear();
+		principalTableView.getSortOrder().addAll(sortOrder);
+	}
+
 }

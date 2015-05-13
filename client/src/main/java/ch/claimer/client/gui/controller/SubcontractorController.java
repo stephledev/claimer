@@ -18,7 +18,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -31,7 +30,6 @@ import javafx.scene.layout.Pane;
 
 /**
  * Controller der Subunternehmen-Seite
- * @author Kevin Stadelmann
  * @author Alexander Hauck
  * @since 16.04.2015
  * @version 1.1
@@ -41,7 +39,7 @@ import javafx.scene.layout.Pane;
 public class SubcontractorController {
 	
 	ObservableList<Company> data = FXCollections.observableArrayList(); //Beinhaltet alle Subunternehmen bei der Initialisation
-	ObservableList<Company> filteredData = FXCollections.observableArrayList(); //Contains filtered Data (search-function...)
+	ObservableList<Company> filteredData = FXCollections.observableArrayList(); //Beinhaltet alle Subunternehmen, die dem Suchkriterium entsprechen.
 	
 	@FXML
 	private Pane mainContent;
@@ -74,55 +72,8 @@ public class SubcontractorController {
 	private Label lblMessage;
 	
 
-	//Zur Home-Ansicht wechseln (mainView.xml)
-	@FXML
-	private void loadSubcontracotrAddView(ActionEvent event) throws IOException {
-		Pane myPane = FXMLLoader.load(getClass().getResource("../view/CompanyAddView.fxml"));
-		mainContent.getChildren().clear();
-		mainContent.getChildren().setAll(myPane);
-		
-	}
-	
-	//Zum User Add/Change View wechseln (UserAddView.xml)
-	@FXML
-	private void loadSubcontractorAddView(ActionEvent event) throws IOException {
-		Pane myPane = FXMLLoader.load(getClass().getResource("../view/SubcontractorAddView.fxml"));
-		mainContent.getChildren().clear();
-		mainContent.getChildren().setAll(myPane);	
-	}
-	
-	
-	@FXML
-	private void editSubcontractor(MouseEvent t) throws IOException {
-        
-        //Wenn Doppelklick auf Person
-        if(t.getClickCount() == 2) {
-        		
-	        	//Angeklickte Firma laden
-				Company subcontractorToEdit = (Subcontractor) subcontractorTableView.getSelectionModel().getSelectedItem();
-	
-				//FXMLLoader erstelen
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/SubcontractorAddView.fxml"));
-				
-				//Neuen View laden
-				Pane myPane = loader.load();
-	
-				//UserAddController holen
-				SubcontractorAddController controller = loader.<SubcontractorAddController>getController();
-				
-				//Controller starten
-				controller.initData(subcontractorToEdit);			
-				
-				//Neuen View einfügen
-				mainContent.getChildren().clear();
-				mainContent.getChildren().setAll(myPane);
-        
-        }
-	}
-	
-	
 	/**
-	 * Initialisiert den Subunternehmen-View. Holt automatisch alle Daten aus der Datenbank und befüllt den TableView damit.
+	 * Initialisiert den Subunternehmen-View. Befüllt den TableView mit Daten aus der Datenbank.
 	 */
 	public void initialize() {
 		
@@ -133,22 +84,17 @@ public class SubcontractorController {
 		try {
 			subcontractorList = mapper.readValue(subcontractorProxy.getAll(), new TypeReference<List<Subcontractor>>(){});
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
 		
 		//Subunternhemen der ObservableList zuweisen
-		Subcontractor subcontractorFromDB = new Subcontractor();
-		for(int i=0; i<subcontractorList.size(); i++) {
-			subcontractorFromDB = subcontractorList.get(i);
-			data.add(subcontractorFromDB);
-			filteredData.add(subcontractorFromDB);
-			subcontractorFromDB = null;
+		for(Subcontractor sc : subcontractorList) {
+			data.add(sc);
+			filteredData.add(sc);
 		}
 		
-		
-		//Spalten-Values definieren (müssen den Parameter des Company-Objekts entsprechen)
+		//Spalten-Values definieren
 		colName.setCellValueFactory(new PropertyValueFactory<Company, String>("name"));
 		colPhone.setCellValueFactory(new PropertyValueFactory<Company, String>("phone"));
 		colEmail.setCellValueFactory(new PropertyValueFactory<Company, String>("email"));
@@ -162,14 +108,81 @@ public class SubcontractorController {
 		txtSearch.textProperty().addListener(new ChangeListener<String>() {
 
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				// TODO Auto-generated method stub
 				updateFilteredData();				
 			}
 			
 		});
 	}
 	
-	//Observable-List mit den gefilterten Daten aktualisieren
+	/**
+	 * Initialisiert den View mit einer Meldung, die im GUI ausgegeben wird.
+	 * @param string
+	 */
+	public void initWithMessage(String string) {
+		lblMessage.setText(string);
+	}
+	
+	/**
+	 * Lädt einen neuen View, in dem ein neues Subunternehmen hinzugefügt werden kann.
+	 * @param event
+	 * @throws IOException
+	 */
+	@FXML
+	private void loadSubcontractorAddView() {
+
+		try {
+			Pane myPane = FXMLLoader.load(getClass().getResource("../view/SubcontractorAddView.fxml"));
+			mainContent.getChildren().clear();
+			mainContent.getChildren().setAll(myPane);	
+		} catch (IOException e) {
+			// TODO ERROR-LOGGING
+			e.printStackTrace();
+		}
+		
+	}
+	
+	/**
+	 * Lädt einen neuen View, in dem des angeklickte Subunternehmen bearbeitet werden kann.
+	 * @param t
+	 * @throws IOException
+	 */
+	@FXML
+	private void editSubcontractor(MouseEvent t) {
+        
+        //Wenn Doppelklick auf Person
+        if(t.getClickCount() == 2) {
+        		
+	        	//Angeklickte Firma laden
+				Company subcontractorToEdit = (Subcontractor) subcontractorTableView.getSelectionModel().getSelectedItem();
+	
+				try {
+					//FXMLLoader erstellen
+					FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/SubcontractorAddView.fxml"));
+					
+					//Neuen View laden
+					Pane myPane = loader.load();
+					
+					//UserAddController holen
+					SubcontractorAddController controller = loader.<SubcontractorAddController>getController();
+					
+					//Controller starten
+					controller.initData(subcontractorToEdit);			
+					
+					//Neuen View einfügen
+					mainContent.getChildren().clear();
+					mainContent.getChildren().setAll(myPane);
+					
+					
+				} catch (IOException e) {
+					// TODO ERROR-LOGGIN
+					e.printStackTrace();
+				}
+        }
+	}
+	
+	/**
+	 * Aktualisiert die angezeigten Bauherren. Gehört zur "Suchen.." - Funktion.
+	 */
 	public void updateFilteredData() {
 		filteredData.clear();
 
@@ -182,7 +195,11 @@ public class SubcontractorController {
 		reaplyTableSortOrder();
 	}
 	
-	//Überprüfen, ob Suchbegriff mit Daten übereinstimmt
+	/**
+	 * Überprüft, ob ein Subunternehmen dem "Suchen..." - Kriterium entspricht. Gehört zur "Suchen..." - Funktion
+	 * @param p
+	 * @return
+	 */
 	private boolean matchesFilter(Company p) {
 		String filterString = txtSearch.getText();
 
@@ -201,15 +218,12 @@ public class SubcontractorController {
 		
 	}
 	
+	/**
+	 * Aktualisiert den TableView. Gehört zur "Suchen.."-Funktion.
+	 */
 	private void reaplyTableSortOrder() {
 		ArrayList<TableColumn<Company, ?>> sortOrder = new ArrayList<>(subcontractorTableView.getSortOrder());
 		subcontractorTableView.getSortOrder().clear();
 		subcontractorTableView.getSortOrder().addAll(sortOrder);
-	}
-
-	public void initWithMessage(String string) {
-		lblMessage.setText(string);
-	}
-	
-	
+	}	
 }
