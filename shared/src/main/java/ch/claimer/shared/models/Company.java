@@ -36,6 +36,10 @@ public abstract class Company implements Serializable, Model {
 	private String email;
 	private boolean isActive;
 	
+	public Company() {
+		this.isActive = true;
+	}
+	
 	public int getId() {
 		return id;
 	}
