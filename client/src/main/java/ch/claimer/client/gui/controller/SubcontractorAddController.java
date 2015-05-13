@@ -8,6 +8,8 @@ import java.util.ResourceBundle;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -32,10 +34,12 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import ch.claimer.client.proxy.ContactProxy;
 import ch.claimer.client.proxy.SCEmployeeProxy;
 import ch.claimer.client.proxy.SubcontractorProxy;
 import ch.claimer.client.util.ResteasyClientUtil;
 import ch.claimer.shared.models.Company;
+import ch.claimer.shared.models.Contact;
 import ch.claimer.shared.models.Person;
 import ch.claimer.shared.models.SCEmployee;
 import ch.claimer.shared.models.Subcontractor;
@@ -52,7 +56,7 @@ public class SubcontractorAddController implements Initializable {
 	private ObservableList<Person> data = FXCollections.observableArrayList();
 	public static ObservableList<Person> data2 = FXCollections.observableArrayList(); 
 	private Subcontractor subcontractorContainer = null;
-	private SCEmployee sceToEdit = null;
+	private Person persontoEdit = null;
 	
 	private Integer subcontractorID = null;
 	
@@ -99,6 +103,9 @@ public class SubcontractorAddController implements Initializable {
 	private TableColumn<Person, String> colDeleteButton;
 	
 	@FXML
+	private TableColumn<Person, String> colFunction;
+	
+	@FXML
 	private Label lblEmployees;
 	
 	@FXML
@@ -132,6 +139,7 @@ public class SubcontractorAddController implements Initializable {
 		
 		//Mitarbeiter der Firma aus der DB laden
 		SCEmployeeProxy sceProxy = ResteasyClientUtil.getTarget().proxy(SCEmployeeProxy.class);
+		ContactProxy cProxy =  ResteasyClientUtil.getTarget().proxy(ContactProxy.class);
 	    ObjectMapper mapper = new ObjectMapper();
 	    List<Person> personList = null;
 	    
@@ -141,7 +149,12 @@ public class SubcontractorAddController implements Initializable {
 			for(Person p : personList) {
 				data.add(p);
 			}
-						
+			
+			personList = mapper.readValue(cProxy.getBySubcontractor(subcontractorID), new TypeReference<List<SCEmployee>>(){});
+			for(Person p : personList) {
+				data.add(p);
+			}	
+			
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -177,6 +190,24 @@ public class SubcontractorAddController implements Initializable {
 		colPhone.setCellValueFactory(new PropertyValueFactory<Person, String>("phone"));
 		colEmail.setCellValueFactory(new PropertyValueFactory<Person, String>("email"));
 		
+		colFunction.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Person, String>, ObservableValue<String>>() {
+			public ObservableValue<String> call(TableColumn.CellDataFeatures<Person, String> data) {
+				try {
+					String roleName = data.getValue().getLogin().getRole().getName();
+					if(roleName.equals("power")) {
+						roleName = "Sachbearbeiter";
+					} else if(roleName.equals("editor-extern")) {
+						roleName = "Ansprechperson";
+					} else {
+						roleName = "Nicht definiert";
+					}
+					
+					return new SimpleStringProperty(roleName);
+				} catch(NullPointerException e) {
+					return null;
+				}
+			}
+		  });
 		
 		colDeleteButton.setCellFactory(new Callback<TableColumn<Person, String>, TableCell<Person, String>>() {
 		      @Override
@@ -311,16 +342,36 @@ public class SubcontractorAddController implements Initializable {
 			ObservableList<Person> olp = sceTableView.getItems();
 	
 			SCEmployeeProxy sceProxy = ResteasyClientUtil.getTarget().proxy(SCEmployeeProxy.class);
+			ContactProxy cProxy = ResteasyClientUtil.getTarget().proxy(ContactProxy.class);
 			SCEmployee sce = null;
+			Contact contact = null;
 			for(Person p : olp) {
-				sce = (SCEmployee)p;
-				sce.setSubcontractor(sc);
-				if(sce.getId() != 0) {
-					//SCEmployee updaten
-					sceProxy.update(sce);
-				} else {
-					//Neuen SCEmployee erstellen
-					sceProxy.create(sce);
+				switch(p.getLogin().getRole().getName()) {
+					case("power"): {
+						sce = (SCEmployee)p;
+						sce.setSubcontractor(sc);
+						if(sce.getId() != 0) {
+							//SCEmployee updaten
+							sceProxy.update(sce);
+						} else {
+							//Neuen SCEmployee erstellen
+							sceProxy.create(sce);
+						}
+					} break;
+					case("editor-extern"): {
+						contact = (Contact)p;
+						contact.setSubcontractor(sc);
+						if(contact.getId() != 0) {
+							//Contact updaten
+							System.out.println("update" + contact);
+							cProxy.update(contact);
+						} else {
+							System.out.println("create" + contact);
+							//Neuen Contact erstellen
+							cProxy.create(contact);
+						}
+					}
+					break;
 				}
 					
 			}
@@ -363,7 +414,7 @@ public class SubcontractorAddController implements Initializable {
 	 * Neuen View öffnen, um einen SCEmployee zu erfassen
 	 */
 	@FXML
-	private void addSCEmployee() {
+	private void addSubcontractorStaff() {
 		
 		try {
 			Stage stage = new Stage();
@@ -374,7 +425,7 @@ public class SubcontractorAddController implements Initializable {
 			UserAddController controller = loader.<UserAddController>getController();
 			
 			//Controller starten
-			controller.initSCEAdd();
+			controller.initScStaffAdd();
 
 			Scene scene = new Scene(myPane);
 			scene.getStylesheets().add(getClass().getResource("../claimer_styles.css").toExternalForm()); // CSS-File wird geladen
@@ -389,11 +440,11 @@ public class SubcontractorAddController implements Initializable {
 	}
 	
 	@FXML
-	private void editSCEmployee (MouseEvent t){
+	private void editSubcontractorStaff (MouseEvent t){
 		if(t.getClickCount() == 2) {
 			try {
-				
-				sceToEdit = (SCEmployee) sceTableView.getSelectionModel().getSelectedItem();
+
+				persontoEdit = sceTableView.getSelectionModel().getSelectedItem();
 				
 				Stage stage = new Stage();
 				stage.setTitle("Mitarbeiter von Subunternehmen bearbeiten");
@@ -403,7 +454,7 @@ public class SubcontractorAddController implements Initializable {
 				UserAddController controller = loader.<UserAddController>getController();
 				
 				//Controller starten
-				controller.initSCEEdit(sceToEdit);
+				controller.initscStaffEdit(persontoEdit);
 	
 				Scene scene = new Scene(myPane);
 				scene.getStylesheets().add(getClass().getResource("../claimer_styles.css").toExternalForm()); // CSS-File wird geladen
@@ -434,7 +485,7 @@ public class SubcontractorAddController implements Initializable {
 			public void onChanged(javafx.collections.ListChangeListener.Change<? extends Person> c) {
 				if(data2.size() > 0) {
 						
-					data.remove(sceToEdit);	//den aktualisierten aus der Liste entfernen		
+					data.remove(persontoEdit);	//den aktualisierten aus der Liste entfernen		
 					//TableView neu Laden
 					data.addAll(data2);
 					fillTableView();

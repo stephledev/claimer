@@ -272,8 +272,17 @@ public class UserAddController implements Initializable{
 					e.printStackTrace();
 			}
 			 
+			 String dropdownValue = dropdownFunction.getValue();
+			 switch(dropdownValue) {
+			 	case "Sachbearbeiter": dropdownValue = "power";
+			 	break;
+			 	case "Ansprechperson": dropdownValue = "editor-extern";
+			 	break;
+			 	
+			 }
+			 
 			 for(Role role : roleList) {
-				 if(role.getName().equals(dropdownFunction.getValue())) {
+				 if(role.getName().equals(dropdownValue)) {
 					 login.setRole(role);
 				 }
 			}
@@ -454,23 +463,37 @@ public class UserAddController implements Initializable{
 	/**
 	 * Spezielle Behandlung von Subunternehmen-Mitarbeitern, die über den "Subcontractor"-View hinzugefügt werden.
 	 */
-	public void initSCEAdd() {
+	public void initScStaffAdd() {
 		
 		dropdownFunction.getItems().clear();
-		dropdownFunction.getItems().add("power");
-		dropdownFunction.setValue("power");
-
+		dropdownFunction.getItems().add("Sachbearbeiter");
+		dropdownFunction.getItems().add("Ansprechperson");
+		
 		btnSave.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				SCEmployee sce = new SCEmployee();
-				sce = (SCEmployee) validateInputs(sce);
-				if(sce != null) {
-					SubcontractorAddController.data2.add(sce);
-					SubcontractorAddController.data2.clear();
-					Stage stage = (Stage) btnSave.getScene().getWindow();
-				    stage.close();
+				
+				personType = dropdownFunction.getValue();
+				
+				if(personType.equals("Sachbearbeiter")) {
+					SCEmployee sce = new SCEmployee();
+					sce = (SCEmployee) validateInputs(sce);
+					if(sce != null) {
+						SubcontractorAddController.data2.add(sce);
+						SubcontractorAddController.data2.clear();
+						Stage stage = (Stage) btnSave.getScene().getWindow();
+					    stage.close();
+					}
+				} else if(personType.equals("Ansprechperson")) {
+					Contact contact = new Contact();
+					contact = (Contact) validateInputs(contact);
+					if(contact != null) {
+						SubcontractorAddController.data2.add(contact);
+						SubcontractorAddController.data2.clear();
+						Stage stage = (Stage) btnSave.getScene().getWindow();
+					    stage.close();
+					}
 				}
 				
 			}
@@ -486,28 +509,51 @@ public class UserAddController implements Initializable{
 		});		
 	}
 	
-	public void initSCEEdit(SCEmployee scEmployeeToEdit) {
+	public void initscStaffEdit(Person personToEdit) {
 		
 		btnDelete.setVisible(true);
-		initData(scEmployeeToEdit);
+		initData(personToEdit);
 		
-		dropdownFunction.getItems().clear();
-		dropdownFunction.getItems().add("power");
-		dropdownFunction.setValue("power");
+		dropdownFunction.setVisible(false);
+		lblFunction.setVisible(true);
+		
+		String roleName = personToEdit.getLogin().getRole().getName();
+		switch(roleName) {
+			case("power"): {
+				lblFunction.setText("Sachbearbeiter");
+				dropdownFunction.setValue(roleName);
+			}
+			break;
+			case("editor-extern"): {
+				lblFunction.setText("Ansprechperson");
+				dropdownFunction.setValue(roleName);
+			}
+			break;
+		}
 
 		btnSave.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				SCEmployee sce = new SCEmployee();
-				sce = (SCEmployee) validateInputs(sce);
-				
-				if(sce != null) {
-					SubcontractorAddController.data2.add(sce);
-					SubcontractorAddController.data2.clear();
-					Stage stage = (Stage) btnSave.getScene().getWindow();
-				    stage.close();
+				personType = dropdownFunction.getValue();
+				if(personType.equals("power")) {
+					SCEmployee sce = new SCEmployee();
+					sce = (SCEmployee) validateInputs(sce);
+					if(sce != null) {
+						SubcontractorAddController.data2.add(sce);
+						SubcontractorAddController.data2.clear();
+						Stage stage = (Stage) btnSave.getScene().getWindow();
+					    stage.close();
+					}
+				} else if(personType.equals("editor-extern")) {
+					Contact contact = new Contact();
+					contact = (Contact) validateInputs(contact);
+					if(contact != null) {
+						SubcontractorAddController.data2.add(contact);
+						SubcontractorAddController.data2.clear();
+						Stage stage = (Stage) btnSave.getScene().getWindow();
+					    stage.close();
+					}
 				}
 			}
 		});

@@ -90,8 +90,9 @@
                </children>
             </GridPane>
             <Label fx:id="lblEmployees" text="Mitarbeiter:" GridPane.rowIndex="3" />
-            <TableView fx:id="sceTableView" onMouseClicked="#editSCEmployee" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS">
+            <TableView fx:id="sceTableView" onMouseClicked="#editSubcontractorStaff" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS">
               <columns>
+                  <TableColumn fx:id="colFunction" prefWidth="75.0" text="Funktion" />
                 <TableColumn fx:id="colFirstname" prefWidth="75.0" text="Vorname" />
                 <TableColumn fx:id="colLastname" prefWidth="75.0" text="Name" />
                   <TableColumn fx:id="colPhone" prefWidth="75.0" text="Telefon" />
@@ -110,7 +111,7 @@
                 <RowConstraints fillHeight="false" vgrow="NEVER" />
               </rowConstraints>
                <children>
-                  <Button fx:id="btnAddSCEmployee" mnemonicParsing="false" onAction="#addSCEmployee" styleClass="add-button" text="Mitarbeiter hinzufügen" />
+                  <Button fx:id="btnAddSCEmployee" mnemonicParsing="false" onAction="#addSubcontractorStaff" styleClass="add-button" text="Mitarbeiter hinzufügen" />
                </children>
             </GridPane>
             <HBox GridPane.rowIndex="8">
