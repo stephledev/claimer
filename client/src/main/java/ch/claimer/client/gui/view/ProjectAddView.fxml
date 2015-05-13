@@ -213,7 +213,7 @@
                   <GridPane GridPane.columnIndex="2" GridPane.rowIndex="3">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="10.0" prefWidth="90.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="250.0" minWidth="10.0" prefWidth="100.0" />
                     </columnConstraints>
                     <rowConstraints>
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -221,6 +221,9 @@
                      <padding>
                         <Insets left="25.0" top="5.0" />
                      </padding>
+                     <children>
+                        <Button fx:id="bttn_export" mnemonicParsing="false" onAction="#export" text="Mängel exportieren" GridPane.columnIndex="1" />
+                     </children>
                   </GridPane>
                   <GridPane GridPane.columnIndex="2" GridPane.rowIndex="2">
                     <columnConstraints>

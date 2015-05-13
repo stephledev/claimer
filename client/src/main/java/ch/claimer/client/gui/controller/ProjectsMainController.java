@@ -16,7 +16,6 @@ import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
 import ch.claimer.client.proxy.ProjectProxy;
 import ch.claimer.client.util.ResteasyClientUtil;
-import ch.claimer.shared.models.Issue;
 import ch.claimer.shared.models.Project;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;

@@ -1,8 +1,11 @@
 package ch.claimer.client.gui.controller;
 
 import java.awt.Desktop;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -79,6 +82,13 @@ public class ProjectMangleController implements Initializable {
     List<Comment> commentsToShow = null;
     
     private Integer issueId;
+    
+    private Integer projectId;
+    private Integer subcontractorId;
+    private Integer contactId;
+
+    
+    
 	
 	// Maincontent, hierhin werden die verschiedenen Views geladen
 	@FXML
@@ -146,6 +156,9 @@ public class ProjectMangleController implements Initializable {
 
 	@FXML
 	private Button bttn_addPhoto;
+	
+	@FXML
+	private Button bttn_export;
 
 	@FXML
 	private TableView<Comment> commentTableView;
@@ -184,7 +197,7 @@ public class ProjectMangleController implements Initializable {
 
 		//Textfeldproperties (inklusive Login & Rolle) auslesen und zuweisen
 		issue = (Issue) getTextfieldProperties(issue);
-
+		
 		IssueProxy issueProxy = ResteasyClientUtil.getTarget().proxy(IssueProxy.class);
 		if(issueId != null) {
 			issueProxy.update(issue);
@@ -243,29 +256,46 @@ public class ProjectMangleController implements Initializable {
 		
 		txt_issueId.setText(issueId.toString());
 		initiateWebserviceConnection();
-
+		
+		projectId = issueToEdit.getProject().getId();
+		subcontractorId = issueToEdit.getSubcontractor().getId();
+		contactId = issueToEdit.getContact().getId();
+		
 
 		if (issueToEdit.getDescription() != null) {
-			txt_mangleName.setText(issueToEdit.getDescription());
+			txt_mangleDescription.setText(issueToEdit.getDescription());
 		}
 
 		if (issueToEdit.getProject() != null) {
 			txt_projectName.setText(issueToEdit.getProject().getName());
 		}
 		
-		if (issueToEdit.getCreated() != null) {
-			Date b = new Date();
-			Date a = issueToEdit.getCreated().getTime();
-			long diff = a.getTime() - b.getTime();
-			issueDate_start.setValue(LocalDate.now().plusDays(diff));
+		
+		if(issueToEdit.getCreated() != null) { 
+
+			long timestart = issueToEdit.getCreated().getTime().getTime();
+			long days = Math.round( (double)timestart / (24. * 60.*60.*1000.));
+			Date date = new Date();
+			long timenow = date.getTime();
+			long daysnow = Math.round( (double)timenow / (24. * 60.*60.*1000.));
+			long diff = days - daysnow;
+
+			//issueDate_start.setValue(LocalDate.now().plusDays(diff));
+			System.out.println(diff);
+		}
+
+		if(issueToEdit.getCreated() != null) { 
+			long timeend = issueToEdit.getCreated().getTime().getTime();
+			long days = Math.round( (double)timeend / (24. * 60.*60.*1000.));
+			Date date = new Date();
+			long timenow = date.getTime();
+			long daysnow = Math.round( (double)timenow / (24. * 60.*60.*1000.));
+			long diff = days - daysnow;
+
+			issueDate_end.setValue(LocalDate.now().plusDays(diff));
+			
 		}
 		
-		if (issueToEdit.getSolved() != null) {
-			Date b = new Date();
-			Date a = issueToEdit.getSolved().getTime();
-			long diff = a.getTime() - b.getTime();
-			issueDate_end.setValue(LocalDate.now().plusDays(diff));
-		}
 		
 		if(issueToEdit.getState() != null) { 
 			combo_status.setValue(issueToEdit.getState().getName());	
@@ -341,12 +371,32 @@ public class ProjectMangleController implements Initializable {
 		// Dropdown-Felder füllen
 		private Issue getTextfieldProperties(Issue i1) {
 
-			
+			i1.getProject().setId(projectId);
+			i1.getContact().setId(contactId);
+			i1.getSubcontractor().setId(subcontractorId);
+
 			i1.setDescription(txt_mangleDescription.getText());
 //			i1.setContact(txt_contactPerson.getText());	
 			if(issueId != null) {
 				i1.setId(issueId);
 			}	
+			
+			//TODO  Created von Datepicker auslesen und speicher funktioniert nicht
+//			int dayStart = issueDate_start.getValue().getDayOfMonth();
+//		    int monthStart = issueDate_start.getValue().getMonthValue();
+//		    int yearStart =  issueDate_start.getValue().getYear();
+//
+//		    GregorianCalendar calendarStart = new GregorianCalendar();
+//		    calendarStart.set(yearStart, monthStart - 1, dayStart);
+//			i1.setCreated(calendarStart);
+			
+			int dayEnd = issueDate_end.getValue().getDayOfMonth();
+		    int monthEnd = issueDate_end.getValue().getMonthValue();
+		    int yearEnd =  issueDate_end.getValue().getYear();
+
+		    GregorianCalendar calendarEnd = new GregorianCalendar();
+		    calendarEnd.set(yearEnd, monthEnd - 1, dayEnd);
+			i1.setSolved(calendarEnd);
 			
 			//Principal aus DB holen 
 			PrincipalProxy principalProxy = ResteasyClientUtil.getTarget().proxy(PrincipalProxy.class);		
@@ -432,10 +482,11 @@ public class ProjectMangleController implements Initializable {
 				e1.printStackTrace();
 			}
 
+			//TODO
 			//Rollen dem Dropdown hinzufügen
-			for(Principal principal: principalList) {
-				combo_principalName.getItems().add(principal.getLastname());
-			}
+//			for(Principal principal: principalList) {
+//				combo_principalName.getItems().add(principal.getLastname());
+//			}
 		}
 		
 		public void setDropdownSubcontractor()  {
@@ -500,4 +551,52 @@ public class ProjectMangleController implements Initializable {
 			lbl_title.setText(string);
 
 		}
+		
+		@FXML
+		public void export(ActionEvent e)  {
+			try {
+				writeExcel();
+			}
+			catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		public void writeExcel() throws Exception {
+			Writer writer = null;
+			ObservableList<Issue> data = FXCollections.observableArrayList(); 
+
+			try {
+
+				File file = new File("C:\\Mängel.csv.");
+				writer = new BufferedWriter(new FileWriter(file));
+				Issue issue = new Issue();
+				IssueProxy issueProxy = rtarget.proxy(IssueProxy.class);
+
+
+				List<Issue> issuesToShow = mapper.readValue(issueProxy.getAll(), new TypeReference<List<Issue>>(){});
+
+				for(int i = 0; i < issuesToShow.size(); i++) {
+					issue = issuesToShow.get(i);
+					data.add(issue);
+				}
+
+
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+			finally {
+
+				for (Issue issue : data) {
+					String text = issue.getId() + "," + issue.getDescription()+ "," + issue.getProject().getName() + "," + issue.getCreated()+ "," + issue.getSolved() + "," + issue.getState()+ "\n";
+
+					writer.write(text);
+				}
+
+				writer.flush();
+				writer.close();
+			} 
+		}
+		
 }
+		
+		

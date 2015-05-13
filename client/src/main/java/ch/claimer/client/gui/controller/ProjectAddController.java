@@ -2,6 +2,12 @@ package ch.claimer.client.gui.controller;
 
 import java.io.IOException;
 import java.net.URL;import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.chrono.Chronology;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -177,15 +183,33 @@ public class ProjectAddController implements Initializable {
 	// liest Textfelder aus und speichert Daten des Projektes in der DB
 	// Dropdown-Felder füllen
 	private Project getTextfieldProperties(Project p1) {
-
+		
+		
 		p1.setName(txt_projectName.getText());
 		p1.setStreet(txt_street.getText());
 		p1.setZip(txt_Zip.getText());
 		p1.setPlace(txt_place.getText());
 		if(projectId != null) {
 			p1.setId(projectId);
-		}	
+		}
 		
+		int dayStart = date_start.getValue().getDayOfMonth();
+	    int monthStart = date_start.getValue().getMonthValue();
+	    int yearStart =  date_start.getValue().getYear();
+
+	    GregorianCalendar calendarStart = new GregorianCalendar();
+	    calendarStart.set(yearStart, monthStart - 1, dayStart);
+		p1.setStart(calendarStart);
+		
+		int dayEnd = date_end.getValue().getDayOfMonth();
+	    int monthEnd = date_end.getValue().getMonthValue();
+	    int yearEnd =  date_end.getValue().getYear();
+
+	    GregorianCalendar calendarEnd = new GregorianCalendar();
+	    calendarEnd.set(yearEnd, monthEnd - 1, dayEnd);
+		p1.setEnd(calendarEnd);
+		
+		//TODO Fehlermeldung
 		//Supervisor aus DB holen 
 //		SupervisorProxy supervisorProxy = ResteasyClientUtil.getTarget().proxy(SupervisorProxy.class);		
 //		List<Supervisor> supervisorList = null;
@@ -195,7 +219,7 @@ public class ProjectAddController implements Initializable {
 //		} catch (IOException e1) {
 //			e1.printStackTrace();
 //		}
-
+//
 //		//Typ dem Dropdown hinzufügen
 //		for(Supervisor supervisor: supervisorList) {
 //			if(supervisor.getLastname().equals(combo_supervisor.getValue()))
@@ -217,7 +241,8 @@ public class ProjectAddController implements Initializable {
 			if(state.getName().equals(combo_Status.getValue()))
 				p1.setState(state);	
 			}
-
+		
+//TODO Typ wird nicht gespeichert
 		//Typ aus DB holen 
 		TypeProxy typeProxy = ResteasyClientUtil.getTarget().proxy(TypeProxy.class);		
 		List<Type> typeList = null;
@@ -250,20 +275,20 @@ public class ProjectAddController implements Initializable {
 				p1.setCategory(category);
 			}
 	
-		
+		// TODO Fehlermeldung		
 		//KUNDE aus DB holen
-//		PrincipalProxy principalProxy = ResteasyClientUtil.getTarget().proxy(PrincipalProxy.class);		
-//		List<Principal> principalList = null;
-//
-//		try {
-//			principalList = mapper.readValue(principalProxy.getAll(), new TypeReference<List<Principal>>(){});
-//		} catch (IOException e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//			}
-//		
-////TODO Kunden im Dropdown anzeigen - .setPrincipals(principal) nicht möglich
-//		//Rollen dem Dropdown hinzufügen
+		PrincipalProxy principalProxy = ResteasyClientUtil.getTarget().proxy(PrincipalProxy.class);		
+		List<Principal> principalList = null;
+
+		try {
+			principalList = mapper.readValue(principalProxy.getAll(), new TypeReference<List<Principal>>(){});
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			}
+		
+		//TODO Kunden im Dropdown anzeigen - .setPrincipals(principal) nicht möglich
+		//Rollen dem Dropdown hinzufügen
 //		for(Principal principal: principalList) {
 //			if(principal.getLastname().equals(combo_principal.getValue()))
 //				p1.setPrincipals(principalList);
@@ -285,12 +310,29 @@ public class ProjectAddController implements Initializable {
 		if(project.getName() != null) { 
 		txt_projectName.setText(project.getName());	
 		}
-//		if(project.getStart() != null) { 
-//		date_start.setStart(project.getStart());
-//		}
-//		if(project.getEnd() != null) { 
-//		date_end.setEnd(project.getEnd());
-//		}
+		if(project.getStart() != null) { 
+					
+			long timestart = project.getStart().getTime().getTime();
+			long days = Math.round( (double)timestart / (24. * 60.*60.*1000.));
+			Date date = new Date();
+			long timenow = date.getTime();
+			long daysnow = Math.round( (double)timenow / (24. * 60.*60.*1000.));
+			long diff = days - daysnow;
+		
+			date_start.setValue(LocalDate.now().plusDays(diff));
+		}
+			
+		if(project.getEnd() != null) { 
+			long timeend = project.getEnd().getTime().getTime();
+			long days = Math.round( (double)timeend / (24. * 60.*60.*1000.));
+			Date date = new Date();
+			long timenow = date.getTime();
+			long daysnow = Math.round( (double)timenow / (24. * 60.*60.*1000.));
+			long diff = days - daysnow;
+			
+			date_end.setValue(LocalDate.now().plusDays(diff));
+		}
+		
 		if(project.getSupervisor() != null) { 
 		combo_supervisor.setValue(project.getSupervisor().getLastname());
 		}
@@ -313,9 +355,9 @@ public class ProjectAddController implements Initializable {
 			combo_Category.setValue(project.getType().getName());	
 		}
 		//TODO
-		if(project.getPrincipals() != null) { 
-		combo_principal.setValue(project.getPrincipals().get(0).getLastname());
-		}	
+//		if(project.getPrincipals() != null) { 
+//		combo_principal.setValue(project.getPrincipals().get(0).getLastname());
+//		}	
 		
 		initiateWebserviceConnection();
 		
@@ -389,7 +431,8 @@ public class ProjectAddController implements Initializable {
 
 		initiateWebserviceConnection();
 		setDropdownSupervisor();
-		setDropdownPrincipal();
+		//TODO	
+//		setDropdownPrincipal();
 		setDropdownCategory();
 		setDropdownState();
 		setDropdownType();
@@ -525,23 +568,24 @@ public class ProjectAddController implements Initializable {
 			combo_Category.getItems().add(category.getName());
 		}
 	}
-	public void setDropdownPrincipal()  {
-
-		PrincipalProxy principalProxy = ResteasyClientUtil.getTarget().proxy(PrincipalProxy.class);		
-		ObjectMapper mapper = new ObjectMapper();	    
-		List<Principal> principalList = null;
-
-		try {
-			principalList = mapper.readValue(principalProxy.getAll(), new TypeReference<List<Principal>>(){});
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-
-		//Rollen dem Dropdown hinzufügen
-		for(Principal principal: principalList) {
-			combo_principal.getItems().add(principal.getLastname());
-		}
-	}
+//	public void setDropdownPrincipal()  {
+//
+//		PrincipalProxy principalProxy = ResteasyClientUtil.getTarget().proxy(PrincipalProxy.class);		
+//		ObjectMapper mapper = new ObjectMapper();	    
+//		List<Principal> principalList = null;
+//
+//		try {
+//			principalList = mapper.readValue(principalProxy.getAll(), new TypeReference<List<Principal>>(){});
+//		} catch (IOException e1) {
+//			e1.printStackTrace();
+//		}
+		
+		//TODO Fehler-Meldung
+//		//Rollen dem Dropdown hinzufügen
+//		for(Principal principal: principalList) {
+//			combo_principal.getItems().add(principal.getLastname());
+//		}
+//	}
 	
 	/**
 	 * Lädt alle Mängel aus der Datenbank
