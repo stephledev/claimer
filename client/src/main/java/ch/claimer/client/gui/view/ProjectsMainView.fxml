@@ -14,8 +14,10 @@
         <rowConstraints>
           <RowConstraints valignment="CENTER" vgrow="NEVER" />
             <RowConstraints fillHeight="false" maxHeight="20.0" minHeight="20.0" prefHeight="20.0" valignment="CENTER" vgrow="NEVER" />
+            <RowConstraints fillHeight="false" valignment="TOP" vgrow="NEVER" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints fillHeight="false" maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="NEVER" />
+            <RowConstraints fillHeight="false" maxHeight="10.0" minHeight="10.0" prefHeight="10.0" vgrow="ALWAYS" />
+            <RowConstraints fillHeight="false" vgrow="NEVER" />
           <RowConstraints fillHeight="false" valignment="CENTER" vgrow="NEVER" />
         </rowConstraints>
          <children>
@@ -25,14 +27,14 @@
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="TOP" vgrow="SOMETIMES" />
+                <RowConstraints fillHeight="false" valignment="TOP" vgrow="NEVER" />
               </rowConstraints>
                <children>
-                  <Label fx:id="lbl_title" text="Projekt Übersicht" />
+                  <Label fx:id="lbl_title" styleClass="lblViewTitle" text="Projekt Übersicht" />
                   <TextField fx:id="txt_search" promptText="Suche..." GridPane.columnIndex="1" />
                </children>
             </GridPane>
-            <TableView fx:id="projectTableView" onMouseClicked="#editProject" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
+            <TableView fx:id="projectTableView" onMouseClicked="#editProject" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
               <columns>
                 <TableColumn fx:id="colProject" prefWidth="75.0" text="Projekt" />
                   <TableColumn fx:id="colSupervisor" prefWidth="75.0" text="Bauleiter" />
@@ -43,7 +45,8 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <Button fx:id="bttn_addProject" mnemonicParsing="false" onAction="#loadProjectAddView" styleClass="add-button" text="Projekt hinzufügen" GridPane.rowIndex="3" />
+            <Button fx:id="bttn_addProject" mnemonicParsing="false" onAction="#loadProjectAddView" styleClass="add-button" text="Projekt hinzufügen" GridPane.rowIndex="5" />
+            <Label fx:id="lblMessage" alignment="TOP_LEFT" GridPane.halignment="LEFT" GridPane.rowIndex="2" />
          </children>
       </GridPane>
    </children>

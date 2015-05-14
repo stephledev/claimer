@@ -7,9 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.WebTarget;
-
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
@@ -43,22 +40,10 @@ import javafx.util.Callback;
  *
  */
 public class ProjectsMainController implements Initializable{
-	
-	
-	Client client;
-    WebTarget target;
-    ResteasyWebTarget rtarget;
-    
-    ObjectMapper mapper;
-    List<Project> projectsToShow = null;
 
-	
-	//Beinhaltet alle Projekte bei der Initialisation
 	ObservableList<Project> data = FXCollections.observableArrayList(); 
-	//Contains filtered Data (search-function...)
-	ObservableList<Project> dataCopy = FXCollections.observableArrayList(); 
-	
-	
+	ObservableList<Project> filteredData = FXCollections.observableArrayList(); 
+		
 	// Maincontent, hierhin werden die verschiedenen Views geladen
 	@FXML
 	private Pane mainContent;
@@ -87,96 +72,32 @@ public class ProjectsMainController implements Initializable{
 	@FXML
 	private Label lbl_title;
 	
-
-	// Zur ProjectAddView wechseln 
 	@FXML
-	private void loadProjectAddView(ActionEvent event) throws IOException {
-		Pane myPane = FXMLLoader.load(getClass().getResource("../view/ProjectAddView.fxml"));
-		mainContent.getChildren().clear();
-		mainContent.getChildren().setAll(myPane);		
-	}
+	private Label lblMessage;
 	
-	
-	/**
-	 * Öffnet die Detailansicht für einen User, um diesen zu bearbeiten.
-	 * @param t
-	 * @throws IOException
-	 */
-	@FXML
-	private void editProject(MouseEvent t) throws IOException {
-		
-		//Wenn Doppelklick auf Projekt
-		if(t.getClickCount() == 2) {
-			
-			//Angeklickte Projekt laden
-			Project projectID = (Project) projectTableView.getSelectionModel().getSelectedItem();
-
-			//FXMLLoader erstelen
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/ProjectAddView.fxml"));
-			
-			//Neuen View laden
-			Pane myPane = loader.load();
-
-			//UserAddController holen
-			ProjectAddController controller = loader.<ProjectAddController>getController();
-			
-			//Controller starten
-			controller.initData(projectID);			
-			
-			//Neuen View einfügen
-			mainContent.getChildren().clear();
-			mainContent.getChildren().setAll(myPane);
-		}
-	}
-	
-	
-	/**
-	 * Webservice-Verbindung herstellen. Wird automatisch von der initiate-Funktion aufgerufen.
-	 */
-	private void initiateWebserviceConnection() {
-	    rtarget = ResteasyClientUtil.getTarget();
-	    mapper = new ObjectMapper();
-	}
-	
-	
-	/**
-	 * Lädt alle Projekte aus der Datenbank
-	 */
-	private void getProject() {
-
-	    Project project = new Project();
-	    ProjectProxy projectProxy = rtarget.proxy(ProjectProxy.class);
-	    
-	    try {
-	    	projectsToShow = mapper.readValue(projectProxy.getAll(), new TypeReference<List<Project>>(){});
-			
-			for(int i = 0; i < projectsToShow.size(); i++) {
-					project = projectsToShow.get(i);
-			    	data.add(project);
-			    	dataCopy.add(project);
-			    	project = null;
-			    	
-			}
-		} catch (IOException e1) {
-			
-			e1.printStackTrace();
-		}
-		
-	    projectsToShow = null;
-	    
-	}
-	
-
 
 	/**
 	 * Initialisiert den TableView automatisch mit den nötigen Daten, sobald der View aufgerufen wird.
 	 */
 	@Override
 	public void initialize (URL location, ResourceBundle resources) {
-		initiateWebserviceConnection();
-		getProject();
-		
-		
+
+	    //Projekte aus DB laden
+	    ResteasyWebTarget rtarget = ResteasyClientUtil.getTarget();
+	    ObjectMapper mapper = new ObjectMapper();	    	
+	    ProjectProxy projectProxy = rtarget.proxy(ProjectProxy.class);
+	    
+	    try {
+	    	List<Project> projectsToShow = mapper.readValue(projectProxy.getAll(), new TypeReference<List<Project>>(){});
+			
+	    	for(Project p: projectsToShow) {
+	    		data.add(p);
+	    		filteredData.add(p);
+	    	}
+
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 		
 		// Spalten-Values definieren (müssen den Parameter des Company-Objekts entsprechen)
 		colProject.setCellValueFactory(new PropertyValueFactory<Project, String>("name"));
@@ -213,29 +134,80 @@ public class ProjectsMainController implements Initializable{
 			}
 		  });
 
-		// Observable-List, welche die Daten beinhaltet, an die Tabelle
-		// übergeben
-		projectTableView.setItems(data);
+		projectTableView.setItems(filteredData);
 
 		// Listener für Änderungen im Suchenfeld
 		txt_search.textProperty().addListener(new ChangeListener<String>() {
 
 			public void changed(ObservableValue<? extends String> observable,String oldValue, String newValue) {
 
-				updateDataCopy();
+				updateFilteredData();
 			}
 
 		});
 	}
 	
 	
-	// Observable-List mit den gefilterten Daten aktualisieren
-	public void updateDataCopy() {
-		data.clear();
+	/**
+	 * Initialisiert den View und gibt die übergebene Meldung im GUI aus.
+	 * @param string
+	 */
+	public void initWithMessage(String string) {
+		lblMessage.setText(string);
+		
+	}
 
-		for (Project p : dataCopy) {
+	
+	/**
+	 * Öffnet einen neuen View, um ein neues Projekt hinzuzufügen.
+	 * @param event
+	 * @throws IOException
+	 */
+	@FXML
+	private void loadProjectAddView(ActionEvent event) throws IOException {
+		Pane myPane = FXMLLoader.load(getClass().getResource("../view/ProjectAddView.fxml"));
+		mainContent.getChildren().clear();
+		mainContent.getChildren().setAll(myPane);		
+	}
+	
+	
+	/**
+	 * Öffnet einen neuen View, in das angeklickte Projekt zu bearbeiten.
+	 * @param t
+	 * @throws IOException
+	 */
+	@FXML
+	private void editProject(MouseEvent t){
+		
+		//Wenn Doppelklick auf Projekt
+		if(t.getClickCount() == 2) {
+			
+			//Angeklickte Projekt laden
+			Project projectID = (Project) projectTableView.getSelectionModel().getSelectedItem();
+	
+			//Neuen View laden
+			Pane myPane;
+			try {
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/ProjectAddView.fxml"));
+				myPane = loader.load();
+				ProjectAddController controller = loader.<ProjectAddController>getController(); //UserAddController holen
+				controller.initData(projectID); //Controller starten	
+				mainContent.getChildren().clear();
+				mainContent.getChildren().setAll(myPane); //Neuen View einfügen
+			} catch (IOException e) {
+				// TODO LOG Entry
+				e.printStackTrace();
+			}
+		}
+	}	
+
+	// Observable-List mit den gefilterten Daten aktualisieren
+	public void updateFilteredData() {
+		filteredData.clear();
+
+		for (Project p : data) {
 			if (matchesFilter(p)) {
-				data.add(p);
+				filteredData.add(p);
 			}
 		}
 
@@ -267,14 +239,9 @@ public class ProjectsMainController implements Initializable{
 
 	private void reaplyTableSortOrder() {
 		ArrayList<TableColumn<Project, ?>> sortOrder = new ArrayList<>(
-				projectTableView.getSortOrder());
+		projectTableView.getSortOrder());
 		projectTableView.getSortOrder().clear();
 		projectTableView.getSortOrder().addAll(sortOrder);
-	}
-	
-	public void initWithMessage(String string) {
-		lbl_title.setText(string);
-		
 	}
 
 }

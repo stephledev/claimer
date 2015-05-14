@@ -6,244 +6,28 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="mainContent" prefHeight="625.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.claimer.client.gui.controller.ProjectAddController">
+<AnchorPane fx:id="mainContent" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.claimer.client.gui.controller.ProjectAddController">
    <children>
       <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
-          <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="ALWAYS" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
-          <RowConstraints fillHeight="false" maxHeight="294.0" minHeight="10.0" prefHeight="240.0" valignment="TOP" vgrow="NEVER" />
-            <RowConstraints maxHeight="400.0" minHeight="10.0" prefHeight="315.0" valignment="TOP" vgrow="ALWAYS" />
-            <RowConstraints fillHeight="false" minHeight="10.0" prefHeight="10.0" valignment="TOP" vgrow="NEVER" />
-            <RowConstraints fillHeight="false" minHeight="10.0" prefHeight="30.0" valignment="TOP" vgrow="NEVER" />
+          <RowConstraints fillHeight="false" vgrow="NEVER" />
+            <RowConstraints fillHeight="false" vgrow="NEVER" />
+            <RowConstraints fillHeight="false" minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+            <RowConstraints fillHeight="false" maxHeight="20.0" minHeight="20.0" prefHeight="20.0" valignment="TOP" vgrow="NEVER" />
+            <RowConstraints fillHeight="false" valignment="TOP" vgrow="NEVER" />
+            <RowConstraints valignment="TOP" vgrow="ALWAYS" />
+            <RowConstraints fillHeight="false" maxHeight="10.0" minHeight="10.0" prefHeight="10.0" valignment="TOP" vgrow="NEVER" />
+            <RowConstraints fillHeight="false" valignment="TOP" vgrow="NEVER" />
+            <RowConstraints fillHeight="false" maxHeight="20.0" minHeight="20.0" prefHeight="20.0" valignment="TOP" vgrow="NEVER" />
+            <RowConstraints fillHeight="false" valignment="TOP" vgrow="NEVER" />
+            <RowConstraints fillHeight="false" valignment="TOP" vgrow="NEVER" />
         </rowConstraints>
          <children>
-            <Label fx:id="lbl_title" text="Projekt verwalten" />
-            <GridPane GridPane.rowIndex="1">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="60.0" vgrow="ALWAYS" />
-                <RowConstraints fillHeight="false" maxHeight="60.0" minHeight="10.0" prefHeight="60.0" vgrow="ALWAYS" />
-                  <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="60.0" vgrow="ALWAYS" />
-                  <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="60.0" vgrow="ALWAYS" />
-              </rowConstraints>
-               <children>
-                  <GridPane>
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="110.0" minWidth="10.0" prefWidth="110.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="250.0" minWidth="10.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
-                    </rowConstraints>
-                     <children>
-                        <Label text="Projektname:" />
-                        <TextField fx:id="txt_projectName" prefWidth="250.0" GridPane.columnIndex="1">
-                           <GridPane.margin>
-                              <Insets />
-                           </GridPane.margin>
-                        </TextField>
-                     </children>
-                  </GridPane>
-                  <GridPane GridPane.columnIndex="1">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="250.0" minWidth="10.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
-                    </rowConstraints>
-                     <children>
-                        <Label text="Beginn:" />
-                        <DatePicker fx:id="date_start" prefWidth="250.0" GridPane.columnIndex="1" />
-                     </children>
-                     <padding>
-                        <Insets bottom="5.0" left="25.0" right="25.0" top="5.0" />
-                     </padding>
-                  </GridPane>
-                  <GridPane GridPane.columnIndex="2">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="10.0" prefWidth="90.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="250.0" minWidth="10.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
-                    </rowConstraints>
-                     <children>
-                        <Label text="Kunde:" />
-                        <ComboBox fx:id="combo_principal" prefWidth="250.0" GridPane.columnIndex="1" />
-                     </children>
-                     <padding>
-                        <Insets bottom="5.0" left="25.0" top="5.0" />
-                     </padding>
-                  </GridPane>
-                  <GridPane GridPane.rowIndex="1">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="110.0" minWidth="10.0" prefWidth="110.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="250.0" minWidth="10.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <children>
-                        <Label text="Bauleiter:" />
-                        <ComboBox fx:id="combo_supervisor" prefWidth="250.0" GridPane.columnIndex="1" />
-                     </children>
-                  </GridPane>
-                  <GridPane GridPane.columnIndex="1" GridPane.rowIndex="1">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="250.0" minWidth="10.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <children>
-                        <Label text="Ende:" />
-                        <DatePicker fx:id="date_end" prefWidth="250.0" GridPane.columnIndex="1" />
-                     </children>
-                     <padding>
-                        <Insets bottom="5.0" left="25.0" right="25.0" top="5.0" />
-                     </padding>
-                  </GridPane>
-                  <GridPane GridPane.columnIndex="2" GridPane.rowIndex="1">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="10.0" prefWidth="90.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="250.0" minWidth="10.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <padding>
-                        <Insets bottom="5.0" left="25.0" top="5.0" />
-                     </padding>
-                     <children>
-                        <Label text="Projekt-ID:" />
-                        <TextField fx:id="txt_projectId" prefWidth="250.0" GridPane.columnIndex="1" />
-                     </children>
-                  </GridPane>
-                  <GridPane GridPane.rowIndex="2">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="110.0" minWidth="10.0" prefWidth="110.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="250.0" minWidth="10.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <children>
-                        <TextField fx:id="txt_street" prefWidth="250.0" GridPane.columnIndex="1">
-                           <GridPane.margin>
-                              <Insets />
-                           </GridPane.margin>
-                        </TextField>
-                        <Label text="Strasse:" />
-                     </children>
-                  </GridPane>
-                  <GridPane GridPane.columnIndex="1" GridPane.rowIndex="2">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="60.0" minWidth="10.0" prefWidth="55.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="60.0" minWidth="50.0" prefWidth="50.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="130.0" minWidth="10.0" prefWidth="65.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <children>
-                        <Label prefWidth="60.0" text="PLZ:">
-                           <GridPane.margin>
-                              <Insets />
-                           </GridPane.margin></Label>
-                        <TextField fx:id="txt_Zip" prefWidth="60.0" GridPane.columnIndex="1">
-                           <GridPane.margin>
-                              <Insets />
-                           </GridPane.margin></TextField>
-                        <Label prefWidth="60.0" text="Ort:" GridPane.columnIndex="2">
-                           <padding>
-                              <Insets left="10.0" />
-                           </padding>
-                        </Label>
-                        <TextField fx:id="txt_place" prefWidth="130.0" GridPane.columnIndex="3" />
-                     </children>
-                     <GridPane.margin>
-                        <Insets />
-                     </GridPane.margin>
-                     <padding>
-                        <Insets bottom="5.0" left="25.0" right="25.0" top="5.0" />
-                     </padding>
-                  </GridPane>
-                  <GridPane GridPane.rowIndex="3">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="110.0" minWidth="10.0" prefWidth="110.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="250.0" minWidth="10.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <children>
-                        <Label text="Status:" />
-                        <ComboBox fx:id="combo_Status" prefWidth="250.0" GridPane.columnIndex="1">
-                           <GridPane.margin>
-                              <Insets />
-                           </GridPane.margin></ComboBox>
-                     </children>
-                  </GridPane>
-                  <GridPane GridPane.columnIndex="1" GridPane.rowIndex="3">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="250.0" minWidth="10.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <GridPane.margin>
-                        <Insets bottom="5.0" left="25.0" right="25.0" top="5.0" />
-                     </GridPane.margin>
-                     <children>
-                        <Label text="Kategorie:" />
-                        <ComboBox fx:id="combo_Category" prefWidth="250.0" GridPane.columnIndex="1" />
-                     </children>
-                  </GridPane>
-                  <GridPane GridPane.columnIndex="2" GridPane.rowIndex="3">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="10.0" prefWidth="90.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="250.0" minWidth="10.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <padding>
-                        <Insets left="25.0" top="5.0" />
-                     </padding>
-                     <children>
-                        <Button fx:id="bttn_export" mnemonicParsing="false" onAction="#export" text="Mängel exportieren" GridPane.columnIndex="1" />
-                     </children>
-                  </GridPane>
-                  <GridPane GridPane.columnIndex="2" GridPane.rowIndex="2">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="10.0" prefWidth="90.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="250.0" minWidth="10.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <padding>
-                        <Insets bottom="5.0" left="25.0" top="5.0" />
-                     </padding>
-                     <children>
-                        <Label text="Typ:" />
-                        <ComboBox fx:id="combo_type" prefWidth="250.0" GridPane.columnIndex="1" />
-                     </children>
-                  </GridPane>
-               </children>
-            </GridPane>
-            <TableView fx:id="mangleTableView" onMouseClicked="#editProject" prefHeight="375.0" prefWidth="737.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS">
+            <Label fx:id="lbl_title" styleClass="lblViewTitle" text="Projekt verwalten" />
+            <TableView fx:id="mangleTableView" onMouseClicked="#editProject" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS">
               <columns>
                 <TableColumn fx:id="colMangle" prefWidth="75.0" text="Mangel" />
                 <TableColumn fx:id="colSubcontractor" prefWidth="75.0" text="Subunternehmen" />
@@ -254,28 +38,114 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <GridPane GridPane.rowIndex="4">
+            <Label text="Mängel:" GridPane.rowIndex="4" />
+            <HBox GridPane.rowIndex="9">
+               <children>
+                  <Button fx:id="bttn_saveProject" mnemonicParsing="false" onAction="#saveProject" styleClass="save-button" text="Speichern" />
+                  <Button fx:id="bttn_quitProject" mnemonicParsing="false" onAction="#loadProjectMainView" styleClass="back-button" text="Abbrechen">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            <GridPane GridPane.rowIndex="1">
               <columnConstraints>
-                <ColumnConstraints hgrow="NEVER" maxWidth="260.0" minWidth="10.0" prefWidth="260.0" />
-                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="677.0" minWidth="10.0" prefWidth="540.0" />
+                <ColumnConstraints fillWidth="false" hgrow="NEVER" />
+                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="10.0" minWidth="10.0" prefWidth="10.0" />
+                  <ColumnConstraints hgrow="ALWAYS" />
+                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="40.0" minWidth="40.0" prefWidth="40.0" />
+                <ColumnConstraints fillWidth="false" hgrow="NEVER" />
+                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="10.0" minWidth="10.0" prefWidth="10.0" />
+                  <ColumnConstraints hgrow="ALWAYS" />
+                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="40.0" minWidth="40.0" prefWidth="40.0" />
+                  <ColumnConstraints fillWidth="false" hgrow="NEVER" />
+                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="10.0" minWidth="10.0" prefWidth="10.0" />
+                  <ColumnConstraints hgrow="ALWAYS" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints fillHeight="false" maxHeight="10.0" minHeight="10.0" prefHeight="10.0" vgrow="NEVER" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints fillHeight="false" maxHeight="10.0" minHeight="10.0" prefHeight="10.0" vgrow="NEVER" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints fillHeight="false" maxHeight="10.0" minHeight="10.0" prefHeight="10.0" vgrow="NEVER" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Button fx:id="bttn_addMangle" mnemonicParsing="false" onAction="#loadProjectMangleView" styleClass="add-button" text="Mangel hinzufügen" GridPane.columnIndex="1" />
-                  <HBox prefHeight="100.0" prefWidth="200.0">
+                  <Label text="Projektname:" />
+                  <TextField fx:id="txt_projectName" GridPane.columnIndex="2">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </TextField>
+                  <Label text="Bauleiter:" GridPane.rowIndex="2" />
+                  <ComboBox fx:id="combo_supervisor" maxWidth="5000.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <Label text="Strasse:" GridPane.rowIndex="4" />
+                  <TextField fx:id="txt_street" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </TextField>
+                  <Label text="Status:" GridPane.rowIndex="6" />
+                  <ComboBox fx:id="combo_Status" maxWidth="5000.0" GridPane.columnIndex="2" GridPane.rowIndex="6">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </ComboBox>
+                  <Label text="Beginn:" GridPane.columnIndex="4" />
+                  <Label text="Ende:" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                  <DatePicker fx:id="date_start" GridPane.columnIndex="6" />
+                  <DatePicker fx:id="date_end" GridPane.columnIndex="6" GridPane.rowIndex="2" />
+                  <Label text="Kategorie:" GridPane.columnIndex="4" GridPane.rowIndex="6" />
+                  <ComboBox fx:id="combo_Category" maxWidth="5000.0" GridPane.columnIndex="6" GridPane.rowIndex="6" />
+                  <Label text="Kunde:" GridPane.columnIndex="8" />
+                  <ComboBox fx:id="combo_principal" maxWidth="5000.0" GridPane.columnIndex="10" />
+                  <Label text="Projekt-ID:" GridPane.columnIndex="8" GridPane.rowIndex="2" />
+                  <Label fx:id="lblProjectID" text="ID" GridPane.columnIndex="10" GridPane.rowIndex="2" />
+                  <Label text="Typ:" GridPane.columnIndex="8" GridPane.rowIndex="6" />
+                  <ComboBox fx:id="combo_type" maxWidth="5000.0" GridPane.columnIndex="10" GridPane.rowIndex="6" />
+                  <Label prefWidth="60.0" text="PLZ:" GridPane.columnIndex="4" GridPane.rowIndex="4">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </Label>
+                  <GridPane GridPane.columnIndex="6" GridPane.rowIndex="4">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="ALWAYS" />
+                        <ColumnConstraints hgrow="ALWAYS" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
+                      <ColumnConstraints fillWidth="false" hgrow="NEVER" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="10.0" minWidth="10.0" prefWidth="10.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
                      <children>
-                        <Button fx:id="bttn_saveProject" mnemonicParsing="false" onAction="#saveProject" styleClass="save-button" text="Speichern" />
-                        <Button fx:id="bttn_quitProject" mnemonicParsing="false" onAction="#loadProjectMainView" styleClass="delete-button" text="Abbrechen">
-                           <HBox.margin>
-                              <Insets left="20.0" />
-                           </HBox.margin>
-                        </Button>
+                        <TextField fx:id="txt_Zip" maxWidth="100.0" prefWidth="100.0">
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin></TextField>
+                        <Label text="Ort:" GridPane.columnIndex="2">
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                        </Label>
+                        <TextField fx:id="txt_place" GridPane.columnIndex="4" />
                      </children>
-                  </HBox>
+                  </GridPane>
                </children>
             </GridPane>
+            <HBox alignment="TOP_RIGHT" fillHeight="false" nodeOrientation="LEFT_TO_RIGHT" GridPane.halignment="RIGHT" GridPane.rowIndex="7">
+               <children>
+                  <Button fx:id="bttn_export" mnemonicParsing="false" text="Mängel exportieren">
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="bttn_addMangle" mnemonicParsing="false" onAction="#loadProjectMangleView" styleClass="add-button" text="Mangel hinzufügen" />
+               </children>
+            </HBox>
          </children>
       </GridPane>
    </children>
