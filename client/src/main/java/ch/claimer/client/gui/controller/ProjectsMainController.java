@@ -52,7 +52,7 @@ public class ProjectsMainController implements Initializable{
 	private TableView<Project> projectTableView;
 
 	@FXML
-	private TableColumn<Project, String> colProject;
+	private TableColumn<Project, String> colProjectName;
 	
 	@FXML
 	private TableColumn<Project, String> colSupervisor;
@@ -62,6 +62,15 @@ public class ProjectsMainController implements Initializable{
 
 	@FXML
 	private TableColumn<Project, String> colEnd;
+	
+	@FXML
+	private TableColumn<Project, String> colState;
+	
+	@FXML
+	private TableColumn<Project, String> colZIP;
+	
+	@FXML
+	private TableColumn<Project, String> colPlace;
 
 	@FXML
 	private Button bttn_addProject;
@@ -100,7 +109,18 @@ public class ProjectsMainController implements Initializable{
 		}
 		
 		// Spalten-Values definieren (müssen den Parameter des Company-Objekts entsprechen)
-		colProject.setCellValueFactory(new PropertyValueFactory<Project, String>("name"));
+	    colState.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Project, String>, ObservableValue<String>>() {
+			public ObservableValue<String> call(TableColumn.CellDataFeatures<Project, String> data) {
+				try {
+					return new SimpleStringProperty(data.getValue().getState().getName());
+				} catch(NullPointerException e) {
+					return null;
+				}
+			}
+		  });
+		colProjectName.setCellValueFactory(new PropertyValueFactory<Project, String>("name"));
+		colZIP.setCellValueFactory(new PropertyValueFactory<Project, String>("zip"));
+		colPlace.setCellValueFactory(new PropertyValueFactory<Project, String>("place"));
 		colSupervisor.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Project, String>, ObservableValue<String>>() {
 			public ObservableValue<String> call(TableColumn.CellDataFeatures<Project, String> data) {
 				try {

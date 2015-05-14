@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.ws.rs.client.Client;
-import javax.ws.rs.client.WebTarget;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
@@ -17,7 +16,6 @@ import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
 import ch.claimer.client.proxy.CategoryProxy;
 import ch.claimer.client.proxy.IssueProxy;
-import ch.claimer.client.proxy.PrincipalProxy;
 import ch.claimer.client.proxy.ProjectProxy;
 import ch.claimer.client.proxy.StateProxy;
 import ch.claimer.client.proxy.SupervisorProxy;
@@ -25,7 +23,6 @@ import ch.claimer.client.proxy.TypeProxy;
 import ch.claimer.client.util.ResteasyClientUtil;
 import ch.claimer.shared.models.Category;
 import ch.claimer.shared.models.Issue;
-import ch.claimer.shared.models.Principal;
 import ch.claimer.shared.models.Project;
 import ch.claimer.shared.models.State;
 import ch.claimer.shared.models.Supervisor;
@@ -38,6 +35,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -48,6 +46,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 /**
@@ -58,12 +57,9 @@ import javafx.util.Callback;
  */
 public class ProjectAddController implements Initializable {
 	
-	private Client client;
-    private WebTarget target;
     private ResteasyWebTarget rtarget;
     private ObjectMapper mapper;
     private List<Issue> issuesToShow = null;
-    private List<Project> projectsToShow = null;
 	private ObservableList<Issue> data = FXCollections.observableArrayList();
 	private  Integer projectId = null;
 
@@ -276,9 +272,28 @@ public class ProjectAddController implements Initializable {
 	// "Mangel hinzufügen"-Button: zur ProjectMangle-Ansicht wechseln
 	@FXML
 	private void loadProjectMangleView(ActionEvent event) throws IOException {
-		Pane myPane = FXMLLoader.load(getClass().getResource("../view/ProjectMangleView.fxml"));
-		mainContent.getChildren().clear();
-		mainContent.getChildren().setAll(myPane);
+		
+		try {
+			Stage stage = new Stage();
+			stage.setTitle("Mangel erfassen");
+			
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/ProjectMangleView.fxml"));
+			Pane myPane = loader.load();
+			ProjectMangleController controller = loader.<ProjectMangleController>getController();
+			
+			//Controller starten
+			controller.initMangleAdd();
+
+			Scene scene = new Scene(myPane);
+			scene.getStylesheets().add(getClass().getResource("../claimer_styles.css").toExternalForm()); // CSS-File wird geladen
+			stage.setScene(scene);
+		    
+		    //Open new Stage
+			stage.show();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	// "Abbrechen"-Button: zur ProjectMain-Ansicht wechseln 
@@ -433,7 +448,7 @@ public class ProjectAddController implements Initializable {
 			Issue issueID = (Issue) mangleTableView.getSelectionModel()
 					.getSelectedItem();
 
-			// FXMLLoader erstelen
+			// FXMLLoader erstellen
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(
 					"../view/ProjectMangleView.fxml"));
 

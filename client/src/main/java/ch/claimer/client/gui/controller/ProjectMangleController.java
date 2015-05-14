@@ -47,6 +47,7 @@ import ch.claimer.shared.models.Type;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -101,20 +102,14 @@ public class ProjectMangleController implements Initializable {
 	private DatePicker issueDate_end;
 
 	@FXML
-	private Label lbl_title;
+	private Label lblTitle;
 
 	@FXML
 	private TextField txt_mangleName;
-
-	@FXML
-	private TextField txt_issueId;
 	
 	@FXML
 	private TextField txt_addComment;
-
-	@FXML
-	private TextField txt_projectName;
-
+	
 	@FXML
 	private TextField txt_area;
 	
@@ -143,10 +138,7 @@ public class ProjectMangleController implements Initializable {
 	private ComboBox<String> combo_subcontractor;
 
 	@FXML
-	private Button bttn_saveMangle;
-
-	@FXML
-	private Button bttn_quitMangle;
+	private Button btnSave;
 
 	@FXML
 	private Button bttn_quitComment;
@@ -172,23 +164,34 @@ public class ProjectMangleController implements Initializable {
 	@FXML
 	private TableColumn<Comment, String> colAdded;
 
-	// Zur ProjectAdd-Ansicht wechseln (mainView.xml)
-	@FXML
-	private void backToProjectAddView(ActionEvent event) throws IOException {
-		Pane myPane = FXMLLoader.load(getClass().getResource(
-				"../view/ProjectAddView.fxml"));
-		mainContent.getChildren().clear();
-		mainContent.getChildren().setAll(myPane);
-	}
-		
-	@FXML
-	private void addComment(ActionEvent event) throws IOException {
-
-		String comment = txt_addComment.getText();
-		Comment c1 = new Comment();
-		c1.setContent(comment);
+	/**
+	 * Initialisiert das Fenster, um einen neuen Mangel hinzuzufügen.
+	 */
+	public void initMangleAdd() {
+		lblTitle.setText("Neuen Mangel erfassen");		
 	}
 	
+	/**
+	 * Speichert einen Mangel.
+	 */
+	@FXML
+	private void saveIssue() {
+		
+		
+		closeStage();
+	}
+	
+	/**
+	 * Schliesst das aktuelle Fenster.
+	 */
+	@FXML
+	private void closeStage() {
+		Stage stage = (Stage) btnSave.getScene().getWindow();
+	    stage.close();
+	}
+	
+
+	/*
 	// "Speicher"-Button: Speichert den Mangel
 	@FXML
 	private void saveIssue() {
@@ -206,7 +209,8 @@ public class ProjectMangleController implements Initializable {
 		}
 
 		showAddViewWithMessage();
-	}
+	}*/
+	
 	
 	// "Speicher"-Button: Speichert den Mangel
 		@FXML
@@ -222,8 +226,9 @@ public class ProjectMangleController implements Initializable {
 			commentProxy.create(comment);
 
 
-			showIssueViewWithMessage(issue);
+			//showIssueViewWithMessage(issue);
 		}
+		
 	
 	
 	
@@ -254,7 +259,6 @@ public class ProjectMangleController implements Initializable {
 	public void initData(Issue issueToEdit) {
 		issueId = issueToEdit.getId();
 		
-		txt_issueId.setText(issueId.toString());
 		initiateWebserviceConnection();
 		
 		projectId = issueToEdit.getProject().getId();
@@ -264,10 +268,6 @@ public class ProjectMangleController implements Initializable {
 
 		if (issueToEdit.getDescription() != null) {
 			txt_mangleDescription.setText(issueToEdit.getDescription());
-		}
-
-		if (issueToEdit.getProject() != null) {
-			txt_projectName.setText(issueToEdit.getProject().getName());
 		}
 		
 		
@@ -309,7 +309,6 @@ public class ProjectMangleController implements Initializable {
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		txt_issueId.setEditable(false);
 		initiateWebserviceConnection();
 		getComment();
 		setDropdownState();
@@ -521,6 +520,8 @@ public class ProjectMangleController implements Initializable {
 			
 			return comment;
 		}
+		
+		/*
 		private void showIssueViewWithMessage(Issue issue) {
 
 			try {
@@ -545,11 +546,14 @@ public class ProjectMangleController implements Initializable {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}
+		}*/
+		
+		@FXML
+		private void addComment(ActionEvent event) throws IOException {
 
-		public void initWithMessage(String string) {
-			lbl_title.setText(string);
-
+			String comment = txt_addComment.getText();
+			Comment c1 = new Comment();
+			c1.setContent(comment);
 		}
 		
 		@FXML
