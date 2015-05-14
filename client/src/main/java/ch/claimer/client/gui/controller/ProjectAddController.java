@@ -131,7 +131,7 @@ public class ProjectAddController implements Initializable {
 	private TableColumn<Issue, String> colDeadline;
 
 	@FXML
-	private TableColumn<Issue, String> colStatus;
+	private TableColumn<Issue, String> colState;
 	
 	@FXML
 	private Label lblProjectID;
@@ -281,7 +281,7 @@ public class ProjectAddController implements Initializable {
 			}
 		 });
 		
-		colStatus.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Issue, String>, ObservableValue<String>>() {
+		colState.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Issue, String>, ObservableValue<String>>() {
 			public ObservableValue<String> call(TableColumn.CellDataFeatures<Issue, String> data) {
 				try {
 					return new SimpleStringProperty(data.getValue().getState().getName());
@@ -297,7 +297,7 @@ public class ProjectAddController implements Initializable {
 	
 	// "Mangel hinzufügen"-Button: zur ProjectMangle-Ansicht wechseln
 	@FXML
-	private void loadProjectMangleView(ActionEvent event) throws IOException {
+	private void loadIssueView(ActionEvent event) throws IOException {
 		
 		try {
 			Stage stage = new Stage();
@@ -354,7 +354,11 @@ public class ProjectAddController implements Initializable {
 		IssueProxy issueProxy = ResteasyClientUtil.getTarget().proxy(IssueProxy.class);
 		for(Issue issue : issueList) {
 			issue.setProject(project);
-			issueProxy.create(issue);
+			if((Integer)issue.getId() != null) {
+				issueProxy.update(issue);
+			} else {
+				issueProxy.create(issue);
+			}
 		}
 
 		showMainViewWithMessage("Änderungen erfolgreich gespeichert.");
@@ -459,9 +463,6 @@ public class ProjectAddController implements Initializable {
 	}
 
 		
-
-
-	
 	/**
 	 * Webservice-Verbindung herstellen. Wird automatisch von der initiate-Funktion aufgerufen.
 	 */
@@ -478,27 +479,30 @@ public class ProjectAddController implements Initializable {
 		// Wenn Doppelklick auf Mangel
 		if (t.getClickCount() == 2) {
 
-			// Angeklickte Mangel laden
-			Issue issueID = (Issue) mangleTableView.getSelectionModel()
-					.getSelectedItem();
+			try {
+				
+				Issue issueToEdit = (Issue)mangleTableView.getSelectionModel().getSelectedItem();
+				
+				Stage stage = new Stage();
+				stage.setTitle("Mangel bearbeiten");
+				
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/ProjectMangleView.fxml"));
+				Pane myPane = loader.load();
+				ProjectMangleController controller = loader.<ProjectMangleController>getController();
+				
+				//Controller starten
+				controller.initData(issueToEdit);
 
-			// FXMLLoader erstellen
-			FXMLLoader loader = new FXMLLoader(getClass().getResource(
-					"../view/ProjectMangleView.fxml"));
-
-			// Neuen View laden
-			Pane myPane = loader.load();
-
-			// UserAddController holen
-			ProjectMangleController controller = loader
-					.<ProjectMangleController> getController();
-
-			// Controller starten
-			controller.initData(issueID);
-
-			// Neuen View einfügen
-			mainContent.getChildren().clear();
-			mainContent.getChildren().setAll(myPane);
+				Scene scene = new Scene(myPane);
+				scene.getStylesheets().add(getClass().getResource("../claimer_styles.css").toExternalForm()); // CSS-File wird geladen
+				stage.setScene(scene);
+			    
+			    //Open new Stage
+				stage.show();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -525,7 +529,7 @@ public class ProjectAddController implements Initializable {
 			e.printStackTrace();
 		}
 	}
-//TODO Auskommentieren
+
 	/**
 	 * Werte für das "Funktionen"-Dropdown setzen
 	 */
@@ -603,87 +607,11 @@ public class ProjectAddController implements Initializable {
 			combo_Category.getItems().add(category.getName());
 		}
 	}
-//	public void setDropdownPrincipal()  {
-//
-//		PrincipalProxy principalProxy = ResteasyClientUtil.getTarget().proxy(PrincipalProxy.class);		
-//		ObjectMapper mapper = new ObjectMapper();	    
-//		List<Principal> principalList = null;
-//
-//		try {
-//			principalList = mapper.readValue(principalProxy.getAll(), new TypeReference<List<Principal>>(){});
-//		} catch (IOException e1) {
-//			e1.printStackTrace();
-//		}
-		
-		//TODO Fehler-Meldung
-//		//Rollen dem Dropdown hinzufügen
-//		for(Principal principal: principalList) {
-//			combo_principal.getItems().add(principal.getLastname());
-//		}
-//	}
-	
-	/**
-	 * Lädt alle Mängel aus der Datenbank
-	 */
-	private void getIssue(Integer a) {
-		
-	    Issue issue = new Issue();
-	    IssueProxy issueProxy = rtarget.proxy(IssueProxy.class);
-	    
-	    try {
-	    	issuesToShow = mapper.readValue(issueProxy.getByProject(a), new TypeReference<List<Issue>>(){});
 
-			
-			for(int i = 0; i < issuesToShow.size(); i++) {
-					issue = issuesToShow.get(i);
-			    	data.add(issue);
-			    	issue = null;
-			    	
-			}
-		} catch (IOException e1) {
-			
-			e1.printStackTrace();
-		}
-		
-	    issuesToShow = null;   
-	}
-	
+
 	public void initWithMessage(String string) {
-		lbl_title.setText(string);
-
-	}
-	
-	/**
-	 * Öffnet die Detailansicht für einen User, um diesen zu bearbeiten.
-	 * @param t
-	 * @throws IOException
-	 */
-	
-	@FXML
-	private void editProject(MouseEvent t) throws IOException {
+		// TODO Auto-generated method stub
 		
-		//Wenn Doppelklick auf Projekt
-		if(t.getClickCount() == 2) {
-			
-			//Angeklickte Projekt laden
-			Issue issueId = (Issue) mangleTableView.getSelectionModel().getSelectedItem();
-
-			//FXMLLoader erstelen
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/ProjectMangleView.fxml"));
-			
-			//Neuen View laden
-			Pane myPane = loader.load();
-
-			//UserAddController holen
-			ProjectMangleController controller = loader.<ProjectMangleController>getController();
-			
-			//Controller starten
-			controller.initData(issueId);			
-			
-			//Neuen View einfügen
-			mainContent.getChildren().clear();
-			mainContent.getChildren().setAll(myPane);
-		}
 	}
-	
+
 }

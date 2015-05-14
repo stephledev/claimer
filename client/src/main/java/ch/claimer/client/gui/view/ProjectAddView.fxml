@@ -27,10 +27,11 @@
         </rowConstraints>
          <children>
             <Label fx:id="lbl_title" styleClass="lblViewTitle" text="Projekt verwalten" />
-            <TableView fx:id="mangleTableView" onMouseClicked="#editProject" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS">
+            <TableView fx:id="mangleTableView" onMouseClicked="#editIssue" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS">
               <columns>
                 <TableColumn fx:id="colMangle" prefWidth="75.0" text="Mangel" />
-                <TableColumn fx:id="colSubcontractor" prefWidth="75.0" text="Subunternehmen" />
+                  <TableColumn fx:id="colState" prefWidth="75.0" text="Status" />
+                <TableColumn fx:id="colSubcontractor" prefWidth="75.0" text="Zuständiges Subunternehmen" />
                   <TableColumn fx:id="colDeadline" prefWidth="75.0" text="Deadline" />
                   <TableColumn fx:id="colStatus" prefWidth="75.0" text="Status" />
               </columns>
@@ -143,7 +144,7 @@
                         <Insets right="20.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="bttn_addMangle" mnemonicParsing="false" onAction="#loadProjectMangleView" styleClass="add-button" text="Mangel hinzufügen" />
+                  <Button fx:id="bttn_addMangle" mnemonicParsing="false" onAction="#loadIssueView" styleClass="add-button" text="Mangel hinzufügen" />
                </children>
             </HBox>
          </children>

@@ -1,13 +1,11 @@
 package ch.claimer.client.gui.controller;
 
-import java.awt.Desktop;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -19,35 +17,22 @@ import javax.ws.rs.client.WebTarget;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
-import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
-import ch.claimer.client.proxy.CategoryProxy;
 import ch.claimer.client.proxy.CommentProxy;
 import ch.claimer.client.proxy.IssueProxy;
-import ch.claimer.client.proxy.LoginProxy;
 import ch.claimer.client.proxy.PrincipalProxy;
-import ch.claimer.client.proxy.ProjectProxy;
 import ch.claimer.client.proxy.StateProxy;
 import ch.claimer.client.proxy.SubcontractorProxy;
-import ch.claimer.client.proxy.SupervisorProxy;
-import ch.claimer.client.proxy.TypeProxy;
 import ch.claimer.client.util.ResteasyClientUtil;
-import ch.claimer.shared.models.Category;
 import ch.claimer.shared.models.Comment;
 import ch.claimer.shared.models.Issue;
-import ch.claimer.shared.models.Login;
-import ch.claimer.shared.models.Person;
 import ch.claimer.shared.models.Principal;
-import ch.claimer.shared.models.Project;
 import ch.claimer.shared.models.State;
 import ch.claimer.shared.models.Subcontractor;
-import ch.claimer.shared.models.Supervisor;
-import ch.claimer.shared.models.Type;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -60,9 +45,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 /**
@@ -262,13 +245,11 @@ public class ProjectMangleController implements Initializable {
 		
 		projectId = issueToEdit.getProject().getId();
 		subcontractorId = issueToEdit.getSubcontractor().getId();
-		contactId = issueToEdit.getContact().getId();
+		//contactId = issueToEdit.getContact().getId();
 		
-
 		if (issueToEdit.getDescription() != null) {
-			//txt_mangleDescription.setText(issueToEdit.getDescription());
+			txtIssueDescription.setText(issueToEdit.getDescription());
 		}
-		
 		
 		if(issueToEdit.getCreated() != null) { 
 
@@ -279,8 +260,7 @@ public class ProjectMangleController implements Initializable {
 			long daysnow = Math.round( (double)timenow / (24. * 60.*60.*1000.));
 			long diff = days - daysnow;
 
-			//issuedateStart.setValue(LocalDate.now().plusDays(diff));
-			System.out.println(diff);
+			dateCreated.setValue(LocalDate.now().plusDays(diff));
 		}
 
 		if(issueToEdit.getCreated() != null) { 
@@ -291,7 +271,7 @@ public class ProjectMangleController implements Initializable {
 			long daysnow = Math.round( (double)timenow / (24. * 60.*60.*1000.));
 			long diff = days - daysnow;
 
-			//issueDateEnd.setValue(LocalDate.now().plusDays(diff));
+			dateEnd.setValue(LocalDate.now().plusDays(diff));
 			
 		}
 		
@@ -385,23 +365,26 @@ public class ProjectMangleController implements Initializable {
 		}
 		
 		//Startdatum generieren
-		Integer dayCreated = dateCreated.getValue().getDayOfMonth();
-	    Integer monthCreated = dateCreated.getValue().getMonthValue();
-	    Integer yearCreated =  dateCreated.getValue().getYear();
-	    
-	    GregorianCalendar dateCreated = new GregorianCalendar();
-	    dateCreated.set(yearCreated, monthCreated - 1, dayCreated);
-	    issue.setCreated(dateCreated);
+		if(dateCreated != null) {
+			Integer dayCreated = dateCreated.getValue().getDayOfMonth();
+		    Integer monthCreated = dateCreated.getValue().getMonthValue();
+		    Integer yearCreated =  dateCreated.getValue().getYear();
+		    
+		    GregorianCalendar dateCreated = new GregorianCalendar();
+		    dateCreated.set(yearCreated, monthCreated - 1, dayCreated);
+		    issue.setCreated(dateCreated);
+		}
 	    
 	    //Startdatum generieren
-  		Integer dayEnd = dateEnd.getValue().getDayOfMonth();
-  	    Integer monthEnd = dateEnd.getValue().getMonthValue();
-  	    Integer yearEnd =  dateEnd.getValue().getYear();
-  	    
-  	    GregorianCalendar dateEnd = new GregorianCalendar();
-  	    dateEnd.set(yearEnd, monthEnd - 1, dayEnd);
-  	    issue.setSolved(dateEnd);
-				
+		if(dateEnd != null) {
+	  		Integer dayEnd = dateEnd.getValue().getDayOfMonth();
+	  	    Integer monthEnd = dateEnd.getValue().getMonthValue();
+	  	    Integer yearEnd =  dateEnd.getValue().getYear();
+	  	    
+	  	    GregorianCalendar dateEnd = new GregorianCalendar();
+	  	    dateEnd.set(yearEnd, monthEnd - 1, dayEnd);
+	  	    issue.setSolved(dateEnd);
+		}
 		return issue;
 	}
 		
