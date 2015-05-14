@@ -3,7 +3,6 @@ package ch.claimer.client.gui.controller;
 import java.awt.Toolkit;
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import org.codehaus.jackson.map.ObjectMapper;
@@ -63,7 +62,7 @@ public class LoginController extends Main implements Initializable {
 	private Button button_anmelden;
 	
 	@FXML
-	private void anmelden(ActionEvent event) {
+	private void login(ActionEvent event) {
 		
 		//Eingegebenen Benutzernamen und Passwort auslesen
 		String password = psw.getText();
