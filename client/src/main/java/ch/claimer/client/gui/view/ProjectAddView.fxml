@@ -64,13 +64,13 @@
                   <ColumnConstraints hgrow="ALWAYS" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints fillHeight="false" vgrow="NEVER" />
                   <RowConstraints fillHeight="false" maxHeight="10.0" minHeight="10.0" prefHeight="10.0" vgrow="NEVER" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints fillHeight="false" vgrow="NEVER" />
                   <RowConstraints fillHeight="false" maxHeight="10.0" minHeight="10.0" prefHeight="10.0" vgrow="NEVER" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints fillHeight="false" vgrow="NEVER" />
                   <RowConstraints fillHeight="false" maxHeight="10.0" minHeight="10.0" prefHeight="10.0" vgrow="NEVER" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints fillHeight="false" vgrow="NEVER" />
               </rowConstraints>
                <children>
                   <Label text="Projektname:" />
@@ -80,7 +80,7 @@
                      </GridPane.margin>
                   </TextField>
                   <Label text="Bauleiter:" GridPane.rowIndex="2" />
-                  <ComboBox fx:id="combo_supervisor" maxWidth="5000.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <ComboBox fx:id="combo_supervisor" maxWidth="300.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                   <Label text="Strasse:" GridPane.rowIndex="4" />
                   <TextField fx:id="txt_street" GridPane.columnIndex="2" GridPane.rowIndex="4">
                      <GridPane.margin>
@@ -88,23 +88,23 @@
                      </GridPane.margin>
                   </TextField>
                   <Label text="Status:" GridPane.rowIndex="6" />
-                  <ComboBox fx:id="combo_Status" maxWidth="5000.0" GridPane.columnIndex="2" GridPane.rowIndex="6">
+                  <ComboBox fx:id="combo_Status" maxWidth="300.0" GridPane.columnIndex="2" GridPane.rowIndex="6">
                      <GridPane.margin>
                         <Insets />
                      </GridPane.margin>
                   </ComboBox>
                   <Label text="Beginn:" GridPane.columnIndex="4" />
                   <Label text="Ende:" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-                  <DatePicker fx:id="date_start" GridPane.columnIndex="6" />
-                  <DatePicker fx:id="date_end" GridPane.columnIndex="6" GridPane.rowIndex="2" />
+                  <DatePicker fx:id="dateStart" GridPane.columnIndex="6" />
+                  <DatePicker fx:id="dateEnd" GridPane.columnIndex="6" GridPane.rowIndex="2" />
                   <Label text="Kategorie:" GridPane.columnIndex="4" GridPane.rowIndex="6" />
-                  <ComboBox fx:id="combo_Category" maxWidth="5000.0" GridPane.columnIndex="6" GridPane.rowIndex="6" />
+                  <ComboBox fx:id="combo_Category" maxWidth="300.0" GridPane.columnIndex="6" GridPane.rowIndex="6" />
                   <Label text="Kunde:" GridPane.columnIndex="8" />
-                  <ComboBox fx:id="combo_principal" maxWidth="5000.0" GridPane.columnIndex="10" />
+                  <ComboBox fx:id="combo_principal" maxWidth="300.0" GridPane.columnIndex="10" />
                   <Label text="Projekt-ID:" GridPane.columnIndex="8" GridPane.rowIndex="2" />
                   <Label fx:id="lblProjectID" text="ID" GridPane.columnIndex="10" GridPane.rowIndex="2" />
                   <Label text="Typ:" GridPane.columnIndex="8" GridPane.rowIndex="6" />
-                  <ComboBox fx:id="combo_type" maxWidth="5000.0" GridPane.columnIndex="10" GridPane.rowIndex="6" />
+                  <ComboBox fx:id="combo_type" maxWidth="300.0" GridPane.columnIndex="10" GridPane.rowIndex="6" />
                   <Label prefWidth="60.0" text="PLZ:" GridPane.columnIndex="4" GridPane.rowIndex="4">
                      <GridPane.margin>
                         <Insets />

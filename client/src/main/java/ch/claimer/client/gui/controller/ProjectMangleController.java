@@ -96,10 +96,10 @@ public class ProjectMangleController implements Initializable {
 	private Pane mainContent;
 	
 	@FXML
-	private DatePicker issueDate_start;
+	private DatePicker dateCreated;
 	
 	@FXML
-	private DatePicker issueDate_end;
+	private DatePicker dateEnd;
 
 	@FXML
 	private Label lblTitle;
@@ -120,7 +120,7 @@ public class ProjectMangleController implements Initializable {
 	private TextField txt_commentDate;
 
 	@FXML
-	private TextArea txt_mangleDescription;
+	private TextArea txtIssueDescription;
 
 	@FXML
 	private TextField txt_contactPerson;
@@ -129,13 +129,7 @@ public class ProjectMangleController implements Initializable {
 	private TextField txt_principalPhone;
 
 	@FXML
-	private ComboBox<String> combo_principalName;
-
-	@FXML
-	private ComboBox<String> combo_status;
-
-	@FXML
-	private ComboBox<String> combo_subcontractor;
+	private ComboBox<String> dropdownState;
 
 	@FXML
 	private Button btnSave;
@@ -164,6 +158,34 @@ public class ProjectMangleController implements Initializable {
 	@FXML
 	private TableColumn<Comment, String> colAdded;
 
+	@FXML
+	private ComboBox<String> dropdownSubcontractor;
+	
+	@FXML
+	private ComboBox<String> dropdownContact;
+	
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		initiateWebserviceConnection();
+		getComment();
+		setDropdownState();
+		setDropdownPrincipal();
+		setDropdownSubcontractor();
+		
+		// Spalten-Values definieren (müssen den Parameter des Mangel-Objekts
+		// entsprechen)
+		colComment.setCellValueFactory(new PropertyValueFactory<Comment, String>(
+				"content"));
+		colAuthor
+				.setCellValueFactory(new PropertyValueFactory<Comment, String>(
+						"person"));
+		colAdded.setCellValueFactory(new PropertyValueFactory<Comment, String>(
+						"created"));
+		
+
+		commentTableView.setItems(data);
+	}
+	
 	/**
 	 * Initialisiert das Fenster, um einen neuen Mangel hinzuzufügen.
 	 */
@@ -176,8 +198,9 @@ public class ProjectMangleController implements Initializable {
 	 */
 	@FXML
 	private void saveIssue() {
-		
-		
+		Issue issue = new Issue();
+		issue = getTextfieldProperties();
+		ProjectAddController.dataTransfer.add(issue);
 		closeStage();
 	}
 	
@@ -189,47 +212,23 @@ public class ProjectMangleController implements Initializable {
 		Stage stage = (Stage) btnSave.getScene().getWindow();
 	    stage.close();
 	}
-	
-
-	/*
+		
 	// "Speicher"-Button: Speichert den Mangel
 	@FXML
-	private void saveIssue() {
+	private void saveComment() {
 
+		Comment comment = new Comment();
 		Issue issue = new Issue();
 
 		//Textfeldproperties (inklusive Login & Rolle) auslesen und zuweisen
-		issue = (Issue) getTextfieldProperties(issue);
-		
-		IssueProxy issueProxy = ResteasyClientUtil.getTarget().proxy(IssueProxy.class);
-		if(issueId != null) {
-			issueProxy.update(issue);
-		} else {
-			issueProxy.create(issue);
-		}
+		comment = (Comment)  getIssueTextfieldProperties(issue, comment);
 
-		showAddViewWithMessage();
-	}*/
-	
-	
-	// "Speicher"-Button: Speichert den Mangel
-		@FXML
-		private void saveComment() {
-
-			Comment comment = new Comment();
-			Issue issue = new Issue();
-
-			//Textfeldproperties (inklusive Login & Rolle) auslesen und zuweisen
-			comment = (Comment)  getIssueTextfieldProperties(issue, comment);
-
-			CommentProxy commentProxy = ResteasyClientUtil.getTarget().proxy(CommentProxy.class);
-			commentProxy.create(comment);
+		CommentProxy commentProxy = ResteasyClientUtil.getTarget().proxy(CommentProxy.class);
+		commentProxy.create(comment);
 
 
-			//showIssueViewWithMessage(issue);
-		}
-		
-	
+		//showIssueViewWithMessage(issue);
+	}
 	
 	
 	private void showAddViewWithMessage() {
@@ -267,7 +266,7 @@ public class ProjectMangleController implements Initializable {
 		
 
 		if (issueToEdit.getDescription() != null) {
-			txt_mangleDescription.setText(issueToEdit.getDescription());
+			//txt_mangleDescription.setText(issueToEdit.getDescription());
 		}
 		
 		
@@ -280,7 +279,7 @@ public class ProjectMangleController implements Initializable {
 			long daysnow = Math.round( (double)timenow / (24. * 60.*60.*1000.));
 			long diff = days - daysnow;
 
-			//issueDate_start.setValue(LocalDate.now().plusDays(diff));
+			//issuedateStart.setValue(LocalDate.now().plusDays(diff));
 			System.out.println(diff);
 		}
 
@@ -292,42 +291,22 @@ public class ProjectMangleController implements Initializable {
 			long daysnow = Math.round( (double)timenow / (24. * 60.*60.*1000.));
 			long diff = days - daysnow;
 
-			issueDate_end.setValue(LocalDate.now().plusDays(diff));
+			//issueDateEnd.setValue(LocalDate.now().plusDays(diff));
 			
 		}
 		
 		
 		if(issueToEdit.getState() != null) { 
-			combo_status.setValue(issueToEdit.getState().getName());	
+			dropdownState.setValue(issueToEdit.getState().getName());	
 		}
-		
+		/*
 		if(issueToEdit.getSubcontractor() != null) { 
 			combo_subcontractor.setValue(issueToEdit.getSubcontractor().getName());	
-		}
+		}*/
 		
 	}
 	
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-		initiateWebserviceConnection();
-		getComment();
-		setDropdownState();
-		setDropdownPrincipal();
-		setDropdownSubcontractor();
-		
-		// Spalten-Values definieren (müssen den Parameter des Mangel-Objekts
-		// entsprechen)
-		colComment.setCellValueFactory(new PropertyValueFactory<Comment, String>(
-				"content"));
-		colAuthor
-				.setCellValueFactory(new PropertyValueFactory<Comment, String>(
-						"person"));
-		colAdded.setCellValueFactory(new PropertyValueFactory<Comment, String>(
-						"created"));
-		
 
-		commentTableView.setItems(data);
-	}
 	
 	/**
 	 * Lädt alle Kommentare aus der Datenbank
@@ -366,240 +345,218 @@ public class ProjectMangleController implements Initializable {
 	    mapper = new ObjectMapper();
 	}
 	
-	// liest Textfelder aus und speichert Daten des Projektes in der DB
-		// Dropdown-Felder füllen
-		private Issue getTextfieldProperties(Issue i1) {
+	
+	/**
+	 * Liest die Textfelder aus und validiert diese.
+	 * @return
+	 */
+	private Issue getTextfieldProperties() {
 
-			i1.getProject().setId(projectId);
-			i1.getContact().setId(contactId);
-			i1.getSubcontractor().setId(subcontractorId);
+		Issue issue = new Issue();
 
-			i1.setDescription(txt_mangleDescription.getText());
-//			i1.setContact(txt_contactPerson.getText());	
-			if(issueId != null) {
-				i1.setId(issueId);
-			}	
-			
-			//TODO  Created von Datepicker auslesen und speicher funktioniert nicht
-//			int dayStart = issueDate_start.getValue().getDayOfMonth();
-//		    int monthStart = issueDate_start.getValue().getMonthValue();
-//		    int yearStart =  issueDate_start.getValue().getYear();
-//
-//		    GregorianCalendar calendarStart = new GregorianCalendar();
-//		    calendarStart.set(yearStart, monthStart - 1, dayStart);
-//			i1.setCreated(calendarStart);
-			
-			int dayEnd = issueDate_end.getValue().getDayOfMonth();
-		    int monthEnd = issueDate_end.getValue().getMonthValue();
-		    int yearEnd =  issueDate_end.getValue().getYear();
-
-		    GregorianCalendar calendarEnd = new GregorianCalendar();
-		    calendarEnd.set(yearEnd, monthEnd - 1, dayEnd);
-			i1.setSolved(calendarEnd);
-			
-			//Principal aus DB holen 
-			PrincipalProxy principalProxy = ResteasyClientUtil.getTarget().proxy(PrincipalProxy.class);		
+		issue.setDescription(txtIssueDescription.getText());
+		
+		//Subunternehmen dem Mangel zuweisen.
+		try {
+			SubcontractorProxy scProxy = ResteasyClientUtil.getTarget().proxy(SubcontractorProxy.class);		
 			ObjectMapper mapper = new ObjectMapper();	    
-			List<Principal> principalList = null;
-
-//			try {
-//				principalList = mapper.readValue(principalProxy.getAll(), new TypeReference<List<Principal>>(){});
-//			} catch (IOException e1) {
-//				e1.printStackTrace();
-//				}
-
-			//Principal dem Dropdown hinzufügen
-//			for(Principal principal: principalList) {
-//				if(principal.getLastname().equals(combo_principalName.getValue()))
-//					i1.setPrincipal(principal);	
-//				}
+			List<Subcontractor> scList = mapper.readValue(scProxy.getAll(), new TypeReference<List<Subcontractor>>(){});
 			
-			// Status aus DB holen 
+			for(Subcontractor sc: scList) {
+				if(sc.getName().equals(dropdownSubcontractor.getValue())) {
+					issue.setSubcontractor(sc);
+				}
+			}
+			} catch (IOException e1) {
+				e1.printStackTrace();
+		}
+		
+		// Status dem Mangel zuweisen 
+		try {
 			StateProxy stateProxy = ResteasyClientUtil.getTarget().proxy(StateProxy.class);			    
-		    List<State> stateList = null;
+		    List<State> stateList = mapper.readValue(stateProxy.getAll(), new TypeReference<List<State>>(){});
 		    
-			try {
-				stateList = mapper.readValue(stateProxy.getAll(), new TypeReference<List<State>>(){});
-			} catch (IOException e1) {
-				e1.printStackTrace();
-				}
-			
-			//Status dem Dropdown hinzufügen
-			for(State state: stateList) {
-				if(state.getName().equals(combo_status.getValue()))
-					i1.setState(state);	
-				}
-			
-//			// Subcontractor aus DB holen 
-//			SubcontractorProxy subcontractorProxy = ResteasyClientUtil.getTarget().proxy(SubcontractorProxy.class);			    
-//			List<Subcontractor> subcontractorList = null;
-//
-//			try {
-//				subcontractorList = mapper.readValue(subcontractorProxy.getAll(), new TypeReference<List<Subcontractor>>(){});
-//			} catch (IOException e1) {
-//				e1.printStackTrace();
-//			}
-//
-//			//Status dem Dropdown hinzufügen
-//			for(Subcontractor subcontractor: subcontractorList) {
-//				if(subcontractor.getName().equals(combo_subcontractor.getValue()))
-//					i1.setSubcontractor(subcontractor);	
-//			}
-			
-			return i1;
+		    for(State state: stateList) {
+				if(state.getName().equals(dropdownState.getValue()))
+					issue.setState(state);	
+			}
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		}
 		
-
+		//Startdatum generieren
+		Integer dayCreated = dateCreated.getValue().getDayOfMonth();
+	    Integer monthCreated = dateCreated.getValue().getMonthValue();
+	    Integer yearCreated =  dateCreated.getValue().getYear();
+	    
+	    GregorianCalendar dateCreated = new GregorianCalendar();
+	    dateCreated.set(yearCreated, monthCreated - 1, dayCreated);
+	    issue.setCreated(dateCreated);
+	    
+	    //Startdatum generieren
+  		Integer dayEnd = dateEnd.getValue().getDayOfMonth();
+  	    Integer monthEnd = dateEnd.getValue().getMonthValue();
+  	    Integer yearEnd =  dateEnd.getValue().getYear();
+  	    
+  	    GregorianCalendar dateEnd = new GregorianCalendar();
+  	    dateEnd.set(yearEnd, monthEnd - 1, dayEnd);
+  	    issue.setSolved(dateEnd);
+				
+		return issue;
+	}
 		
-		public void setDropdownState()  {
+	
+	
+	public void setDropdownState()  {
 
-			StateProxy stateProxy = ResteasyClientUtil.getTarget().proxy(StateProxy.class);		
-			ObjectMapper mapper = new ObjectMapper();	    
-			List<State> stateList = null;
+		StateProxy stateProxy = ResteasyClientUtil.getTarget().proxy(StateProxy.class);		
+		ObjectMapper mapper = new ObjectMapper();	    
+		List<State> stateList = null;
 
-			try {
-				stateList = mapper.readValue(stateProxy.getAll(), new TypeReference<List<State>>(){});
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-
-			//Status dem Dropdown hinzufügen
-			for(State state: stateList) {
-				combo_status.getItems().add(state.getName());
-			}
+		try {
+			stateList = mapper.readValue(stateProxy.getAll(), new TypeReference<List<State>>(){});
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		}
-		
-		public void setDropdownPrincipal()  {
 
-			PrincipalProxy principalProxy = ResteasyClientUtil.getTarget().proxy(PrincipalProxy.class);		
-			ObjectMapper mapper = new ObjectMapper();	    
-			List<Principal> principalList = null;
+		//Status dem Dropdown hinzufügen
+		for(State state: stateList) {
+			dropdownState.getItems().add(state.getName());
+		}
+	}
+	
+	public void setDropdownPrincipal()  {
 
-			try {
-				principalList = mapper.readValue(principalProxy.getAll(), new TypeReference<List<Principal>>(){});
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
+		PrincipalProxy principalProxy = ResteasyClientUtil.getTarget().proxy(PrincipalProxy.class);		
+		ObjectMapper mapper = new ObjectMapper();	    
+		List<Principal> principalList = null;
 
-			//TODO
-			//Rollen dem Dropdown hinzufügen
+		try {
+			principalList = mapper.readValue(principalProxy.getAll(), new TypeReference<List<Principal>>(){});
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+
+		//TODO
+		//Rollen dem Dropdown hinzufügen
 //			for(Principal principal: principalList) {
 //				combo_principalName.getItems().add(principal.getLastname());
 //			}
-		}
-		
-		public void setDropdownSubcontractor()  {
+	}
+	
+	public void setDropdownSubcontractor()  {
 
+		try {
 			SubcontractorProxy subcontractorProxy = ResteasyClientUtil.getTarget().proxy(SubcontractorProxy.class);		
 			ObjectMapper mapper = new ObjectMapper();	    
-			List<Subcontractor> subcontractorList = null;
-
-			try {
-				subcontractorList = mapper.readValue(subcontractorProxy.getAll(), new TypeReference<List<Subcontractor>>(){});
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-
+			List<Subcontractor> subcontractorList = mapper.readValue(subcontractorProxy.getAll(), new TypeReference<List<Subcontractor>>(){});
+			
 			//Rollen dem Dropdown hinzufügen
 			for(Subcontractor subcontractor: subcontractorList) {
-//				combo_subcontractor.getItems().add((subcontractor.getName());
+				dropdownSubcontractor.getItems().add(subcontractor.getName());
 			}
-		}
-
-		
-		// liest Textfelder aus und speichert Daten des Projektes in der DB
-		// Dropdown-Felder füllen
-		private Comment getIssueTextfieldProperties(Issue i1, Comment c1) {
-			issueId = i1.getId();
-			i1.setComments(commentsToShow);
 			
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+
+		
+	}
+
+	
+	// liest Textfelder aus und speichert Daten des Projektes in der DB
+	// Dropdown-Felder füllen
+	private Comment getIssueTextfieldProperties(Issue i1, Comment c1) {
+		issueId = i1.getId();
+		i1.setComments(commentsToShow);
+		
+		
+		Comment comment = new Comment();
+		comment.setContent(txt_addComment.getText());
+		commentsToShow.add(comment);
+		
+		return comment;
+	}
+	
+	/*
+	private void showIssueViewWithMessage(Issue issue) {
+
+		try {
+			//FXMLLoader erstellen
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/ProjectMangleView.fxml"));
+
+			//Neuen View laden
+			Pane myPane;
+			myPane = loader.load();
+
+			//ProjectAddController holen
+			ProjectMangleController controller = loader.<ProjectMangleController>getController();
+
+			//Controller starten
+			controller.initWithMessage("Änderungen erfolgreich vorgenommen.");			
+
+			//Neuen View einfügen
+			mainContent.getChildren().clear();
+			mainContent.getChildren().setAll(myPane);
+			initData(issue);
 			
-			Comment comment = new Comment();
-			comment.setContent(txt_addComment.getText());
-			commentsToShow.add(comment);
-			
-			return comment;
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		
-		/*
-		private void showIssueViewWithMessage(Issue issue) {
+	}*/
+	
+	@FXML
+	private void addComment(ActionEvent event) throws IOException {
 
-			try {
-				//FXMLLoader erstellen
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/ProjectMangleView.fxml"));
-
-				//Neuen View laden
-				Pane myPane;
-				myPane = loader.load();
-
-				//ProjectAddController holen
-				ProjectMangleController controller = loader.<ProjectMangleController>getController();
-
-				//Controller starten
-				controller.initWithMessage("Änderungen erfolgreich vorgenommen.");			
-
-				//Neuen View einfügen
-				mainContent.getChildren().clear();
-				mainContent.getChildren().setAll(myPane);
-				initData(issue);
-				
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}*/
-		
-		@FXML
-		private void addComment(ActionEvent event) throws IOException {
-
-			String comment = txt_addComment.getText();
-			Comment c1 = new Comment();
-			c1.setContent(comment);
+		String comment = txt_addComment.getText();
+		Comment c1 = new Comment();
+		c1.setContent(comment);
+	}
+	
+	@FXML
+	public void export(ActionEvent e)  {
+		try {
+			writeExcel();
 		}
-		
-		@FXML
-		public void export(ActionEvent e)  {
-			try {
-				writeExcel();
-			}
-			catch (Exception ex) {
-				ex.printStackTrace();
-			}
+		catch (Exception ex) {
+			ex.printStackTrace();
 		}
-		public void writeExcel() throws Exception {
-			Writer writer = null;
-			ObservableList<Issue> data = FXCollections.observableArrayList(); 
+	}
+	public void writeExcel() throws Exception {
+		Writer writer = null;
+		ObservableList<Issue> data = FXCollections.observableArrayList(); 
 
-			try {
+		try {
 
-				File file = new File("C:\\Mängel.csv.");
-				writer = new BufferedWriter(new FileWriter(file));
-				Issue issue = new Issue();
-				IssueProxy issueProxy = rtarget.proxy(IssueProxy.class);
-
-
-				List<Issue> issuesToShow = mapper.readValue(issueProxy.getAll(), new TypeReference<List<Issue>>(){});
-
-				for(int i = 0; i < issuesToShow.size(); i++) {
-					issue = issuesToShow.get(i);
-					data.add(issue);
-				}
+			File file = new File("C:\\Mängel.csv.");
+			writer = new BufferedWriter(new FileWriter(file));
+			Issue issue = new Issue();
+			IssueProxy issueProxy = rtarget.proxy(IssueProxy.class);
 
 
-			} catch (Exception ex) {
-				ex.printStackTrace();
+			List<Issue> issuesToShow = mapper.readValue(issueProxy.getAll(), new TypeReference<List<Issue>>(){});
+
+			for(int i = 0; i < issuesToShow.size(); i++) {
+				issue = issuesToShow.get(i);
+				data.add(issue);
 			}
-			finally {
 
-				for (Issue issue : data) {
-					String text = issue.getId() + "," + issue.getDescription()+ "," + issue.getProject().getName() + "," + issue.getCreated()+ "," + issue.getSolved() + "," + issue.getState()+ "\n";
 
-					writer.write(text);
-				}
-
-				writer.flush();
-				writer.close();
-			} 
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
+		finally {
+
+			for (Issue issue : data) {
+				String text = issue.getId() + "," + issue.getDescription()+ "," + issue.getProject().getName() + "," + issue.getCreated()+ "," + issue.getSolved() + "," + issue.getState()+ "\n";
+
+				writer.write(text);
+			}
+
+			writer.flush();
+			writer.close();
+		} 
+	}
 		
 }
 		

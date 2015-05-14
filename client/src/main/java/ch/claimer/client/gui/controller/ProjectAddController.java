@@ -23,6 +23,7 @@ import ch.claimer.client.proxy.TypeProxy;
 import ch.claimer.client.util.ResteasyClientUtil;
 import ch.claimer.shared.models.Category;
 import ch.claimer.shared.models.Issue;
+import ch.claimer.shared.models.Person;
 import ch.claimer.shared.models.Project;
 import ch.claimer.shared.models.State;
 import ch.claimer.shared.models.Supervisor;
@@ -30,6 +31,7 @@ import ch.claimer.shared.models.Type;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -61,6 +63,7 @@ public class ProjectAddController implements Initializable {
     private ObjectMapper mapper;
     private List<Issue> issuesToShow = null;
 	private ObservableList<Issue> data = FXCollections.observableArrayList();
+	public static ObservableList<Issue> dataTransfer = FXCollections.observableArrayList();
 	private  Integer projectId = null;
 
 	// Views werden ins mainContent-Pane geladen
@@ -110,10 +113,10 @@ public class ProjectAddController implements Initializable {
 	private ComboBox<String> combo_Category;
 
 	@FXML
-	private DatePicker date_start;
+	private DatePicker dateStart;
 
 	@FXML
-	private DatePicker date_end;
+	private DatePicker dateEnd;
 
 	@FXML
 	private TableView<Issue> mangleTableView;
@@ -147,6 +150,25 @@ public class ProjectAddController implements Initializable {
 		setDropdownCategory();
 		setDropdownState();
 		setDropdownType();
+		
+		//Listener,um Änderungen zu überprüfen.
+		dataTransfer.addListener(new ListChangeListener<Issue>() {
+
+			@Override
+			public void onChanged(javafx.collections.ListChangeListener.Change<? extends Issue> c) {
+				System.out.println("changed");
+				if(dataTransfer.size() > 0) {
+						
+					//data.remove(persontoEdit);	//den aktualisierten aus der Liste entfernen		
+					//TableView neu Laden
+					data.addAll(dataTransfer);
+					fillTableView();
+				}
+				
+			}
+		 
+		 });
+
 	}
 	
 	
@@ -174,7 +196,7 @@ public class ProjectAddController implements Initializable {
 			long daysnow = Math.round( (double)timenow / (24. * 60.*60.*1000.));
 			long diff = days - daysnow;
 		
-			date_start.setValue(LocalDate.now().plusDays(diff));
+			dateStart.setValue(LocalDate.now().plusDays(diff));
 		}
 			
 		if(project.getEnd() != null) { 
@@ -185,7 +207,7 @@ public class ProjectAddController implements Initializable {
 			long daysnow = Math.round( (double)timenow / (24. * 60.*60.*1000.));
 			long diff = days - daysnow;
 			
-			date_end.setValue(LocalDate.now().plusDays(diff));
+			dateEnd.setValue(LocalDate.now().plusDays(diff));
 		}
 		
 		if(project.getSupervisor() != null) { 
@@ -230,6 +252,11 @@ public class ProjectAddController implements Initializable {
 			e1.printStackTrace();
 		}
 		
+		fillTableView();
+	
+	}
+	
+	private void fillTableView() {
 		//Mängel-Tabelle initialisieren
 		colMangle.setCellValueFactory(new PropertyValueFactory<Issue, String>("description"));
 		colSubcontractor.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Issue, String>, ObservableValue<String>>() {
@@ -266,7 +293,6 @@ public class ProjectAddController implements Initializable {
 	
 		//Observable-List, welche die Daten beinhaltet, an die Tabelle übergeben
 		mangleTableView.setItems(data);
-	
 	}
 	
 	// "Mangel hinzufügen"-Button: zur ProjectMangle-Ansicht wechseln
@@ -322,6 +348,14 @@ public class ProjectAddController implements Initializable {
 		} else {
 			projectProxy.create(project);
 		}
+		
+		//Mängel speichern.
+		List<Issue> issueList = mangleTableView.getItems();
+		IssueProxy issueProxy = ResteasyClientUtil.getTarget().proxy(IssueProxy.class);
+		for(Issue issue : issueList) {
+			issue.setProject(project);
+			issueProxy.create(issue);
+		}
 
 		showMainViewWithMessage("Änderungen erfolgreich gespeichert.");
 	}
@@ -337,18 +371,18 @@ public class ProjectAddController implements Initializable {
 		p1.setPlace(txt_place.getText());
 		
 		//Startdatum generieren
-		int dayStart = date_start.getValue().getDayOfMonth();
-	    int monthStart = date_start.getValue().getMonthValue();
-	    int yearStart =  date_start.getValue().getYear();
+		int dayStart = dateStart.getValue().getDayOfMonth();
+	    int monthStart = dateStart.getValue().getMonthValue();
+	    int yearStart =  dateStart.getValue().getYear();
 
 	    GregorianCalendar calendarStart = new GregorianCalendar();
 	    calendarStart.set(yearStart, monthStart - 1, dayStart);
 		p1.setStart(calendarStart);
 		
 		//Enddatum generieren
-		int dayEnd = date_end.getValue().getDayOfMonth();
-	    int monthEnd = date_end.getValue().getMonthValue();
-	    int yearEnd =  date_end.getValue().getYear();
+		int dayEnd = dateEnd.getValue().getDayOfMonth();
+	    int monthEnd = dateEnd.getValue().getMonthValue();
+	    int yearEnd =  dateEnd.getValue().getYear();
 
 	    GregorianCalendar calendarEnd = new GregorianCalendar();
 	    calendarEnd.set(yearEnd, monthEnd - 1, dayEnd);
