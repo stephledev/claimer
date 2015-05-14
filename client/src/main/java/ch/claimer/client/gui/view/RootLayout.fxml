@@ -43,14 +43,14 @@
                      </padding></Button>
                </children>
             </HBox>
-            <GridPane prefHeight="97.0" prefWidth="795.0" styleClass="header">
+            <GridPane fx:id="gridPane" prefHeight="97.0" prefWidth="795.0" styleClass="header">
                <children>
-                  <Label styleClass="header-title" text="Mängelmanager">
+                  <Label fx:id="lbl_mangelManager" styleClass="header-title" text="Mängelmanager">
                      <padding>
                         <Insets left="20.0" />
                      </padding>
                   </Label>
-                  <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+                  <HBox fx:id="hBox1" alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
                      <children>
                         <ImageView fitHeight="41.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -61,11 +61,11 @@
                            </HBox.margin>
                         </ImageView>
                         <Label fx:id="lblName" styleClass="header-name" text="Max Muster" />
-                        <SplitMenuButton mnemonicParsing="false" style="-fx-color: transparent; -fx-background-color: transparent;" styleClass=".split-menu-button">
+                        <SplitMenuButton fx:id="splitMenuButton" mnemonicParsing="false" style="-fx-color: transparent; -fx-background-color: transparent;" styleClass=".split-menu-button">
                           <items>
-                            <MenuItem mnemonicParsing="false" text="Profildaten bearbeiten" />
-                            <MenuItem fx:id="logoutButton" mnemonicParsing="false" text="Abmelden" />
-                              <MenuItem mnemonicParsing="false" onAction="#closeClaimer" text="Schliessen" />
+                            <MenuItem fx:id="menuEditUser" mnemonicParsing="false" onAction="#editUser" text="Profildaten bearbeiten" />
+                            <MenuItem fx:id="menuLogout" mnemonicParsing="false" onAction="#logout" text="Abmelden" />
+                              <MenuItem fx:id="menuClose" mnemonicParsing="false" onAction="#closeClaimer" text="Schliessen" />
                           </items>
                            <HBox.margin>
                               <Insets right="20.0" />
