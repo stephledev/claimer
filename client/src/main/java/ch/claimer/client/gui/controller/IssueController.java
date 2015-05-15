@@ -59,9 +59,8 @@ public class IssueController implements Initializable {
 	
 	Client client;
     WebTarget target;
-    ResteasyWebTarget rtarget;
-    ObjectMapper mapper;
-	
+    ResteasyWebTarget rtarget = ResteasyClientUtil.getTarget();
+    ObjectMapper mapper =  new ObjectMapper();
     ObservableList<Comment> data = FXCollections.observableArrayList();
     List<Comment> commentsToShow = null;
     
@@ -147,10 +146,9 @@ public class IssueController implements Initializable {
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		initiateWebserviceConnection();
-		getComment();
-		setDropdownState();
-		setDropdownPrincipal();
+		/*
+		getComments();
+		//setDropdownState();
 		setDropdownSubcontractor();
 		
 		// Spalten-Values definieren
@@ -158,15 +156,9 @@ public class IssueController implements Initializable {
 		colAuthor.setCellValueFactory(new PropertyValueFactory<Comment, String>("person"));
 		colAdded.setCellValueFactory(new PropertyValueFactory<Comment, String>("created"));
 
-		commentTableView.setItems(data);
+		commentTableView.setItems(data);*/
 	}
-	
-	/**
-	 * Initialisiert das Fenster, um einen neuen Mangel hinzuzufügen.
-	 */
-	public void initMangleAdd() {
-		lblTitle.setText("Neuen Mangel erfassen");		
-	}
+
 	
 	/**
 	 * Speichert einen Mangel.
@@ -293,95 +285,27 @@ public class IssueController implements Initializable {
 		Stage stage = (Stage) btnSave.getScene().getWindow();
 	    stage.close();
 	}
-		
-	// "Speicher"-Button: Speichert den Mangel
-	@FXML
-	private void saveComment() {
-
-		Comment comment = new Comment();
-		Issue issue = new Issue();
-
-		//Textfeldproperties (inklusive Login & Rolle) auslesen und zuweisen
-		comment = (Comment)  getIssueTextfieldProperties(issue, comment);
-
-		CommentProxy commentProxy = ResteasyClientUtil.getTarget().proxy(CommentProxy.class);
-		commentProxy.create(comment);
-
-
-		//showIssueViewWithMessage(issue);
-	}
 	
-	
-	private void showAddViewWithMessage() {
-
-		try {
-			//FXMLLoader erstellen
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/ProjectAddView.fxml"));
-
-			//Neuen View laden
-			Pane myPane;
-			myPane = loader.load();
-
-			//ProjectAddController holen
-			ProjectAddController controller = loader.<ProjectAddController>getController();
-
-			//Controller starten
-			controller.initWithMessage("Änderungen erfolgreich vorgenommen.");			
-
-			//Neuen View einfügen
-			mainContent.getChildren().clear();
-			mainContent.getChildren().setAll(myPane);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
+	/**
+	 * Befüllt die Textfelder mit den Daten des zu bearbeitenden Mangels.
+	 * @param issueToEdit
+	 */
 	public void initData(Issue issueToEdit) {
-		issueId = issueToEdit.getId();
-		
-		initiateWebserviceConnection();
-		
-		projectId = issueToEdit.getProject().getId();
+		lblTitle.setText("Mangel bearbeiten.");	
+/*
 		subcontractorId = issueToEdit.getSubcontractor().getId();
-		//contactId = issueToEdit.getContact().getId();
+		dropdownState.setValue(issueToEdit.getState().getName());	
+		txtIssueDescription.setText(issueToEdit.getDescription());
+		dropdownSubcontractor.setValue(issueToEdit.getSubcontractor().getName());
+			System.out.println("hallo");
+		System.out.println(issueToEdit.getSubcontractor().getId());
 		
-		if (issueToEdit.getDescription() != null) {
-			txtIssueDescription.setText(issueToEdit.getDescription());
-		}
+		System.out.println(issueToEdit.getSubcontractor().getName());
 		
-		if(issueToEdit.getCreated() != null) { 
+		//dateCreated.setValue(LocalDate.now().plusDays(diff));
 
-			long timestart = issueToEdit.getCreated().getTime().getTime();
-			long days = Math.round( (double)timestart / (24. * 60.*60.*1000.));
-			Date date = new Date();
-			long timenow = date.getTime();
-			long daysnow = Math.round( (double)timenow / (24. * 60.*60.*1000.));
-			long diff = days - daysnow;
-
-			dateCreated.setValue(LocalDate.now().plusDays(diff));
-		}
-
-		if(issueToEdit.getCreated() != null) { 
-			long timeend = issueToEdit.getCreated().getTime().getTime();
-			long days = Math.round( (double)timeend / (24. * 60.*60.*1000.));
-			Date date = new Date();
-			long timenow = date.getTime();
-			long daysnow = Math.round( (double)timenow / (24. * 60.*60.*1000.));
-			long diff = days - daysnow;
-
-			dateEnd.setValue(LocalDate.now().plusDays(diff));
-			
-		}
-		
-		
-		if(issueToEdit.getState() != null) { 
-			dropdownState.setValue(issueToEdit.getState().getName());	
-		}
-		/*
-		if(issueToEdit.getSubcontractor() != null) { 
-			combo_subcontractor.setValue(issueToEdit.getSubcontractor().getName());	
-		}*/
-		
+		//dateEnd.setValue(LocalDate.now().plusDays(diff));
+	*/	
 	}
 	
 
@@ -389,7 +313,8 @@ public class IssueController implements Initializable {
 	/**
 	 * Lädt alle Kommentare aus der Datenbank
 	 */
-	private void getComment() {
+	
+	private void getComments() {
 
 		Comment comment = new Comment();
 		CommentProxy commentProxy = rtarget.proxy(CommentProxy.class);
@@ -415,18 +340,10 @@ public class IssueController implements Initializable {
 
 	}
 	
+	
 	/**
-	 * Webservice-Verbindung herstellen. Wird automatisch von der initiate-Funktion aufgerufen.
+	 * Befüllt das "Status"-Dropdown mit den Inhalten aus der Datenbank.
 	 */
-	private void initiateWebserviceConnection() {
-	    rtarget = ResteasyClientUtil.getTarget();
-	    mapper = new ObjectMapper();
-	}
-	
-	
-	
-	
-	
 	public void setDropdownState()  {
 
 		StateProxy stateProxy = ResteasyClientUtil.getTarget().proxy(StateProxy.class);		
@@ -444,31 +361,14 @@ public class IssueController implements Initializable {
 			dropdownState.getItems().add(state.getName());
 		}
 	}
-	
-	public void setDropdownPrincipal()  {
 
-		PrincipalProxy principalProxy = ResteasyClientUtil.getTarget().proxy(PrincipalProxy.class);		
-		ObjectMapper mapper = new ObjectMapper();	    
-		List<Principal> principalList = null;
-
-		try {
-			principalList = mapper.readValue(principalProxy.getAll(), new TypeReference<List<Principal>>(){});
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-
-		//TODO
-		//Rollen dem Dropdown hinzufügen
-//			for(Principal principal: principalList) {
-//				combo_principalName.getItems().add(principal.getLastname());
-//			}
-	}
-	
+	/**
+	 * Befüllt das "Subunternehmen"-Dropdown mit den Inhalten aus der Datenbank.
+	 */
 	public void setDropdownSubcontractor()  {
 
 		try {
 			SubcontractorProxy subcontractorProxy = ResteasyClientUtil.getTarget().proxy(SubcontractorProxy.class);		
-			ObjectMapper mapper = new ObjectMapper();	    
 			List<Subcontractor> subcontractorList = mapper.readValue(subcontractorProxy.getAll(), new TypeReference<List<Subcontractor>>(){});
 			
 			//Rollen dem Dropdown hinzufügen
@@ -484,46 +384,34 @@ public class IssueController implements Initializable {
 	}
 
 	
+	// "Speicher"-Button: Speichert den Mangel
+	@FXML
+	private void saveComment() {
+
+		Comment comment = new Comment();
+		Issue issue = new Issue();
+
+		//Textfeldproperties (inklusive Login & Rolle) auslesen und zuweisen
+		comment = (Comment)  getIssueTextfieldProperties(issue, comment);
+
+		CommentProxy commentProxy = ResteasyClientUtil.getTarget().proxy(CommentProxy.class);
+		commentProxy.create(comment);
+
+
+		//showIssueViewWithMessage(issue);
+	}
+	
 	// liest Textfelder aus und speichert Daten des Projektes in der DB
 	// Dropdown-Felder füllen
 	private Comment getIssueTextfieldProperties(Issue i1, Comment c1) {
 		issueId = i1.getId();
 		i1.setComments(commentsToShow);
-		
-		
 		Comment comment = new Comment();
 		comment.setContent(txt_addComment.getText());
 		commentsToShow.add(comment);
 		
 		return comment;
 	}
-	
-	/*
-	private void showIssueViewWithMessage(Issue issue) {
-
-		try {
-			//FXMLLoader erstellen
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/ProjectMangleView.fxml"));
-
-			//Neuen View laden
-			Pane myPane;
-			myPane = loader.load();
-
-			//ProjectAddController holen
-			ProjectMangleController controller = loader.<ProjectMangleController>getController();
-
-			//Controller starten
-			controller.initWithMessage("Änderungen erfolgreich vorgenommen.");			
-
-			//Neuen View einfügen
-			mainContent.getChildren().clear();
-			mainContent.getChildren().setAll(myPane);
-			initData(issue);
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}*/
 	
 	@FXML
 	private void addComment(ActionEvent event) throws IOException {
