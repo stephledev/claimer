@@ -17,6 +17,6 @@
       <Label fx:id="lbl_passwort" layoutX="450.0" layoutY="315.0" prefHeight="41.0" prefWidth="75.0" text="Passwort:" />
       <TextField fx:id="txt_benutzer" layoutX="641.0" layoutY="260.0" prefHeight="31.0" prefWidth="161.0" />
       <PasswordField fx:id="psw" layoutX="641.0" layoutY="320.0" prefHeight="31.0" prefWidth="161.0" />
-      <Button fx:id="button_anmelden" layoutX="702.0" layoutY="380.0" mnemonicParsing="false" onAction="#login" prefHeight="25.0" prefWidth="103.0" text="Anmelden" />
+      <Button fx:id="button_anmelden" layoutX="702.0" layoutY="380.0" mnemonicParsing="false" onAction="#anmelden" prefHeight="25.0" prefWidth="103.0" text="Anmelden" />
    </children>
 </AnchorPane>

@@ -47,46 +47,39 @@ public class TestRMI {
 	public static void oneTimeSetUp() {
 		Config config = ConfigFactory.load();
 		try {
-			projectMethod = (Method<Project>) Naming.lookup(config
-					.getString("rmi.host")
-					+ ":"
-					+ config.getString("rmi.port")
-					+ "/" + "project");
-			gcEmployeeMethod = (Method<GCEmployee>) Naming.lookup(config
-					.getString("rmi.host")
-					+ ":"
-					+ config.getString("rmi.port")
-					+ "/" + "gcemployee");
-			issueMethod = (Method<Issue>) Naming.lookup(config
-					.getString("rmi.host")
-					+ ":"
-					+ config.getString("rmi.port")
-					+ "/" + "issue");
-			stateMethod = (Method<State>) Naming.lookup(config
-					.getString("rmi.host")
-					+ ":"
-					+ config.getString("rmi.port")
-					+ "/" + "state");
-			supervisorMethod = (Method<Supervisor>) Naming.lookup(config
-					.getString("rmi.host")
-					+ ":"
-					+ config.getString("rmi.port")
-					+ "/" + "supervisor");
-			scEmployeeMethod = (Method<SCEmployee>) Naming.lookup(config
-					.getString("rmi.host")
-					+ ":"
-					+ config.getString("rmi.port")
-					+ "/" + "scemployee");
-			subcontractorMethod = (Method<Subcontractor>) Naming.lookup(config
-					.getString("rmi.host")
-					+ ":"
-					+ config.getString("rmi.port")
-					+ "/" + "subcontractor");
+			projectMethod = (Method<Project>) Naming.lookup("rmi://"
+					+ config.getString("rmi.host") + ":"
+					+ config.getString("rmi.port") + "/"
+					+ "project");
+			gcEmployeeMethod = (Method<GCEmployee>) Naming.lookup("rmi://"
+					+ config.getString("rmi.host") + ":"
+					+ config.getString("rmi.port") + "/"
+					+ "gcemployee");
+			issueMethod = (Method<Issue>) Naming.lookup("rmi://"
+					+ config.getString("rmi.host") + ":"
+					+ config.getString("rmi.port") + "/"
+					+ "issue");
+			stateMethod = (Method<State>) Naming.lookup("rmi://"
+					+ config.getString("rmi.host") + ":"
+					+ config.getString("rmi.port") + "/"
+					+ "state");
+			supervisorMethod = (Method<Supervisor>) Naming.lookup("rmi://"
+					+ config.getString("rmi.host") + ":"
+					+ config.getString("rmi.port") + "/"
+					+ "supervisor");
+			scEmployeeMethod = (Method<SCEmployee>) Naming.lookup("rmi://"
+					+ config.getString("rmi.host") + ":"
+					+ config.getString("rmi.port") + "/"
+					+ "scemployee");
+			subcontractorMethod = (Method<Subcontractor>) Naming.lookup("rmi://"
+					+ config.getString("rmi.host") + ":"
+					+ config.getString("rmi.port") + "/"
+					+ "subcontractor");
 
 			State s1 = new State();
 			s1.setName("Status1");
 			stateMethod.create(s1);
-
+			
 			State s2 = new State();
 			s2.setName("Status1");
 			stateMethod.create(s2);
@@ -217,8 +210,7 @@ public class TestRMI {
 			p3 = projectMethod.getById(3);
 			p3.setName("Projectname3_update");
 			projectMethod.update(p3);
-			assertEquals("Projectname3_update", projectMethod.getById(3)
-					.getName());
+			assertEquals("Projectname3_update", projectMethod.getById(3).getName());
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
