@@ -23,10 +23,6 @@ public class AuthenticationService {
 	@SuppressWarnings("unchecked")
 	public AuthenticationService() {
 		Config config = ConfigFactory.load();
-		System.out.println("rmi://"
-					+ config.getString("rmi.host") + ":"
-					+ config.getString("rmi.port") + "/"
-					+ "login");
 		try {
 			this.loginMethod = (Method<Login>) Naming.lookup("rmi://"
 					+ config.getString("rmi.host") + ":"

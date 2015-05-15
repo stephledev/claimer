@@ -26,17 +26,15 @@
 	-fx-padding: 5px 20px;
 }
 
-.header-split-button {
+.header-button {
 	-fx-color: #A4C5D4;
 	-fx-background-color: #60AACC;
 	-fx-background-radius: 0px, 0px;
 
 }
 
-.header-split-button:hover {
-	-fx-color: #A4C5D4;
-	-fx-background-color: #60AACC;
-	-fx-background-radius: 0px, 0px;
+.header-button-item {
+	-fx-text-fill: #000000;
 }
 
 .navigation {

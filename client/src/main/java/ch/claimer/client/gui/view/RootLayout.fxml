@@ -45,7 +45,7 @@
             </HBox>
             <GridPane fx:id="gridPane" prefHeight="97.0" prefWidth="795.0" styleClass="header">
                <children>
-                  <Label fx:id="lbl_mangelManager" styleClass="header-title" text="Mängelmanager">
+                  <Label fx:id="lbl_mangelManager" styleClass="header-title" text="Claimer">
                      <padding>
                         <Insets left="20.0" />
                      </padding>
@@ -61,11 +61,11 @@
                            </HBox.margin>
                         </ImageView>
                         <Label fx:id="lblName" styleClass="header-name" text="Max Muster" />
-                        <SplitMenuButton fx:id="splitMenuButton" mnemonicParsing="false" style="-fx-color: transparent; -fx-background-color: transparent;" styleClass=".split-menu-button">
+                        <SplitMenuButton fx:id="splitMenuButton" mnemonicParsing="false" styleClass="header-button">
                           <items>
-                            <MenuItem fx:id="menuEditUser" mnemonicParsing="false" onAction="#editUser" text="Profildaten bearbeiten" />
-                            <MenuItem fx:id="menuLogout" mnemonicParsing="false" onAction="#logout" text="Abmelden" />
-                              <MenuItem fx:id="menuClose" mnemonicParsing="false" onAction="#closeClaimer" text="Schliessen" />
+                            <MenuItem fx:id="menuEditUser" mnemonicParsing="false" onAction="#editUser" styleClass="header-button-item" text="Profildaten bearbeiten" />
+                            <MenuItem fx:id="menuLogout" mnemonicParsing="false" onAction="#logout" styleClass="header-button-item" text="Abmelden" />
+                              <MenuItem fx:id="menuClose" mnemonicParsing="false" onAction="#closeClaimer" styleClass="header-button-item" text="Schliessen" />
                           </items>
                            <HBox.margin>
                               <Insets right="20.0" />
