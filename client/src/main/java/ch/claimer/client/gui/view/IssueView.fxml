@@ -27,7 +27,7 @@
             <RowConstraints fillHeight="false" valignment="TOP" vgrow="NEVER" />
         </rowConstraints>
          <children>
-            <Label fx:id="lblTitle" styleClass="lblTitle" text="Mangel verwalten" />
+            <Label fx:id="lblTitle" styleClass="lblTitle" text="Neuen Mangel hinzufügen" />
             <HBox GridPane.rowIndex="6">
                <children>
                   <Button fx:id="btnSave" mnemonicParsing="false" onAction="#saveIssue" styleClass="save-button" text="Speichern">

@@ -166,7 +166,7 @@ public class ProjectAddController implements Initializable {
 	
 	
 	/**
-	 * Initialisiert den View mit den Daten des zu bearbeitenden Projekts.
+	 * Initialisiert den View mit den Daten des zu bearbeitenden Projekts sowie den dazugehörigen Mängeln.
 	 * @param project
 	 */
 	public void initData(Project project) {
@@ -288,7 +288,11 @@ public class ProjectAddController implements Initializable {
 		mangleTableView.setItems(data);
 	}
 	
-	// "Mangel hinzufügen"-Button: zur ProjectMangle-Ansicht wechseln
+	/**
+	 * Öffnet ein neues Fenster, um einen Mangel zu erfassen.
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	private void loadIssueView(ActionEvent event) throws IOException {
 		
@@ -301,7 +305,7 @@ public class ProjectAddController implements Initializable {
 			IssueController controller = loader.<IssueController>getController();
 			
 			//Controller starten
-			controller.initMangleAdd();
+			controller.initialize(null, null);
 
 			Scene scene = new Scene(myPane);
 			scene.getStylesheets().add(getClass().getResource("../claimer_styles.css").toExternalForm()); // CSS-File wird geladen
