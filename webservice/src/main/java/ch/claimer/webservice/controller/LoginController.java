@@ -25,9 +25,7 @@ public class LoginController {
 	public LoginController() {
 		Config config = ConfigFactory.load();
 		try {
-			this.method = (Method<Login>) Naming.lookup("rmi://"
-					+ config.getString("rmi.host") + ":"
-					+ config.getString("rmi.port") + "/login");
+			this.method = (Method<Login>) Naming.lookup(config.getString("rmi.host") + "/login");
 		} catch (MalformedURLException | RemoteException | NotBoundException e) {
 			Logger.error(e, "Verbindung mit RMI-Dienst fehlgeschlagen");
 		}

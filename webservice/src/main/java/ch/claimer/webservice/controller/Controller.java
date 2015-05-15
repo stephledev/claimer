@@ -14,7 +14,6 @@ import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 
 import ch.claimer.shared.methods.Method;
-import ch.claimer.shared.models.Login;
 import ch.claimer.shared.models.Model;
 import ch.claimer.webservice.services.ResponseHandlerService;
 
@@ -38,9 +37,9 @@ public class Controller<T extends Model> {
 
 		Config config = ConfigFactory.load();
 		try {
-			this.method = (Method<T>) Naming.lookup("rmi://"
-					+ config.getString("rmi.host") + ":"
-					+ config.getString("rmi.port") + "/"
+			this.method = (Method<T>) Naming.lookup(config
+					.getString("rmi.host")
+					+ "/"
 					+ clazz.getSimpleName().toLowerCase());
 		} catch (MalformedURLException | RemoteException | NotBoundException e) {
 			Logger.error(e, "Verbindung mit RMI-Dienst fehlgeschlagen");
@@ -93,8 +92,8 @@ public class Controller<T extends Model> {
 		} catch (RemoteException e) {
 			Logger.error(e, "Verbindung mit RMI-Dienst fehlgeschlagen");
 		}
-		Logger.info(clazz.getSimpleName()
-				+ " mit Id " + model.getId() + " aktualisiert");
+		Logger.info(clazz.getSimpleName() + " mit Id " + model.getId()
+				+ " aktualisiert");
 		return ResponseHandlerService.success();
 	}
 
@@ -104,8 +103,8 @@ public class Controller<T extends Model> {
 		} catch (RemoteException e) {
 			Logger.error(e, "Verbindung mit RMI-Dienst fehlgeschlagen");
 		}
-		Logger.info(clazz.getSimpleName()
-				+ " mit Id " + model.getId() + " hinzugefügt");
+		Logger.info(clazz.getSimpleName() + " mit Id " + model.getId()
+				+ " hinzugefügt");
 		return ResponseHandlerService.success();
 	}
 
@@ -115,8 +114,7 @@ public class Controller<T extends Model> {
 		} catch (RemoteException e) {
 			Logger.error(e, "Verbindung mit RMI-Dienst fehlgeschlagen");
 		}
-		Logger.info(clazz.getSimpleName()
-				+ " mit Id " + id + " gelöscht");
+		Logger.info(clazz.getSimpleName() + " mit Id " + id + " gelöscht");
 		return ResponseHandlerService.success(String.valueOf(id));
 	}
 }

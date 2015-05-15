@@ -24,18 +24,11 @@ public class AuthenticationService {
 	public AuthenticationService() {
 		Config config = ConfigFactory.load();
 		try {
-			this.loginMethod = (Method<Login>) Naming.lookup("rmi://"
-					+ config.getString("rmi.host") + ":"
-					+ config.getString("rmi.port") + "/"
-					+ "login");
-			this.roleMethod = (Method<Role>) Naming.lookup("rmi://"
-					+ config.getString("rmi.host") + ":"
-					+ config.getString("rmi.port") + "/"
-					+ "role");
+			this.loginMethod = (Method<Login>) Naming.lookup(config.getString("rmi.host") + "/login");
+			this.roleMethod = (Method<Role>) Naming.lookup(config.getString("rmi.host") + "/role");
 		} catch (MalformedURLException | RemoteException | NotBoundException e) {
 			e.printStackTrace();
-		}
-		
+		}	
 	}
 
 	public boolean authenticate(String basic) {
