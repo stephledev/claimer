@@ -8,9 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
- * Representiert die Entität Status und gewährleistet Zugriff auf die Eigenschaften 
- * der Klasse. Beispielsweise benutzt die StateSeed-Klasse die Eigenschaften.
- * Getter- und Settermethoden werden gesetzt.
+ * Repräsentiert die Entität Status und gewährleistet Zugriff auf die
+ * Eigenschaften der Klasse via Getter- und Setter-Methoden.
  * 
  * @author Stephan Beeler
  * @version 1.0
@@ -21,20 +20,20 @@ import javax.persistence.Id;
 public class State implements Serializable, Model {
 
 	private static final long serialVersionUID = -8763273254775352447L;
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String name;
-	
+
 	public State() {
-		
+
 	}
 
 	public int getId() {
 		return id;
 	}
-	
+
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -46,5 +45,5 @@ public class State implements Serializable, Model {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 }

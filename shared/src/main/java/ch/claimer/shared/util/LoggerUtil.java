@@ -8,7 +8,14 @@ import org.pmw.tinylog.writers.RollingFileWriter;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
-
+/**
+ * Lädt die Einstellungen für den Logging-Dienst aus einer Konfigurationsdatei.
+ * 
+ * @author Stephan Beeler
+ * @version 1.0
+ * @since 1.0
+ *
+ */
 public class LoggerUtil {
 	public static void loadConfig() {
 		

@@ -10,13 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonProperty;
-
 /**
- * Representiert die Entität Login und gewährleistet Zugriff auf die Eigenschaften 
- * der Klasse. Beispielsweise benutzt die LoginSeed-Klasse die Eigenschaften.
- * Getter- und Settermethoden werden gesetzt.
+ * Repräsentiert die Entität Login und gewährleistet Zugriff auf die
+ * Eigenschaften der Klasse via Getter- und Setter-Methoden.
  * 
  * @author Stephan Beeler
  * @version 1.0
@@ -25,20 +21,20 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 @Entity
 public class Login implements Serializable, Model {
-	
+
 	private static final long serialVersionUID = -2199992593798784171L;
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	@Column(unique = true)
 	private String username;
 	private String password;
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Role role;
-	
+
 	public Login() {
-		
+
 	}
 
 	public int getId() {
@@ -71,5 +67,5 @@ public class Login implements Serializable, Model {
 
 	public void setRole(Role role) {
 		this.role = role;
-	}	
+	}
 }

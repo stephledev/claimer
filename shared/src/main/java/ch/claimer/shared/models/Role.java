@@ -8,9 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
- * Representiert die Entität Rolle und gewährleistet Zugriff auf die Eigenschaften 
- * der Klasse. Beispielsweise benutzt die RoleSeed-Klasse die Eigenschaften.
- * Getter- und Settermethoden werden gesetzt.
+ * Repräsentiert die Entität Rolle und gewährleistet Zugriff auf die
+ * Eigenschaften der Klasse via Getter- und Setter-Methoden.
  * 
  * @author Stephan Beeler
  * @version 1.0
@@ -19,17 +18,17 @@ import javax.persistence.Id;
 
 @Entity
 public class Role implements Serializable, Model {
-	
+
 	private static final long serialVersionUID = 5766207295876788122L;
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String name;
 	private int value;
-	
+
 	public Role() {
-		
+
 	}
 
 	public int getId() {

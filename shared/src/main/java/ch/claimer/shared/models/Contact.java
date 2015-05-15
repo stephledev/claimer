@@ -4,9 +4,9 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
 /**
- * Representiert die Entität Kontakt und gewährleistet Zugriff auf die Eigenschaften 
- * der Klasse. Beispielsweise benutzt die ContactSeed-Klasse die Eigenschaften.
- * Getter- und Settermethoden werden gesetzt.
+ * Erbt von der Entität Person. Repräsentiert die Entität Kontakt und
+ * gewährleistet Zugriff auf die Eigenschaften der Klasse via Getter- und
+ * Setter-Methoden.
  * 
  * @author Stephan Beeler
  * @version 1.0
@@ -17,12 +17,12 @@ import javax.persistence.ManyToOne;
 public class Contact extends Person {
 
 	private static final long serialVersionUID = -8763273254775352447L;
-	
+
 	@ManyToOne
 	private Subcontractor subcontractor;
-	
+
 	public Contact() {
-		
+
 	}
 
 	public Subcontractor getSubcontractor() {

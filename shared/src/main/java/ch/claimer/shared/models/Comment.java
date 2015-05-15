@@ -12,9 +12,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 /**
- * Representiert die Entität Kommentar und gewährleistet Zugriff auf die Eigenschaften 
- * der Klasse. Beispielsweise benutzt die CommentSeed-Klasse die Eigenschaften.
- * Getter- und Settermethoden werden gesetzt.
+ * Repräsentiert die Entität Kommentar und gewährleistet Zugriff auf die
+ * Eigenschaften der Klasse via Getter- und Setter-Methoden.
  * 
  * @author Stephan Beeler
  * @version 1.0
@@ -23,12 +22,11 @@ import javax.persistence.TemporalType;
 
 @Entity
 public class Comment implements Serializable, Model {
-	
 
 	private static final long serialVersionUID = -7169553372897926055L;
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	@Temporal(TemporalType.TIMESTAMP)
 	private GregorianCalendar created;
@@ -37,9 +35,9 @@ public class Comment implements Serializable, Model {
 	private Supervisor supervisor;
 	@ManyToOne
 	private Contact contact;
-	
+
 	public Comment() {
-		
+
 	}
 
 	public int getId() {
@@ -73,7 +71,7 @@ public class Comment implements Serializable, Model {
 	public void setSupervisor(Supervisor supervisor) {
 		this.supervisor = supervisor;
 	}
-	
+
 	public Contact getContact() {
 		return contact;
 	}
@@ -81,5 +79,5 @@ public class Comment implements Serializable, Model {
 	public void setContact(Contact contact) {
 		this.contact = contact;
 	}
-	
+
 }

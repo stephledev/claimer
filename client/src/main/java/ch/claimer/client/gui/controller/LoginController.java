@@ -85,6 +85,10 @@ public class LoginController extends Main implements Initializable {
 	    
 		try {
 			login = mapper.readValue(loginProxy.check(login), new TypeReference<Login>(){});
+			System.out.println(login);
+			System.out.println(login.getId());
+			System.out.println(login.getUsername());
+			System.out.println(login.getPassword());
 			if(login.getUsername() == null) {
 				lbl_warnung.setText("Login nicht korrekt!");
 				return;

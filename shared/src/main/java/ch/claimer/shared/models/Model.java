@@ -1,7 +1,7 @@
 package ch.claimer.shared.models;
 
 /**
- * Das Interface Model setzt Getter- und Settermethoden.
+ * Interface für sämtliche JPA-Entitäts-Klassen.
  * 
  * @author Stephan Beeler
  * @version 1.0
@@ -9,8 +9,9 @@ package ch.claimer.shared.models;
  */
 
 public interface Model {
-	
+
 	public int getId();
+
 	public void setId(int id);
 
 }

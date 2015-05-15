@@ -3,9 +3,9 @@ package ch.claimer.shared.models;
 import javax.persistence.Entity;
 
 /**
- * Representiert die Entität Generalunternehmer und gewährleistet Zugriff auf die Eigenschaften 
- * der Klasse. 
- * Zudem erbt die Klasse von der Company-Klasse.
+ * Erbt von der Entität Firma. Repräsentiert die Entität Generalunternehmer und
+ * gewährleistet Zugriff auf die Eigenschaften der Klasse via Getter- und
+ * Setter-Methoden.
  * 
  * 
  * @author Stephan Beeler
@@ -15,11 +15,11 @@ import javax.persistence.Entity;
 
 @Entity
 public class GeneralContractor extends Company {
-	
+
 	private static final long serialVersionUID = 1386743620569289562L;
 
 	public GeneralContractor() {
-		
+
 	}
 
 }

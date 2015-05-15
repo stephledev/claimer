@@ -30,7 +30,7 @@ import ch.claimer.shared.models.Supervisor;
 import ch.claimer.shared.models.Type;
 
 /**
- * Hilft sämtliche RMI-Dienste zu registrieren
+ * Hilft sämtliche RMI-Dienste zu registrieren.
  * 
  * @author Stephan Beeler
  * @version 1.0
@@ -69,6 +69,9 @@ public class RMIUtil {
 			methods.put("type", new Controller<Type>(Type.class));
 
 			Registry registry = LocateRegistry.createRegistry(ConfigFactory
+					.load().getInt("rmi.port"));
+			
+			Logger.info("RMI-Dienst läuft auf Port: " + ConfigFactory
 					.load().getInt("rmi.port"));
 
 			if (registry != null) {

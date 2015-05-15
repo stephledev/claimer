@@ -17,9 +17,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 /**
- * Representiert die Entität Mangel und gewährleistet Zugriff auf die Eigenschaften 
- * der Klasse. Beispielsweise benutzt die IssueSeed-Klasse die Eigenschaften.
- * Getter- und Settermethoden werden gesetzt.
+ * Repräsentiert die Entität Mangel und gewährleistet Zugriff auf die
+ * Eigenschaften der Klasse via Getter- und Setter-Methoden.
  * 
  * @author Stephan Beeler
  * @version 1.0
@@ -28,22 +27,22 @@ import javax.persistence.TemporalType;
 
 @Entity
 public class Issue implements Serializable, Model {
-	
+
 	private static final long serialVersionUID = -8619970776064713003L;
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String description;
 	@Temporal(TemporalType.TIMESTAMP)
 	private GregorianCalendar created;
 	@Temporal(TemporalType.TIMESTAMP)
 	private GregorianCalendar solved;
-	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Image> images;
-	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<LogEntry> logEntries = new ArrayList<LogEntry>();
-	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Comment> comments = new ArrayList<Comment>();
 	@OneToOne
 	private Project project;
@@ -53,11 +52,11 @@ public class Issue implements Serializable, Model {
 	private Contact contact;
 	@OneToOne
 	private Subcontractor subcontractor;
-	
+
 	public Issue() {
-		
+
 	}
-	
+
 	public int getId() {
 		return id;
 	}
@@ -73,11 +72,11 @@ public class Issue implements Serializable, Model {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	public void setCreated(GregorianCalendar created){
+
+	public void setCreated(GregorianCalendar created) {
 		this.created = created;
 	}
-	
+
 	public GregorianCalendar getCreated() {
 		return created;
 	}
@@ -90,13 +89,13 @@ public class Issue implements Serializable, Model {
 		this.solved = solved;
 	}
 
-//	public List<Image> getImages() {
-//		return images;
-//	}
-//
-//	public void setImages(List<Image> images) {
-//		this.images = images;
-//	}
+	// public List<Image> getImages() {
+	// return images;
+	// }
+	//
+	// public void setImages(List<Image> images) {
+	// this.images = images;
+	// }
 
 	public List<LogEntry> getLogEntries() {
 		return logEntries;

@@ -18,9 +18,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 /**
- * Representiert die Entität Projekt und gewährleistet Zugriff auf die Eigenschaften 
- * der Klasse. Beispielsweise benutzt die ProjectSeed-Klasse die Eigenschaften.
- * Getter- und Settermethoden werden gesetzt.
+ * Repräsentiert die Entität Projekt und gewährleistet Zugriff auf die
+ * Eigenschaften der Klasse via Getter- und Setter-Methoden.
  * 
  * @author Stephan Beeler
  * @version 1.0
@@ -29,11 +28,11 @@ import javax.persistence.TemporalType;
 
 @Entity
 public class Project implements Serializable, Model {
-	
+
 	private static final long serialVersionUID = -8619970776064713003L;
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String name;
 	@Temporal(TemporalType.TIMESTAMP)
@@ -43,23 +42,23 @@ public class Project implements Serializable, Model {
 	private String street;
 	private String zip;
 	private String place;
-	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<LogEntry> logEntries = new ArrayList<LogEntry>();
-	@OneToOne(fetch=FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER)
 	private Supervisor supervisor;
-	@ManyToMany(fetch=FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Contact> contacts = new ArrayList<Contact>();
-	@OneToOne(fetch=FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER)
 	private Category category;
-	@OneToOne(fetch=FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER)
 	private Type type;
-	@OneToOne(fetch=FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER)
 	private State state;
-	@ManyToMany(fetch=FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Principal> principals = new ArrayList<Principal>();
-	
+
 	public Project() {
-		
+
 	}
 
 	public int getId() {

@@ -11,30 +11,28 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 /**
- * Representiert die Entität LogEntry und gewährleistet Zugriff auf die Eigenschaften 
- * der Klasse. Beispielsweise benutzt die LogEntrySeed-Klasse die Eigenschaften.
- * Getter- und Settermethoden werden gesetzt.
+ * Represäntiert die Entität Log-Eintrag und gewährleistet Zugriff auf die
+ * Eigenschaften der Klasse via Getter- und Setter-Methoden.
  * 
  * @author Stephan Beeler
  * @version 1.0
  * @since 1.0
  */
 
-
 @Entity
 public class LogEntry implements Serializable, Model {
-	
+
 	private static final long serialVersionUID = 7471174781773890597L;
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	@Temporal(TemporalType.TIMESTAMP)
 	private GregorianCalendar date;
 	private String description;
 
 	public LogEntry() {
-		
+
 	}
 
 	public int getId() {
@@ -60,5 +58,5 @@ public class LogEntry implements Serializable, Model {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+
 }

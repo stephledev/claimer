@@ -8,9 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
- * Representiert die Entität Bild und gewährleistet Zugriff auf die Eigenschaften 
- * der Klasse.
- * Getter- und Settermethoden werden gesetzt.
+ * Representiert die Entität Bild und gewährleistet Zugriff auf die
+ * Eigenschaften der Klasse via Getter- und Setter-Methoden.
  * 
  * @author Stephan Beeler
  * @version 1.0
@@ -19,18 +18,17 @@ import javax.persistence.Id;
 
 @Entity
 public class Image implements Serializable, Model {
-	
 
 	private static final long serialVersionUID = -7169553372897926055L;
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String description;
 	private String url;
-	
+
 	public Image() {
-		
+
 	}
 
 	public int getId() {
@@ -56,5 +54,5 @@ public class Image implements Serializable, Model {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	
+
 }

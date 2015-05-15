@@ -10,7 +10,7 @@ import ch.claimer.shared.methods.Method;
 import ch.claimer.shared.models.Model;
 
 /**
- * Implementiert das Method-Interface.
+ * Implementiert die verfügbaren RMI-Methoden.
  * @see Method
  * 
  * @author Stephan Beeler
