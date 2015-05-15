@@ -124,7 +124,7 @@ public class ProjectsMainController implements Initializable{
 		colSupervisor.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Project, String>, ObservableValue<String>>() {
 			public ObservableValue<String> call(TableColumn.CellDataFeatures<Project, String> data) {
 				try {
-					return new SimpleStringProperty(data.getValue().getSupervisor().getLastname());
+					return new SimpleStringProperty(data.getValue().getSupervisor().getFirstname() + " " + data.getValue().getSupervisor().getLastname());
 				} catch(NullPointerException e) {
 					return null;
 				}

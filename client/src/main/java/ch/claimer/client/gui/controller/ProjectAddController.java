@@ -83,34 +83,34 @@ public class ProjectAddController implements Initializable {
 	private Button bttn_addMangle;
 
 	@FXML
-	private TextField txt_projectName;
+	private TextField txtProjectName;
 	
 	@FXML
-	private TextField txt_street;
+	private TextField txtStreet;
 
 	@FXML
-	private TextField txt_Zip;
+	private TextField txtZip;
 
 	@FXML
-	private TextField txt_place;
+	private TextField txtPlace;
 
 	@FXML
 	private TextField txt_principalPhone;
 
 	@FXML
-	private ComboBox<String> combo_supervisor;
+	private ComboBox<String> dropdownSupervisor;
 
 	@FXML
-	private ComboBox<String> combo_Status;
+	private ComboBox<String> dropdownState;
 	
 	@FXML
-	private ComboBox<String> combo_type;
+	private ComboBox<String> dropdownType;
 
 	@FXML
 	private ComboBox<String> combo_principal;
 	
 	@FXML
-	private ComboBox<String> combo_Category;
+	private ComboBox<String> dropdownCategory;
 
 	@FXML
 	private DatePicker dateStart;
@@ -156,12 +156,12 @@ public class ProjectAddController implements Initializable {
 
 			@Override
 			public void onChanged(javafx.collections.ListChangeListener.Change<? extends Issue> c) {
-				System.out.println("changed");
 				if(dataTransfer.size() > 0) {
-						
+						System.out.println("change");
 					//data.remove(persontoEdit);	//den aktualisierten aus der Liste entfernen		
 					//TableView neu Laden
 					data.addAll(dataTransfer);
+
 					fillTableView();
 				}
 				
@@ -184,7 +184,7 @@ public class ProjectAddController implements Initializable {
 		lblProjectID.setText(projectId.toString());
 
 		if(project.getName() != null) { 
-			txt_projectName.setText(project.getName());	
+			txtProjectName.setText(project.getName());	
 		}
 		
 		if(project.getStart() != null) { 
@@ -211,26 +211,26 @@ public class ProjectAddController implements Initializable {
 		}
 		
 		if(project.getSupervisor() != null) { 
-			combo_supervisor.setValue(project.getSupervisor().getLastname());
+			dropdownSupervisor.setValue(project.getSupervisor().getLastname());
 		}
 		if(project.getStreet() != null) { 
-			txt_street.setText(project.getStreet());
+			txtStreet.setText(project.getStreet());
 		}
 		if(project.getZip() != null) { 
-			txt_Zip.setText(project.getZip());
+			txtZip.setText(project.getZip());
 		}
 		if(project.getPlace() != null) { 
-			txt_place.setText(project.getPlace());	
+			txtPlace.setText(project.getPlace());	
 		}
 		if(project.getState() != null) { 
-			combo_Status.setValue(project.getState().getName());	
+			dropdownState.setValue(project.getState().getName());	
 		}
 		if(project.getCategory() != null) { 
-			combo_Category.setValue(project.getCategory().getName());	
+			dropdownCategory.setValue(project.getCategory().getName());	
 		}
 		
 		if(project.getType().getName() != null) {
-			combo_type.setValue(project.getType().getName());
+			dropdownType.setValue(project.getType().getName());
 		}
 
 		//TODO Bauherren anzeigen.
@@ -340,96 +340,163 @@ public class ProjectAddController implements Initializable {
 
 		//Textfeldproperties auslesen und zuweisen
 		project = (Project) getTextfieldProperties(project);
+		
+		if(project != null) {
+			ProjectProxy projectProxy = ResteasyClientUtil.getTarget().proxy(ProjectProxy.class);
+			if(projectId != null) {
+				project.setId(projectId);
+				projectProxy.update(project);
+			} else {
+				projectProxy.create(project);
+			}
+			
+			//Mängel speichern.
+			List<Issue> issueList = mangleTableView.getItems();
+			IssueProxy issueProxy = ResteasyClientUtil.getTarget().proxy(IssueProxy.class);
+			for(Issue issue : issueList) {
+				issue.setProject(project);
+				if((Integer)issue.getId() != null) {
+					issueProxy.update(issue);
+				} else {
+					issueProxy.create(issue);
+				}
+			}
 
-		ProjectProxy projectProxy = ResteasyClientUtil.getTarget().proxy(ProjectProxy.class);
-		if(projectId != null) {
-			project.setId(projectId);
-			projectProxy.update(project);
+			showMainViewWithMessage("Änderungen erfolgreich gespeichert.");
+		}
+	}
+	
+	
+	private Boolean checkLength(String text, int minLength, int maxLength) {
+		
+		if(text.length() < minLength || text.length() > maxLength) {
+			return true;
 		} else {
-			projectProxy.create(project);
+			return false;
 		}
 		
-		//Mängel speichern.
-		List<Issue> issueList = mangleTableView.getItems();
-		IssueProxy issueProxy = ResteasyClientUtil.getTarget().proxy(IssueProxy.class);
-		for(Issue issue : issueList) {
-			issue.setProject(project);
-			if((Integer)issue.getId() != null) {
-				issueProxy.update(issue);
-			} else {
-				issueProxy.create(issue);
-			}
-		}
-
-		showMainViewWithMessage("Änderungen erfolgreich gespeichert.");
 	}
 	
 	// liest Textfelder aus und speichert Daten des Projektes in der DB
 	// Dropdown-Felder füllen
 	private Project getTextfieldProperties(Project p1) {
 		
+		Boolean validationError = false;
 		
-		p1.setName(txt_projectName.getText());
-		p1.setStreet(txt_street.getText());
-		p1.setZip(txt_Zip.getText());
-		p1.setPlace(txt_place.getText());
-		
-		//Startdatum generieren
-		int dayStart = dateStart.getValue().getDayOfMonth();
-	    int monthStart = dateStart.getValue().getMonthValue();
-	    int yearStart =  dateStart.getValue().getYear();
-
-	    GregorianCalendar calendarStart = new GregorianCalendar();
-	    calendarStart.set(yearStart, monthStart - 1, dayStart);
-		p1.setStart(calendarStart);
-		
-		//Enddatum generieren
-		int dayEnd = dateEnd.getValue().getDayOfMonth();
-	    int monthEnd = dateEnd.getValue().getMonthValue();
-	    int yearEnd =  dateEnd.getValue().getYear();
-
-	    GregorianCalendar calendarEnd = new GregorianCalendar();
-	    calendarEnd.set(yearEnd, monthEnd - 1, dayEnd);
-		p1.setEnd(calendarEnd);
-		
-		// Status hinzufügen.
-		try {
-			StateProxy stateProxy = ResteasyClientUtil.getTarget().proxy(StateProxy.class);			    
-		    List<State> stateList = mapper.readValue(stateProxy.getAll(), new TypeReference<List<State>>(){});
-			
-			for(State state: stateList) {
-				if(state.getName().equals(combo_Status.getValue()))
-					p1.setState(state);	
-				}
-		} catch (IOException e1) {
-			e1.printStackTrace();
-			}
-			
-		//Typ hinzufügen
-		try {
-			
-			TypeProxy typeProxy = ResteasyClientUtil.getTarget().proxy(TypeProxy.class);		
-			 List<Type> typeList = mapper.readValue(typeProxy.getAll(), new TypeReference<List<Type>>(){});
-			 for(Type type: typeList) {
-					if(type.getName().equals(combo_type.getValue()))
-						p1.setType(type);	
-					}
-		} catch (IOException e1) {
-			e1.printStackTrace();
-			}
-		
-		//Kategorie hinzufügen
-		try {
-			CategoryProxy categoryProxy = ResteasyClientUtil.getTarget().proxy(CategoryProxy.class);		
-			List<Category> categoryList = mapper.readValue(categoryProxy.getAll(), new TypeReference<List<Category>>(){});
-			for(Category category: categoryList) {
-				if(category.getName().equals(combo_Category.getValue()))
-					p1.setCategory(category);
-				}
-		} catch (IOException e1) {
-			e1.printStackTrace();
+		String projectName = txtProjectName.getText();
+		if(checkLength(projectName, 1, 255)) {
+			validationError = true;
+			txtProjectName.getStyleClass().add("txtError");
+		} else {
+			p1.setName(projectName);
 		}
 		
+		String street = txtStreet.getText();
+		if(checkLength(street, 1, 255)) {
+			validationError = true;
+			txtStreet.getStyleClass().add("txtError");
+		} else {
+			p1.setStreet(street);
+		}
+		
+		String zip = txtZip.getText();
+		if(checkLength(zip, 4, 5)) {
+			validationError = true;
+			txtZip.getStyleClass().add("txtError");
+		} else {
+			p1.setZip(zip);
+		}
+		
+		String place = txtPlace.getText();
+		if(checkLength(place, 1, 255)) {
+			validationError = true;
+			txtPlace.getStyleClass().add("txtError");
+		} else {
+			p1.setPlace(place);
+		}
+		
+		
+		//Startdatum generieren
+		if(dateStart.getValue() != null) {
+			int dayStart = dateStart.getValue().getDayOfMonth();
+		    int monthStart = dateStart.getValue().getMonthValue();
+		    int yearStart =  dateStart.getValue().getYear();
+	
+		    GregorianCalendar calendarStart = new GregorianCalendar();
+		    calendarStart.set(yearStart, monthStart - 1, dayStart);
+			p1.setStart(calendarStart);
+		} else {
+			validationError = true;
+			dateStart.getStyleClass().add("txtError");
+		}
+		
+		//Enddatum generieren
+		if(dateEnd.getValue() != null) {
+			int dayEnd = dateEnd.getValue().getDayOfMonth();
+		    int monthEnd = dateEnd.getValue().getMonthValue();
+		    int yearEnd =  dateEnd.getValue().getYear();
+	
+		    GregorianCalendar calendarEnd = new GregorianCalendar();
+		    calendarEnd.set(yearEnd, monthEnd - 1, dayEnd);
+			p1.setEnd(calendarEnd);
+		} else {
+			validationError = true;
+			dateEnd.getStyleClass().add("txtError");
+		}
+		
+		// Status hinzufügen.
+		if(dropdownState.getValue() != null) {
+			try {
+				StateProxy stateProxy = ResteasyClientUtil.getTarget().proxy(StateProxy.class);			    
+			    List<State> stateList = mapper.readValue(stateProxy.getAll(), new TypeReference<List<State>>(){});
+				
+				for(State state: stateList) {
+					if(state.getName().equals(dropdownState.getValue()))
+						p1.setState(state);	
+					}
+			} catch (IOException e1) {
+				e1.printStackTrace();
+				}
+		} else {
+			validationError = true;
+			dropdownState.getStyleClass().add("txtError");
+			
+		}
+			
+		//Typ hinzufügen
+		if(dropdownType.getValue() != null) {
+			try {
+				
+				TypeProxy typeProxy = ResteasyClientUtil.getTarget().proxy(TypeProxy.class);		
+				 List<Type> typeList = mapper.readValue(typeProxy.getAll(), new TypeReference<List<Type>>(){});
+				 for(Type type: typeList) {
+						if(type.getName().equals(dropdownType.getValue()))
+							p1.setType(type);	
+						}
+			} catch (IOException e1) {
+				e1.printStackTrace();
+				}
+		} else {
+			validationError = true;
+			dropdownType.getStyleClass().add("txtError");
+		}
+		
+		//Kategorie hinzufügen
+		if(dropdownCategory.getValue() != null) {
+			try {
+				CategoryProxy categoryProxy = ResteasyClientUtil.getTarget().proxy(CategoryProxy.class);		
+				List<Category> categoryList = mapper.readValue(categoryProxy.getAll(), new TypeReference<List<Category>>(){});
+				for(Category category: categoryList) {
+					if(category.getName().equals(dropdownCategory.getValue()))
+						p1.setCategory(category);
+					}
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		} else {
+			validationError = true;
+			dropdownCategory.getStyleClass().add("txtError");
+		}
 		/*
 		//Kunde hinzufügen
 		try {
@@ -446,20 +513,31 @@ public class ProjectAddController implements Initializable {
 		}
 		*/
 		
-		// Bauherr hinzufügen
-		try {
-			SupervisorProxy svProxy = ResteasyClientUtil.getTarget().proxy(SupervisorProxy.class);
-			List<Supervisor> supervisorList = mapper.readValue(svProxy.getAll(), new TypeReference<List<Supervisor>>() {});
-			for(Supervisor sv : supervisorList) {
-				if(sv.getLastname().equals(combo_supervisor.getValue())) {
-					p1.setSupervisor(sv);
+		// Bauleiter hinzufügen
+		if(dropdownSupervisor.getValue() != null) {
+			try {
+				SupervisorProxy svProxy = ResteasyClientUtil.getTarget().proxy(SupervisorProxy.class);
+				List<Supervisor> supervisorList = mapper.readValue(svProxy.getAll(), new TypeReference<List<Supervisor>>() {});
+				for(Supervisor sv : supervisorList) {
+					if(sv.getLastname().equals(dropdownSupervisor.getValue())) {
+						p1.setSupervisor(sv);
+					}
 				}
+			} catch(IOException e1) {
+				e1.printStackTrace();
 			}
-		} catch(IOException e1) {
-			e1.printStackTrace();
+		} else {
+			validationError = true;
+			dropdownSupervisor.getStyleClass().add("txtError");
 		}
-
-		return p1;
+		
+		//Rückgabe des Projekts, sofern kein Validations-Fehler vorhanden.
+		if(validationError == false) {
+			return p1;
+		} else {
+			return null;
+		}
+		
 	}
 
 		
@@ -547,7 +625,7 @@ public class ProjectAddController implements Initializable {
 
 		//Bauleiter dem Dropdown hinzufügen
 		for(Supervisor supervisor: supervisorList) {
-			combo_supervisor.getItems().add(supervisor.getLastname());
+			dropdownSupervisor.getItems().add(supervisor.getLastname());
 		}
 	}
 
@@ -565,7 +643,7 @@ public class ProjectAddController implements Initializable {
 		
 		//Status dem Dropdown hinzufügen
 		for(State state: stateList) {
-			combo_Status.getItems().add(state.getName());
+			dropdownState.getItems().add(state.getName());
 		}
 	}
 	
@@ -581,7 +659,7 @@ public class ProjectAddController implements Initializable {
 			
 			//Typ dem Dropdown hinzufügen
 			for(Type type: typeList) {
-				combo_type.getItems().add(type.getName());
+				dropdownType.getItems().add(type.getName());
 			}
 		} catch (IOException e1) {
 			e1.printStackTrace();
@@ -604,7 +682,7 @@ public class ProjectAddController implements Initializable {
 
 		//Kategorie dem Dropdown hinzufügen
 		for(Category category: categoryList) {
-			combo_Category.getItems().add(category.getName());
+			dropdownCategory.getItems().add(category.getName());
 		}
 	}
 

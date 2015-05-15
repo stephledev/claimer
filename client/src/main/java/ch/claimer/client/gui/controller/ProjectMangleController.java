@@ -184,6 +184,7 @@ public class ProjectMangleController implements Initializable {
 		Issue issue = new Issue();
 		issue = getTextfieldProperties();
 		ProjectAddController.dataTransfer.add(issue);
+		ProjectAddController.dataTransfer.clear();
 		closeStage();
 	}
 	
