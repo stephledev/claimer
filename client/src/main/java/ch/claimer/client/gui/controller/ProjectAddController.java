@@ -8,12 +8,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import javax.ws.rs.client.Client;
-
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
-import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
-
 import ch.claimer.client.proxy.CategoryProxy;
 import ch.claimer.client.proxy.IssueProxy;
 import ch.claimer.client.proxy.ProjectProxy;
@@ -23,7 +19,6 @@ import ch.claimer.client.proxy.TypeProxy;
 import ch.claimer.client.util.ResteasyClientUtil;
 import ch.claimer.shared.models.Category;
 import ch.claimer.shared.models.Issue;
-import ch.claimer.shared.models.Person;
 import ch.claimer.shared.models.Project;
 import ch.claimer.shared.models.State;
 import ch.claimer.shared.models.Supervisor;
@@ -52,16 +47,15 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 /**
- * @author Michael Lötscher
+ * @author Michael Lötscher, Alexander Hauck
  * @since 21.04.2015
- * @version 1.1
+ * @version 2.0
  *
  */
 public class ProjectAddController implements Initializable {
-	
-    private ResteasyWebTarget rtarget;
-    private ObjectMapper mapper;
-    private List<Issue> issuesToShow = null;
+
+	SupervisorProxy supervisorProxy = ResteasyClientUtil.getTarget().proxy(SupervisorProxy.class);		
+    private ObjectMapper mapper = new ObjectMapper();
 	private ObservableList<Issue> data = FXCollections.observableArrayList();
 	public static ObservableList<Issue> dataTransfer = FXCollections.observableArrayList();
 	private  Integer projectId = null;
@@ -143,7 +137,6 @@ public class ProjectAddController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
 		lbl_title.setText("Neues Projekt erfassen");
-		initiateWebserviceConnection();
 		setDropdownSupervisor();
 		//TODO	
 //		setDropdownPrincipal();
@@ -303,9 +296,9 @@ public class ProjectAddController implements Initializable {
 			Stage stage = new Stage();
 			stage.setTitle("Mangel erfassen");
 			
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/ProjectMangleView.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/IssueView.fxml"));
 			Pane myPane = loader.load();
-			ProjectMangleController controller = loader.<ProjectMangleController>getController();
+			IssueController controller = loader.<IssueController>getController();
 			
 			//Controller starten
 			controller.initMangleAdd();
@@ -539,16 +532,6 @@ public class ProjectAddController implements Initializable {
 		}
 		
 	}
-
-		
-	/**
-	 * Webservice-Verbindung herstellen. Wird automatisch von der initiate-Funktion aufgerufen.
-	 */
-	private void initiateWebserviceConnection() {
-	    rtarget = ResteasyClientUtil.getTarget();
-	    mapper = new ObjectMapper();
-	}
-	
 	
 	
 	@FXML
@@ -564,9 +547,9 @@ public class ProjectAddController implements Initializable {
 				Stage stage = new Stage();
 				stage.setTitle("Mangel bearbeiten");
 				
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/ProjectMangleView.fxml"));
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/IssueView.fxml"));
 				Pane myPane = loader.load();
-				ProjectMangleController controller = loader.<ProjectMangleController>getController();
+				IssueController controller = loader.<IssueController>getController();
 				
 				//Controller starten
 				controller.initData(issueToEdit);
@@ -612,9 +595,8 @@ public class ProjectAddController implements Initializable {
 	 * Werte für das "Funktionen"-Dropdown setzen
 	 */
 	public void setDropdownSupervisor()  {
-
-		SupervisorProxy supervisorProxy = ResteasyClientUtil.getTarget().proxy(SupervisorProxy.class);		
-		ObjectMapper mapper = new ObjectMapper();	    
+		
+		SupervisorProxy supervisorProxy = ResteasyClientUtil.getTarget().proxy(SupervisorProxy.class);
 		List<Supervisor> supervisorList = null;
 
 		try {
@@ -632,7 +614,6 @@ public class ProjectAddController implements Initializable {
 	public void setDropdownState()  {
 		
 		StateProxy stateProxy = ResteasyClientUtil.getTarget().proxy(StateProxy.class);		
-	    ObjectMapper mapper = new ObjectMapper();	    
 	    List<State> stateList = null;
 	    
 		try {
@@ -654,7 +635,6 @@ public class ProjectAddController implements Initializable {
 		
 		try {
 			TypeProxy typeProxy = ResteasyClientUtil.getTarget().proxy(TypeProxy.class);
-			ObjectMapper mapper = new ObjectMapper();	  
 			List<Type> typeList = mapper.readValue(typeProxy.getAll(), new TypeReference<List<Type>>(){});
 			
 			//Typ dem Dropdown hinzufügen
@@ -671,7 +651,6 @@ public class ProjectAddController implements Initializable {
 	public void setDropdownCategory()  {
 
 		CategoryProxy categoryProxy = ResteasyClientUtil.getTarget().proxy(CategoryProxy.class);		
-		ObjectMapper mapper = new ObjectMapper();	    
 		List<Category> categoryList = null;
 
 		try {

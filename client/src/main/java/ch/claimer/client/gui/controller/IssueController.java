@@ -49,13 +49,13 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
- * @author Michael Lötscher
+ * @author Michael Lötscher, Alexander Hauck
  * @since 21.04.2015
- * @version 1.1
+ * @version 2.0
  *
  */
 
-public class ProjectMangleController implements Initializable {
+public class IssueController implements Initializable {
 	
 	Client client;
     WebTarget target;
@@ -73,8 +73,6 @@ public class ProjectMangleController implements Initializable {
 
     
     
-	
-	// Maincontent, hierhin werden die verschiedenen Views geladen
 	@FXML
 	private Pane mainContent;
 	
@@ -155,16 +153,10 @@ public class ProjectMangleController implements Initializable {
 		setDropdownPrincipal();
 		setDropdownSubcontractor();
 		
-		// Spalten-Values definieren (müssen den Parameter des Mangel-Objekts
-		// entsprechen)
-		colComment.setCellValueFactory(new PropertyValueFactory<Comment, String>(
-				"content"));
-		colAuthor
-				.setCellValueFactory(new PropertyValueFactory<Comment, String>(
-						"person"));
-		colAdded.setCellValueFactory(new PropertyValueFactory<Comment, String>(
-						"created"));
-		
+		// Spalten-Values definieren
+		colComment.setCellValueFactory(new PropertyValueFactory<Comment, String>("content"));
+		colAuthor.setCellValueFactory(new PropertyValueFactory<Comment, String>("person"));
+		colAdded.setCellValueFactory(new PropertyValueFactory<Comment, String>("created"));
 
 		commentTableView.setItems(data);
 	}
@@ -183,10 +175,115 @@ public class ProjectMangleController implements Initializable {
 	private void saveIssue() {
 		Issue issue = new Issue();
 		issue = getTextfieldProperties();
-		ProjectAddController.dataTransfer.add(issue);
-		ProjectAddController.dataTransfer.clear();
-		closeStage();
+		
+		if(issue != null) {
+			ProjectAddController.dataTransfer.add(issue);
+			ProjectAddController.dataTransfer.clear();
+			closeStage();
+		}
 	}
+	
+	private Boolean checkLength(String text, int minLength, int maxLength) {
+		if(text.length() < minLength || text.length() > maxLength) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	 * Liest die Textfelder aus und validiert diese.
+	 * @return
+	 */
+	private Issue getTextfieldProperties() {
+
+		Issue issue = new Issue();
+		Boolean validationError = false;
+		
+		String description = txtIssueDescription.getText();
+		if(checkLength(description, 1, 255)) {
+			validationError = true;
+			txtIssueDescription.getStyleClass().add("txtError");
+		} else {
+			issue.setDescription(description);
+		}
+		
+		//Subunternehmen dem Mangel zuweisen.
+		if(dropdownSubcontractor.getValue() != null) { 
+			try {
+				SubcontractorProxy scProxy = ResteasyClientUtil.getTarget().proxy(SubcontractorProxy.class);		
+				ObjectMapper mapper = new ObjectMapper();	    
+				List<Subcontractor> scList = mapper.readValue(scProxy.getAll(), new TypeReference<List<Subcontractor>>(){});
+				
+				for(Subcontractor sc: scList) {
+					if(sc.getName().equals(dropdownSubcontractor.getValue())) {
+						issue.setSubcontractor(sc);
+					}
+			}
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			
+		} else {
+			validationError = true;
+			dropdownSubcontractor.getStyleClass().add("txtError");
+		}
+		
+		//TODO Ansprechperson zuweisen.
+		
+		// Status dem Mangel zuweisen
+		if(dropdownState.getValue() != null) {
+			try {
+				StateProxy stateProxy = ResteasyClientUtil.getTarget().proxy(StateProxy.class);			    
+			    List<State> stateList = mapper.readValue(stateProxy.getAll(), new TypeReference<List<State>>(){});
+			    
+			    for(State state: stateList) {
+					if(state.getName().equals(dropdownState.getValue()))
+						issue.setState(state);	
+				}
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		} else {
+			validationError = true;
+			dropdownState.getStyleClass().add("txtError");
+		}
+		
+		//Startdatum generieren
+		if(dateCreated.getValue() != null) {
+			Integer dayCreated = dateCreated.getValue().getDayOfMonth();
+		    Integer monthCreated = dateCreated.getValue().getMonthValue();
+		    Integer yearCreated =  dateCreated.getValue().getYear();
+		    
+		    GregorianCalendar dateCreated = new GregorianCalendar();
+		    dateCreated.set(yearCreated, monthCreated - 1, dayCreated);
+		    issue.setCreated(dateCreated);
+		} else {
+			validationError = true;
+			dateCreated.getStyleClass().add("txtError");
+		}
+	    
+	    //Startdatum generieren
+		if(dateEnd.getValue() != null) {
+	  		Integer dayEnd = dateEnd.getValue().getDayOfMonth();
+	  	    Integer monthEnd = dateEnd.getValue().getMonthValue();
+	  	    Integer yearEnd =  dateEnd.getValue().getYear();
+	  	    
+	  	    GregorianCalendar dateEnd = new GregorianCalendar();
+	  	    dateEnd.set(yearEnd, monthEnd - 1, dayEnd);
+	  	    issue.setSolved(dateEnd);
+		} else {
+			validationError = true;
+			dateEnd.getStyleClass().add("txtError");
+		}
+		
+		if(validationError == false) {
+			return issue;
+		} else {
+			return null;
+		}
+	}
+		
 	
 	/**
 	 * Schliesst das aktuelle Fenster.
@@ -327,68 +424,7 @@ public class ProjectMangleController implements Initializable {
 	}
 	
 	
-	/**
-	 * Liest die Textfelder aus und validiert diese.
-	 * @return
-	 */
-	private Issue getTextfieldProperties() {
-
-		Issue issue = new Issue();
-
-		issue.setDescription(txtIssueDescription.getText());
-		
-		//Subunternehmen dem Mangel zuweisen.
-		try {
-			SubcontractorProxy scProxy = ResteasyClientUtil.getTarget().proxy(SubcontractorProxy.class);		
-			ObjectMapper mapper = new ObjectMapper();	    
-			List<Subcontractor> scList = mapper.readValue(scProxy.getAll(), new TypeReference<List<Subcontractor>>(){});
-			
-			for(Subcontractor sc: scList) {
-				if(sc.getName().equals(dropdownSubcontractor.getValue())) {
-					issue.setSubcontractor(sc);
-				}
-			}
-			} catch (IOException e1) {
-				e1.printStackTrace();
-		}
-		
-		// Status dem Mangel zuweisen 
-		try {
-			StateProxy stateProxy = ResteasyClientUtil.getTarget().proxy(StateProxy.class);			    
-		    List<State> stateList = mapper.readValue(stateProxy.getAll(), new TypeReference<List<State>>(){});
-		    
-		    for(State state: stateList) {
-				if(state.getName().equals(dropdownState.getValue()))
-					issue.setState(state);	
-			}
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-		
-		//Startdatum generieren
-		if(dateCreated != null) {
-			Integer dayCreated = dateCreated.getValue().getDayOfMonth();
-		    Integer monthCreated = dateCreated.getValue().getMonthValue();
-		    Integer yearCreated =  dateCreated.getValue().getYear();
-		    
-		    GregorianCalendar dateCreated = new GregorianCalendar();
-		    dateCreated.set(yearCreated, monthCreated - 1, dayCreated);
-		    issue.setCreated(dateCreated);
-		}
-	    
-	    //Startdatum generieren
-		if(dateEnd != null) {
-	  		Integer dayEnd = dateEnd.getValue().getDayOfMonth();
-	  	    Integer monthEnd = dateEnd.getValue().getMonthValue();
-	  	    Integer yearEnd =  dateEnd.getValue().getYear();
-	  	    
-	  	    GregorianCalendar dateEnd = new GregorianCalendar();
-	  	    dateEnd.set(yearEnd, monthEnd - 1, dayEnd);
-	  	    issue.setSolved(dateEnd);
-		}
-		return issue;
-	}
-		
+	
 	
 	
 	public void setDropdownState()  {

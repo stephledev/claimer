@@ -100,7 +100,7 @@ public class HomeController implements Initializable {
 			Pane myPane = loader.load();
 
 			//UserAddController holen
-			ProjectMangleController controller = loader.<ProjectMangleController>getController();
+			IssueController controller = loader.<IssueController>getController();
 
 			//Controller starten
 			controller.initData(issueId);			

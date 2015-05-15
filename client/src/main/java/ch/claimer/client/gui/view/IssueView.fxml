@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="mainContent" prefHeight="800.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.claimer.client.gui.controller.ProjectMangleController">
+<AnchorPane fx:id="mainContent" prefHeight="800.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.claimer.client.gui.controller.IssueController">
    <children>
       <GridPane layoutX="8.0" layoutY="-4.0" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="-8.0" AnchorPane.topAnchor="-4.0">
         <columnConstraints>
@@ -102,7 +102,7 @@
                 <RowConstraints fillHeight="false" vgrow="NEVER" />
               </rowConstraints>
                <children>
-                  <Label text="Mangelbeschrieb:">
+                  <Label text="Mangelbeschrieb:*">
                      <GridPane.margin>
                         <Insets />
                      </GridPane.margin>
@@ -112,13 +112,13 @@
                         <Insets />
                      </GridPane.margin>
                   </TextArea>
-                  <Label text="Zuständiges Subunternehmen:" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                  <Label text="Zuständiges Subunternehmen:*" GridPane.columnIndex="4" GridPane.rowIndex="2" />
                   <ComboBox fx:id="dropdownSubcontractor" prefWidth="150.0" GridPane.columnIndex="6" GridPane.rowIndex="2" />
-                  <Label text="Ansprechperson:" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+                  <Label text="Ansprechperson:*" GridPane.columnIndex="4" GridPane.rowIndex="4" />
                   <ComboBox fx:id="dropdownContact" prefWidth="250.0" GridPane.columnIndex="6" GridPane.rowIndex="4" />
-                  <Label text="Festgestellt am:" GridPane.rowIndex="2" />
-                  <Label text="Erledigen bis:" GridPane.rowIndex="4" />
-                  <Label text="Status:" GridPane.rowIndex="6" />
+                  <Label text="Festgestellt am:*" GridPane.rowIndex="2" />
+                  <Label text="Erledigen bis:*" GridPane.rowIndex="4" />
+                  <Label text="Status:*" GridPane.rowIndex="6" />
                   <DatePicker fx:id="dateCreated" prefWidth="250.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                   <DatePicker fx:id="dateEnd" prefWidth="250.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                   <ComboBox fx:id="dropdownState" prefWidth="250.0" GridPane.columnIndex="2" GridPane.rowIndex="6" />
