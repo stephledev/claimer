@@ -1,6 +1,5 @@
 package ch.claimer.client.gui.controller;
 
-import java.awt.Toolkit;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -13,7 +12,6 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
-import ch.claimer.client.gui.Main;
 import ch.claimer.client.proxy.GCEmployeeProxy;
 import ch.claimer.client.proxy.SupervisorProxy;
 import ch.claimer.client.util.AuthenticationUtil;
@@ -53,20 +51,14 @@ public class RootLayoutController implements Initializable {
     ObjectMapper mapper;
     List<Person> personsToShow = null;
 	public static Person personToTransmit;
-	@FXML
-	private HBox navigation;
 	
 	@FXML
 	private SplitMenuButton splitMenuButton;
+
 	
 	@FXML
-	private GridPane gridPane;
-	
-	@FXML
-	private Label lbl_mangelManager;
-	
-	@FXML
-	private HBox hBox1;
+	private Label lblTitel;
+
 	
 	@FXML
 	private Label lblName;
@@ -95,7 +87,6 @@ public class RootLayoutController implements Initializable {
 	@FXML
 	private Button naviUsers;
 	
-	//Maincontent, hierhin werden die verschiedenen Views geladen
 	@FXML
 	private Pane mainContent;
 
@@ -125,12 +116,12 @@ public class RootLayoutController implements Initializable {
 	}
 	
 	//Zur Subunternehmen-Hauptansicht wechseln (supervisorMainView.xml)
-		@FXML
-		private void loadSubcontractorMainView(ActionEvent event) throws IOException {
-			Pane myPane = FXMLLoader.load(getClass().getResource("../view/SubcontractorMainView.fxml"));
-			mainContent.getChildren().clear();
-			mainContent.getChildren().setAll(myPane);
-		}
+	@FXML
+	private void loadSubcontractorMainView(ActionEvent event) throws IOException {
+		Pane myPane = FXMLLoader.load(getClass().getResource("../view/SubcontractorMainView.fxml"));
+		mainContent.getChildren().clear();
+		mainContent.getChildren().setAll(myPane);
+	}
 	
 	//Zur Kunden-Hauptansicht wechseln  (principalMainView.xml)
 	@FXML
@@ -157,16 +148,29 @@ public class RootLayoutController implements Initializable {
 	//Logout und Login-Seite laden
 	@FXML
 	private void logout(ActionEvent event) throws IOException {
-		
-		Pane myPane = FXMLLoader.load(getClass().getResource("../view/Login.fxml"));
-		mainContent.getChildren().clear();
-		mainContent.getChildren().setAll(myPane);
-		AuthenticationUtil.setLogin(null);
-		navigation.setVisible(false);
-		gridPane.setVisible(false);
-		hBox1.setVisible(false);
-		lbl_mangelManager.setVisible(false);
 
+		try {
+			
+			AuthenticationUtil.setLogin(null);
+			Stage stage1 = (Stage) lblTitel.getScene().getWindow();
+		    stage1.close();
+			
+			Stage stage = new Stage();
+			stage.setTitle("Claimer");
+			
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/Login.fxml"));
+			Pane myPane = loader.load();
+
+			Scene scene = new Scene(myPane);
+			scene.getStylesheets().add(getClass().getResource("../claimer_styles.css").toExternalForm()); // CSS-File wird geladen
+			stage.setScene(scene);
+		    
+		    //Open new Stage
+			stage.show();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	

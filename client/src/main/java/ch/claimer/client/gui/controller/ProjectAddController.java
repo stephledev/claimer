@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+import org.pmw.tinylog.Logger;
 
 import ch.claimer.client.proxy.CategoryProxy;
 import ch.claimer.client.proxy.ContactProxy;
@@ -31,6 +32,7 @@ import ch.claimer.shared.models.SCEmployee;
 import ch.claimer.shared.models.State;
 import ch.claimer.shared.models.Supervisor;
 import ch.claimer.shared.models.Type;
+import ch.claimer.shared.util.LoggerUtil;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -204,7 +206,7 @@ public class ProjectAddController implements Initializable {
 	 */
 	public void initData(Project project) {
 		
-		lbl_title.setText("Projekt bearbeiten");
+		lbl_title.setText("Projekt \"" + project.getName() +"\" bearbeiten");
 		
 		projectId = project.getId();
 		projectContainer = project;
@@ -215,7 +217,7 @@ public class ProjectAddController implements Initializable {
 		}
 		
 		if(project.getStart() != null) { 
-					
+
 			long timestart = project.getStart().getTime().getTime();
 			long days = Math.round( (double)timestart / (24. * 60.*60.*1000.));
 			Date date = new Date();

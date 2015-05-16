@@ -26,7 +26,7 @@ public class Main extends Application {
 		//Bildschirmauflösung auslesen
 		Integer screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
 		
-		primaryStage.setTitle("Mängelmanager");
+		primaryStage.setTitle("Claimer");
 		FXMLLoader myLoader = new FXMLLoader(getClass().getResource(
 				"view/Login.fxml")); // FXML File kann von myLoader geladen werden
 
