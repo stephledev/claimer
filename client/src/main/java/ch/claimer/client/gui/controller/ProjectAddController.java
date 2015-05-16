@@ -79,6 +79,7 @@ public class ProjectAddController implements Initializable {
 	private  Integer projectId = null;
 	private Project projectContainer = null;
 	private Issue issueToEdit = null;
+	private List<Issue> issueList = null;
 
 	// Views werden ins mainContent-Pane geladen
 	@FXML
@@ -267,7 +268,7 @@ public class ProjectAddController implements Initializable {
 		//Mängel aus der Datenbank laden.
 		try {
 			IssueProxy issueProxy = ResteasyClientUtil.getTarget().proxy(IssueProxy.class);
-			List<Issue> issueList = mapper.readValue(issueProxy.getByProject(projectId), new TypeReference<List<Issue>>(){});
+			issueList = mapper.readValue(issueProxy.getByProject(projectId), new TypeReference<List<Issue>>(){});
 			
 			for(Issue i : issueList) {
 				data.add(i);
@@ -412,6 +413,8 @@ public class ProjectAddController implements Initializable {
 		project = (Project) getTextfieldProperties(project);
 		
 		if(project != null) {
+			logEntryHandler(project);
+			project.setLogEntries(logEntryList);
 			ProjectProxy projectProxy = ResteasyClientUtil.getTarget().proxy(ProjectProxy.class);
 			if(projectId != null) {
 				project.setId(projectId);
@@ -442,6 +445,61 @@ public class ProjectAddController implements Initializable {
 		}
 	}
 	
+	/**
+	 * Überprüft Änderungen am Projekt und protokolliert diese.
+	 * @param project
+	 */
+	private void logEntryHandler(Project project) {
+		if(projectContainer != null) {
+			if(!project.getState().getName().equals(projectContainer.getState().getName())) {
+				LogEntry logEntry = new LogEntry();
+				logEntry.setDate(new GregorianCalendar());
+				logEntry.setDescription("Der Status wurde von \"" + projectContainer.getState().getName() + "\" auf \"" + project.getState().getName() + "\" geändert.");
+				logEntryList.add(logEntry);
+			}
+			
+			if((!project.getSupervisor().getFirstname().equals(projectContainer.getSupervisor().getFirstname())) && 
+					(!project.getSupervisor().getLastname().equals(projectContainer.getSupervisor().getLastname()))) {
+				LogEntry logEntry = new LogEntry();
+				logEntry.setDate(new GregorianCalendar());
+				logEntry.setDescription("Neuer Bauleiter: " + project.getSupervisor().getFirstname() + " " + project.getSupervisor().getLastname() );
+				logEntryList.add(logEntry);
+			}
+			
+			if(!project.getName().equals(projectContainer.getName())) {
+				LogEntry logEntry = new LogEntry();
+				logEntry.setDate(new GregorianCalendar());
+				logEntry.setDescription("Der Name des Projekts wurde auf \"" + project.getName() + "\" geändert.");
+				logEntryList.add(logEntry);
+			}
+			
+			for(Issue issue : issuesToDeleteList) {
+				if(issueList.contains(issue)) {
+					LogEntry logEntry = new LogEntry();
+					logEntry.setDate(new GregorianCalendar());
+					logEntry.setDescription("Der Mangel \"" + issue.getDescription() + "\" wurde gelöscht.");
+					logEntryList.add(logEntry);
+				}
+			}
+			
+			for(Issue issue : data) {
+				if(!issueList.contains(issue)) {
+					LogEntry logEntry = new LogEntry();
+					logEntry.setDate(new GregorianCalendar());
+					logEntry.setDescription("Ein neuer Mangel \"" +issue.getDescription() + "\" wurde erfasst.");
+					logEntryList.add(logEntry);
+				}
+			}
+			
+		} else {
+			LogEntry logEntry = new LogEntry();
+			logEntry.setDate(new GregorianCalendar());
+			logEntry.setDescription("Erfassung des Projekts \"" + project.getName() + "\" mit dem Bauleiter " + project.getSupervisor().getFirstname() + " " + project.getSupervisor().getLastname());
+			logEntryList.add(logEntry);
+		}
+		
+		
+	}
 	
 	private Boolean checkLength(String text, int minLength, int maxLength) {
 		
