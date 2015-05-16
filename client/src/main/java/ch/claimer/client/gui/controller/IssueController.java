@@ -83,46 +83,16 @@ public class IssueController implements Initializable {
 	private Label lblTitle;
 
 	@FXML
-	private TextField txt_mangleName;
-	
-	@FXML
-	private TextField txt_addComment;
-	
-	@FXML
-	private TextField txt_area;
-	
-	@FXML
-	private TextField txt_commentAuthor;
-	
-	@FXML
-	private TextField txt_commentDate;
+	private TextField txtComment;
 
 	@FXML
 	private TextArea txtIssueDescription;
-
-	@FXML
-	private TextField txt_contactPerson;
-
-	@FXML
-	private TextField txt_principalPhone;
 
 	@FXML
 	private ComboBox<String> dropdownState;
 
 	@FXML
 	private Button btnSave;
-
-	@FXML
-	private Button bttn_quitComment;
-
-	@FXML
-	private Button bttn_addComment;
-
-	@FXML
-	private Button bttn_addPhoto;
-	
-	@FXML
-	private Button bttn_export;
 
 	@FXML
 	private TableView<Comment> commentTableView;
@@ -275,8 +245,8 @@ public class IssueController implements Initializable {
 		//TODO Ansprechperson zuweisen.
 		if(dropdownContact.getValue() != null) {
 			
-			String string = dropdownContact.getValue();
-			String[] parts = string.split(",");
+			String contactName = dropdownContact.getValue();
+			String[] parts = contactName.split(",");
 			String lastname = parts[0];
 			String firstname = parts[1].substring(1);
 			
@@ -464,41 +434,24 @@ public class IssueController implements Initializable {
 	}
 
 	
+	
 	// "Speicher"-Button: Speichert den Mangel
 	@FXML
 	private void saveComment() {
-
-		Comment comment = new Comment();
-		Issue issue = new Issue();
-
-		//Textfeldproperties (inklusive Login & Rolle) auslesen und zuweisen
-		comment = (Comment)  getIssueTextfieldProperties(issue, comment);
-
-		CommentProxy commentProxy = ResteasyClientUtil.getTarget().proxy(CommentProxy.class);
-		commentProxy.create(comment);
-
-
-		//showIssueViewWithMessage(issue);
+		
 	}
 	
+
 	// liest Textfelder aus und speichert Daten des Projektes in der DB
 	// Dropdown-Felder füllen
 	private Comment getIssueTextfieldProperties(Issue i1, Comment c1) {
-		issueId = i1.getId();
-		i1.setComments(commentsToShow);
-		Comment comment = new Comment();
-		comment.setContent(txt_addComment.getText());
-		commentsToShow.add(comment);
-		
-		return comment;
+
+		return null;
 	}
 	
 	@FXML
 	private void addComment(ActionEvent event) throws IOException {
 
-		String comment = txt_addComment.getText();
-		Comment c1 = new Comment();
-		c1.setContent(comment);
 	}
 	
 	@FXML

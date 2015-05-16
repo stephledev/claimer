@@ -221,7 +221,7 @@ public class ProjectAddController implements Initializable {
 		}
 		
 		if(project.getSupervisor() != null) { 
-			dropdownSupervisor.setValue(project.getSupervisor().getLastname());
+			dropdownSupervisor.setValue(project.getSupervisor().getLastname() + ", " + project.getSupervisor().getFirstname());
 		}
 		if(project.getStreet() != null) { 
 			txtStreet.setText(project.getStreet());
@@ -317,6 +317,7 @@ public class ProjectAddController implements Initializable {
 		             final TableCell<Issue, String> cell = new TableCell<Issue, String>() {
 	                      @Override
 	                      public void updateItem(String value, boolean empty) {
+	                    	  if(!empty) {
 	                            super.updateItem(value, empty);
 
 	                            final VBox vbox = new VBox(0);
@@ -334,10 +335,12 @@ public class ProjectAddController implements Initializable {
 	                                        	  issuesToDeleteList.add(issue);
 	                                          }
 	                                          data.remove(issue);
+	                                          fillTableView();
 	                                  }
 	                            });
 	                      vbox.getChildren().add(button);
 	                      setGraphic(vbox);
+	                    	  }
 		               }
 		        };
 		        return cell;
@@ -409,8 +412,11 @@ public class ProjectAddController implements Initializable {
 		
 	}
 	
-	// liest Textfelder aus und speichert Daten des Projektes in der DB
-	// Dropdown-Felder füllen
+	/**
+	 * Liest alle Textfelder aus und validiert diese.
+	 * @param p1
+	 * @return
+	 */
 	private Project getTextfieldProperties(Project p1) {
 		
 		Boolean validationError = false;
@@ -547,11 +553,17 @@ public class ProjectAddController implements Initializable {
 		
 		// Bauleiter hinzufügen
 		if(dropdownSupervisor.getValue() != null) {
+			
+			String supervisorName = dropdownSupervisor.getValue();
+			String[] parts = supervisorName.split(",");
+			String lastname = parts[0];
+			String firstname = parts[1].substring(1);
+			
 			try {
 				SupervisorProxy svProxy = ResteasyClientUtil.getTarget().proxy(SupervisorProxy.class);
 				List<Supervisor> supervisorList = mapper.readValue(svProxy.getAll(), new TypeReference<List<Supervisor>>() {});
 				for(Supervisor sv : supervisorList) {
-					if(sv.getLastname().equals(dropdownSupervisor.getValue())) {
+					if(sv.getLastname().equals(lastname) && sv.getFirstname().equals(firstname)) {
 						p1.setSupervisor(sv);
 					}
 				}
@@ -658,23 +670,19 @@ public class ProjectAddController implements Initializable {
 	}
 
 	/**
-	 * Werte für das "Funktionen"-Dropdown setzen
+	 * Werte für das "Bauleiter"-Dropdown setzen
 	 */
 	public void setDropdownSupervisor()  {
-		
-		SupervisorProxy supervisorProxy = ResteasyClientUtil.getTarget().proxy(SupervisorProxy.class);
-		List<Supervisor> supervisorList = null;
-
+	
 		try {
-			supervisorList = mapper.readValue(supervisorProxy.getAll(), new TypeReference<List<Supervisor>>(){});
+			SupervisorProxy supervisorProxy = ResteasyClientUtil.getTarget().proxy(SupervisorProxy.class);
+			List<Supervisor> supervisorList = mapper.readValue(supervisorProxy.getAll(), new TypeReference<List<Supervisor>>(){});
+			for(Supervisor supervisor: supervisorList) {
+				dropdownSupervisor.getItems().add(supervisor.getLastname() + ", " + supervisor.getFirstname());
+			}
 		} catch (IOException e1) {
 			e1.printStackTrace();
-		}
-
-		//Bauleiter dem Dropdown hinzufügen
-		for(Supervisor supervisor: supervisorList) {
-			dropdownSupervisor.getItems().add(supervisor.getLastname());
-		}
+		}		
 	}
 
 	public void setDropdownState()  {

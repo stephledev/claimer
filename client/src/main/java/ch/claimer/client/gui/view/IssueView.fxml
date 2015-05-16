@@ -69,8 +69,8 @@
                                           <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                        </columnResizePolicy>
                                     </TableView>
-                                    <TextField fx:id="txt_addComment" prefHeight="25.0" prefWidth="327.0" text="Kommentar" GridPane.rowIndex="2" />
-                                    <Button fx:id="bttn_addComment" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#saveComment" styleClass="save-button" text="Kommentar hinzufügen" GridPane.rowIndex="4" />
+                                    <TextField fx:id="txtComment" prefHeight="25.0" prefWidth="327.0" text="Kommentar" GridPane.rowIndex="2" />
+                                    <Button alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#saveComment" styleClass="add-button" text="Kommentar hinzufügen" GridPane.rowIndex="4" />
                                  </children>
                               </GridPane>
                            </children>
@@ -107,7 +107,7 @@
                         <Insets />
                      </GridPane.margin>
                   </Label>
-                  <TextArea fx:id="txtIssueDescription" prefHeight="60.0" prefWidth="150.0" GridPane.columnIndex="2">
+                  <TextArea fx:id="txtIssueDescription" prefHeight="60.0" prefWidth="150.0" GridPane.columnIndex="2" GridPane.vgrow="NEVER">
                      <GridPane.margin>
                         <Insets />
                      </GridPane.margin>
