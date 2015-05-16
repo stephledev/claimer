@@ -21,8 +21,10 @@ import ch.claimer.client.proxy.SupervisorProxy;
 import ch.claimer.client.proxy.TypeProxy;
 import ch.claimer.client.util.ResteasyClientUtil;
 import ch.claimer.shared.models.Category;
+import ch.claimer.shared.models.Comment;
 import ch.claimer.shared.models.Contact;
 import ch.claimer.shared.models.Issue;
+import ch.claimer.shared.models.LogEntry;
 import ch.claimer.shared.models.Person;
 import ch.claimer.shared.models.Project;
 import ch.claimer.shared.models.SCEmployee;
@@ -40,6 +42,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -49,6 +52,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TitledPane;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -71,7 +75,9 @@ public class ProjectAddController implements Initializable {
 	private ObservableList<Issue> data = FXCollections.observableArrayList();
 	public static ObservableList<Issue> dataTransfer = FXCollections.observableArrayList();
 	private ObservableList<Issue> issuesToDeleteList = FXCollections.observableArrayList();
+	private ObservableList<LogEntry> logEntryList = FXCollections.observableArrayList();
 	private  Integer projectId = null;
+	private Project projectContainer = null;
 	private Issue issueToEdit = null;
 
 	// Views werden ins mainContent-Pane geladen
@@ -149,6 +155,15 @@ public class ProjectAddController implements Initializable {
 	
 	@FXML
 	private Label lblProjectID;
+	
+	@FXML
+	private TableView<LogEntry> logTableView;
+	
+	@FXML
+	private TableColumn<LogEntry, String> colLogDate;
+	
+	@FXML
+	private TableColumn<LogEntry, String> colLogDescription;
 
 	/**
 	 * Initialisiert den View.
@@ -191,6 +206,7 @@ public class ProjectAddController implements Initializable {
 		lbl_title.setText("Projekt bearbeiten");
 		
 		projectId = project.getId();
+		projectContainer = project;
 		lblProjectID.setText(projectId.toString());
 
 		if(project.getName() != null) { 
@@ -263,6 +279,7 @@ public class ProjectAddController implements Initializable {
 		}
 		
 		fillTableView();
+		fillLogTableView();
 	
 	}
 	
@@ -350,7 +367,31 @@ public class ProjectAddController implements Initializable {
 		//Observable-List, welche die Daten beinhaltet, an die Tabelle übergeben
 		mangleTableView.setItems(data);
 	}
-
+	
+	private void fillLogTableView() {
+		
+		for(LogEntry logEntry : projectContainer.getLogEntries()) {
+			logEntryList.add(logEntry);
+		}
+		
+		colLogDate.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<LogEntry, String>, ObservableValue<String>>() {
+			public ObservableValue<String> call(TableColumn.CellDataFeatures<LogEntry, String> data) {
+				try {
+					SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+					String a = format.format(data.getValue().getDate().getTime());
+					return new SimpleStringProperty(a);
+				} catch(NullPointerException e) {
+					return null;
+				}
+			}
+		});
+		
+		colLogDescription.setCellValueFactory(new PropertyValueFactory<LogEntry, String>("description"));
+		
+		logTableView.setItems(logEntryList);
+		
+	}
+	
 	// "Abbrechen"-Button: zur ProjectMain-Ansicht wechseln 
 	@FXML
 	private void loadProjectMainView(ActionEvent event) throws IOException {
