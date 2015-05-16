@@ -15,26 +15,29 @@ import java.util.ResourceBundle;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
 import ch.claimer.client.proxy.CommentProxy;
+import ch.claimer.client.proxy.ContactProxy;
 import ch.claimer.client.proxy.IssueProxy;
-import ch.claimer.client.proxy.PrincipalProxy;
 import ch.claimer.client.proxy.StateProxy;
 import ch.claimer.client.proxy.SubcontractorProxy;
 import ch.claimer.client.util.ResteasyClientUtil;
 import ch.claimer.shared.models.Comment;
+import ch.claimer.shared.models.Contact;
 import ch.claimer.shared.models.Issue;
-import ch.claimer.shared.models.Principal;
 import ch.claimer.shared.models.State;
 import ch.claimer.shared.models.Subcontractor;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -65,13 +68,8 @@ public class IssueController implements Initializable {
     List<Comment> commentsToShow = null;
     
     private Integer issueId;
-    
-    private Integer projectId;
-    private Integer subcontractorId;
-    private Integer contactId;
+    private List<Subcontractor> subcontractorList = null;
 
-    
-    
 	@FXML
 	private Pane mainContent;
 	
@@ -146,17 +144,67 @@ public class IssueController implements Initializable {
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		/*
+		
 		getComments();
-		//setDropdownState();
+		setDropdownState();
 		setDropdownSubcontractor();
+		
+		//Listener,um Änderungen am Subunternehmen-Dropdown zu überprüfen.
+		dropdownSubcontractor.valueProperty().addListener(new ChangeListener<String>() {
+
+			@Override
+			public void changed(ObservableValue<? extends String> arg0, String oldValue, String newValue) {
+				dropdownContact.getItems().clear();
+				dropdownContact.setValue("");
+				for(Subcontractor sc : subcontractorList) {
+					if(sc.getName().equals(newValue)) {
+						setDropdownContact(sc.getId());
+					}
+				}
+			}
+		 });
 		
 		// Spalten-Values definieren
 		colComment.setCellValueFactory(new PropertyValueFactory<Comment, String>("content"));
 		colAuthor.setCellValueFactory(new PropertyValueFactory<Comment, String>("person"));
 		colAdded.setCellValueFactory(new PropertyValueFactory<Comment, String>("created"));
 
-		commentTableView.setItems(data);*/
+		commentTableView.setItems(data);
+	}
+	
+	/**
+	 * Befüllt die Textfelder mit den Daten des zu bearbeitenden Mangels.
+	 * @param issueToEdit
+	 */
+	public void initData(Issue issueToEdit) {
+		issueId = issueToEdit.getId();
+		lblTitle.setText("Mangel bearbeiten.");	
+
+		dropdownState.setValue(issueToEdit.getState().getName());	
+		txtIssueDescription.setText(issueToEdit.getDescription());
+		dropdownSubcontractor.setValue(issueToEdit.getSubcontractor().getName());
+		dropdownContact.setValue(issueToEdit.getContact().getLastname() + ", " + issueToEdit.getContact().getFirstname());
+		
+		long timeStart;
+		long timeEnd;
+		long days;
+		Date date = new Date();
+		long timenow = date.getTime();
+		long daysnow = Math.round( (double)timenow / (24. * 60.*60.*1000.));
+		long diff;
+			
+		//Erstellungsdatum
+		timeStart = issueToEdit.getCreated().getTime().getTime();
+		days = Math.round( (double)timeStart / (24. * 60.*60.*1000.));
+		diff = days - daysnow;
+		dateCreated.setValue(LocalDate.now().plusDays(diff));
+		
+		//Enddatum
+		timeEnd = issueToEdit.getSolved().getTime().getTime();
+		days = Math.round( (double)timeEnd / (24. * 60.*60.*1000.));
+		diff = days - daysnow;
+		dateEnd.setValue(LocalDate.now().plusDays(diff));
+	
 	}
 
 	
@@ -165,8 +213,7 @@ public class IssueController implements Initializable {
 	 */
 	@FXML
 	private void saveIssue() {
-		Issue issue = new Issue();
-		issue = getTextfieldProperties();
+		 Issue issue = getTextfieldProperties();
 		
 		if(issue != null) {
 			ProjectAddController.dataTransfer.add(issue);
@@ -191,6 +238,10 @@ public class IssueController implements Initializable {
 
 		Issue issue = new Issue();
 		Boolean validationError = false;
+		
+		if(issueId != null) {
+			issue.setId(issueId);
+		}
 		
 		String description = txtIssueDescription.getText();
 		if(checkLength(description, 1, 255)) {
@@ -222,6 +273,29 @@ public class IssueController implements Initializable {
 		}
 		
 		//TODO Ansprechperson zuweisen.
+		if(dropdownContact.getValue() != null) {
+			
+			String string = dropdownContact.getValue();
+			String[] parts = string.split(",");
+			String lastname = parts[0];
+			String firstname = parts[1].substring(1);
+			
+			try {
+				ContactProxy cProxy = ResteasyClientUtil.getTarget().proxy(ContactProxy.class);			    
+			    List<Contact> contactList = mapper.readValue(cProxy.getAll(), new TypeReference<List<Contact>>(){});
+			    
+			    for(Contact contact: contactList) {
+					if(contact.getFirstname().equals(firstname) && contact.getLastname().equals(lastname))
+						issue.setContact(contact);;	
+				}
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		} else {
+			validationError = true;
+			dropdownContact.getStyleClass().add("txtError");
+		}
+		
 		
 		// Status dem Mangel zuweisen
 		if(dropdownState.getValue() != null) {
@@ -287,30 +361,6 @@ public class IssueController implements Initializable {
 	}
 	
 	/**
-	 * Befüllt die Textfelder mit den Daten des zu bearbeitenden Mangels.
-	 * @param issueToEdit
-	 */
-	public void initData(Issue issueToEdit) {
-		lblTitle.setText("Mangel bearbeiten.");	
-/*
-		subcontractorId = issueToEdit.getSubcontractor().getId();
-		dropdownState.setValue(issueToEdit.getState().getName());	
-		txtIssueDescription.setText(issueToEdit.getDescription());
-		dropdownSubcontractor.setValue(issueToEdit.getSubcontractor().getName());
-			System.out.println("hallo");
-		System.out.println(issueToEdit.getSubcontractor().getId());
-		
-		System.out.println(issueToEdit.getSubcontractor().getName());
-		
-		//dateCreated.setValue(LocalDate.now().plusDays(diff));
-
-		//dateEnd.setValue(LocalDate.now().plusDays(diff));
-	*/	
-	}
-	
-
-	
-	/**
 	 * Lädt alle Kommentare aus der Datenbank
 	 */
 	
@@ -365,13 +415,12 @@ public class IssueController implements Initializable {
 	/**
 	 * Befüllt das "Subunternehmen"-Dropdown mit den Inhalten aus der Datenbank.
 	 */
-	public void setDropdownSubcontractor()  {
+	private void setDropdownSubcontractor()  {
 
 		try {
 			SubcontractorProxy subcontractorProxy = ResteasyClientUtil.getTarget().proxy(SubcontractorProxy.class);		
-			List<Subcontractor> subcontractorList = mapper.readValue(subcontractorProxy.getAll(), new TypeReference<List<Subcontractor>>(){});
+			subcontractorList = mapper.readValue(subcontractorProxy.getAll(), new TypeReference<List<Subcontractor>>(){});
 			
-			//Rollen dem Dropdown hinzufügen
 			for(Subcontractor subcontractor: subcontractorList) {
 				dropdownSubcontractor.getItems().add(subcontractor.getName());
 			}
@@ -380,6 +429,37 @@ public class IssueController implements Initializable {
 			e1.printStackTrace();
 		}
 
+		
+	}
+	
+	/**
+	 * Befüllt das "
+	 */
+	private void setDropdownContact(Integer subcontractorId) {
+		
+		
+		try {
+			ContactProxy cProxy = ResteasyClientUtil.getTarget().proxy(ContactProxy.class);		
+			List<Contact> contactList = mapper.readValue(cProxy.getBySubcontractor(subcontractorId), new TypeReference<List<Contact>>(){});
+			
+			
+			for(Contact contact: contactList) {
+				dropdownContact.getItems().add(contact.getLastname() + ", " + contact.getFirstname());
+			}
+		} catch (JsonParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+		
 		
 	}
 

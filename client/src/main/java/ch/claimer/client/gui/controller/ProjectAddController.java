@@ -59,6 +59,7 @@ public class ProjectAddController implements Initializable {
 	private ObservableList<Issue> data = FXCollections.observableArrayList();
 	public static ObservableList<Issue> dataTransfer = FXCollections.observableArrayList();
 	private  Integer projectId = null;
+	private Issue issueToEdit = null;
 
 	// Views werden ins mainContent-Pane geladen
 	@FXML
@@ -120,6 +121,9 @@ public class ProjectAddController implements Initializable {
 
 	@FXML
 	private TableColumn<Issue, String> colSubcontractor;
+	
+	@FXML
+	private TableColumn<Issue, String> colContact;
 
 	@FXML
 	private TableColumn<Issue, String> colDeadline;
@@ -150,18 +154,15 @@ public class ProjectAddController implements Initializable {
 			@Override
 			public void onChanged(javafx.collections.ListChangeListener.Change<? extends Issue> c) {
 				if(dataTransfer.size() > 0) {
-						System.out.println("change");
-					//data.remove(persontoEdit);	//den aktualisierten aus der Liste entfernen		
-					//TableView neu Laden
+					
+					data.remove(issueToEdit);	//den aktualisierten aus der Liste entfernen	
+					issueToEdit = null;
 					data.addAll(dataTransfer);
 
 					fillTableView();
-				}
-				
+				}	
 			}
-		 
 		 });
-
 	}
 	
 	
@@ -262,6 +263,16 @@ public class ProjectAddController implements Initializable {
 			}
 		 });
 		
+		colContact.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Issue, String>, ObservableValue<String>>() {
+			public ObservableValue<String> call(TableColumn.CellDataFeatures<Issue, String> data) {
+					try {
+						return new SimpleStringProperty(data.getValue().getContact().getFirstname() + " " + data.getValue().getContact().getLastname());
+					} catch(NullPointerException e) {
+						return null;
+					}
+				}
+			 });
+		
 		colDeadline.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Issue, String>, ObservableValue<String>>() {
 		public ObservableValue<String> call(TableColumn.CellDataFeatures<Issue, String> data) {
 				try {
@@ -286,37 +297,6 @@ public class ProjectAddController implements Initializable {
 	
 		//Observable-List, welche die Daten beinhaltet, an die Tabelle übergeben
 		mangleTableView.setItems(data);
-	}
-	
-	/**
-	 * Öffnet ein neues Fenster, um einen Mangel zu erfassen.
-	 * @param event
-	 * @throws IOException
-	 */
-	@FXML
-	private void loadIssueView(ActionEvent event) throws IOException {
-		
-		try {
-			Stage stage = new Stage();
-			stage.setTitle("Mangel erfassen");
-			
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/IssueView.fxml"));
-			Pane myPane = loader.load();
-			IssueController controller = loader.<IssueController>getController();
-			
-			//Controller starten
-			controller.initialize(null, null);
-
-			Scene scene = new Scene(myPane);
-			scene.getStylesheets().add(getClass().getResource("../claimer_styles.css").toExternalForm()); // CSS-File wird geladen
-			stage.setScene(scene);
-		    
-		    //Open new Stage
-			stage.show();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	// "Abbrechen"-Button: zur ProjectMain-Ansicht wechseln 
@@ -538,6 +518,33 @@ public class ProjectAddController implements Initializable {
 	}
 	
 	
+	/**
+	 * Öffnet ein neues Fenster, um einen Mangel zu erfassen.
+	 * @param event
+	 * @throws IOException
+	 */
+	@FXML
+	private void loadIssueView(ActionEvent event) throws IOException {
+		
+		try {
+			Stage stage = new Stage();
+			stage.setTitle("Mangel erfassen");
+			
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/IssueView.fxml"));
+			Pane myPane = loader.load();
+
+			Scene scene = new Scene(myPane);
+			scene.getStylesheets().add(getClass().getResource("../claimer_styles.css").toExternalForm()); // CSS-File wird geladen
+			stage.setScene(scene);
+		    
+		    //Open new Stage
+			stage.show();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	@FXML
 	private void editIssue(MouseEvent t) throws IOException {
 
@@ -546,7 +553,7 @@ public class ProjectAddController implements Initializable {
 
 			try {
 				
-				Issue issueToEdit = (Issue)mangleTableView.getSelectionModel().getSelectedItem();
+				issueToEdit = (Issue)mangleTableView.getSelectionModel().getSelectedItem();
 				
 				Stage stage = new Stage();
 				stage.setTitle("Mangel bearbeiten");
@@ -669,10 +676,5 @@ public class ProjectAddController implements Initializable {
 		}
 	}
 
-
-	public void initWithMessage(String string) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

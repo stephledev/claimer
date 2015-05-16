@@ -32,7 +32,7 @@
                 <TableColumn fx:id="colMangle" prefWidth="75.0" text="Mangel" />
                   <TableColumn fx:id="colState" prefWidth="75.0" text="Status" />
                 <TableColumn fx:id="colSubcontractor" prefWidth="75.0" text="Zuständiges Subunternehmen" />
-                  <TableColumn prefWidth="75.0" text="Ansprechperson" />
+                  <TableColumn fx:id="colContact" prefWidth="75.0" text="Ansprechperson" />
                   <TableColumn fx:id="colDeadline" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" resizable="false" text="Deadline" />
               </columns>
                <columnResizePolicy>
