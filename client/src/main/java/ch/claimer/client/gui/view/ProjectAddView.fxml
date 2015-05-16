@@ -34,6 +34,7 @@
                 <TableColumn fx:id="colSubcontractor" prefWidth="75.0" text="Zuständiges Subunternehmen" />
                   <TableColumn fx:id="colContact" prefWidth="75.0" text="Ansprechperson" />
                   <TableColumn fx:id="colDeadline" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" resizable="false" text="Deadline" />
+                  <TableColumn fx:id="colDeleteButton" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" />
               </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

@@ -10,16 +10,22 @@ import java.util.ResourceBundle;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+
 import ch.claimer.client.proxy.CategoryProxy;
+import ch.claimer.client.proxy.ContactProxy;
 import ch.claimer.client.proxy.IssueProxy;
 import ch.claimer.client.proxy.ProjectProxy;
+import ch.claimer.client.proxy.SCEmployeeProxy;
 import ch.claimer.client.proxy.StateProxy;
 import ch.claimer.client.proxy.SupervisorProxy;
 import ch.claimer.client.proxy.TypeProxy;
 import ch.claimer.client.util.ResteasyClientUtil;
 import ch.claimer.shared.models.Category;
+import ch.claimer.shared.models.Contact;
 import ch.claimer.shared.models.Issue;
+import ch.claimer.shared.models.Person;
 import ch.claimer.shared.models.Project;
+import ch.claimer.shared.models.SCEmployee;
 import ch.claimer.shared.models.State;
 import ch.claimer.shared.models.Supervisor;
 import ch.claimer.shared.models.Type;
@@ -29,6 +35,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -37,12 +44,17 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -58,6 +70,7 @@ public class ProjectAddController implements Initializable {
     private ObjectMapper mapper = new ObjectMapper();
 	private ObservableList<Issue> data = FXCollections.observableArrayList();
 	public static ObservableList<Issue> dataTransfer = FXCollections.observableArrayList();
+	private ObservableList<Issue> issuesToDeleteList = FXCollections.observableArrayList();
 	private  Integer projectId = null;
 	private Issue issueToEdit = null;
 
@@ -130,6 +143,9 @@ public class ProjectAddController implements Initializable {
 
 	@FXML
 	private TableColumn<Issue, String> colState;
+	
+	@FXML
+	private TableColumn<Issue, String> colDeleteButton;
 	
 	@FXML
 	private Label lblProjectID;
@@ -294,6 +310,39 @@ public class ProjectAddController implements Initializable {
 				}
 			}
 		  });
+		
+		colDeleteButton.setCellFactory(new Callback<TableColumn<Issue, String>, TableCell<Issue, String>>() {
+		      @Override
+		      public TableCell<Issue, String> call(TableColumn<Issue, String> param) {
+		             final TableCell<Issue, String> cell = new TableCell<Issue, String>() {
+	                      @Override
+	                      public void updateItem(String value, boolean empty) {
+	                            super.updateItem(value, empty);
+
+	                            final VBox vbox = new VBox(0);
+	                            Image image = new Image(getClass().getResourceAsStream("../../../../../delete.png"));
+	                            Button button = new Button("", new ImageView(image));
+	                            button.getStyleClass().add("deleteButton");
+	                            final TableCell<Issue, String> c = this;
+	                            button.setOnAction(new EventHandler<ActionEvent>() {
+	                                  @Override
+	                                  public void handle(ActionEvent event) {
+	                                          @SuppressWarnings("unchecked")
+	                                          TableRow<Issue> tableRow = c.getTableRow();
+	                                          Issue issue= (Issue)tableRow.getTableView().getItems().get(tableRow.getIndex());
+	                                          if((Integer)issue.getId() != null) {
+	                                        	  issuesToDeleteList.add(issue);
+	                                          }
+	                                          data.remove(issue);
+	                                  }
+	                            });
+	                      vbox.getChildren().add(button);
+	                      setGraphic(vbox);
+		               }
+		        };
+		        return cell;
+		    }
+		});
 	
 		//Observable-List, welche die Daten beinhaltet, an die Tabelle übergeben
 		mangleTableView.setItems(data);
@@ -337,6 +386,12 @@ public class ProjectAddController implements Initializable {
 				} else {
 					issueProxy.create(issue);
 				}
+			}
+			
+			//Mängel aus Temporärer "Löschen"-Liste vom Projekt entfernen
+			for(Issue issueToDelete : issuesToDeleteList) {
+				issueToDelete.setProject(null);
+				issueProxy.update(issueToDelete);
 			}
 
 			showMainViewWithMessage("Änderungen erfolgreich gespeichert.");
