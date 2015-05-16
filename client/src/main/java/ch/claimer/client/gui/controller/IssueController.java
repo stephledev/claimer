@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -32,6 +33,7 @@ import ch.claimer.shared.models.Contact;
 import ch.claimer.shared.models.Issue;
 import ch.claimer.shared.models.State;
 import ch.claimer.shared.models.Subcontractor;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -50,6 +52,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 /**
  * @author Michael Lötscher, Alexander Hauck
@@ -64,11 +67,11 @@ public class IssueController implements Initializable {
     WebTarget target;
     ResteasyWebTarget rtarget = ResteasyClientUtil.getTarget();
     ObjectMapper mapper =  new ObjectMapper();
-    ObservableList<Comment> data = FXCollections.observableArrayList();
-    List<Comment> commentsToShow = null;
     
     private Integer issueId;
     private List<Subcontractor> subcontractorList = null;
+    private Issue issueContainer = null;
+    ObservableList<Comment> commentsList = FXCollections.observableArrayList();
 
 	@FXML
 	private Pane mainContent;
@@ -114,8 +117,7 @@ public class IssueController implements Initializable {
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		
-		getComments();
+	
 		setDropdownState();
 		setDropdownSubcontractor();
 		
@@ -133,13 +135,6 @@ public class IssueController implements Initializable {
 				}
 			}
 		 });
-		
-		// Spalten-Values definieren
-		colComment.setCellValueFactory(new PropertyValueFactory<Comment, String>("content"));
-		colAuthor.setCellValueFactory(new PropertyValueFactory<Comment, String>("person"));
-		colAdded.setCellValueFactory(new PropertyValueFactory<Comment, String>("created"));
-
-		commentTableView.setItems(data);
 	}
 	
 	/**
@@ -148,7 +143,8 @@ public class IssueController implements Initializable {
 	 */
 	public void initData(Issue issueToEdit) {
 		issueId = issueToEdit.getId();
-		lblTitle.setText("Mangel bearbeiten.");	
+		issueContainer = issueToEdit;
+		lblTitle.setText("Mangel bearbeiten");	
 
 		dropdownState.setValue(issueToEdit.getState().getName());	
 		txtIssueDescription.setText(issueToEdit.getDescription());
@@ -174,6 +170,8 @@ public class IssueController implements Initializable {
 		days = Math.round( (double)timeEnd / (24. * 60.*60.*1000.));
 		diff = days - daysnow;
 		dateEnd.setValue(LocalDate.now().plusDays(diff));
+		
+		fillCommentTableView();
 	
 	}
 
@@ -186,6 +184,7 @@ public class IssueController implements Initializable {
 		 Issue issue = getTextfieldProperties();
 		
 		if(issue != null) {
+			issue.setComments(commentsList);
 			ProjectAddController.dataTransfer.add(issue);
 			ProjectAddController.dataTransfer.clear();
 			closeStage();
@@ -329,38 +328,8 @@ public class IssueController implements Initializable {
 		Stage stage = (Stage) btnSave.getScene().getWindow();
 	    stage.close();
 	}
-	
-	/**
-	 * Lädt alle Kommentare aus der Datenbank
-	 */
-	
-	private void getComments() {
-
-		Comment comment = new Comment();
-		CommentProxy commentProxy = rtarget.proxy(CommentProxy.class);
 
 		
-		//ACHTUNG: Hier gibt es zwei: getByContact und getBySupervisor. Evtl muss man das noch anpassen.
-		try {
-			commentsToShow = mapper.readValue(commentProxy.getByContact(2),
-					new TypeReference<List<Issue>>() {
-					});
-
-			for (int i = 0; i < commentsToShow.size(); i++) {
-
-				comment = commentsToShow.get(i);
-				data.add(comment);
-
-			}
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-
-		commentsToShow = null;
-
-	}
-	
-	
 	/**
 	 * Befüllt das "Status"-Dropdown mit den Inhalten aus der Datenbank.
 	 */
@@ -426,37 +395,73 @@ public class IssueController implements Initializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * Lädt alle Kommentare aus der Datenbank und befüllt die Tabelle
+	 */
+	
+	private void fillCommentTableView() {
+
+		for(Comment comment : issueContainer.getComments()) {
+			commentsList.add(comment);
+		}
+				
+		// Spalten-Values definieren
+		colComment.setCellValueFactory(new PropertyValueFactory<Comment, String>("content"));
+
+		colAuthor.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Comment, String>, ObservableValue<String>>() {
+			public ObservableValue<String> call(TableColumn.CellDataFeatures<Comment, String> data) {
+				try {
+					String output = null;
+					if(data.getValue().getContact() != null) {
+						output = data.getValue().getContact().getFirstname() + " " + data.getValue().getContact().getLastname();
+					} else if (data.getValue().getSupervisor() != null) {
+						output = data.getValue().getSupervisor().getFirstname() + " " + data.getValue().getSupervisor().getLastname();
+					}
+					
+					return new SimpleStringProperty(output);
+				} catch(NullPointerException e) {
+					return null;
+				}
+			}
+		});
 		
-		
-		
-		
+		colAdded.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Comment, String>, ObservableValue<String>>() {
+			public ObservableValue<String> call(TableColumn.CellDataFeatures<Comment, String> data) {
+				try {
+					SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+					String a = format.format(data.getValue().getCreated().getTime());
+					return new SimpleStringProperty(a);
+				} catch(NullPointerException e) {
+					return null;
+				}
+			}
+		});
+
+		commentTableView.setItems(commentsList);
+
 		
 	}
-
 	
 	
 	// "Speicher"-Button: Speichert den Mangel
 	@FXML
 	private void saveComment() {
-		
-	}
-	
-
-	// liest Textfelder aus und speichert Daten des Projektes in der DB
-	// Dropdown-Felder füllen
-	private Comment getIssueTextfieldProperties(Issue i1, Comment c1) {
-
-		return null;
-	}
-	
-	@FXML
-	private void addComment(ActionEvent event) throws IOException {
-
+		if(!checkLength(txtComment.getText(), 1, 255)) {
+			Comment comment = new Comment();
+			comment.setContent(txtComment.getText());
+			comment.setCreated(new GregorianCalendar());
+			commentsList.add(comment);
+			
+		} else {
+			txtComment.getStyleClass().add("txtError");
+		}
 	}
 	
 	@FXML
 	public void export(ActionEvent e)  {
-		try {
+		try { 
 			writeExcel();
 		}
 		catch (Exception ex) {
