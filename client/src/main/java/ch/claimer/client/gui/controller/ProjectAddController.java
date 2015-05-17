@@ -15,13 +15,9 @@ import java.util.ResourceBundle;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
-import org.pmw.tinylog.Logger;
-
 import ch.claimer.client.proxy.CategoryProxy;
-import ch.claimer.client.proxy.ContactProxy;
 import ch.claimer.client.proxy.IssueProxy;
 import ch.claimer.client.proxy.ProjectProxy;
-import ch.claimer.client.proxy.SCEmployeeProxy;
 import ch.claimer.client.proxy.StateProxy;
 import ch.claimer.client.proxy.SupervisorProxy;
 import ch.claimer.client.proxy.TypeProxy;

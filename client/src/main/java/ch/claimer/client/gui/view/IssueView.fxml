@@ -43,7 +43,7 @@
             </HBox>
             <Accordion GridPane.rowIndex="4">
               <panes>
-                <TitledPane animated="false" text="Kommentare">
+                <TitledPane text="Kommentare">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0">
                            <children>
@@ -80,6 +80,23 @@
                         </AnchorPane>
                   </content>
                 </TitledPane>
+                  <TitledPane expanded="false" text="Protokoll">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TableView fx:id="logTableView" layoutX="214.0" layoutY="72.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <columns>
+                                  <TableColumn fx:id="colLogDate" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" resizable="false" text="Datum" />
+                                  <TableColumn fx:id="colLogDescription" prefWidth="75.0" text="Beschreibung" />
+                                </columns>
+                                 <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                 </columnResizePolicy>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </TitledPane>
               </panes>
             </Accordion>
             <GridPane GridPane.rowIndex="2">

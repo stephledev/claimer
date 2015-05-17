@@ -31,6 +31,7 @@ import ch.claimer.client.util.ResteasyClientUtil;
 import ch.claimer.shared.models.Comment;
 import ch.claimer.shared.models.Contact;
 import ch.claimer.shared.models.Issue;
+import ch.claimer.shared.models.LogEntry;
 import ch.claimer.shared.models.State;
 import ch.claimer.shared.models.Subcontractor;
 import javafx.beans.property.SimpleStringProperty;
@@ -69,8 +70,8 @@ public class IssueController implements Initializable {
     WebTarget target;
     ResteasyWebTarget rtarget = ResteasyClientUtil.getTarget();
     ObjectMapper mapper =  new ObjectMapper();
-    
-    private Integer issueId;
+    private ObservableList<LogEntry> logEntryList = FXCollections.observableArrayList();
+    private Integer issueId = null;
     private List<Subcontractor> subcontractorList = null;
     private Issue issueContainer = null;
     ObservableList<Comment> commentsList = FXCollections.observableArrayList();
@@ -116,6 +117,15 @@ public class IssueController implements Initializable {
 	
 	@FXML
 	private ComboBox<String> dropdownContact;
+	
+	@FXML
+	private TableView<LogEntry> logTableView;
+	
+	@FXML
+	private TableColumn<LogEntry, String> colLogDate;
+	
+	@FXML
+	private TableColumn<LogEntry, String> colLogDescription;
 	
 	/* (non-Javadoc)
 	 * @see javafx.fxml.Initializable#initialize(java.net.URL, java.util.ResourceBundle)
@@ -178,6 +188,7 @@ public class IssueController implements Initializable {
 		dateEnd.setValue(LocalDate.now().plusDays(diff));
 		
 		fillCommentTableView();
+		fillLogTableView();
 	
 	}
 
@@ -191,6 +202,8 @@ public class IssueController implements Initializable {
 		
 		if(issue != null) {
 			issue.setComments(commentsList);
+			logEntryHandler(issue);
+			issue.setLogEntries(logEntryList);
 			ProjectAddController.dataTransfer.add(issue);
 			ProjectAddController.dataTransfer.clear();
 			closeStage();
@@ -211,6 +224,61 @@ public class IssueController implements Initializable {
 		} else {
 			return false;
 		}
+	}
+	
+	/**
+	 * Überprüft Änderungen am Mangel und protokolliert diese.
+	 * @param issue - Das zu protokollierende Projekt.
+	 */
+	private void logEntryHandler(Issue issue) {
+		
+		if(issueId != null) {
+			if(!issue.getDescription().equals(issueContainer.getDescription())) {
+				LogEntry logEntry = new LogEntry();
+				logEntry.setDate(new GregorianCalendar());
+				logEntry.setDescription("Der Name des Mangels wurde von \"" + issueContainer.getDescription() + "\" auf \"" + issue.getDescription() + "\" geändert.");
+				logEntryList.add(logEntry);
+			}
+			
+			if(!issue.getState().getName().equals(issueContainer.getState().getName())) {
+				LogEntry logEntry = new LogEntry();
+				logEntry.setDate(new GregorianCalendar());
+				logEntry.setDescription("Der Status wurde von \"" + issueContainer.getState().getName() + "\" auf \"" + issue.getState().getName() + "\" geändert.");
+				logEntryList.add(logEntry);
+			}
+			
+			if(!issue.getSubcontractor().getName().equals(issueContainer.getSubcontractor().getName())) {
+				LogEntry logEntry = new LogEntry();
+				logEntry.setDate(new GregorianCalendar());
+				logEntry.setDescription("Das zuständige Subunternehmen wurde von \"" + issueContainer.getSubcontractor().getName() + "\" auf \"" + issue.getSubcontractor().getName() + "\" geändert.");
+				logEntryList.add(logEntry);
+			}
+			
+			if((!issue.getContact().getFirstname().equals(issueContainer.getContact().getFirstname()) && 
+					(!issue.getContact().getLastname().equals(issueContainer.getContact().getLastname())))) {
+				LogEntry logEntry = new LogEntry();
+				logEntry.setDate(new GregorianCalendar());
+				logEntry.setDescription("Die Ansprechperson wurde von \"" + issueContainer.getContact().getFirstname() + " " + issueContainer.getContact().getLastname() + 
+						"\" auf \"" + issue.getContact().getFirstname() + " " + issue.getContact().getLastname() + "\" geändert.");
+				logEntryList.add(logEntry);
+			}
+			
+			for(Comment comment : commentsList) {
+				if(!issueContainer.getComments().contains(comment)) {
+					LogEntry logEntry = new LogEntry();
+					logEntry.setDate(new GregorianCalendar());
+					logEntry.setDescription("Ein neuer Kommentar wurde erfasst.");
+					logEntryList.add(logEntry);
+				}
+			}
+			
+		} else {
+			LogEntry logEntry = new LogEntry();
+			logEntry.setDate(new GregorianCalendar());
+			logEntry.setDescription("Der Mangel \"" + issue.getDescription() + "\" wurde erfasst.");
+			logEntryList.add(logEntry);
+		}
+		
 	}
 	
 	
@@ -456,6 +524,30 @@ public class IssueController implements Initializable {
 
 		commentTableView.setItems(commentsList);
 
+		
+	}
+	
+	private void fillLogTableView() {
+		
+		for(LogEntry logEntry : issueContainer.getLogEntries()) {
+			logEntryList.add(logEntry);
+		}
+		
+		colLogDate.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<LogEntry, String>, ObservableValue<String>>() {
+			public ObservableValue<String> call(TableColumn.CellDataFeatures<LogEntry, String> data) {
+				try {
+					SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+					String a = format.format(data.getValue().getDate().getTime());
+					return new SimpleStringProperty(a);
+				} catch(NullPointerException e) {
+					return null;
+				}
+			}
+		});
+		
+		colLogDescription.setCellValueFactory(new PropertyValueFactory<LogEntry, String>("description"));
+		
+		logTableView.setItems(logEntryList);
 		
 	}
 	
