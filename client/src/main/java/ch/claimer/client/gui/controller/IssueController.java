@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -15,26 +16,30 @@ import java.util.ResourceBundle;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
 import ch.claimer.client.proxy.CommentProxy;
+import ch.claimer.client.proxy.ContactProxy;
 import ch.claimer.client.proxy.IssueProxy;
-import ch.claimer.client.proxy.PrincipalProxy;
 import ch.claimer.client.proxy.StateProxy;
 import ch.claimer.client.proxy.SubcontractorProxy;
 import ch.claimer.client.util.ResteasyClientUtil;
 import ch.claimer.shared.models.Comment;
+import ch.claimer.shared.models.Contact;
 import ch.claimer.shared.models.Issue;
-import ch.claimer.shared.models.Principal;
 import ch.claimer.shared.models.State;
 import ch.claimer.shared.models.Subcontractor;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -47,10 +52,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 /**
+ * Kontroller für die MangelVerwalten-Ansicht
+ * 
  * @author Michael Lötscher, Alexander Hauck
- * @since 21.04.2015
+ * @since 1.0
  * @version 2.0
  *
  */
@@ -61,17 +69,12 @@ public class IssueController implements Initializable {
     WebTarget target;
     ResteasyWebTarget rtarget = ResteasyClientUtil.getTarget();
     ObjectMapper mapper =  new ObjectMapper();
-    ObservableList<Comment> data = FXCollections.observableArrayList();
-    List<Comment> commentsToShow = null;
     
     private Integer issueId;
-    
-    private Integer projectId;
-    private Integer subcontractorId;
-    private Integer contactId;
+    private List<Subcontractor> subcontractorList = null;
+    private Issue issueContainer = null;
+    ObservableList<Comment> commentsList = FXCollections.observableArrayList();
 
-    
-    
 	@FXML
 	private Pane mainContent;
 	
@@ -85,46 +88,16 @@ public class IssueController implements Initializable {
 	private Label lblTitle;
 
 	@FXML
-	private TextField txt_mangleName;
-	
-	@FXML
-	private TextField txt_addComment;
-	
-	@FXML
-	private TextField txt_area;
-	
-	@FXML
-	private TextField txt_commentAuthor;
-	
-	@FXML
-	private TextField txt_commentDate;
+	private TextField txtComment;
 
 	@FXML
 	private TextArea txtIssueDescription;
-
-	@FXML
-	private TextField txt_contactPerson;
-
-	@FXML
-	private TextField txt_principalPhone;
 
 	@FXML
 	private ComboBox<String> dropdownState;
 
 	@FXML
 	private Button btnSave;
-
-	@FXML
-	private Button bttn_quitComment;
-
-	@FXML
-	private Button bttn_addComment;
-
-	@FXML
-	private Button bttn_addPhoto;
-	
-	@FXML
-	private Button bttn_export;
 
 	@FXML
 	private TableView<Comment> commentTableView;
@@ -144,37 +117,94 @@ public class IssueController implements Initializable {
 	@FXML
 	private ComboBox<String> dropdownContact;
 	
+	/* (non-Javadoc)
+	 * @see javafx.fxml.Initializable#initialize(java.net.URL, java.util.ResourceBundle)
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		/*
-		getComments();
-		//setDropdownState();
+	
+		setDropdownState();
 		setDropdownSubcontractor();
 		
-		// Spalten-Values definieren
-		colComment.setCellValueFactory(new PropertyValueFactory<Comment, String>("content"));
-		colAuthor.setCellValueFactory(new PropertyValueFactory<Comment, String>("person"));
-		colAdded.setCellValueFactory(new PropertyValueFactory<Comment, String>("created"));
+		//Listener,um Änderungen am Subunternehmen-Dropdown zu überprüfen.
+		dropdownSubcontractor.valueProperty().addListener(new ChangeListener<String>() {
 
-		commentTableView.setItems(data);*/
+			@Override
+			public void changed(ObservableValue<? extends String> arg0, String oldValue, String newValue) {
+				dropdownContact.getItems().clear();
+				dropdownContact.setValue("");
+				for(Subcontractor sc : subcontractorList) {
+					if(sc.getName().equals(newValue)) {
+						setDropdownContact(sc.getId());
+					}
+				}
+			}
+		 });
+	}
+	
+	
+	/**
+	 * Füllt die Textfelder mit den Daten des zu bearbeitenden Mangels.
+	 * @param issueToEdit - Der zu bearbeitende Mangel wird hier mitgegeben.
+	 */
+	public void initData(Issue issueToEdit) {
+		issueId = issueToEdit.getId();
+		issueContainer = issueToEdit;
+		lblTitle.setText("Mangel bearbeiten");	
+
+		dropdownState.setValue(issueToEdit.getState().getName());	
+		txtIssueDescription.setText(issueToEdit.getDescription());
+		dropdownSubcontractor.setValue(issueToEdit.getSubcontractor().getName());
+		dropdownContact.setValue(issueToEdit.getContact().getLastname() + ", " + issueToEdit.getContact().getFirstname());
+		
+		long timeStart;
+		long timeEnd;
+		long days;
+		Date date = new Date();
+		long timenow = date.getTime();
+		long daysnow = Math.round( (double)timenow / (24. * 60.*60.*1000.));
+		long diff;
+			
+		//Erstellungsdatum
+		timeStart = issueToEdit.getCreated().getTime().getTime();
+		days = Math.round( (double)timeStart / (24. * 60.*60.*1000.));
+		diff = days - daysnow;
+		dateCreated.setValue(LocalDate.now().plusDays(diff));
+		
+		//Enddatum
+		timeEnd = issueToEdit.getSolved().getTime().getTime();
+		days = Math.round( (double)timeEnd / (24. * 60.*60.*1000.));
+		diff = days - daysnow;
+		dateEnd.setValue(LocalDate.now().plusDays(diff));
+		
+		fillCommentTableView();
+	
 	}
 
 	
 	/**
-	 * Speichert einen Mangel.
+	 * Speichert den Mangel.
 	 */
 	@FXML
 	private void saveIssue() {
-		Issue issue = new Issue();
-		issue = getTextfieldProperties();
+		 Issue issue = getTextfieldProperties();
 		
 		if(issue != null) {
+			issue.setComments(commentsList);
 			ProjectAddController.dataTransfer.add(issue);
 			ProjectAddController.dataTransfer.clear();
 			closeStage();
 		}
 	}
 	
+	/**
+	 * Die Methode überprüft, ob beim übergeben String die Mindest- und Maximumlänge stimmt.
+	 * 
+	 * @param text - Text der übergeben wird.
+	 * @param minLength - Minimumlänge die überprüft werden soll.
+	 * @param maxLength - Maximumlänge die überprüft werden soll.
+	 * @return true oder false
+	 */
 	private Boolean checkLength(String text, int minLength, int maxLength) {
 		if(text.length() < minLength || text.length() > maxLength) {
 			return true;
@@ -183,14 +213,19 @@ public class IssueController implements Initializable {
 		}
 	}
 	
+	
 	/**
 	 * Liest die Textfelder aus und validiert diese.
-	 * @return
+	 * @return issue - Gibt den Mangel mit den ausgelesenen Textfeldern zurück.
 	 */
 	private Issue getTextfieldProperties() {
 
 		Issue issue = new Issue();
 		Boolean validationError = false;
+		
+		if(issueId != null) {
+			issue.setId(issueId);
+		}
 		
 		String description = txtIssueDescription.getText();
 		if(checkLength(description, 1, 255)) {
@@ -222,6 +257,29 @@ public class IssueController implements Initializable {
 		}
 		
 		//TODO Ansprechperson zuweisen.
+		if(dropdownContact.getValue() != null) {
+			
+			String contactName = dropdownContact.getValue();
+			String[] parts = contactName.split(",");
+			String lastname = parts[0];
+			String firstname = parts[1].substring(1);
+			
+			try {
+				ContactProxy cProxy = ResteasyClientUtil.getTarget().proxy(ContactProxy.class);			    
+			    List<Contact> contactList = mapper.readValue(cProxy.getAll(), new TypeReference<List<Contact>>(){});
+			    
+			    for(Contact contact: contactList) {
+					if(contact.getFirstname().equals(firstname) && contact.getLastname().equals(lastname))
+						issue.setContact(contact);;	
+				}
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		} else {
+			validationError = true;
+			dropdownContact.getStyleClass().add("txtError");
+		}
+		
 		
 		// Status dem Mangel zuweisen
 		if(dropdownState.getValue() != null) {
@@ -285,62 +343,8 @@ public class IssueController implements Initializable {
 		Stage stage = (Stage) btnSave.getScene().getWindow();
 	    stage.close();
 	}
-	
-	/**
-	 * Befüllt die Textfelder mit den Daten des zu bearbeitenden Mangels.
-	 * @param issueToEdit
-	 */
-	public void initData(Issue issueToEdit) {
-		lblTitle.setText("Mangel bearbeiten.");	
-/*
-		subcontractorId = issueToEdit.getSubcontractor().getId();
-		dropdownState.setValue(issueToEdit.getState().getName());	
-		txtIssueDescription.setText(issueToEdit.getDescription());
-		dropdownSubcontractor.setValue(issueToEdit.getSubcontractor().getName());
-			System.out.println("hallo");
-		System.out.println(issueToEdit.getSubcontractor().getId());
-		
-		System.out.println(issueToEdit.getSubcontractor().getName());
-		
-		//dateCreated.setValue(LocalDate.now().plusDays(diff));
-
-		//dateEnd.setValue(LocalDate.now().plusDays(diff));
-	*/	
-	}
-	
-
-	
-	/**
-	 * Lädt alle Kommentare aus der Datenbank
-	 */
-	
-	private void getComments() {
-
-		Comment comment = new Comment();
-		CommentProxy commentProxy = rtarget.proxy(CommentProxy.class);
 
 		
-		//ACHTUNG: Hier gibt es zwei: getByContact und getBySupervisor. Evtl muss man das noch anpassen.
-		try {
-			commentsToShow = mapper.readValue(commentProxy.getByContact(2),
-					new TypeReference<List<Issue>>() {
-					});
-
-			for (int i = 0; i < commentsToShow.size(); i++) {
-
-				comment = commentsToShow.get(i);
-				data.add(comment);
-
-			}
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-
-		commentsToShow = null;
-
-	}
-	
-	
 	/**
 	 * Befüllt das "Status"-Dropdown mit den Inhalten aus der Datenbank.
 	 */
@@ -365,13 +369,12 @@ public class IssueController implements Initializable {
 	/**
 	 * Befüllt das "Subunternehmen"-Dropdown mit den Inhalten aus der Datenbank.
 	 */
-	public void setDropdownSubcontractor()  {
+	private void setDropdownSubcontractor()  {
 
 		try {
 			SubcontractorProxy subcontractorProxy = ResteasyClientUtil.getTarget().proxy(SubcontractorProxy.class);		
-			List<Subcontractor> subcontractorList = mapper.readValue(subcontractorProxy.getAll(), new TypeReference<List<Subcontractor>>(){});
+			subcontractorList = mapper.readValue(subcontractorProxy.getAll(), new TypeReference<List<Subcontractor>>(){});
 			
-			//Rollen dem Dropdown hinzufügen
 			for(Subcontractor subcontractor: subcontractorList) {
 				dropdownSubcontractor.getItems().add(subcontractor.getName());
 			}
@@ -382,89 +385,98 @@ public class IssueController implements Initializable {
 
 		
 	}
-
 	
-	// "Speicher"-Button: Speichert den Mangel
+	/**
+	 * Befüllt das "Contact"-Dropdown mit den Inhalten aus der Datenbank.
+	 */
+	private void setDropdownContact(Integer subcontractorId) {
+		
+		
+		try {
+			ContactProxy cProxy = ResteasyClientUtil.getTarget().proxy(ContactProxy.class);		
+			List<Contact> contactList = mapper.readValue(cProxy.getBySubcontractor(subcontractorId), new TypeReference<List<Contact>>(){});
+			
+			
+			for(Contact contact: contactList) {
+				dropdownContact.getItems().add(contact.getLastname() + ", " + contact.getFirstname());
+			}
+		} catch (JsonParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Lädt alle Kommentare aus der Datenbank und befüllt die Tabelle
+	 */
+	
+	private void fillCommentTableView() {
+
+		for(Comment comment : issueContainer.getComments()) {
+			commentsList.add(comment);
+		}
+				
+		// Spalten-Values definieren
+		colComment.setCellValueFactory(new PropertyValueFactory<Comment, String>("content"));
+
+		colAuthor.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Comment, String>, ObservableValue<String>>() {
+			public ObservableValue<String> call(TableColumn.CellDataFeatures<Comment, String> data) {
+				try {
+					String output = null;
+					if(data.getValue().getContact() != null) {
+						output = data.getValue().getContact().getFirstname() + " " + data.getValue().getContact().getLastname();
+					} else if (data.getValue().getSupervisor() != null) {
+						output = data.getValue().getSupervisor().getFirstname() + " " + data.getValue().getSupervisor().getLastname();
+					}
+					
+					return new SimpleStringProperty(output);
+				} catch(NullPointerException e) {
+					return null;
+				}
+			}
+		});
+		
+		colAdded.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Comment, String>, ObservableValue<String>>() {
+			public ObservableValue<String> call(TableColumn.CellDataFeatures<Comment, String> data) {
+				try {
+					SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+					String a = format.format(data.getValue().getCreated().getTime());
+					return new SimpleStringProperty(a);
+				} catch(NullPointerException e) {
+					return null;
+				}
+			}
+		});
+
+		commentTableView.setItems(commentsList);
+
+		
+	}
+	
+	
+	
+	/**
+	 * Klick auf den "Speicher"-Button, speichert den Mangel.
+	 */
 	@FXML
 	private void saveComment() {
-
-		Comment comment = new Comment();
-		Issue issue = new Issue();
-
-		//Textfeldproperties (inklusive Login & Rolle) auslesen und zuweisen
-		comment = (Comment)  getIssueTextfieldProperties(issue, comment);
-
-		CommentProxy commentProxy = ResteasyClientUtil.getTarget().proxy(CommentProxy.class);
-		commentProxy.create(comment);
-
-
-		//showIssueViewWithMessage(issue);
-	}
-	
-	// liest Textfelder aus und speichert Daten des Projektes in der DB
-	// Dropdown-Felder füllen
-	private Comment getIssueTextfieldProperties(Issue i1, Comment c1) {
-		issueId = i1.getId();
-		i1.setComments(commentsToShow);
-		Comment comment = new Comment();
-		comment.setContent(txt_addComment.getText());
-		commentsToShow.add(comment);
-		
-		return comment;
-	}
-	
-	@FXML
-	private void addComment(ActionEvent event) throws IOException {
-
-		String comment = txt_addComment.getText();
-		Comment c1 = new Comment();
-		c1.setContent(comment);
-	}
-	
-	@FXML
-	public void export(ActionEvent e)  {
-		try {
-			writeExcel();
-		}
-		catch (Exception ex) {
-			ex.printStackTrace();
+		if(!checkLength(txtComment.getText(), 1, 255)) {
+			Comment comment = new Comment();
+			comment.setContent(txtComment.getText());
+			comment.setCreated(new GregorianCalendar());
+			commentsList.add(comment);
+			
+		} else {
+			txtComment.getStyleClass().add("txtError");
 		}
 	}
-	public void writeExcel() throws Exception {
-		Writer writer = null;
-		ObservableList<Issue> data = FXCollections.observableArrayList(); 
-
-		try {
-
-			File file = new File("C:\\Mängel.csv.");
-			writer = new BufferedWriter(new FileWriter(file));
-			Issue issue = new Issue();
-			IssueProxy issueProxy = rtarget.proxy(IssueProxy.class);
-
-
-			List<Issue> issuesToShow = mapper.readValue(issueProxy.getAll(), new TypeReference<List<Issue>>(){});
-
-			for(int i = 0; i < issuesToShow.size(); i++) {
-				issue = issuesToShow.get(i);
-				data.add(issue);
-			}
-
-
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		finally {
-
-			for (Issue issue : data) {
-				String text = issue.getId() + "," + issue.getDescription()+ "," + issue.getProject().getName() + "," + issue.getCreated()+ "," + issue.getSolved() + "," + issue.getState()+ "\n";
-
-				writer.write(text);
-			}
-
-			writer.flush();
-			writer.close();
-		} 
-	}
+	
 		
 }
 		

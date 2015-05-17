@@ -47,7 +47,7 @@ import ch.claimer.shared.models.Subcontractor;
 /**
  * Controller für das Hinzufügen und Ändern von Subunternehmen
  * @author Alexander Hauck
- * @since 30.04.2015
+ * @since 1.0
  * @version 1.0
  */
 
@@ -146,7 +146,7 @@ public class SubcontractorAddController implements Initializable {
 	
 	/**
 	 * Befüllt den View mit den Daten des zu bearbeitenden Subunternehmens.
-	 * @param subcontractor
+	 * @param subcontractor - Subcontractor der bearbeitet wird.
 	 */
 	public void initData(Company subcontractor) {
 		
@@ -197,7 +197,7 @@ public class SubcontractorAddController implements Initializable {
 	
 	/**
 	 * Lädt den Subunternehmen Hauptview mit einer Nachricht.
-	 * @param message
+	 * @param message - Mitteilung die angezeigt werden soll.
 	 */
 	private void showMainViewWithMessage(String message) {
 		try {
@@ -278,45 +278,42 @@ public class SubcontractorAddController implements Initializable {
 	                      @Override
 	                      public void updateItem(String value, boolean empty) {
 	                            super.updateItem(value, empty);
-
-	                            final VBox vbox = new VBox(0);
-	                            Image image = new Image(getClass().getResourceAsStream("../../../../../delete.png"));
-	                            Button button = new Button("", new ImageView(image));
-	                            button.getStyleClass().add("deleteButton");
-	                            final TableCell<Person, String> c = this;
-	                            button.setOnAction(new EventHandler<ActionEvent>() {
-	                                  @Override
-	                                  public void handle(ActionEvent event) {
-	                                          @SuppressWarnings("unchecked")
-											TableRow<Person> tableRow = c.getTableRow();
-	                                          Person person= (Person)tableRow.getTableView().getItems().get(tableRow.getIndex());
-	                                          person.setActive(false);
-	                                          data.remove(person);
-	                                         
-	                                          switch(person.getLogin().getRole().getName()) {
-	                                        	  
-	                                          	case("power"): {
-	                                          		SCEmployee sce = (SCEmployee)person;
-	                                          		sce.setSubcontractor(null);
-	                                          		SCEmployeeProxy sceProxy = ResteasyClientUtil.getTarget().proxy(SCEmployeeProxy.class);
-	    	                                        sceProxy.update(sce);
-	                                          	} break;
-	                                          	case("editor-extern"): {
-	                                          		Contact contact = (Contact)person;
-	                                          		contact.setSubcontractor(null);
-	                                          		ContactProxy cProxy = ResteasyClientUtil.getTarget().proxy(ContactProxy.class);
-	    	                                        cProxy.update(contact);
-	                                          	}break;
-	                                        	  
-	                                          }
-	                                          
-
-	                                         
-	                                         
-	                                  }
-	                            });
-	                      vbox.getChildren().add(button);
-	                      setGraphic(vbox);
+	                            if(!empty) {
+	
+		                            final VBox vbox = new VBox(0);
+		                            Image image = new Image(getClass().getResourceAsStream("../../../../../delete.png"));
+		                            Button button = new Button("", new ImageView(image));
+		                            button.getStyleClass().add("deleteButton");
+		                            final TableCell<Person, String> c = this;
+		                            button.setOnAction(new EventHandler<ActionEvent>() {
+		                                  @Override
+		                                  public void handle(ActionEvent event) {
+		                                          @SuppressWarnings("unchecked")
+												TableRow<Person> tableRow = c.getTableRow();
+		                                          Person person= (Person)tableRow.getTableView().getItems().get(tableRow.getIndex());
+		                                          person.setActive(false);
+		                                          data.remove(person);
+		                                         
+		                                          switch(person.getLogin().getRole().getName()) {
+		                                        	  
+		                                          	case("power"): {
+		                                          		SCEmployee sce = (SCEmployee)person;
+		                                          		sce.setSubcontractor(null);
+		                                          		SCEmployeeProxy sceProxy = ResteasyClientUtil.getTarget().proxy(SCEmployeeProxy.class);
+		    	                                        sceProxy.update(sce);
+		                                          	} break;
+		                                          	case("editor-extern"): {
+		                                          		Contact contact = (Contact)person;
+		                                          		contact.setSubcontractor(null);
+		                                          		ContactProxy cProxy = ResteasyClientUtil.getTarget().proxy(ContactProxy.class);
+		    	                                        cProxy.update(contact);
+		                                          	}break; 
+		                                          }
+		                                  }
+		                            });
+		                      vbox.getChildren().add(button);
+		                      setGraphic(vbox);
+		                    }
 		               }
 		        };
 		        return cell;
@@ -505,7 +502,7 @@ public class SubcontractorAddController implements Initializable {
 	
 	/**
 	 * Öffnet ein neues Fenster, um den angeklickten Subunternehmen-Mitarbeiter zu bearbeiten.
-	 * @param t
+	 * @param t - Mouseevent = Klick auf den Subunternehmen-Mitarbeiter
 	 */
 	@FXML
 	private void editSubcontractorStaff (MouseEvent t){

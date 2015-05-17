@@ -31,6 +31,7 @@ import javafx.scene.layout.Pane;
 
 /**
  * Controller für den Bauherren Hauptview.
+ * 
  * @author Alexander Hauck
  * @since 20.04.2015
  * @version 2.1
@@ -116,7 +117,7 @@ public class PrincipalController implements Initializable {
 	
 	/**
 	 * Wechselt zum PrincipalAddView, um einen neuen Bauherr hinzuzufügen.
-	 * @param event
+	 * @param event - Klick auf den Button
 	 * @throws IOException
 	 */
 	@FXML
@@ -128,7 +129,7 @@ public class PrincipalController implements Initializable {
 	
 	/**
 	 * Wechselt zum PrincipalAddView, um einen Bauherr zu bearbeiten
-	 * @param event
+	 * @param event - Klick auf den Bauherr
 	 * @throws IOException
 	 */
 	@FXML
@@ -161,7 +162,7 @@ public class PrincipalController implements Initializable {
 	
 	/**
 	 * Initialisiert den PrincipalAddController mit einer Meldung, welche im GUI ausgegeben wird.
-	 * @param message
+	 * @param message - Mitteilung die angezeigt wird.
 	 */
 	public void initWithMessage(String message) {
 		lblMeldung.setText(message);
@@ -184,8 +185,8 @@ public class PrincipalController implements Initializable {
 			
 	/**
 	 * Überprüft, ob ein Bauherr dem "Suchen..." - Kriterium entspricht. Gehört zur "Suchen..." - Funktion
-	 * @param p
-	 * @return
+	 * @param p - Der Kunde der übergeben wird
+	 * @return true oder false
 	 */
 	private boolean matchesFilter(Principal p) {
 		String filterString = txtSearch.getText();

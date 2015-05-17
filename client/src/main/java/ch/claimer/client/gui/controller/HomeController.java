@@ -35,8 +35,10 @@ import ch.claimer.shared.models.Issue;
 import ch.claimer.shared.models.Project;
 
 /**
+ * Kontroller für die Home-Ansicht
+ * 
  * @author Michael Lötscher
- * @since 21.04.2015
+ * @since 1.0
  * @version 1.1
  *
  */
@@ -79,9 +81,11 @@ public class HomeController implements Initializable {
 	@FXML
 	private Label lbl_title;
 
+	
 	/**
-	 * Öffnet die Detailansicht für einen User, um diesen zu bearbeiten.
-	 * @param t
+	 *  Beim Doppelklick auf den Mangel öffnet sich die IssueController-Sicht
+	 * 
+	 * @param t MouseEvent = Klick auf den Mangel
 	 * @throws IOException
 	 */
 	@FXML
@@ -94,7 +98,7 @@ public class HomeController implements Initializable {
 			Issue issueId = (Issue) homeTableView.getSelectionModel().getSelectedItem();
 
 			//FXMLLoader erstelen
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/ProjectMangleView.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/IssueController.fxml"));
 
 			//Neuen View laden
 			Pane myPane = loader.load();
@@ -119,8 +123,9 @@ public class HomeController implements Initializable {
 		mapper = new ObjectMapper();
 	}
 
+	
 	/**
-	 * Lädt alle Mängel aus der Datenbank
+	 * Alle Mängel werden aus der Datenbank geladen und in die ObservableList data und dataCopy gespeichert
 	 */
 	private void getIssue() {
 
@@ -199,7 +204,9 @@ public class HomeController implements Initializable {
 
 	}
 
-	// Observable-List mit den gefilterten Daten aktualisieren
+	/**
+	 * ObservableList data wird mit den gefilterten Daten aktualisieren
+	 */
 	public void updateDataCopy() {
 		data.clear();
 
@@ -213,7 +220,13 @@ public class HomeController implements Initializable {
 	}
 
 
-	// Überprüfen, ob Suchbegriff mit Daten übereinstimmt
+
+	/**
+	 * Die Methode überprüft, ob der Suchbegriff mit den Daten übereinstimmt
+	 * 
+	 * @param i Mangel welecher in der Tabelle angezeigt wird
+	 * @return true oder false
+	 */
 	private boolean matchesFilter(Issue i) {
 		String filterString = txt_search.getText();
 
@@ -236,6 +249,9 @@ public class HomeController implements Initializable {
 	}
 
 
+	/**
+	 * Die Tabelle wird neu sortiert
+	 */
 	private void reaplyTableSortOrder() {
 		ArrayList<TableColumn<Issue, ?>> sortOrder = new ArrayList<>(
 		homeTableView.getSortOrder());

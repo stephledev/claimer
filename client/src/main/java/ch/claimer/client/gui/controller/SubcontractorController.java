@@ -31,7 +31,7 @@ import javafx.scene.layout.Pane;
 /**
  * Controller der Subunternehmen-Seite
  * @author Alexander Hauck
- * @since 16.04.2015
+ * @since 1.0
  * @version 1.1
  *
  */
@@ -116,7 +116,7 @@ public class SubcontractorController {
 	
 	/**
 	 * Initialisiert den View mit einer Meldung, die im GUI ausgegeben wird.
-	 * @param string
+	 * @param string - Mitteilung die angezeigt wird.
 	 */
 	public void initWithMessage(String string) {
 		lblMessage.setText(string);
@@ -124,8 +124,7 @@ public class SubcontractorController {
 	
 	/**
 	 * Lädt einen neuen View, in dem ein neues Subunternehmen hinzugefügt werden kann.
-	 * @param event
-	 * @throws IOException
+	 * 
 	 */
 	@FXML
 	private void loadSubcontractorAddView() {
@@ -142,8 +141,8 @@ public class SubcontractorController {
 	}
 	
 	/**
-	 * Lädt einen neuen View, in dem des angeklickte Subunternehmen bearbeitet werden kann.
-	 * @param t
+	 * Lädt einen neuen View, in dem das angeklickte Subunternehmen bearbeitet werden kann.
+	 * @param t - MouseEvent = Klick auf Subunternehmen
 	 * @throws IOException
 	 */
 	@FXML
@@ -197,7 +196,7 @@ public class SubcontractorController {
 	
 	/**
 	 * Überprüft, ob ein Subunternehmen dem "Suchen..." - Kriterium entspricht. Gehört zur "Suchen..." - Funktion
-	 * @param p
+	 * @param p - Subunternehmen welches auf Kriterum überprüft wird.
 	 * @return
 	 */
 	private boolean matchesFilter(Company p) {

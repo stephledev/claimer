@@ -10,6 +10,11 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 
 
+/**
+ * @author Michael Lötscher, Alexandar Hauck
+ * @version 1.1
+ *
+ */
 public class Main extends Application {
 
 	Scene scene;
@@ -21,12 +26,15 @@ public class Main extends Application {
 	}
 
 	
+	/** 
+	 * Startet die Applikation, ruft Login-Seite auf und übergibt das Design
+	 */
 	public void start(Stage primaryStage) {
 
 		//Bildschirmauflösung auslesen
 		Integer screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
 		
-		primaryStage.setTitle("Mängelmanager");
+		primaryStage.setTitle("Claimer");
 		FXMLLoader myLoader = new FXMLLoader(getClass().getResource(
 				"view/Login.fxml")); // FXML File kann von myLoader geladen werden
 

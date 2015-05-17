@@ -1,6 +1,10 @@
 package ch.claimer.client.gui.controller;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.net.URL;import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
@@ -10,15 +14,21 @@ import java.util.ResourceBundle;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
+import org.pmw.tinylog.Logger;
+
 import ch.claimer.client.proxy.CategoryProxy;
+import ch.claimer.client.proxy.ContactProxy;
 import ch.claimer.client.proxy.IssueProxy;
 import ch.claimer.client.proxy.ProjectProxy;
+import ch.claimer.client.proxy.SCEmployeeProxy;
 import ch.claimer.client.proxy.StateProxy;
 import ch.claimer.client.proxy.SupervisorProxy;
 import ch.claimer.client.proxy.TypeProxy;
 import ch.claimer.client.util.ResteasyClientUtil;
 import ch.claimer.shared.models.Category;
 import ch.claimer.shared.models.Issue;
+import ch.claimer.shared.models.LogEntry;
 import ch.claimer.shared.models.Project;
 import ch.claimer.shared.models.State;
 import ch.claimer.shared.models.Supervisor;
@@ -29,6 +39,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -37,28 +48,41 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
 /**
+ * Kontroller für die ProjektVerwalten-Überischt 
+ * 
  * @author Michael Lötscher, Alexander Hauck
- * @since 21.04.2015
+ * @since 1.0
  * @version 2.0
  *
  */
 public class ProjectAddController implements Initializable {
 
+    ResteasyWebTarget rtarget = ResteasyClientUtil.getTarget();
 	SupervisorProxy supervisorProxy = ResteasyClientUtil.getTarget().proxy(SupervisorProxy.class);		
     private ObjectMapper mapper = new ObjectMapper();
 	private ObservableList<Issue> data = FXCollections.observableArrayList();
 	public static ObservableList<Issue> dataTransfer = FXCollections.observableArrayList();
+	private ObservableList<Issue> issuesToDeleteList = FXCollections.observableArrayList();
+	private ObservableList<LogEntry> logEntryList = FXCollections.observableArrayList();
 	private  Integer projectId = null;
+	private Project projectContainer = null;
+	private Issue issueToEdit = null;
+	private List<Issue> issueList = null;
 
 	// Views werden ins mainContent-Pane geladen
 	@FXML
@@ -66,10 +90,16 @@ public class ProjectAddController implements Initializable {
 
 	@FXML
 	private Label lbl_title;
+	
+	@FXML
+	private Label lbl_issueExport;
 
 	@FXML
 	private Button bttn_saveProject;
 
+	@FXML
+	private Button bttn_export;
+	
 	@FXML
 	private Button bttn_quitProject;
 
@@ -120,6 +150,9 @@ public class ProjectAddController implements Initializable {
 
 	@FXML
 	private TableColumn<Issue, String> colSubcontractor;
+	
+	@FXML
+	private TableColumn<Issue, String> colContact;
 
 	@FXML
 	private TableColumn<Issue, String> colDeadline;
@@ -128,7 +161,19 @@ public class ProjectAddController implements Initializable {
 	private TableColumn<Issue, String> colState;
 	
 	@FXML
+	private TableColumn<Issue, String> colDeleteButton;
+	
+	@FXML
 	private Label lblProjectID;
+	
+	@FXML
+	private TableView<LogEntry> logTableView;
+	
+	@FXML
+	private TableColumn<LogEntry, String> colLogDate;
+	
+	@FXML
+	private TableColumn<LogEntry, String> colLogDescription;
 
 	/**
 	 * Initialisiert den View.
@@ -150,30 +195,28 @@ public class ProjectAddController implements Initializable {
 			@Override
 			public void onChanged(javafx.collections.ListChangeListener.Change<? extends Issue> c) {
 				if(dataTransfer.size() > 0) {
-						System.out.println("change");
-					//data.remove(persontoEdit);	//den aktualisierten aus der Liste entfernen		
-					//TableView neu Laden
+					
+					data.remove(issueToEdit);	//den aktualisierten aus der Liste entfernen	
+					issueToEdit = null;
 					data.addAll(dataTransfer);
 
 					fillTableView();
-				}
-				
+				}	
 			}
-		 
 		 });
-
 	}
 	
 	
 	/**
 	 * Initialisiert den View mit den Daten des zu bearbeitenden Projekts sowie den dazugehörigen Mängeln.
-	 * @param project
+	 * @param project - Project welches geladen wird
 	 */
 	public void initData(Project project) {
 		
-		lbl_title.setText("Projekt bearbeiten");
+		lbl_title.setText("Projekt \"" + project.getName() +"\" bearbeiten");
 		
 		projectId = project.getId();
+		projectContainer = project;
 		lblProjectID.setText(projectId.toString());
 
 		if(project.getName() != null) { 
@@ -181,7 +224,7 @@ public class ProjectAddController implements Initializable {
 		}
 		
 		if(project.getStart() != null) { 
-					
+
 			long timestart = project.getStart().getTime().getTime();
 			long days = Math.round( (double)timestart / (24. * 60.*60.*1000.));
 			Date date = new Date();
@@ -204,7 +247,7 @@ public class ProjectAddController implements Initializable {
 		}
 		
 		if(project.getSupervisor() != null) { 
-			dropdownSupervisor.setValue(project.getSupervisor().getLastname());
+			dropdownSupervisor.setValue(project.getSupervisor().getLastname() + ", " + project.getSupervisor().getFirstname());
 		}
 		if(project.getStreet() != null) { 
 			txtStreet.setText(project.getStreet());
@@ -234,7 +277,7 @@ public class ProjectAddController implements Initializable {
 		//Mängel aus der Datenbank laden.
 		try {
 			IssueProxy issueProxy = ResteasyClientUtil.getTarget().proxy(IssueProxy.class);
-			List<Issue> issueList = mapper.readValue(issueProxy.getByProject(projectId), new TypeReference<List<Issue>>(){});
+			issueList = mapper.readValue(issueProxy.getByProject(projectId), new TypeReference<List<Issue>>(){});
 			
 			for(Issue i : issueList) {
 				data.add(i);
@@ -246,9 +289,13 @@ public class ProjectAddController implements Initializable {
 		}
 		
 		fillTableView();
+		fillLogTableView();
 	
 	}
 	
+	/**
+	 * Füllt die Tabelle mit den Mängel mit Daten
+	 */
 	private void fillTableView() {
 		//Mängel-Tabelle initialisieren
 		colMangle.setCellValueFactory(new PropertyValueFactory<Issue, String>("description"));
@@ -261,6 +308,16 @@ public class ProjectAddController implements Initializable {
 				}
 			}
 		 });
+		
+		colContact.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Issue, String>, ObservableValue<String>>() {
+			public ObservableValue<String> call(TableColumn.CellDataFeatures<Issue, String> data) {
+					try {
+						return new SimpleStringProperty(data.getValue().getContact().getFirstname() + " " + data.getValue().getContact().getLastname());
+					} catch(NullPointerException e) {
+						return null;
+					}
+				}
+			 });
 		
 		colDeadline.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Issue, String>, ObservableValue<String>>() {
 		public ObservableValue<String> call(TableColumn.CellDataFeatures<Issue, String> data) {
@@ -283,42 +340,74 @@ public class ProjectAddController implements Initializable {
 				}
 			}
 		  });
+		
+		colDeleteButton.setCellFactory(new Callback<TableColumn<Issue, String>, TableCell<Issue, String>>() {
+		      @Override
+		      public TableCell<Issue, String> call(TableColumn<Issue, String> param) {
+		             final TableCell<Issue, String> cell = new TableCell<Issue, String>() {
+	                      @Override
+	                      public void updateItem(String value, boolean empty) {
+	                    	  if(!empty) {
+	                            super.updateItem(value, empty);
+
+	                            final VBox vbox = new VBox(0);
+	                            Image image = new Image(getClass().getResourceAsStream("../../../../../delete.png"));
+	                            Button button = new Button("", new ImageView(image));
+	                            button.getStyleClass().add("deleteButton");
+	                            final TableCell<Issue, String> c = this;
+	                            button.setOnAction(new EventHandler<ActionEvent>() {
+	                                  @Override
+	                                  public void handle(ActionEvent event) {
+	                                          @SuppressWarnings("unchecked")
+	                                          TableRow<Issue> tableRow = c.getTableRow();
+	                                          Issue issue= (Issue)tableRow.getTableView().getItems().get(tableRow.getIndex());
+	                                          if((Integer)issue.getId() != null) {
+	                                        	  issuesToDeleteList.add(issue);
+	                                          }
+	                                          data.remove(issue);
+	                                          fillTableView();
+	                                  }
+	                            });
+	                      vbox.getChildren().add(button);
+	                      setGraphic(vbox);
+	                    	  }
+		               }
+		        };
+		        return cell;
+		    }
+		});
 	
 		//Observable-List, welche die Daten beinhaltet, an die Tabelle übergeben
 		mangleTableView.setItems(data);
 	}
 	
 	/**
-	 * Öffnet ein neues Fenster, um einen Mangel zu erfassen.
-	 * @param event
-	 * @throws IOException
+	 * Füllt die Tabelle mit den Protokollen mit Daten
 	 */
-	@FXML
-	private void loadIssueView(ActionEvent event) throws IOException {
+	private void fillLogTableView() {
 		
-		try {
-			Stage stage = new Stage();
-			stage.setTitle("Mangel erfassen");
-			
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/IssueView.fxml"));
-			Pane myPane = loader.load();
-			IssueController controller = loader.<IssueController>getController();
-			
-			//Controller starten
-			controller.initialize(null, null);
-
-			Scene scene = new Scene(myPane);
-			scene.getStylesheets().add(getClass().getResource("../claimer_styles.css").toExternalForm()); // CSS-File wird geladen
-			stage.setScene(scene);
-		    
-		    //Open new Stage
-			stage.show();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		for(LogEntry logEntry : projectContainer.getLogEntries()) {
+			logEntryList.add(logEntry);
 		}
+		
+		colLogDate.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<LogEntry, String>, ObservableValue<String>>() {
+			public ObservableValue<String> call(TableColumn.CellDataFeatures<LogEntry, String> data) {
+				try {
+					SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+					String a = format.format(data.getValue().getDate().getTime());
+					return new SimpleStringProperty(a);
+				} catch(NullPointerException e) {
+					return null;
+				}
+			}
+		});
+		
+		colLogDescription.setCellValueFactory(new PropertyValueFactory<LogEntry, String>("description"));
+		
+		logTableView.setItems(logEntryList);
+		
 	}
-
+	
 	// "Abbrechen"-Button: zur ProjectMain-Ansicht wechseln 
 	@FXML
 	private void loadProjectMainView(ActionEvent event) throws IOException {
@@ -339,6 +428,8 @@ public class ProjectAddController implements Initializable {
 		project = (Project) getTextfieldProperties(project);
 		
 		if(project != null) {
+			logEntryHandler(project);
+			project.setLogEntries(logEntryList);
 			ProjectProxy projectProxy = ResteasyClientUtil.getTarget().proxy(ProjectProxy.class);
 			if(projectId != null) {
 				project.setId(projectId);
@@ -358,24 +449,97 @@ public class ProjectAddController implements Initializable {
 					issueProxy.create(issue);
 				}
 			}
+			
+			//Mängel aus Temporärer "Löschen"-Liste vom Projekt entfernen
+			for(Issue issueToDelete : issuesToDeleteList) {
+				issueToDelete.setProject(null);
+				issueProxy.update(issueToDelete);
+			}
 
 			showMainViewWithMessage("Änderungen erfolgreich gespeichert.");
 		}
 	}
 	
-	
-	private Boolean checkLength(String text, int minLength, int maxLength) {
+	/**
+	 * Überprüft Änderungen am Projekt und protokolliert diese.
+	 * @param project - Das zu protokollierende Projekt.
+	 */
+	private void logEntryHandler(Project project) {
+		if(projectContainer != null) {
+			if(!project.getState().getName().equals(projectContainer.getState().getName())) {
+				LogEntry logEntry = new LogEntry();
+				logEntry.setDate(new GregorianCalendar());
+				logEntry.setDescription("Der Status wurde von \"" + projectContainer.getState().getName() + "\" auf \"" + project.getState().getName() + "\" geändert.");
+				logEntryList.add(logEntry);
+			}
+			
+			if((!project.getSupervisor().getFirstname().equals(projectContainer.getSupervisor().getFirstname())) && 
+					(!project.getSupervisor().getLastname().equals(projectContainer.getSupervisor().getLastname()))) {
+				LogEntry logEntry = new LogEntry();
+				logEntry.setDate(new GregorianCalendar());
+				logEntry.setDescription("Neuer Bauleiter: " + project.getSupervisor().getFirstname() + " " + project.getSupervisor().getLastname() );
+				logEntryList.add(logEntry);
+			}
+			
+			if(!project.getName().equals(projectContainer.getName())) {
+				LogEntry logEntry = new LogEntry();
+				logEntry.setDate(new GregorianCalendar());
+				logEntry.setDescription("Der Name des Projekts wurde auf \"" + project.getName() + "\" geändert.");
+				logEntryList.add(logEntry);
+			}
+			
+			for(Issue issue : issuesToDeleteList) {
+				if(issueList.contains(issue)) {
+					LogEntry logEntry = new LogEntry();
+					logEntry.setDate(new GregorianCalendar());
+					logEntry.setDescription("Der Mangel \"" + issue.getDescription() + "\" wurde gelöscht.");
+					logEntryList.add(logEntry);
+				}
+			}
+			
+			for(Issue issue : data) {
+				if(!issueList.contains(issue)) {
+					LogEntry logEntry = new LogEntry();
+					logEntry.setDate(new GregorianCalendar());
+					logEntry.setDescription("Ein neuer Mangel \"" +issue.getDescription() + "\" wurde erfasst.");
+					logEntryList.add(logEntry);
+				}
+			}
+			
+		} else {
+			LogEntry logEntry = new LogEntry();
+			logEntry.setDate(new GregorianCalendar());
+			logEntry.setDescription("Erfassung des Projekts \"" + project.getName() + "\" mit dem Bauleiter " + project.getSupervisor().getFirstname() + " " + project.getSupervisor().getLastname());
+			logEntryList.add(logEntry);
+		}
 		
+		
+	}
+	
+	/**
+	 * Die Methode überprüft, ob beim übergeben String die Mindest- und Maximumlänge stimmt.
+	 * 
+	 * @param text - Text der übergeben wird.
+	 * @param minLength - Minimumlänge die überprüft werden soll.
+	 * @param maxLength - Maximumlänge die überprüft werden soll.
+	 * @return true oder false
+	 */
+	private Boolean checkLength(String text, int minLength, int maxLength) {
+
 		if(text.length() < minLength || text.length() > maxLength) {
 			return true;
 		} else {
 			return false;
 		}
-		
+
 	}
 	
-	// liest Textfelder aus und speichert Daten des Projektes in der DB
-	// Dropdown-Felder füllen
+	/**
+	 * Liest alle Textfelder aus und validiert diese.
+	 * @return p1 - Gibt das Projekt mit den ausgelesenen Textfeldern zurück.
+	 * 
+	 */
+
 	private Project getTextfieldProperties(Project p1) {
 		
 		Boolean validationError = false;
@@ -512,11 +676,17 @@ public class ProjectAddController implements Initializable {
 		
 		// Bauleiter hinzufügen
 		if(dropdownSupervisor.getValue() != null) {
+			
+			String supervisorName = dropdownSupervisor.getValue();
+			String[] parts = supervisorName.split(",");
+			String lastname = parts[0];
+			String firstname = parts[1].substring(1);
+			
 			try {
 				SupervisorProxy svProxy = ResteasyClientUtil.getTarget().proxy(SupervisorProxy.class);
 				List<Supervisor> supervisorList = mapper.readValue(svProxy.getAll(), new TypeReference<List<Supervisor>>() {});
 				for(Supervisor sv : supervisorList) {
-					if(sv.getLastname().equals(dropdownSupervisor.getValue())) {
+					if(sv.getLastname().equals(lastname) && sv.getFirstname().equals(firstname)) {
 						p1.setSupervisor(sv);
 					}
 				}
@@ -538,6 +708,39 @@ public class ProjectAddController implements Initializable {
 	}
 	
 	
+	/**
+	 * Öffnet ein neues Fenster, um einen Mangel zu erfassen.
+	 * @param event - Klick auf "Mangel erfassen"-Button
+	 * @throws IOException
+	 */
+	@FXML
+	private void loadIssueView(ActionEvent event) throws IOException {
+		
+		try {
+			Stage stage = new Stage();
+			stage.setTitle("Mangel erfassen");
+			
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/IssueView.fxml"));
+			Pane myPane = loader.load();
+
+			Scene scene = new Scene(myPane);
+			scene.getStylesheets().add(getClass().getResource("../claimer_styles.css").toExternalForm()); // CSS-File wird geladen
+			stage.setScene(scene);
+		    
+		    //Open new Stage
+			stage.show();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Doppelklick in der Tabelle auf einen Mangel öffnet die Mangel-Ansicht
+	 * 
+	 * @param t - MouseEvent = Klick auf den Mangel
+	 * @throws IOException
+	 */
 	@FXML
 	private void editIssue(MouseEvent t) throws IOException {
 
@@ -546,7 +749,7 @@ public class ProjectAddController implements Initializable {
 
 			try {
 				
-				Issue issueToEdit = (Issue)mangleTableView.getSelectionModel().getSelectedItem();
+				issueToEdit = (Issue)mangleTableView.getSelectionModel().getSelectedItem();
 				
 				Stage stage = new Stage();
 				stage.setTitle("Mangel bearbeiten");
@@ -571,6 +774,11 @@ public class ProjectAddController implements Initializable {
 		}
 	}
 	
+	/**
+	 * Methode um Mitteilung bei der Projekt-Übersicht anzuzeigen
+	 * 
+	 * @param message - Mitteilung welche angezeigt werden soll.
+	 */
 	private void showMainViewWithMessage(String message) {
 
 		try {
@@ -596,25 +804,24 @@ public class ProjectAddController implements Initializable {
 	}
 
 	/**
-	 * Werte für das "Funktionen"-Dropdown setzen
+	 * Werte für das "Bauleiter"-Dropdown setzen
 	 */
 	public void setDropdownSupervisor()  {
-		
-		SupervisorProxy supervisorProxy = ResteasyClientUtil.getTarget().proxy(SupervisorProxy.class);
-		List<Supervisor> supervisorList = null;
-
+	
 		try {
-			supervisorList = mapper.readValue(supervisorProxy.getAll(), new TypeReference<List<Supervisor>>(){});
+			SupervisorProxy supervisorProxy = ResteasyClientUtil.getTarget().proxy(SupervisorProxy.class);
+			List<Supervisor> supervisorList = mapper.readValue(supervisorProxy.getAll(), new TypeReference<List<Supervisor>>(){});
+			for(Supervisor supervisor: supervisorList) {
+				dropdownSupervisor.getItems().add(supervisor.getLastname() + ", " + supervisor.getFirstname());
+			}
 		} catch (IOException e1) {
 			e1.printStackTrace();
-		}
-
-		//Bauleiter dem Dropdown hinzufügen
-		for(Supervisor supervisor: supervisorList) {
-			dropdownSupervisor.getItems().add(supervisor.getLastname());
-		}
+		}		
 	}
 
+	/**
+	 * Werte für das "Status"-Dropdown setzen
+	 */
 	public void setDropdownState()  {
 		
 		StateProxy stateProxy = ResteasyClientUtil.getTarget().proxy(StateProxy.class);		
@@ -633,7 +840,7 @@ public class ProjectAddController implements Initializable {
 	}
 	
 	/**
-	 * Liest alle Objekt-Typen aus der DB und befüllt das Dropdown damit.
+	 * Werte für das "Typ"-Dropdown setzen
 	 */
 	public void setDropdownType()  {
 		
@@ -652,6 +859,9 @@ public class ProjectAddController implements Initializable {
 		
 	}
 
+	/**
+	 * Werte für das "Kategorie"-Dropdown setzen
+	 */
 	public void setDropdownCategory()  {
 
 		CategoryProxy categoryProxy = ResteasyClientUtil.getTarget().proxy(CategoryProxy.class);		
@@ -669,10 +879,44 @@ public class ProjectAddController implements Initializable {
 		}
 	}
 
+	/**
+	 * Alle Mängel eines Projektes werden auf dem Laufwerk C in einer .scv Datei gepeichert
+	 * 
+	 * @throws Exception
+	 */
+	@FXML
+	public void export() throws Exception {
+		System.out.println("Hallo");
+		ObservableList<Issue> data = FXCollections.observableArrayList(); 
+			Writer writer = null;
+			File file = new File("Y:\\Mangel.csv");
+			writer = new BufferedWriter(new FileWriter(file));
 
-	public void initWithMessage(String string) {
-		// TODO Auto-generated method stub
-		
-	}
+			Issue is = new Issue();	    
+			IssueProxy issueProxy = rtarget.proxy(IssueProxy.class);
+			ObjectMapper mapper = new ObjectMapper();
+			List<Issue> issuesToShow = mapper.readValue(issueProxy.getByProject(projectId), new TypeReference<List<Issue>>(){});
+			
+			for(int i = 0; i < issuesToShow.size(); i++) {
+				is = issuesToShow.get(i);
+				System.out.println(issuesToShow.get(i));
+				data.add(is);
+				is = null;
+				
+				i++;
+			}
+			
+			for(Issue issue : data) {
+				
+				String text = issue.getProject().getName() + ";"  + issue.getId() + ";" + issue.getDescription()+ ";" + issue.getCreated().getTime().toString()+ ";" + issue.getSolved().getTime().toString() + ";" + issue.getState().getName()+ "\n";
+				writer.write(text);
+				System.out.println(text);
+			}
+
+			writer.flush();
+			writer.close();
+			
+			lbl_issueExport.setText("Die Mängelliste wurde dem Laufwerk C gespeichert");
+		} 
 
 }

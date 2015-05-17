@@ -28,9 +28,10 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
- * @author Michael Lötscher
- * @author Stephan Beeler
- * @since 21.04.2015
+ * Kontroller für die Login-Ansicht
+ * 
+ * @author Michael Lötscher, Stephan Beeler
+ * @since 1.0
  * @version 1.2
  *
  */
@@ -63,6 +64,12 @@ public class LoginController extends Main implements Initializable {
 	@FXML
 	private Button button_anmelden;
 	
+	/**
+	 * Druch das Klicken auf den "Anmelden"-Button, werden der Benutzername und das Passwort überprüft und
+	 * falls richtig wird der Benutzer angemelden.
+	 * 
+	 * @param event - ActionEvent wird durch einen Klick auf den Button ausgelöst.
+	 */
 	@FXML
 	private void anmelden(ActionEvent event) {
 		
@@ -97,12 +104,22 @@ public class LoginController extends Main implements Initializable {
 		}
 	}
 		
-	// verweist auf Stage aus der Klasse App.java
+
+	/**
+	 * Verweist auf Stage aus der Klasse App.java.
+	 * @param stage - Stage
+	 */
 	public void setPrevStage(Stage stage) {
 		this.prevStage = stage;
 	}
 
-	// Methode ruft die "Home"-Seite auf
+	
+	/**
+	 * Diese Methode ruft die "Home"-Seite auf.
+	 * 
+	 * @param event - ActionEvent
+	 * @throws IOException
+	 */
 	public void go(ActionEvent event) throws IOException {
 		
 		//Bildschirmauflösung auslesen
@@ -130,6 +147,9 @@ public class LoginController extends Main implements Initializable {
 	}
 	
 	
+	/* (non-Javadoc)
+	 * @see javafx.fxml.Initializable#initialize(java.net.URL, java.util.ResourceBundle)
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
