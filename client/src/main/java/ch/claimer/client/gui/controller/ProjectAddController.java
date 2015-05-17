@@ -81,7 +81,7 @@ public class ProjectAddController implements Initializable {
 	private Project projectContainer = null;
 	private Issue issueToEdit = null;
 	private List<Issue> issueList = null;
-	private String roleName = null;
+	private Integer roleValue = AuthenticationUtil.getLogin().getRole().getValue();
 
 	// Views werden ins mainContent-Pane geladen
 	@FXML
@@ -182,9 +182,7 @@ public class ProjectAddController implements Initializable {
 
 		lbl_title.setText("Neues Projekt erfassen");
 		
-		roleName = AuthenticationUtil.getLogin().getRole().getName();
-		
-		if(roleName.equals("superadmin") || roleName.equals("admin")) {
+		if(roleValue >= 20) {
 		
 			setDropdownSupervisor();
 			//TODO	
@@ -192,7 +190,7 @@ public class ProjectAddController implements Initializable {
 			setDropdownCategory();
 			setDropdownState();
 			setDropdownType();
-		} else if (roleName.equals("editor-intern")) {
+		} else {
 			
 			//Bauleiter-Berechtigungen
 			txtProjectName.setEditable(false);
@@ -440,7 +438,7 @@ public class ProjectAddController implements Initializable {
 	 */
 	@FXML
 	private void saveProject() {
-		if(roleName.equals("superadmin") || roleName.equals("admin")) {
+		if(roleValue >= 20) {
 			Project project = new Project();
 	
 			//Textfeldproperties auslesen und zuweisen
@@ -461,7 +459,7 @@ public class ProjectAddController implements Initializable {
 			
 				showMainViewWithMessage("Änderungen erfolgreich gespeichert.");
 			}
-		} else if(roleName.equals("editor-intern")) {
+		} else if(roleValue == 10) {
 			saveIssues();
 			logEntryHandler(projectContainer);
 			showMainViewWithMessage("Änderungen erfolgreich gespeichert.");

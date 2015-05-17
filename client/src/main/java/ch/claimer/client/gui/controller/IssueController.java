@@ -1,10 +1,6 @@
 package ch.claimer.client.gui.controller;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -22,9 +18,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
-import ch.claimer.client.proxy.CommentProxy;
 import ch.claimer.client.proxy.ContactProxy;
-import ch.claimer.client.proxy.IssueProxy;
 import ch.claimer.client.proxy.StateProxy;
 import ch.claimer.client.proxy.SubcontractorProxy;
 import ch.claimer.client.util.AuthenticationUtil;
@@ -41,7 +35,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -139,9 +132,9 @@ public class IssueController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
 		//Kommentare hinzufügen nur für Bauleiter und Kontaktpersonen erlauben
-		String roleName = AuthenticationUtil.getLogin().getRole().getName();
+		Integer roleValue = AuthenticationUtil.getLogin().getRole().getValue();
 		
-		if(!roleName.equals("editor-intern") || !roleName.equals("editor-extern")) {
+		if(roleValue > 10) {
 			txtComment.setVisible(false);
 			btnSaveComment.setVisible(false);
 		}

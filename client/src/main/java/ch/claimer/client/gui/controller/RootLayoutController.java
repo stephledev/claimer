@@ -95,23 +95,19 @@ public class RootLayoutController implements Initializable {
 		lblName.setText(AuthenticationUtil.getLogin().getUsername());
 		
 		//Mainnavi an die Rolle anpassen
-		String roleName = AuthenticationUtil.getLogin().getRole().getName();
-		switch(roleName) {
-			case("power"): {
-				naviPrincipals.setVisible(false); //Bauherren-Navipunkt ausblenden
-				naviUsers.setVisible(false); //Benutzer-Navipunkt ausblenden
-			}
-			break;
-			case("editor-intern"): {
-				naviPrincipals.setVisible(false);
-				naviUsers.setVisible(false);
-				naviSubcontractors.setVisible(false);
-			}
-			break;
-			case("admin"): naviUsers.setVisible(false);
-			break;
+		Integer roleValue = AuthenticationUtil.getLogin().getRole().getValue();
+		
+		if(roleValue < 25) {
+			naviUsers.setVisible(false); //User-Menupunkt für alle Nicht-Superadmins ausblenden
 		}
 		
+		if(roleValue < 20) {
+			naviPrincipals.setVisible(false); //Bauherren-Navipunkt für power- und editor-users ausblenden.
+		}
+		
+		if(roleValue < 15) {
+			naviSubcontractors.setVisible(false); // Subunternehmen-Menupunkt für alle editor-ussuers ausblenden.
+		}		
 	}
 	
 	//Zur Home-Ansicht wechseln (mainView.xml)
