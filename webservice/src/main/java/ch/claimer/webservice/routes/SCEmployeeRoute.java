@@ -83,7 +83,7 @@ public class SCEmployeeRoute {
 	 * @return Response HTTP-Antwort mit Statusmeldung
 	 */
 	@POST
-	@RolesAllowed("admin")
+	@RolesAllowed("power")
 	@Path("scemployee")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response create(SCEmployee scemployee) {	
@@ -97,7 +97,7 @@ public class SCEmployeeRoute {
 	 * @return Response HTTP-Antwort mit Statusmeldung
 	 */
 	@PUT
-	@RolesAllowed("admin")
+	@RolesAllowed("power")
 	@Path("scemployee")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response update(SCEmployee scemployee) {

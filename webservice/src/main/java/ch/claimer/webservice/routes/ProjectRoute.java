@@ -11,6 +11,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import ch.claimer.shared.models.Contact;
 import ch.claimer.shared.models.Project;
 import ch.claimer.shared.models.Supervisor;
 import ch.claimer.webservice.controller.Controller;
@@ -72,6 +73,20 @@ public class ProjectRoute {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showBySupervisor(@PathParam("id") int id) {
 		return controller.showByRelation(Supervisor.class, id);
+	}
+	
+	/**
+	 * Zeigt alle Projekte einer Ansprechsperson an
+	 * 
+	 * @param id Identifikator der Ansprechsperson der anzuzeigenden Projekte
+	 * @return Response HTTP-Antwort mit Projekten
+	 */
+	@GET
+	@RolesAllowed("editor-intern")
+	@Path("project/contact/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response showByContact(@PathParam("id") int id) {
+		return controller.showByRelation(Contact.class, id);
 	}
 	
 	/**

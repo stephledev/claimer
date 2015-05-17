@@ -86,7 +86,7 @@ public class ContactRoute {
 	 * @return Response HTTP-Antwort mit Statusmeldung
 	 */
 	@POST
-	@RolesAllowed("admin")
+	@RolesAllowed("power")
 	@Path("contact")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response create(Contact contact) {	
@@ -100,7 +100,7 @@ public class ContactRoute {
 	 * @return Response HTTP-Antwort mit Statusmeldung
 	 */
 	@PUT
-	@RolesAllowed("admin")
+	@RolesAllowed("power")
 	@Path("contact")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response update(Contact contact) {
