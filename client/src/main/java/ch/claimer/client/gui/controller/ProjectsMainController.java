@@ -117,7 +117,10 @@ public class ProjectsMainController implements Initializable{
 				e1.printStackTrace();
 			}
 	    } else if(roleName.equals("editor-intern")) {
-	    	 try {
+	    	
+	    	bttn_addProject.setVisible(false);
+	    	
+	    	try {
 			    	List<Project> projectsToShow = mapper.readValue(projectProxy.getBySupervisor(AuthenticationUtil.getPerson().getId()), new TypeReference<List<Project>>(){});
 					
 			    	for(Project p: projectsToShow) {

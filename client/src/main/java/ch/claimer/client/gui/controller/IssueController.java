@@ -134,13 +134,16 @@ public class IssueController implements Initializable {
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-	
+		
+		String roleName = AuthenticationUtil.getLogin().getRole().getName();
+		
+		
 		setDropdownState();
 		setDropdownSubcontractor();
 		
 		//Listener,um Änderungen am Subunternehmen-Dropdown zu überprüfen.
 		dropdownSubcontractor.valueProperty().addListener(new ChangeListener<String>() {
-
+	
 			@Override
 			public void changed(ObservableValue<? extends String> arg0, String oldValue, String newValue) {
 				dropdownContact.getItems().clear();
@@ -152,6 +155,7 @@ public class IssueController implements Initializable {
 				}
 			}
 		 });
+		
 	}
 	
 	
@@ -327,7 +331,7 @@ public class IssueController implements Initializable {
 		}
 		
 		//TODO Ansprechperson zuweisen.
-		if(dropdownContact.getValue() != null) {
+		if(!dropdownContact.getValue().equals("")) {
 			
 			String contactName = dropdownContact.getValue();
 			String[] parts = contactName.split(",");
@@ -336,7 +340,7 @@ public class IssueController implements Initializable {
 			
 			try {
 				ContactProxy cProxy = ResteasyClientUtil.getTarget().proxy(ContactProxy.class);			    
-			    List<Contact> contactList = mapper.readValue(cProxy.getAll(), new TypeReference<List<Contact>>(){});
+			    List<Contact> contactList = mapper.readValue(cProxy.getBySubcontractor(issue.getSubcontractor().getId()), new TypeReference<List<Contact>>(){});
 			    
 			    for(Contact contact: contactList) {
 					if(contact.getFirstname().equals(firstname) && contact.getLastname().equals(lastname))
