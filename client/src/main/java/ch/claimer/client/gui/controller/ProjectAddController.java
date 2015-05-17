@@ -15,12 +15,14 @@ import java.util.ResourceBundle;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
+
 import ch.claimer.client.proxy.CategoryProxy;
 import ch.claimer.client.proxy.IssueProxy;
 import ch.claimer.client.proxy.ProjectProxy;
 import ch.claimer.client.proxy.StateProxy;
 import ch.claimer.client.proxy.SupervisorProxy;
 import ch.claimer.client.proxy.TypeProxy;
+import ch.claimer.client.util.AuthenticationUtil;
 import ch.claimer.client.util.ResteasyClientUtil;
 import ch.claimer.shared.models.Category;
 import ch.claimer.shared.models.Issue;
@@ -79,6 +81,7 @@ public class ProjectAddController implements Initializable {
 	private Project projectContainer = null;
 	private Issue issueToEdit = null;
 	private List<Issue> issueList = null;
+	private String roleName = null;
 
 	// Views werden ins mainContent-Pane geladen
 	@FXML
@@ -178,12 +181,32 @@ public class ProjectAddController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
 		lbl_title.setText("Neues Projekt erfassen");
-		setDropdownSupervisor();
-		//TODO	
-//		setDropdownPrincipal();
-		setDropdownCategory();
-		setDropdownState();
-		setDropdownType();
+		
+		roleName = AuthenticationUtil.getLogin().getRole().getName();
+		
+		if(roleName.equals("superadmin") || roleName.equals("admin")) {
+		
+			setDropdownSupervisor();
+			//TODO	
+	//		setDropdownPrincipal();
+			setDropdownCategory();
+			setDropdownState();
+			setDropdownType();
+		} else if (roleName.equals("editor-intern")) {
+			
+			//Bauleiter-Berechtigungen
+			txtProjectName.setEditable(false);
+			dropdownCategory.setEditable(false);
+			dropdownType.setEditable(false);
+			dateStart.setEditable(false);
+			dateEnd.setEditable(false);
+			txtStreet.setEditable(false);
+			txtZip.setEditable(false);
+			txtPlace.setEditable(false);
+			dropdownState.setEditable(false);
+			dropdownSupervisor.setEditable(false);
+		
+		}
 		
 		//Listener,um Änderungen zu überprüfen.
 		dataTransfer.addListener(new ListChangeListener<Issue>() {
@@ -417,42 +440,51 @@ public class ProjectAddController implements Initializable {
 	 */
 	@FXML
 	private void saveProject() {
-
-		Project project = new Project();
-
-		//Textfeldproperties auslesen und zuweisen
-		project = (Project) getTextfieldProperties(project);
-		
-		if(project != null) {
-			logEntryHandler(project);
-			project.setLogEntries(logEntryList);
-			ProjectProxy projectProxy = ResteasyClientUtil.getTarget().proxy(ProjectProxy.class);
-			if(projectId != null) {
-				project.setId(projectId);
-				projectProxy.update(project);
-			} else {
-				projectProxy.create(project);
-			}
+		if(roleName.equals("superadmin") || roleName.equals("admin")) {
+			Project project = new Project();
+	
+			//Textfeldproperties auslesen und zuweisen
+			project = (Project) getTextfieldProperties(project);
 			
-			//Mängel speichern.
-			List<Issue> issueList = mangleTableView.getItems();
-			IssueProxy issueProxy = ResteasyClientUtil.getTarget().proxy(IssueProxy.class);
-			for(Issue issue : issueList) {
-				issue.setProject(project);
-				if((Integer)issue.getId() != null) {
-					issueProxy.update(issue);
+			if(project != null) {
+				logEntryHandler(project);
+				project.setLogEntries(logEntryList);
+				ProjectProxy projectProxy = ResteasyClientUtil.getTarget().proxy(ProjectProxy.class);
+				if(projectId != null) {
+					project.setId(projectId);
+					projectProxy.update(project);
 				} else {
-					issueProxy.create(issue);
+					projectProxy.create(project);
 				}
-			}
+				
+				saveIssues();
 			
-			//Mängel aus Temporärer "Löschen"-Liste vom Projekt entfernen
-			for(Issue issueToDelete : issuesToDeleteList) {
-				issueToDelete.setProject(null);
-				issueProxy.update(issueToDelete);
+				showMainViewWithMessage("Änderungen erfolgreich gespeichert.");
 			}
-
+		} else if(roleName.equals("editor-intern")) {
+			saveIssues();
+			
 			showMainViewWithMessage("Änderungen erfolgreich gespeichert.");
+		}
+	}
+		
+	private void saveIssues() {
+		//Mängel speichern.
+		List<Issue> issueList = mangleTableView.getItems();
+		IssueProxy issueProxy = ResteasyClientUtil.getTarget().proxy(IssueProxy.class);
+		for(Issue issue : issueList) {
+			issue.setProject(projectContainer);
+			if((Integer)issue.getId() != null) {
+				issueProxy.update(issue);
+			} else {
+				issueProxy.create(issue);
+			}
+		}
+		
+		//Mängel aus Temporärer "Löschen"-Liste vom Projekt entfernen
+		for(Issue issueToDelete : issuesToDeleteList) {
+			issueToDelete.setProject(null);
+			issueProxy.update(issueToDelete);
 		}
 	}
 	
