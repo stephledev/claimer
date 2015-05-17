@@ -12,7 +12,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import ch.claimer.shared.models.GCEmployee;
-import ch.claimer.webservice.controller.Controller;
+import ch.claimer.webservice.controller.GCEmployeeController;
 
 /**
  * Definiert die verfügbaren HTTP-Routes der Generalunternehmen-Sachbearbeiter.
@@ -28,10 +28,10 @@ import ch.claimer.webservice.controller.Controller;
 @Path("/")
 public class GCEmployeeRoute {	
 	
-	private Controller<GCEmployee> controller;
+	private GCEmployeeController controller;
 
 	public GCEmployeeRoute() {
-		this.controller = new Controller<GCEmployee>(GCEmployee.class);
+		this.controller = new GCEmployeeController();
 	}
 	
 	/**

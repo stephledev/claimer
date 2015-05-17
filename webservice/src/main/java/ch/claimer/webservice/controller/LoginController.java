@@ -1,5 +1,6 @@
 package ch.claimer.webservice.controller;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -15,33 +16,39 @@ import com.typesafe.config.ConfigFactory;
 
 import ch.claimer.shared.methods.Method;
 import ch.claimer.shared.models.Login;
+import ch.claimer.shared.models.Person;
 import ch.claimer.webservice.services.ResponseHandlerService;
 
-public class LoginController {
+public class LoginController extends Controller<Login> {
 	
-	private Method<Login> method;
+	private Method<Person> personMethod;
 	
 	@SuppressWarnings("unchecked")
 	public LoginController() {
+		super(Login.class);
 		Config config = ConfigFactory.load();
 		try {
-			this.method = (Method<Login>) Naming.lookup(config.getString("rmi.host") + "/login");
+			this.personMethod = (Method<Person>) Naming.lookup(config
+					.getString("rmi.host")
+					+ "/person");
 		} catch (MalformedURLException | RemoteException | NotBoundException e) {
 			Logger.error(e, "Verbindung mit RMI-Dienst fehlgeschlagen");
 		}
 	}
-	
+
 	public Response check(Login login) {
 		List<Login> checkLogin = null;
 		try {
 			checkLogin = (List<Login>) method.getByProperty("username", login.getUsername());
-		} catch (RemoteException e) {
+			if(!checkLogin.isEmpty()) {
+				login = checkLogin.get(0);
+				if(login.getPassword().equals(login.getPassword())) {
+					Person person = personMethod.getByRelation(Login.class, login.getId()).get(0);
+					return ResponseHandlerService.success(person);
+				}
+			}
+		} catch (IOException e) {
 			Logger.error(e, "Verbindung mit RMI-Dienst fehlgeschlagen");
-		}
-		if(!checkLogin.isEmpty()) {
-			if(checkLogin.get(0).getPassword().equals(login.getPassword())) {
-				return ResponseHandlerService.success(checkLogin.get(0));
-			} 
 		}
 		return ResponseHandlerService.success(new Login());
 	}

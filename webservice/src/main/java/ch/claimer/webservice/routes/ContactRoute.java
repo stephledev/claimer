@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response;
 
 import ch.claimer.shared.models.Contact;
 import ch.claimer.shared.models.Subcontractor;
-import ch.claimer.webservice.controller.Controller;
+import ch.claimer.webservice.controller.ContactController;
 
 
 /**
@@ -30,10 +30,10 @@ import ch.claimer.webservice.controller.Controller;
 @Path("/")
 public class ContactRoute {
 
-	private Controller<Contact> controller;
+	private ContactController controller;
 
 	public ContactRoute() {
-		this.controller = new Controller<Contact>(Contact.class);
+		this.controller = new ContactController();
 	}
 	
 	/**

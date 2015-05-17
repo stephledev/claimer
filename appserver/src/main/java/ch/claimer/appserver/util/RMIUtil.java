@@ -20,6 +20,7 @@ import ch.claimer.shared.models.Image;
 import ch.claimer.shared.models.Issue;
 import ch.claimer.shared.models.LogEntry;
 import ch.claimer.shared.models.Login;
+import ch.claimer.shared.models.Person;
 import ch.claimer.shared.models.Principal;
 import ch.claimer.shared.models.Project;
 import ch.claimer.shared.models.Role;
@@ -56,6 +57,7 @@ public class RMIUtil {
 			methods.put("issue", new Controller<Issue>(Issue.class));
 			methods.put("logentry", new Controller<LogEntry>(LogEntry.class));
 			methods.put("login", new Controller<Login>(Login.class));
+			methods.put("person", new Controller<Person>(Person.class));
 			methods.put("principal", new Controller<Principal>(Principal.class));
 			methods.put("project", new Controller<Project>(Project.class));
 			methods.put("role", new Controller<Role>(Role.class));

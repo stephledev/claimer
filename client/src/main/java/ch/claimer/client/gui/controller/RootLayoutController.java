@@ -161,7 +161,7 @@ public class RootLayoutController implements Initializable {
 		Pane myPane = FXMLLoader.load(getClass().getResource("../view/Login.fxml"));
 		mainContent.getChildren().clear();
 		mainContent.getChildren().setAll(myPane);
-		AuthenticationUtil.setLogin(null);
+		AuthenticationUtil.close();
 		navigation.setVisible(false);
 		gridPane.setVisible(false);
 		hBox1.setVisible(false);
