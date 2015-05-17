@@ -49,6 +49,15 @@ public interface Repository<T extends Model> {
 	 * @return Liste von Entitäten
 	 */
 	List<T> getByRelation(Class<?> relation, int id);
+	
+	/**
+	 * Holt alle Entitäten mit der angegebenen Mehrfach-Beziehung
+	 * 
+	 * @param relation Entität der Mehrfach-Beziehung
+	 * @param id Identifikator der Mehrfach-Beziehungs-Entität
+	 * @return Liste von Entitäten
+	 */
+	List<T> getByRelations(Class<?> relation, int id);
 
 	/**
 	 * Erstellt eine neue Entität

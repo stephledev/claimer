@@ -85,6 +85,16 @@ public class Controller<T extends Model> {
 		}
 		return ResponseHandlerService.success(models);
 	}
+	
+	public Response showByRelations(Class<?> relation, int id) {
+		List<T> models = null;
+		try {
+			models = method.getByRelations(relation, id);
+		} catch (RemoteException e) {
+			Logger.error(e, "Verbindung mit RMI-Dienst fehlgeschlagen");
+		}
+		return ResponseHandlerService.success(models);
+	}
 
 	public Response update(T model) {
 		try {

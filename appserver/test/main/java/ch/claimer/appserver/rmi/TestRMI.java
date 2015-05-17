@@ -14,6 +14,7 @@ import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 
 import ch.claimer.shared.methods.Method;
+import ch.claimer.shared.models.Contact;
 import ch.claimer.shared.models.GCEmployee;
 import ch.claimer.shared.models.Issue;
 import ch.claimer.shared.models.Project;
@@ -41,6 +42,7 @@ public class TestRMI {
 	private static Method<Supervisor> supervisorMethod;
 	private static Method<State> stateMethod;
 	private static Method<Subcontractor> subcontractorMethod;
+	private static Method<Contact> contactMethod;
 
 	@SuppressWarnings("unchecked")
 	@BeforeClass
@@ -82,6 +84,11 @@ public class TestRMI {
 					+ ":"
 					+ config.getString("rmi.port")
 					+ "/" + "subcontractor");
+			contactMethod = (Method<Contact>) Naming.lookup(config
+					.getString("rmi.host")
+					+ ":"
+					+ config.getString("rmi.port")
+					+ "/" + "contact");
 
 			State s1 = new State();
 			s1.setName("Status1");
@@ -113,11 +120,16 @@ public class TestRMI {
 			Supervisor sup1 = new Supervisor();
 			sup1.setLastname("SupName1");
 			supervisorMethod.create(sup1);
+			
+			Contact c1 = new Contact();
+			c1.setLastname("Nachname");
+			contactMethod.create(c1);
 
 			Project p1 = new Project();
 			p1.setName("Projectname1");
 			p1.setPlace("Luzern");
 			p1.setStreet("Zentralstrasse 9");
+			p1.getContacts().add(contactMethod.getById(5));
 			projectMethod.create(p1);
 
 			Project p2 = new Project();
@@ -193,6 +205,16 @@ public class TestRMI {
 					"sceNachname1",
 					scEmployeeMethod.getByRelation(Subcontractor.class, 1)
 							.get(0).getLastname());
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void testGetByRelations() {
+		try {
+			assertEquals("Projectname1", projectMethod.getByRelations(Contact.class, 5)
+					.get(0).getName());
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}

@@ -13,13 +13,15 @@ import ch.claimer.shared.models.Model;
 
 /**
  * Implementiert das Repository-Interface mithilfe EclipseLink
+ * 
  * @see <a href="http://www.eclipse.org/eclipselink/api/2.5/">EclipseLink</a>
  * 
  * @author Stephan Beeler
  * @version 1.0
  * @since 1.0
  *
- * @param <T> Entität, die behandelt werden soll
+ * @param <T>
+ *            Entität, die behandelt werden soll
  */
 public class EclipseLinkRepository<T extends Model> implements Repository<T> {
 
@@ -51,9 +53,8 @@ public class EclipseLinkRepository<T extends Model> implements Repository<T> {
 		List<T> models = null;
 		try {
 			EntityManager em = factory.createEntityManager();
-			models = em.createQuery(
-					"SELECT t FROM " + clazz.getName() + " t", clazz)
-					.getResultList();
+			models = em.createQuery("SELECT t FROM " + clazz.getName() + " t",
+					clazz).getResultList();
 			em.close();
 		} catch (Exception e) {
 			Logger.error(e, "Abfrage fehlgeschlagen");
@@ -88,7 +89,27 @@ public class EclipseLinkRepository<T extends Model> implements Repository<T> {
 							"SELECT t FROM " + clazz.getName() + " t WHERE t."
 									+ relation.getSimpleName().toLowerCase()
 									+ " = :value", clazz)
-					.setParameter("value", em.find(relation, id)).getResultList();
+					.setParameter("value", em.find(relation, id))
+					.getResultList();
+			em.close();
+		} catch (Exception e) {
+			Logger.error(e, "Abfrage fehlgeschlagen");
+		}
+		return models;
+	}
+
+	@Override
+	public List<T> getByRelations(Class<?> relation, int id) {
+		List<T> models = null;
+		try {
+			EntityManager em = factory.createEntityManager();
+			models = em
+					.createQuery(
+							"SELECT t FROM " + clazz.getName()
+									+ " t INNER JOIN t."
+									+ relation.getSimpleName().toLowerCase()
+									+ "s c WHERE c.id = :id", clazz)
+					.setParameter("id", id).getResultList();
 			em.close();
 		} catch (Exception e) {
 			Logger.error(e, "Abfrage fehlgeschlagen");

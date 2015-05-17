@@ -56,6 +56,16 @@ public interface Method<T extends Model> extends Remote {
 	public List<T> getByRelation(Class<?> relation, int id) throws RemoteException;
 	
 	/**
+	 * Holt alle Entitäten mit der angegebenen Mehrfach-Beziehung
+	 * 
+	 * @param relation Entität der Mehrfach-Beziehung
+	 * @param id Identifikator der Mehrfach-Beziehungs-Entität
+	 * @return Liste von Entitäten
+	 * @throws RemoteException Falls Verbindungsprobleme bestehen
+	 */
+	public List<T> getByRelations(Class<?> relation, int id) throws RemoteException;
+	
+	/**
 	 * Erstellt eine neue Entität
 	 * 
 	 * @param t zu erstellende Entität

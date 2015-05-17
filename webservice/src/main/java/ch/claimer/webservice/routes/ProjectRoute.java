@@ -86,7 +86,7 @@ public class ProjectRoute {
 	@Path("project/contact/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showByContact(@PathParam("id") int id) {
-		return controller.showByRelation(Contact.class, id);
+		return controller.showByRelations(Contact.class, id);
 	}
 	
 	/**
