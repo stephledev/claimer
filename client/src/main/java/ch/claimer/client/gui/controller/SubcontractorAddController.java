@@ -301,7 +301,6 @@ public class SubcontractorAddController implements Initializable {
 		                                          fillTableView();
 		                                          
 		                                          if((Integer)person.getId() != 0) {
-		                                        	  person.setActive(false);
 		                                        	  personToDelete.add(person);
 		                                          }
 		                                  }
@@ -427,6 +426,13 @@ public class SubcontractorAddController implements Initializable {
 			SCEmployee sce = null;
 			Contact contact = null;
 			for(Person p : olp) {
+				
+				if(personToDelete.contains(p)) {
+					p.setActive(false);
+				} else {
+					p.setActive(true);
+				}
+				
 				switch(p.getLogin().getRole().getName()) {
 					case("power"): {
 						sce = (SCEmployee)p;

@@ -51,20 +51,12 @@ public class RootLayoutController implements Initializable {
     ObjectMapper mapper;
     List<Person> personsToShow = null;
 	public static Person personToTransmit;
-	@FXML
-	private HBox navigation;
 	
 	@FXML
 	private SplitMenuButton splitMenuButton;
 	
 	@FXML
-	private GridPane gridPane;
-	
-	@FXML
-	private Label lbl_mangelManager;
-	
-	@FXML
-	private HBox hBox1;
+	private Label lblTitel;
 	
 	@FXML
 	private Label lblName;
@@ -156,14 +148,27 @@ public class RootLayoutController implements Initializable {
 	@FXML
 	private void logout(ActionEvent event) throws IOException {
 		
-		Pane myPane = FXMLLoader.load(getClass().getResource("../view/Login.fxml"));
-		mainContent.getChildren().clear();
-		mainContent.getChildren().setAll(myPane);
-		AuthenticationUtil.close();
-		navigation.setVisible(false);
-		gridPane.setVisible(false);
-		hBox1.setVisible(false);
-		lbl_mangelManager.setVisible(false);
+			try {
+			
+			Stage stage1 = (Stage) lblTitel.getScene().getWindow();
+		    stage1.close();
+			
+			Stage stage = new Stage();
+			stage.setTitle("Claimer");
+			
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/Login.fxml"));
+			Pane myPane = loader.load();
+
+			Scene scene = new Scene(myPane);
+			scene.getStylesheets().add(getClass().getResource("../claimer_styles.css").toExternalForm()); // CSS-File wird geladen
+			stage.setScene(scene);
+		    
+		    //Open new Stage
+			stage.show();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 	
