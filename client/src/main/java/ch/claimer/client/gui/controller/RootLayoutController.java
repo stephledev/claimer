@@ -1,5 +1,6 @@
 package ch.claimer.client.gui.controller;
 
+import java.awt.Toolkit;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -12,6 +13,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
+import ch.claimer.client.gui.Main;
 import ch.claimer.client.proxy.GCEmployeeProxy;
 import ch.claimer.client.proxy.SupervisorProxy;
 import ch.claimer.client.util.AuthenticationUtil;
@@ -34,10 +36,8 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
- * Kontroller für das RootLayout
- * 
- * @author Alexander Hauck, Michael Lötscher
- * @since 1.0
+ * @author Alexander Hauck
+ * @since 10.04.2015
  * @version 1.1
  *
  */
@@ -51,14 +51,20 @@ public class RootLayoutController implements Initializable {
     ObjectMapper mapper;
     List<Person> personsToShow = null;
 	public static Person personToTransmit;
+	@FXML
+	private HBox navigation;
 	
 	@FXML
 	private SplitMenuButton splitMenuButton;
-
 	
 	@FXML
-	private Label lblTitel;
-
+	private GridPane gridPane;
+	
+	@FXML
+	private Label lbl_mangelManager;
+	
+	@FXML
+	private HBox hBox1;
 	
 	@FXML
 	private Label lblName;
@@ -87,16 +93,11 @@ public class RootLayoutController implements Initializable {
 	@FXML
 	private Button naviUsers;
 	
+	//Maincontent, hierhin werden die verschiedenen Views geladen
 	@FXML
 	private Pane mainContent;
 
-	
-	/**
-	 * Zur Home-Ansicht wechseln (mainView.xml)
-	 * 
-	 * @param event - ActionEvent = Klick auf den Home-Button
-	 * @throws IOException
-	 */
+	//Zur Home-Ansicht wechseln (mainView.xml)
 	@FXML
 	private void loadHomeView(ActionEvent event) throws IOException {
 		Pane myPane = FXMLLoader.load(getClass().getResource("../view/HomeView.fxml"));
@@ -105,13 +106,7 @@ public class RootLayoutController implements Initializable {
 		
 	}
 	
-	
-	/**
-	 * Zur Projekte-Hauptansicht (projectsMainView.xml) wechseln
-	 * 
-	 * @param event - ActionEvent = Klick auf den Projekt-Button
-	 * @throws IOException
-	 */
+	//Zur Projekte-Hauptansicht (projectsMainView.xml) wechseln
 	@FXML
 	private void loadProjectsMainView(ActionEvent event) throws IOException {
 		Pane myPane = FXMLLoader.load(getClass().getResource("../view/ProjectsMainView.fxml"));
@@ -119,12 +114,7 @@ public class RootLayoutController implements Initializable {
 		mainContent.getChildren().setAll(myPane);
 	}
 	
-	
-	/**
-	 * Zur Bauleiter-Hauptansicht wechseln (supervisorMainView.xml)
-	 * @param event - ActionEvent = Klick auf den Bauleiter-Button
-	 * @throws IOException
-	 */
+	//Zur Bauleiter-Hauptansicht wechseln (supervisorMainView.xml)
 	@FXML
 	private void loadSupervisorMainView(ActionEvent event) throws IOException {
 		Pane myPane = FXMLLoader.load(getClass().getResource("../view/SupervisorMainView.fxml"));
@@ -132,24 +122,15 @@ public class RootLayoutController implements Initializable {
 		mainContent.getChildren().setAll(myPane);
 	}
 	
-
-	/**
-	 * Zur Subunternehmen-Hauptansicht wechseln (supervisorMainView.xml)
-	 * @param event - ActionEvent = Klick auf den Subunternehmen-Button
-	 * @throws IOException
-	 */
-	@FXML
-	private void loadSubcontractorMainView(ActionEvent event) throws IOException {
-		Pane myPane = FXMLLoader.load(getClass().getResource("../view/SubcontractorMainView.fxml"));
-		mainContent.getChildren().clear();
-		mainContent.getChildren().setAll(myPane);
-	}
+	//Zur Subunternehmen-Hauptansicht wechseln (supervisorMainView.xml)
+		@FXML
+		private void loadSubcontractorMainView(ActionEvent event) throws IOException {
+			Pane myPane = FXMLLoader.load(getClass().getResource("../view/SubcontractorMainView.fxml"));
+			mainContent.getChildren().clear();
+			mainContent.getChildren().setAll(myPane);
+		}
 	
-	/**
-	 * Zur Kunden-Hauptansicht wechseln  (principalMainView.xml)
-	 * @param event - ActionEvent = Klick auf den Kunden-Button
-	 * @throws IOException
-	 */
+	//Zur Kunden-Hauptansicht wechseln  (principalMainView.xml)
 	@FXML
 	private void loadPrincipalMainView(ActionEvent event) throws IOException {
 		Pane myPane = FXMLLoader.load(getClass().getResource("../view/PrincipalMainView.fxml"));
@@ -157,11 +138,7 @@ public class RootLayoutController implements Initializable {
 		mainContent.getChildren().setAll(myPane);
 	}
 	
-	/**
-	 * Zur Benutzer-Hauptansicht wechseln  (userMainView.xml)
-	 * @param event - ActionEvent = Klick auf den Benutzer-Button
-	 * @throws IOException
-	 */
+	//Zur Benutzer-Hauptansicht wechseln  (userMainView.xml)
 	@FXML
 	private void loadUserMainView(ActionEvent event) throws IOException {
 		Pane myPane = FXMLLoader.load(getClass().getResource("../view/UserMainView.fxml"));
@@ -169,56 +146,29 @@ public class RootLayoutController implements Initializable {
 		mainContent.getChildren().setAll(myPane);
 	}
 	
-	/**
-	 * Applikatin wird geschlossen
-	 * 
-	 * @param event - ActionEvent = Klick auf Schliessen-Button
-	 * @throws IOException
-	 */
+	//GUI schliessen
 	@FXML
 	private void closeClaimer(ActionEvent event) throws IOException {
 		System.exit(0);
 	}
 	
-	/**
-	 * Logout und Login-Seite laden
-	 * @param event - ActionEvent = Klick auf Abmelden-Button
-	 * @throws IOException
-	 */
+	//Logout und Login-Seite laden
 	@FXML
 	private void logout(ActionEvent event) throws IOException {
+		
+		Pane myPane = FXMLLoader.load(getClass().getResource("../view/Login.fxml"));
+		mainContent.getChildren().clear();
+		mainContent.getChildren().setAll(myPane);
+		AuthenticationUtil.close();
+		navigation.setVisible(false);
+		gridPane.setVisible(false);
+		hBox1.setVisible(false);
+		lbl_mangelManager.setVisible(false);
 
-		try {
-			
-			AuthenticationUtil.setLogin(null);
-			Stage stage1 = (Stage) lblTitel.getScene().getWindow();
-		    stage1.close();
-			
-			Stage stage = new Stage();
-			stage.setTitle("Claimer");
-			
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/Login.fxml"));
-			Pane myPane = loader.load();
-
-			Scene scene = new Scene(myPane);
-			scene.getStylesheets().add(getClass().getResource("../claimer_styles.css").toExternalForm()); // CSS-File wird geladen
-			stage.setScene(scene);
-		    
-		    //Open new Stage
-			stage.show();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	
 	
-	/**
-	 * Benutzer-Profil bearbeiten
-	 * 
-	 * @param event - ActionEvent = Klick auf "Profil bearbeiten"-Button
-	 * @throws IOException
-	 */
+	//User Profil bearbeiten
 	@FXML
 	private void editUser(ActionEvent event) throws IOException {
 		String username = AuthenticationUtil.getLogin().getUsername();
@@ -283,9 +233,13 @@ public class RootLayoutController implements Initializable {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see javafx.fxml.Initializable#initialize(java.net.URL, java.util.ResourceBundle)
-	 */
+	
+
+	private Object i(int size, int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		//Namen setzen

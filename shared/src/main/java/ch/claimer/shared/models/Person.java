@@ -11,6 +11,8 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToOne;
 
+import org.codehaus.jackson.annotate.JsonTypeInfo;
+
 /**
  * Repräsentiert die Entität Person und gewährleistet Zugriff auf die
  * Eigenschaften der Klasse via Getter- und Setter-Methoden.
@@ -22,6 +24,7 @@ import javax.persistence.OneToOne;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
 public abstract class Person implements Serializable, Model {
 
 	private static final long serialVersionUID = -7793558619197649513L;

@@ -54,7 +54,7 @@ public class SubcontractorRoute {
 	 * @return Response HTTP-Antwort mit Subunternehmen
 	 */
 	@GET
-	@RolesAllowed("admin")
+	@RolesAllowed("editor-extern")
 	@Path("subcontractor/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showById(@PathParam("id") int id) {

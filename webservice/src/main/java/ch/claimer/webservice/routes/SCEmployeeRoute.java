@@ -13,7 +13,7 @@ import javax.ws.rs.core.Response;
 
 import ch.claimer.shared.models.SCEmployee;
 import ch.claimer.shared.models.Subcontractor;
-import ch.claimer.webservice.controller.Controller;
+import ch.claimer.webservice.controller.SCEmployeeController;
 
 /**
  * Definiert die verfügbaren HTTP-Routes der Subunternehmen-Angestellten.
@@ -21,17 +21,18 @@ import ch.claimer.webservice.controller.Controller;
  * Liefert eine HTTP-Antwort mit Statuscode zurück.
  * 
  * @author Momcilo Bekcic
- * @version 1.1
+ * @author Stephan Beeler
+ * @version 1.2
  * @since 1.0
  */
 
 @Path("/")
 public class SCEmployeeRoute {	
 	
-	private Controller<SCEmployee> controller;
+	private SCEmployeeController controller;
 
 	public SCEmployeeRoute() {
-		this.controller = new Controller<SCEmployee>(SCEmployee.class);
+		this.controller = new SCEmployeeController();
 	}
 	
 	
@@ -43,7 +44,6 @@ public class SCEmployeeRoute {
 	@GET
 	@RolesAllowed("admin")
 	@Path("scemployee") 
-	@Produces(MediaType.APPLICATION_JSON)
 	public Response showAll() {
 		return controller.showByProperty("isActive", true);
 	}
@@ -83,7 +83,7 @@ public class SCEmployeeRoute {
 	 * @return Response HTTP-Antwort mit Statusmeldung
 	 */
 	@POST
-	@RolesAllowed("admin")
+	@RolesAllowed("power")
 	@Path("scemployee")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response create(SCEmployee scemployee) {	
@@ -97,7 +97,7 @@ public class SCEmployeeRoute {
 	 * @return Response HTTP-Antwort mit Statusmeldung
 	 */
 	@PUT
-	@RolesAllowed("admin")
+	@RolesAllowed("power")
 	@Path("scemployee")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response update(SCEmployee scemployee) {

@@ -13,6 +13,7 @@ import javax.ws.rs.core.Response;
 
 import ch.claimer.shared.models.Supervisor;
 import ch.claimer.webservice.controller.Controller;
+import ch.claimer.webservice.controller.SupervisorController;
 
 /**
  * Definiert die verfügbaren HTTP-Routes der Bauleiter.
@@ -21,17 +22,17 @@ import ch.claimer.webservice.controller.Controller;
  * 
  * @author Momcilo Bekcic
  * @author Stephan Beeler
- * @version 1.1
+ * @version 1.2
  * @since 1.0
  */
 
 @Path("/")
 public class SupervisorRoute {	
 	
-	private Controller<Supervisor> controller;
+	private SupervisorController controller;
 
 	public SupervisorRoute() {
-		this.controller = new Controller<Supervisor>(Supervisor.class);
+		this.controller = new SupervisorController();
 	}
 	
 	/**

@@ -100,7 +100,7 @@ public class IssueRoute {
 	 * @return Response HTTP-Antwort mit Mängeln
 	 */
 	@GET
-	@RolesAllowed("power-extern")
+	@RolesAllowed("power")
 	@Path("issue/subcontractor/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showBySubcontractor(@PathParam("id") int id) {
@@ -129,7 +129,7 @@ public class IssueRoute {
 	 * @return Response HTTP-Antwort mit Statusmeldung
 	 */
 	@PUT
-	@RolesAllowed("editor-intern")
+	@RolesAllowed("editor-extern")
 	@Path("issue")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response update(Issue issue) {

@@ -14,6 +14,7 @@ import ch.claimer.client.proxy.LoginProxy;
 import ch.claimer.client.util.AuthenticationUtil;
 import ch.claimer.client.util.ResteasyClientUtil;
 import ch.claimer.shared.models.Login;
+import ch.claimer.shared.models.Person;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -91,16 +92,12 @@ public class LoginController extends Main implements Initializable {
 	    login.setPassword(password);
 	    
 		try {
-			login = mapper.readValue(loginProxy.check(login), new TypeReference<Login>(){});
-			System.out.println(login);
-			System.out.println(login.getId());
-			System.out.println(login.getUsername());
-			System.out.println(login.getPassword());
-			if(login.getUsername() == null) {
+			Person person = mapper.readValue(loginProxy.check(login), new TypeReference<Person>(){});
+			if(person.getId() == 0) {
 				lbl_warnung.setText("Login nicht korrekt!");
 				return;
 			}
-			AuthenticationUtil.setLogin(login);
+			AuthenticationUtil.load(person);
 			go(event);
 		} catch (IOException e) {
 			e.printStackTrace();
