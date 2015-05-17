@@ -39,7 +39,7 @@ import javafx.stage.Stage;
 /**
  * Controller für das Hinzufügen und Bearbeiten von Benutzern.
  * @author Alexander
- * @since 20.04.2015
+ * @since 1.0
  * @version 2.0
  *
  */
@@ -110,7 +110,7 @@ public class UserAddController implements Initializable{
 
 	/**
 	 * Detailansicht mit allen Daten der angeklickten Person füllen
-	 * @param personToEdit
+	 * @param personToEdit - Person welche bearbeitet werden soll.
 	 */
 	public void initData(Person personToEdit) {
 		lblTitel.setText("Benutzer bearbeiten");
@@ -190,7 +190,7 @@ public class UserAddController implements Initializable{
 
 	/**
 	 * Lädt den Benutzer Hauptview und gibt eine Meldung aus.
-	 * @param String
+	 * @param String - Mitteilung die angezeigt werden soll.
 	 */
 	private void showMainViewWithMessage(String message) {
 
@@ -230,7 +230,7 @@ public class UserAddController implements Initializable{
 	
 	/**
 	 * Speichert einen User.
-	 * @param event
+	 * @param event - ActionEvent = Klick auf Button
 	 * @throws IOException
 	 */
 	@FXML
@@ -383,7 +383,7 @@ public class UserAddController implements Initializable{
 
 	/**
 	 * Speichert oder aktualisiert einen Bauleiter.
-	 * @param person
+	 * @param person - Bauleiter der gespeichert wird.
 	 */
 	private void saveSupervisor(Person person) {
 		Supervisor supervisor = new Supervisor();
@@ -405,7 +405,7 @@ public class UserAddController implements Initializable{
 
 	/**
 	 * Speichert oder aktualisiert einen Generalunternehmen-Mitarbeiter.
-	 * @param person
+	 * @param person - Generalunternehmen-Mitarbeiter der gespeichert werden soll.
 	 */
 	private void saveGCEmployee(Person person) {
 
@@ -428,7 +428,7 @@ public class UserAddController implements Initializable{
 
 	/**
 	 * Öffnet ein Updload-Fenster, um ein Profilbild hochzuladen.
-	 * @param event
+	 * @param event - ActionEvent = Klick auf Button
 	 * @throws IOException
 	 */
 	@FXML
@@ -496,7 +496,7 @@ public class UserAddController implements Initializable{
 	
 	/**
 	 * Initialisiert den View, um einen Subunternehmen-Mitarbeiter zu bearbeiten.
-	 * @param personToEdit
+	 * @param personToEdit - Subunternehmen-Mitarbeiter der bearbeitet werden soll.
 	 */
 	public void initscStaffEdit(Person personToEdit) {
 		

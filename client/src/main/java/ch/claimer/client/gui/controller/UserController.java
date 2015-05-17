@@ -42,7 +42,7 @@ import javafx.util.Callback;
 /**
  * Controller für den UserMainView
  * @author Alexander Hauck
- * @since 20.04.2015
+ * @since 1.0
  * @version 2.0
  *
  */
@@ -149,7 +149,7 @@ public class UserController implements Initializable {
 	
 	/**
 	 * Initialisiert die Hauptansicht und gibt die übergebene Meldung im GUI aus.
-	 * @param string
+	 * @param string - Mitteilung die angezeigt werden soll.
 	 */
 	public void initWithMessage(String string) {
 		lblMessage.setText(string);
@@ -158,7 +158,7 @@ public class UserController implements Initializable {
 	
 	/**
 	 * Öffnen einen neuen View, in dem ein neuer Benutzer erfasst werden kann.
-	 * @param event
+	 * @param event - ActionEvent = Klick auf Button
 	 * @throws IOException
 	 */
 	@FXML
@@ -170,7 +170,7 @@ public class UserController implements Initializable {
 	
 	/**
 	 * Öffnet einen neuen View, in dem der angeklickte Benutzer bearbeitet werden kann.
-	 * @param t
+	 * @param t - MouseEvent = Klick auf Benutzer
 	 * @throws IOException
 	 */
 	@FXML
@@ -264,7 +264,7 @@ public class UserController implements Initializable {
 	
 	/**
 	 * Überprüft, ob ein Bauherr dem "Suchen..." - Kriterium entspricht. Gehört zur "Suchen..." - Funktion
-	 * @param p
+	 * @param p - Bauherr der überprüft werden wird.
 	 * @return
 	 */
 	private boolean matchesFilter(Person p) {

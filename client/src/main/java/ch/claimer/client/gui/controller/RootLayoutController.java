@@ -36,8 +36,10 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
- * @author Alexander Hauck
- * @since 10.04.2015
+ * Kontroller für das RootLayout
+ * 
+ * @author Alexander Hauck, Michael Lötscher
+ * @since 1.0
  * @version 1.1
  *
  */
@@ -90,7 +92,13 @@ public class RootLayoutController implements Initializable {
 	@FXML
 	private Pane mainContent;
 
-	//Zur Home-Ansicht wechseln (mainView.xml)
+	
+	/**
+	 * Zur Home-Ansicht wechseln (mainView.xml)
+	 * 
+	 * @param event - ActionEvent = Klick auf den Home-Button
+	 * @throws IOException
+	 */
 	@FXML
 	private void loadHomeView(ActionEvent event) throws IOException {
 		Pane myPane = FXMLLoader.load(getClass().getResource("../view/HomeView.fxml"));
@@ -99,7 +107,13 @@ public class RootLayoutController implements Initializable {
 		
 	}
 	
-	//Zur Projekte-Hauptansicht (projectsMainView.xml) wechseln
+	
+	/**
+	 * Zur Projekte-Hauptansicht (projectsMainView.xml) wechseln
+	 * 
+	 * @param event - ActionEvent = Klick auf den Projekt-Button
+	 * @throws IOException
+	 */
 	@FXML
 	private void loadProjectsMainView(ActionEvent event) throws IOException {
 		Pane myPane = FXMLLoader.load(getClass().getResource("../view/ProjectsMainView.fxml"));
@@ -107,7 +121,12 @@ public class RootLayoutController implements Initializable {
 		mainContent.getChildren().setAll(myPane);
 	}
 	
-	//Zur Bauleiter-Hauptansicht wechseln (supervisorMainView.xml)
+	
+	/**
+	 * Zur Bauleiter-Hauptansicht wechseln (supervisorMainView.xml)
+	 * @param event - ActionEvent = Klick auf den Bauleiter-Button
+	 * @throws IOException
+	 */
 	@FXML
 	private void loadSupervisorMainView(ActionEvent event) throws IOException {
 		Pane myPane = FXMLLoader.load(getClass().getResource("../view/SupervisorMainView.fxml"));
@@ -115,7 +134,12 @@ public class RootLayoutController implements Initializable {
 		mainContent.getChildren().setAll(myPane);
 	}
 	
-	//Zur Subunternehmen-Hauptansicht wechseln (supervisorMainView.xml)
+
+	/**
+	 * Zur Subunternehmen-Hauptansicht wechseln (supervisorMainView.xml)
+	 * @param event - ActionEvent = Klick auf den Subunternehmen-Button
+	 * @throws IOException
+	 */
 	@FXML
 	private void loadSubcontractorMainView(ActionEvent event) throws IOException {
 		Pane myPane = FXMLLoader.load(getClass().getResource("../view/SubcontractorMainView.fxml"));
@@ -123,7 +147,11 @@ public class RootLayoutController implements Initializable {
 		mainContent.getChildren().setAll(myPane);
 	}
 	
-	//Zur Kunden-Hauptansicht wechseln  (principalMainView.xml)
+	/**
+	 * Zur Kunden-Hauptansicht wechseln  (principalMainView.xml)
+	 * @param event - ActionEvent = Klick auf den Kunden-Button
+	 * @throws IOException
+	 */
 	@FXML
 	private void loadPrincipalMainView(ActionEvent event) throws IOException {
 		Pane myPane = FXMLLoader.load(getClass().getResource("../view/PrincipalMainView.fxml"));
@@ -131,7 +159,11 @@ public class RootLayoutController implements Initializable {
 		mainContent.getChildren().setAll(myPane);
 	}
 	
-	//Zur Benutzer-Hauptansicht wechseln  (userMainView.xml)
+	/**
+	 * Zur Benutzer-Hauptansicht wechseln  (userMainView.xml)
+	 * @param event - ActionEvent = Klick auf den Benutzer-Button
+	 * @throws IOException
+	 */
 	@FXML
 	private void loadUserMainView(ActionEvent event) throws IOException {
 		Pane myPane = FXMLLoader.load(getClass().getResource("../view/UserMainView.fxml"));
@@ -139,13 +171,22 @@ public class RootLayoutController implements Initializable {
 		mainContent.getChildren().setAll(myPane);
 	}
 	
-	//GUI schliessen
+	/**
+	 * Applikatin wird geschlossen
+	 * 
+	 * @param event - ActionEvent = Klick auf Schliessen-Button
+	 * @throws IOException
+	 */
 	@FXML
 	private void closeClaimer(ActionEvent event) throws IOException {
 		System.exit(0);
 	}
 	
-	//Logout und Login-Seite laden
+	/**
+	 * Logout und Login-Seite laden
+	 * @param event - ActionEvent = Klick auf Abmelden-Button
+	 * @throws IOException
+	 */
 	@FXML
 	private void logout(ActionEvent event) throws IOException {
 
@@ -174,7 +215,12 @@ public class RootLayoutController implements Initializable {
 	}
 	
 	
-	//User Profil bearbeiten
+	/**
+	 * Benutzer-Profil bearbeiten
+	 * 
+	 * @param event - ActionEvent = Klick auf "Profil bearbeiten"-Button
+	 * @throws IOException
+	 */
 	@FXML
 	private void editUser(ActionEvent event) throws IOException {
 		String username = AuthenticationUtil.getLogin().getUsername();
@@ -239,13 +285,9 @@ public class RootLayoutController implements Initializable {
 
 	}
 
-	
-
-	private Object i(int size, int i) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	/* (non-Javadoc)
+	 * @see javafx.fxml.Initializable#initialize(java.net.URL, java.util.ResourceBundle)
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		//Namen setzen

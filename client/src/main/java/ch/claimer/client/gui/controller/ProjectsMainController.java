@@ -34,8 +34,10 @@ import javafx.scene.layout.Pane;
 import javafx.util.Callback;
 
 /**
+ * Kontroller für die Projekt-Übersicht
+ * 
  * @author Michael Lötscher
- * @since 21.04.2015
+ * @since 1.0
  * @version 1.1
  *
  */
@@ -86,7 +88,7 @@ public class ProjectsMainController implements Initializable{
 	
 
 	/**
-	 * Initialisiert den TableView automatisch mit den nötigen Daten, sobald der View aufgerufen wird.
+	 * Initialisiert den TableView mit den nötigen Daten, sobald die Ansicht aufgerufen wird.
 	 */
 	@Override
 	public void initialize (URL location, ResourceBundle resources) {
@@ -169,8 +171,8 @@ public class ProjectsMainController implements Initializable{
 	
 	
 	/**
-	 * Initialisiert den View und gibt die übergebene Meldung im GUI aus.
-	 * @param string
+	 * Initialisiert die Ansicht und gibt die übergebene Meldung im GUI aus.
+	 * @param string - Mitteilung die angezeigt werden soll.
 	 */
 	public void initWithMessage(String string) {
 		lblMessage.setText(string);
@@ -180,7 +182,7 @@ public class ProjectsMainController implements Initializable{
 	
 	/**
 	 * Öffnet einen neuen View, um ein neues Projekt hinzuzufügen.
-	 * @param event
+	 * @param event - ActionEvent = Klick auf Button
 	 * @throws IOException
 	 */
 	@FXML
@@ -192,8 +194,8 @@ public class ProjectsMainController implements Initializable{
 	
 	
 	/**
-	 * Öffnet einen neuen View, in das angeklickte Projekt zu bearbeiten.
-	 * @param t
+	 * Öffnet die ProjectAdd-Ansicht, um das angeklickte Projekt zu bearbeiten.
+	 * @param t - MouseEvent = Klick auf das Projekt
 	 * @throws IOException
 	 */
 	@FXML
@@ -221,7 +223,10 @@ public class ProjectsMainController implements Initializable{
 		}
 	}	
 
-	// Observable-List mit den gefilterten Daten aktualisieren
+	/**
+	 * Liste wird mit den gefilterten Daten aktualisieren
+	 * 
+	 */
 	public void updateFilteredData() {
 		filteredData.clear();
 
@@ -235,7 +240,11 @@ public class ProjectsMainController implements Initializable{
 	}
 	
 
-	// Überprüfen, ob Suchbegriff mit Daten übereinstimmt
+	/**
+	 * Überprüft, ob ein Projekt dem Kriterium entspricht. Gehört zur Such - Funktion
+	 * @param p - Das Projekt das übergeben wird.
+	 * @return true oder false
+	 */
 	private boolean matchesFilter(Project p) {
 		String filterString = txt_search.getText();
 
@@ -257,6 +266,10 @@ public class ProjectsMainController implements Initializable{
 		return false;
 	}
 
+	/**
+	 * Aktualisiert den TableView. Gehört zur "Suchen.."-Funktion.
+	 * 
+	 */
 	private void reaplyTableSortOrder() {
 		ArrayList<TableColumn<Project, ?>> sortOrder = new ArrayList<>(
 		projectTableView.getSortOrder());

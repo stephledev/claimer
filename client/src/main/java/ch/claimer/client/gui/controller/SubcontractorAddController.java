@@ -47,7 +47,7 @@ import ch.claimer.shared.models.Subcontractor;
 /**
  * Controller für das Hinzufügen und Ändern von Subunternehmen
  * @author Alexander Hauck
- * @since 30.04.2015
+ * @since 1.0
  * @version 1.0
  */
 
@@ -146,7 +146,7 @@ public class SubcontractorAddController implements Initializable {
 	
 	/**
 	 * Befüllt den View mit den Daten des zu bearbeitenden Subunternehmens.
-	 * @param subcontractor
+	 * @param subcontractor - Subcontractor der bearbeitet wird.
 	 */
 	public void initData(Company subcontractor) {
 		
@@ -197,7 +197,7 @@ public class SubcontractorAddController implements Initializable {
 	
 	/**
 	 * Lädt den Subunternehmen Hauptview mit einer Nachricht.
-	 * @param message
+	 * @param message - Mitteilung die angezeigt werden soll.
 	 */
 	private void showMainViewWithMessage(String message) {
 		try {
@@ -502,7 +502,7 @@ public class SubcontractorAddController implements Initializable {
 	
 	/**
 	 * Öffnet ein neues Fenster, um den angeklickten Subunternehmen-Mitarbeiter zu bearbeiten.
-	 * @param t
+	 * @param t - Mouseevent = Klick auf den Subunternehmen-Mitarbeiter
 	 */
 	@FXML
 	private void editSubcontractorStaff (MouseEvent t){

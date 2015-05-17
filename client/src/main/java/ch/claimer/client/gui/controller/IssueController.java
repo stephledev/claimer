@@ -55,8 +55,10 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 /**
+ * Kontroller für die MangelVerwalten-Ansicht
+ * 
  * @author Michael Lötscher, Alexander Hauck
- * @since 21.04.2015
+ * @since 1.0
  * @version 2.0
  *
  */
@@ -115,6 +117,9 @@ public class IssueController implements Initializable {
 	@FXML
 	private ComboBox<String> dropdownContact;
 	
+	/* (non-Javadoc)
+	 * @see javafx.fxml.Initializable#initialize(java.net.URL, java.util.ResourceBundle)
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 	
@@ -137,9 +142,10 @@ public class IssueController implements Initializable {
 		 });
 	}
 	
+	
 	/**
-	 * Befüllt die Textfelder mit den Daten des zu bearbeitenden Mangels.
-	 * @param issueToEdit
+	 * Füllt die Textfelder mit den Daten des zu bearbeitenden Mangels.
+	 * @param issueToEdit - Der zu bearbeitende Mangel wird hier mitgegeben.
 	 */
 	public void initData(Issue issueToEdit) {
 		issueId = issueToEdit.getId();
@@ -177,7 +183,7 @@ public class IssueController implements Initializable {
 
 	
 	/**
-	 * Speichert einen Mangel.
+	 * Speichert den Mangel.
 	 */
 	@FXML
 	private void saveIssue() {
@@ -191,6 +197,14 @@ public class IssueController implements Initializable {
 		}
 	}
 	
+	/**
+	 * Die Methode überprüft, ob beim übergeben String die Mindest- und Maximumlänge stimmt.
+	 * 
+	 * @param text - Text der übergeben wird.
+	 * @param minLength - Minimumlänge die überprüft werden soll.
+	 * @param maxLength - Maximumlänge die überprüft werden soll.
+	 * @return true oder false
+	 */
 	private Boolean checkLength(String text, int minLength, int maxLength) {
 		if(text.length() < minLength || text.length() > maxLength) {
 			return true;
@@ -199,9 +213,10 @@ public class IssueController implements Initializable {
 		}
 	}
 	
+	
 	/**
 	 * Liest die Textfelder aus und validiert diese.
-	 * @return
+	 * @return issue - Gibt den Mangel mit den ausgelesenen Textfeldern zurück.
 	 */
 	private Issue getTextfieldProperties() {
 
@@ -372,7 +387,7 @@ public class IssueController implements Initializable {
 	}
 	
 	/**
-	 * Befüllt das "
+	 * Befüllt das "Contact"-Dropdown mit den Inhalten aus der Datenbank.
 	 */
 	private void setDropdownContact(Integer subcontractorId) {
 		
@@ -445,7 +460,10 @@ public class IssueController implements Initializable {
 	}
 	
 	
-	// "Speicher"-Button: Speichert den Mangel
+	
+	/**
+	 * Klick auf den "Speicher"-Button, speichert den Mangel.
+	 */
 	@FXML
 	private void saveComment() {
 		if(!checkLength(txtComment.getText(), 1, 255)) {

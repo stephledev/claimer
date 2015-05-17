@@ -63,8 +63,10 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 /**
+ * Kontroller für die ProjektVerwalten-Überischt 
+ * 
  * @author Michael Lötscher, Alexander Hauck
- * @since 21.04.2015
+ * @since 1.0
  * @version 2.0
  *
  */
@@ -207,7 +209,7 @@ public class ProjectAddController implements Initializable {
 	
 	/**
 	 * Initialisiert den View mit den Daten des zu bearbeitenden Projekts sowie den dazugehörigen Mängeln.
-	 * @param project
+	 * @param project - Project welches geladen wird
 	 */
 	public void initData(Project project) {
 		
@@ -291,6 +293,9 @@ public class ProjectAddController implements Initializable {
 	
 	}
 	
+	/**
+	 * Füllt die Tabelle mit den Mängel mit Daten
+	 */
 	private void fillTableView() {
 		//Mängel-Tabelle initialisieren
 		colMangle.setCellValueFactory(new PropertyValueFactory<Issue, String>("description"));
@@ -376,6 +381,9 @@ public class ProjectAddController implements Initializable {
 		mangleTableView.setItems(data);
 	}
 	
+	/**
+	 * Füllt die Tabelle mit den Protokollen mit Daten
+	 */
 	private void fillLogTableView() {
 		
 		for(LogEntry logEntry : projectContainer.getLogEntries()) {
@@ -454,7 +462,7 @@ public class ProjectAddController implements Initializable {
 	
 	/**
 	 * Überprüft Änderungen am Projekt und protokolliert diese.
-	 * @param project
+	 * @param project - Das zu protokollierende Projekt.
 	 */
 	private void logEntryHandler(Project project) {
 		if(projectContainer != null) {
@@ -508,21 +516,30 @@ public class ProjectAddController implements Initializable {
 		
 	}
 	
+	/**
+	 * Die Methode überprüft, ob beim übergeben String die Mindest- und Maximumlänge stimmt.
+	 * 
+	 * @param text - Text der übergeben wird.
+	 * @param minLength - Minimumlänge die überprüft werden soll.
+	 * @param maxLength - Maximumlänge die überprüft werden soll.
+	 * @return true oder false
+	 */
 	private Boolean checkLength(String text, int minLength, int maxLength) {
-		
+
 		if(text.length() < minLength || text.length() > maxLength) {
 			return true;
 		} else {
 			return false;
 		}
-		
+
 	}
 	
 	/**
 	 * Liest alle Textfelder aus und validiert diese.
-	 * @param p1
-	 * @return
+	 * @return p1 - Gibt das Projekt mit den ausgelesenen Textfeldern zurück.
+	 * 
 	 */
+
 	private Project getTextfieldProperties(Project p1) {
 		
 		Boolean validationError = false;
@@ -693,7 +710,7 @@ public class ProjectAddController implements Initializable {
 	
 	/**
 	 * Öffnet ein neues Fenster, um einen Mangel zu erfassen.
-	 * @param event
+	 * @param event - Klick auf "Mangel erfassen"-Button
 	 * @throws IOException
 	 */
 	@FXML
@@ -718,6 +735,12 @@ public class ProjectAddController implements Initializable {
 		}
 	}
 	
+	/**
+	 * Doppelklick in der Tabelle auf einen Mangel öffnet die Mangel-Ansicht
+	 * 
+	 * @param t - MouseEvent = Klick auf den Mangel
+	 * @throws IOException
+	 */
 	@FXML
 	private void editIssue(MouseEvent t) throws IOException {
 
@@ -751,6 +774,11 @@ public class ProjectAddController implements Initializable {
 		}
 	}
 	
+	/**
+	 * Methode um Mitteilung bei der Projekt-Übersicht anzuzeigen
+	 * 
+	 * @param message - Mitteilung welche angezeigt werden soll.
+	 */
 	private void showMainViewWithMessage(String message) {
 
 		try {
@@ -791,6 +819,9 @@ public class ProjectAddController implements Initializable {
 		}		
 	}
 
+	/**
+	 * Werte für das "Status"-Dropdown setzen
+	 */
 	public void setDropdownState()  {
 		
 		StateProxy stateProxy = ResteasyClientUtil.getTarget().proxy(StateProxy.class);		
@@ -809,7 +840,7 @@ public class ProjectAddController implements Initializable {
 	}
 	
 	/**
-	 * Liest alle Objekt-Typen aus der DB und befüllt das Dropdown damit.
+	 * Werte für das "Typ"-Dropdown setzen
 	 */
 	public void setDropdownType()  {
 		
@@ -828,6 +859,9 @@ public class ProjectAddController implements Initializable {
 		
 	}
 
+	/**
+	 * Werte für das "Kategorie"-Dropdown setzen
+	 */
 	public void setDropdownCategory()  {
 
 		CategoryProxy categoryProxy = ResteasyClientUtil.getTarget().proxy(CategoryProxy.class);		
@@ -845,6 +879,11 @@ public class ProjectAddController implements Initializable {
 		}
 	}
 
+	/**
+	 * Alle Mängel eines Projektes werden auf dem Laufwerk C in einer .scv Datei gepeichert
+	 * 
+	 * @throws Exception
+	 */
 	@FXML
 	public void export() throws Exception {
 		System.out.println("Hallo");
