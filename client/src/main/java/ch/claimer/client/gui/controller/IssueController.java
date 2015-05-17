@@ -459,50 +459,6 @@ public class IssueController implements Initializable {
 		}
 	}
 	
-	@FXML
-	public void export(ActionEvent e)  {
-		try { 
-			writeExcel();
-		}
-		catch (Exception ex) {
-			ex.printStackTrace();
-		}
-	}
-	public void writeExcel() throws Exception {
-		Writer writer = null;
-		ObservableList<Issue> data = FXCollections.observableArrayList(); 
-
-		try {
-
-			File file = new File("C:\\Mängel.csv.");
-			writer = new BufferedWriter(new FileWriter(file));
-			Issue issue = new Issue();
-			IssueProxy issueProxy = rtarget.proxy(IssueProxy.class);
-
-
-			List<Issue> issuesToShow = mapper.readValue(issueProxy.getAll(), new TypeReference<List<Issue>>(){});
-
-			for(int i = 0; i < issuesToShow.size(); i++) {
-				issue = issuesToShow.get(i);
-				data.add(issue);
-			}
-
-
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		finally {
-
-			for (Issue issue : data) {
-				String text = issue.getId() + "," + issue.getDescription()+ "," + issue.getProject().getName() + "," + issue.getCreated()+ "," + issue.getSolved() + "," + issue.getState()+ "\n";
-
-				writer.write(text);
-			}
-
-			writer.flush();
-			writer.close();
-		} 
-	}
 		
 }
 		

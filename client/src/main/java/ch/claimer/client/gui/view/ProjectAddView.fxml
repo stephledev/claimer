@@ -158,7 +158,12 @@
                                     </TableView>
                                     <HBox alignment="TOP_RIGHT" fillHeight="false" nodeOrientation="LEFT_TO_RIGHT" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
                                        <children>
-                                          <Button fx:id="bttn_export" mnemonicParsing="false" text="Mängel exportieren">
+                                          <Label fx:id="lbl_issueExport">
+                                             <HBox.margin>
+                                                <Insets right="20.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <Button fx:id="bttn_export" mnemonicParsing="false" onAction="#export" text="Mängel exportieren">
                                              <HBox.margin>
                                                 <Insets right="20.0" />
                                              </HBox.margin>

@@ -1,6 +1,10 @@
 package ch.claimer.client.gui.controller;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.net.URL;import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
@@ -10,6 +14,7 @@ import java.util.ResourceBundle;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 import org.pmw.tinylog.Logger;
 
 import ch.claimer.client.proxy.CategoryProxy;
@@ -22,17 +27,12 @@ import ch.claimer.client.proxy.SupervisorProxy;
 import ch.claimer.client.proxy.TypeProxy;
 import ch.claimer.client.util.ResteasyClientUtil;
 import ch.claimer.shared.models.Category;
-import ch.claimer.shared.models.Comment;
-import ch.claimer.shared.models.Contact;
 import ch.claimer.shared.models.Issue;
 import ch.claimer.shared.models.LogEntry;
-import ch.claimer.shared.models.Person;
 import ch.claimer.shared.models.Project;
-import ch.claimer.shared.models.SCEmployee;
 import ch.claimer.shared.models.State;
 import ch.claimer.shared.models.Supervisor;
 import ch.claimer.shared.models.Type;
-import ch.claimer.shared.util.LoggerUtil;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -44,7 +44,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -54,7 +53,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TitledPane;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -72,6 +70,7 @@ import javafx.util.Callback;
  */
 public class ProjectAddController implements Initializable {
 
+    ResteasyWebTarget rtarget = ResteasyClientUtil.getTarget();
 	SupervisorProxy supervisorProxy = ResteasyClientUtil.getTarget().proxy(SupervisorProxy.class);		
     private ObjectMapper mapper = new ObjectMapper();
 	private ObservableList<Issue> data = FXCollections.observableArrayList();
@@ -89,10 +88,16 @@ public class ProjectAddController implements Initializable {
 
 	@FXML
 	private Label lbl_title;
+	
+	@FXML
+	private Label lbl_issueExport;
 
 	@FXML
 	private Button bttn_saveProject;
 
+	@FXML
+	private Button bttn_export;
+	
 	@FXML
 	private Button bttn_quitProject;
 
@@ -840,5 +845,39 @@ public class ProjectAddController implements Initializable {
 		}
 	}
 
+	@FXML
+	public void export() throws Exception {
+		System.out.println("Hallo");
+		ObservableList<Issue> data = FXCollections.observableArrayList(); 
+			Writer writer = null;
+			File file = new File("Y:\\Mangel.csv");
+			writer = new BufferedWriter(new FileWriter(file));
+
+			Issue is = new Issue();	    
+			IssueProxy issueProxy = rtarget.proxy(IssueProxy.class);
+			ObjectMapper mapper = new ObjectMapper();
+			List<Issue> issuesToShow = mapper.readValue(issueProxy.getByProject(projectId), new TypeReference<List<Issue>>(){});
+			
+			for(int i = 0; i < issuesToShow.size(); i++) {
+				is = issuesToShow.get(i);
+				System.out.println(issuesToShow.get(i));
+				data.add(is);
+				is = null;
+				
+				i++;
+			}
+			
+			for(Issue issue : data) {
+				
+				String text = issue.getProject().getName() + ";"  + issue.getId() + ";" + issue.getDescription()+ ";" + issue.getCreated().getTime().toString()+ ";" + issue.getSolved().getTime().toString() + ";" + issue.getState().getName()+ "\n";
+				writer.write(text);
+				System.out.println(text);
+			}
+
+			writer.flush();
+			writer.close();
+			
+			lbl_issueExport.setText("Die Mängelliste wurde dem Laufwerk C gespeichert");
+		} 
 
 }
