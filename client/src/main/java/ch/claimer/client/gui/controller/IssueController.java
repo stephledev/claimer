@@ -466,7 +466,10 @@ public class IssueController implements Initializable {
 			
 			
 			for(Contact contact: contactList) {
-				dropdownContact.getItems().add(contact.getLastname() + ", " + contact.getFirstname());
+				if(contact.isActive())
+				{
+					dropdownContact.getItems().add(contact.getLastname() + ", " + contact.getFirstname());
+				}
 			}
 		} catch (JsonParseException e) {
 			// TODO Auto-generated catch block

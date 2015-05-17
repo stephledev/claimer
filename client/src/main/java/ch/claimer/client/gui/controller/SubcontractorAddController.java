@@ -55,6 +55,7 @@ public class SubcontractorAddController implements Initializable {
 
 	private ObservableList<Person> data = FXCollections.observableArrayList();
 	public static ObservableList<Person> data2 = FXCollections.observableArrayList(); 
+	private ObservableList<Person> personToDelete = FXCollections.observableArrayList(); 
 	private Subcontractor subcontractorContainer = null;
 	private Person persontoEdit = null;
 	
@@ -177,12 +178,16 @@ public class SubcontractorAddController implements Initializable {
 	    	
 			personList = mapper.readValue(sceProxy.getBySubcontractor(subcontractorID), new TypeReference<List<SCEmployee>>(){});
 			for(Person p : personList) {
-				data.add(p);
+				if(p.isActive()) {
+					data.add(p);
+				}
 			}
 			
 			personList = mapper.readValue(cProxy.getBySubcontractor(subcontractorID), new TypeReference<List<Contact>>(){});
 			for(Person p : personList) {
-				data.add(p);
+				if(p.isActive()) {
+					data.add(p);
+				}
 			}	
 			
 		} catch (IOException e1) {
@@ -291,23 +296,13 @@ public class SubcontractorAddController implements Initializable {
 		                                          @SuppressWarnings("unchecked")
 												TableRow<Person> tableRow = c.getTableRow();
 		                                          Person person= (Person)tableRow.getTableView().getItems().get(tableRow.getIndex());
-		                                          person.setActive(false);
+		                                          
 		                                          data.remove(person);
-		                                         
-		                                          switch(person.getLogin().getRole().getName()) {
-		                                        	  
-		                                          	case("power"): {
-		                                          		SCEmployee sce = (SCEmployee)person;
-		                                          		sce.setSubcontractor(null);
-		                                          		SCEmployeeProxy sceProxy = ResteasyClientUtil.getTarget().proxy(SCEmployeeProxy.class);
-		    	                                        sceProxy.update(sce);
-		                                          	} break;
-		                                          	case("editor-extern"): {
-		                                          		Contact contact = (Contact)person;
-		                                          		contact.setSubcontractor(null);
-		                                          		ContactProxy cProxy = ResteasyClientUtil.getTarget().proxy(ContactProxy.class);
-		    	                                        cProxy.update(contact);
-		                                          	}break; 
+		                                          fillTableView();
+		                                          
+		                                          if((Integer)person.getId() != 0) {
+		                                        	  person.setActive(false);
+		                                        	  personToDelete.add(person);
 		                                          }
 		                                  }
 		                            });
@@ -424,9 +419,9 @@ public class SubcontractorAddController implements Initializable {
 				scProxy.create(sc);
 			}
 
-			// Subcontractor Mitarbeiter auslesen und Updaten
+			// Subcontractor Mitarbeiter auslesen und Speichern / Updaten
 			ObservableList<Person> olp = sceTableView.getItems();
-	
+			olp.addAll(personToDelete);
 			SCEmployeeProxy sceProxy = ResteasyClientUtil.getTarget().proxy(SCEmployeeProxy.class);
 			ContactProxy cProxy = ResteasyClientUtil.getTarget().proxy(ContactProxy.class);
 			SCEmployee sce = null;
@@ -460,13 +455,10 @@ public class SubcontractorAddController implements Initializable {
 					
 			}
 			
-
 			showMainViewWithMessage("Änderungen erfolgreich gespeichert.");
+					
+			}
 			
-		}
-			
-		
-		
 	}
 	
 	
