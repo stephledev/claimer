@@ -37,6 +37,11 @@ public interface ProjectProxy {
 	@Produces(MediaType.APPLICATION_JSON)
 	String getBySupervisor(@PathParam("id")int id);
 	
+	@GET
+	@Path("project/contact/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	String getByContact(@PathParam("id")int id);
+	
     @POST
     @Path("project")
     @Consumes(MediaType.APPLICATION_JSON)
