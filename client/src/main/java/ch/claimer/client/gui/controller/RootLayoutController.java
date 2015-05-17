@@ -87,6 +87,33 @@ public class RootLayoutController implements Initializable {
 	@FXML
 	private Pane mainContent;
 
+	
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		//Namen setzen
+		lblName.setText(AuthenticationUtil.getLogin().getUsername());
+		
+		//Mainnavi an die Rolle anpassen
+		String roleName = AuthenticationUtil.getLogin().getRole().getName();
+		switch(roleName) {
+			case("power"): {
+				naviPrincipals.setVisible(false); //Bauherren-Navipunkt ausblenden
+				naviUsers.setVisible(false); //Benutzer-Navipunkt ausblenden
+			}
+			break;
+			case("editor-intern"): {
+				naviPrincipals.setVisible(false);
+				naviUsers.setVisible(false);
+				naviSubcontractors.setVisible(false);
+			}
+			break;
+			case("admin"): naviUsers.setVisible(false);
+			break;
+		}
+		
+	}
+	
 	//Zur Home-Ansicht wechseln (mainView.xml)
 	@FXML
 	private void loadHomeView(ActionEvent event) throws IOException {
@@ -235,31 +262,4 @@ public class RootLayoutController implements Initializable {
 
 
 	}
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		//Namen setzen
-		lblName.setText(AuthenticationUtil.getLogin().getUsername());
-		
-		//Mainnavi an die Rolle anpassen
-		String roleName = AuthenticationUtil.getLogin().getRole().getName();
-		switch(roleName) {
-			case("power"): {
-				naviPrincipals.setVisible(false); //Bauherren-Navipunkt ausblenden
-				naviUsers.setVisible(false); //Benutzer-Navipunkt ausblenden
-			}
-			break;
-			case("editor-intern"): {
-				naviPrincipals.setVisible(false);
-				naviUsers.setVisible(false);
-				naviSubcontractors.setVisible(false);
-			}
-			break;
-			case("editor-extern"):
-			break;
-		}
-		
-	}
-	
-	
 }

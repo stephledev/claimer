@@ -463,7 +463,7 @@ public class ProjectAddController implements Initializable {
 			}
 		} else if(roleName.equals("editor-intern")) {
 			saveIssues();
-			
+			logEntryHandler(projectContainer);
 			showMainViewWithMessage("Änderungen erfolgreich gespeichert.");
 		}
 	}
@@ -514,24 +514,6 @@ public class ProjectAddController implements Initializable {
 				logEntry.setDate(new GregorianCalendar());
 				logEntry.setDescription("Der Name des Projekts wurde auf \"" + project.getName() + "\" geändert.");
 				logEntryList.add(logEntry);
-			}
-			
-			for(Issue issue : issuesToDeleteList) {
-				if(issueList.contains(issue)) {
-					LogEntry logEntry = new LogEntry();
-					logEntry.setDate(new GregorianCalendar());
-					logEntry.setDescription("Der Mangel \"" + issue.getDescription() + "\" wurde gelöscht.");
-					logEntryList.add(logEntry);
-				}
-			}
-			
-			for(Issue issue : data) {
-				if(!issueList.contains(issue)) {
-					LogEntry logEntry = new LogEntry();
-					logEntry.setDate(new GregorianCalendar());
-					logEntry.setDescription("Ein neuer Mangel \"" +issue.getDescription() + "\" wurde erfasst.");
-					logEntryList.add(logEntry);
-				}
 			}
 			
 		} else {

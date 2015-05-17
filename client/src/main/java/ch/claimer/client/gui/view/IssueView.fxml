@@ -70,7 +70,7 @@
                                        </columnResizePolicy>
                                     </TableView>
                                     <TextField fx:id="txtComment" prefHeight="25.0" prefWidth="327.0" promptText="Kommentar" GridPane.rowIndex="2" />
-                                    <Button alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#saveComment" styleClass="add-button" text="Kommentar hinzufügen" GridPane.rowIndex="4" />
+                                    <Button fx:id="btnSaveComment" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#saveComment" styleClass="add-button" text="Kommentar hinzufügen" GridPane.rowIndex="4" />
                                  </children>
                               </GridPane>
                            </children>

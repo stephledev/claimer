@@ -101,6 +101,9 @@ public class IssueController implements Initializable {
 
 	@FXML
 	private Button btnSave;
+	
+	@FXML
+	private Button btnSaveComment;
 
 	@FXML
 	private TableView<Comment> commentTableView;
@@ -135,8 +138,13 @@ public class IssueController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
+		//Kommentare hinzufügen nur für Bauleiter und Kontaktpersonen erlauben
 		String roleName = AuthenticationUtil.getLogin().getRole().getName();
 		
+		if(!roleName.equals("editor-intern") || !roleName.equals("editor-extern")) {
+			txtComment.setVisible(false);
+			btnSaveComment.setVisible(false);
+		}
 		
 		setDropdownState();
 		setDropdownSubcontractor();
