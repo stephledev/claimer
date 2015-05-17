@@ -12,6 +12,7 @@ import javax.persistence.Id;
  * Eigenschaften der Klasse via Getter- und Setter-Methoden.
  * 
  * @author Stephan Beeler
+ * @author Raoul Ackermann
  * @version 1.0
  * @since 1.0
  */
