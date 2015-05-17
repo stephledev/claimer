@@ -35,7 +35,7 @@ public interface ProjectProxy {
 	@GET
 	@Path("project/supervisor/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	String getBySupervisor();
+	String getBySupervisor(@PathParam("id")int id);
 	
     @POST
     @Path("project")

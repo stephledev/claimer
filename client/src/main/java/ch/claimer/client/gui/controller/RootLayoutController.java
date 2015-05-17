@@ -1,6 +1,5 @@
 package ch.claimer.client.gui.controller;
 
-import java.awt.Toolkit;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -13,7 +12,6 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
-import ch.claimer.client.gui.Main;
 import ch.claimer.client.proxy.GCEmployeeProxy;
 import ch.claimer.client.proxy.SupervisorProxy;
 import ch.claimer.client.util.AuthenticationUtil;
@@ -238,13 +236,6 @@ public class RootLayoutController implements Initializable {
 
 	}
 
-	
-
-	private Object i(int size, int i) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		//Namen setzen
@@ -258,7 +249,11 @@ public class RootLayoutController implements Initializable {
 				naviUsers.setVisible(false); //Benutzer-Navipunkt ausblenden
 			}
 			break;
-			case("editor-intern"):
+			case("editor-intern"): {
+				naviPrincipals.setVisible(false);
+				naviUsers.setVisible(false);
+				naviSubcontractors.setVisible(false);
+			}
 			break;
 			case("editor-extern"):
 			break;

@@ -10,8 +10,10 @@ import java.util.ResourceBundle;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
+import org.pmw.tinylog.Logger;
 
 import ch.claimer.client.proxy.ProjectProxy;
+import ch.claimer.client.util.AuthenticationUtil;
 import ch.claimer.client.util.ResteasyClientUtil;
 import ch.claimer.shared.models.Project;
 import javafx.beans.property.SimpleStringProperty;
@@ -92,23 +94,41 @@ public class ProjectsMainController implements Initializable{
 	 */
 	@Override
 	public void initialize (URL location, ResourceBundle resources) {
-
+		
 	    //Projekte aus DB laden
 	    ResteasyWebTarget rtarget = ResteasyClientUtil.getTarget();
 	    ObjectMapper mapper = new ObjectMapper();	    	
 	    ProjectProxy projectProxy = rtarget.proxy(ProjectProxy.class);
 	    
-	    try {
-	    	List<Project> projectsToShow = mapper.readValue(projectProxy.getAll(), new TypeReference<List<Project>>(){});
-			
-	    	for(Project p: projectsToShow) {
-	    		data.add(p);
-	    		filteredData.add(p);
-	    	}
-
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+	    //Rolle des eingeloggten Benutzers auslesen und je nach dem die Projekte auslesen.
+	    String roleName = AuthenticationUtil.getLogin().getRole().getName();
+	    
+	    if(roleName.equals("superadmin") || roleName.equals(("admin"))) {
+	    
+		    try {
+		    	List<Project> projectsToShow = mapper.readValue(projectProxy.getAll(), new TypeReference<List<Project>>(){});
+				
+		    	for(Project p: projectsToShow) {
+		    		data.add(p);
+		    		filteredData.add(p);
+		    	}
+	
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+	    } else if(roleName.equals("editor-intern")) {
+	    	 try {
+			    	List<Project> projectsToShow = mapper.readValue(projectProxy.getBySupervisor(AuthenticationUtil.getPerson().getId()), new TypeReference<List<Project>>(){});
+					
+			    	for(Project p: projectsToShow) {
+			    		data.add(p);
+			    		filteredData.add(p);
+			    	}
+		
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+	    }
 		
 		// Spalten-Values definieren (müssen den Parameter des Company-Objekts entsprechen)
 	    colState.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Project, String>, ObservableValue<String>>() {

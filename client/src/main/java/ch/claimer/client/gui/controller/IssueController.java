@@ -27,6 +27,7 @@ import ch.claimer.client.proxy.ContactProxy;
 import ch.claimer.client.proxy.IssueProxy;
 import ch.claimer.client.proxy.StateProxy;
 import ch.claimer.client.proxy.SubcontractorProxy;
+import ch.claimer.client.util.AuthenticationUtil;
 import ch.claimer.client.util.ResteasyClientUtil;
 import ch.claimer.shared.models.Comment;
 import ch.claimer.shared.models.Contact;
@@ -34,6 +35,7 @@ import ch.claimer.shared.models.Issue;
 import ch.claimer.shared.models.LogEntry;
 import ch.claimer.shared.models.State;
 import ch.claimer.shared.models.Subcontractor;
+import ch.claimer.shared.models.Supervisor;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -564,6 +566,11 @@ public class IssueController implements Initializable {
 		if(!checkLength(txtComment.getText(), 1, 255)) {
 			Comment comment = new Comment();
 			comment.setContent(txtComment.getText());
+			switch(AuthenticationUtil.getPerson().getLogin().getRole().getName()) {
+				case("editor-extern"): comment.setContact((Contact)AuthenticationUtil.getPerson());
+				break;
+				case("editor-intern"): comment.setSupervisor((Supervisor)AuthenticationUtil.getPerson());
+			}
 			comment.setCreated(new GregorianCalendar());
 			commentsList.add(comment);
 			
