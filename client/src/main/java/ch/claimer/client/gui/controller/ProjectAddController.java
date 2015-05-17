@@ -94,7 +94,7 @@ public class ProjectAddController implements Initializable {
 	private Label lbl_issueExport;
 
 	@FXML
-	private Button bttn_saveProject;
+	private Button btnSaveProject;
 
 	@FXML
 	private Button bttn_export;
@@ -103,7 +103,7 @@ public class ProjectAddController implements Initializable {
 	private Button bttn_quitProject;
 
 	@FXML
-	private Button bttn_addMangle;
+	private Button btnAddIssue;
 
 	@FXML
 	private TextField txtProjectName;
@@ -203,6 +203,9 @@ public class ProjectAddController implements Initializable {
 			txtPlace.setEditable(false);
 			dropdownState.setEditable(false);
 			dropdownSupervisor.setEditable(false);
+			btnAddIssue.setVisible(false);
+			colDeleteButton.setVisible(false);
+			
 		
 		}
 		
@@ -292,19 +295,35 @@ public class ProjectAddController implements Initializable {
 		//	}	
 		
 		//Mängel aus der Datenbank laden.
-		try {
-			IssueProxy issueProxy = ResteasyClientUtil.getTarget().proxy(IssueProxy.class);
-			issueList = mapper.readValue(issueProxy.getByProject(projectId), new TypeReference<List<Issue>>(){});
-			
-			for(Issue i : issueList) {
-				data.add(i);
-			}
-	
-		} catch (IOException e1) {
-			// TODO LOGGING-Eintrag
-			e1.printStackTrace();
-		}
+		if(roleValue == 5) {
+			//Mängeldaten für die Ansprechperson laden
+			try {
+				IssueProxy issueProxy = ResteasyClientUtil.getTarget().proxy(IssueProxy.class);
+				issueList = mapper.readValue(issueProxy.getByContact(AuthenticationUtil.getPerson().getId()), new TypeReference<List<Issue>>(){});
+				
+				for(Issue i : issueList) {
+					data.add(i);
+				}
 		
+			} catch (IOException e1) {
+				// TODO LOGGING-Eintrag
+				e1.printStackTrace();
+			}
+			
+		} else {
+			try {
+				IssueProxy issueProxy = ResteasyClientUtil.getTarget().proxy(IssueProxy.class);
+				issueList = mapper.readValue(issueProxy.getByProject(projectId), new TypeReference<List<Issue>>(){});
+				
+				for(Issue i : issueList) {
+					data.add(i);
+				}
+		
+			} catch (IOException e1) {
+				// TODO LOGGING-Eintrag
+				e1.printStackTrace();
+			}
+		}
 		fillTableView();
 		fillLogTableView();
 	
@@ -447,6 +466,14 @@ public class ProjectAddController implements Initializable {
 			if(project != null) {
 				logEntryHandler(project);
 				project.setLogEntries(logEntryList);
+				
+				//Contacts dem Projekt hinzufügen
+				for(Issue issue: issueList) {
+					if(!project.getContacts().contains(issue.getContact()))
+						{
+						project.getContacts().add(issue.getContact());
+					}
+				}
 				ProjectProxy projectProxy = ResteasyClientUtil.getTarget().proxy(ProjectProxy.class);
 				if(projectId != null) {
 					project.setId(projectId);
@@ -459,7 +486,7 @@ public class ProjectAddController implements Initializable {
 			
 				showMainViewWithMessage("Änderungen erfolgreich gespeichert.");
 			}
-		} else if(roleValue == 10) {
+		} else {
 			saveIssues();
 			logEntryHandler(projectContainer);
 			showMainViewWithMessage("Änderungen erfolgreich gespeichert.");

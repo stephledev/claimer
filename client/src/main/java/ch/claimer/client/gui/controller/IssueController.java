@@ -27,6 +27,7 @@ import ch.claimer.shared.models.Comment;
 import ch.claimer.shared.models.Contact;
 import ch.claimer.shared.models.Issue;
 import ch.claimer.shared.models.LogEntry;
+import ch.claimer.shared.models.SCEmployee;
 import ch.claimer.shared.models.State;
 import ch.claimer.shared.models.Subcontractor;
 import ch.claimer.shared.models.Supervisor;
@@ -70,6 +71,7 @@ public class IssueController implements Initializable {
     private List<Subcontractor> subcontractorList = null;
     private Issue issueContainer = null;
     ObservableList<Comment> commentsList = FXCollections.observableArrayList();
+    private Integer dropdownValue = AuthenticationUtil.getLogin().getRole().getValue();
 
 	@FXML
 	private Pane mainContent;
@@ -139,9 +141,18 @@ public class IssueController implements Initializable {
 			btnSaveComment.setVisible(false);
 		}
 		
-		setDropdownState();
-		setDropdownSubcontractor();
+		if(roleValue > 5) {
+			setDropdownSubcontractor();
+		}
 		
+		if(roleValue == 5) {
+			txtIssueDescription.setEditable(false);
+			dateCreated.setEditable(false);
+			dateEnd.setEditable(false);
+			
+		}
+		
+		setDropdownState();
 		//Listener,um Änderungen am Subunternehmen-Dropdown zu überprüfen.
 		dropdownSubcontractor.valueProperty().addListener(new ChangeListener<String>() {
 	
@@ -167,6 +178,7 @@ public class IssueController implements Initializable {
 	public void initData(Issue issueToEdit) {
 		issueId = issueToEdit.getId();
 		issueContainer = issueToEdit;
+		commentsList.addAll(issueContainer.getComments());
 		lblTitle.setText("Mangel bearbeiten");	
 
 		dropdownState.setValue(issueToEdit.getState().getName());	
@@ -193,7 +205,6 @@ public class IssueController implements Initializable {
 		days = Math.round( (double)timeEnd / (24. * 60.*60.*1000.));
 		diff = days - daysnow;
 		dateEnd.setValue(LocalDate.now().plusDays(diff));
-		
 		fillCommentTableView();
 		fillLogTableView();
 	
@@ -213,6 +224,7 @@ public class IssueController implements Initializable {
 			issue.setLogEntries(logEntryList);
 			ProjectAddController.dataTransfer.add(issue);
 			ProjectAddController.dataTransfer.clear();
+			fillCommentTableView();
 			closeStage();
 		}
 	}
@@ -282,7 +294,7 @@ public class IssueController implements Initializable {
 		} else {
 			LogEntry logEntry = new LogEntry();
 			logEntry.setDate(new GregorianCalendar());
-			logEntry.setDescription("Der Mangel \"" + issue.getDescription() + "\" wurde erfasst.");
+			logEntry.setDescription("Der Mangel \"" + issue.getDescription() + "\" wurde dur erfasst.");
 			logEntryList.add(logEntry);
 		}
 		
@@ -312,18 +324,23 @@ public class IssueController implements Initializable {
 		
 		//Subunternehmen dem Mangel zuweisen.
 		if(dropdownSubcontractor.getValue() != null) { 
-			try {
-				SubcontractorProxy scProxy = ResteasyClientUtil.getTarget().proxy(SubcontractorProxy.class);		
-				ObjectMapper mapper = new ObjectMapper();	    
-				List<Subcontractor> scList = mapper.readValue(scProxy.getAll(), new TypeReference<List<Subcontractor>>(){});
-				
-				for(Subcontractor sc: scList) {
-					if(sc.getName().equals(dropdownSubcontractor.getValue())) {
-						issue.setSubcontractor(sc);
+			if(dropdownValue == 5) {
+				issue.setSubcontractor(issueContainer.getSubcontractor());
+			} else {
+				try {
+					
+					SubcontractorProxy scProxy = ResteasyClientUtil.getTarget().proxy(SubcontractorProxy.class);		
+					ObjectMapper mapper = new ObjectMapper();	    
+					List<Subcontractor> scList = mapper.readValue(scProxy.getAll(), new TypeReference<List<Subcontractor>>(){});
+					
+					for(Subcontractor sc: scList) {
+						if(sc.getName().equals(dropdownSubcontractor.getValue())) {
+							issue.setSubcontractor(sc);
+						}
 					}
-			}
-			} catch (IOException e1) {
-				e1.printStackTrace();
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
 			}
 			
 		} else {
@@ -495,11 +512,7 @@ public class IssueController implements Initializable {
 	 */
 	
 	private void fillCommentTableView() {
-
-		for(Comment comment : issueContainer.getComments()) {
-			commentsList.add(comment);
-		}
-				
+	
 		// Spalten-Values definieren
 		colComment.setCellValueFactory(new PropertyValueFactory<Comment, String>("content"));
 
@@ -578,7 +591,8 @@ public class IssueController implements Initializable {
 			}
 			comment.setCreated(new GregorianCalendar());
 			commentsList.add(comment);
-			
+			txtComment.clear();
+			fillCommentTableView();
 		} else {
 			txtComment.getStyleClass().add("txtError");
 		}

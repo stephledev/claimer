@@ -82,7 +82,7 @@ public class ProjectRoute {
 	 * @return Response HTTP-Antwort mit Projekten
 	 */
 	@GET
-	@RolesAllowed("editor-intern")
+	@RolesAllowed("editor-extern")
 	@Path("project/contact/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showByContact(@PathParam("id") int id) {

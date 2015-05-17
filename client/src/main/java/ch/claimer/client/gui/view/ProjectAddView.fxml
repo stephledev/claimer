@@ -23,10 +23,13 @@
             <Label fx:id="lbl_title" styleClass="lblViewTitle" text="Projekt verwalten" />
             <HBox GridPane.rowIndex="3">
                <children>
-                  <Button fx:id="bttn_saveProject" mnemonicParsing="false" onAction="#saveProject" styleClass="save-button" text="Speichern" />
+                  <Button fx:id="btnSaveProject" mnemonicParsing="false" onAction="#saveProject" styleClass="save-button" text="Speichern">
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin></Button>
                   <Button fx:id="bttn_quitProject" mnemonicParsing="false" onAction="#loadProjectMainView" styleClass="back-button" text="Abbrechen">
                      <HBox.margin>
-                        <Insets left="20.0" />
+                        <Insets />
                      </HBox.margin>
                   </Button>
                </children>
@@ -168,7 +171,7 @@
                                                 <Insets right="20.0" />
                                              </HBox.margin>
                                           </Button>
-                                          <Button fx:id="bttn_addMangle" mnemonicParsing="false" onAction="#loadIssueView" styleClass="add-button" text="Mangel hinzufügen" />
+                                          <Button fx:id="btnAddIssue" mnemonicParsing="false" onAction="#loadIssueView" styleClass="add-button" text="Mangel hinzufügen" />
                                        </children>
                                     </HBox>
                                  </children>

@@ -92,7 +92,7 @@ public class RootLayoutController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		//Namen setzen
-		lblName.setText(AuthenticationUtil.getLogin().getUsername());
+		lblName.setText(AuthenticationUtil.getPerson().getFirstname() + " " + AuthenticationUtil.getPerson().getLastname());
 		
 		//Mainnavi an die Rolle anpassen
 		Integer roleValue = AuthenticationUtil.getLogin().getRole().getValue();

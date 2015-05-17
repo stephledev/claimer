@@ -3,7 +3,6 @@ package ch.claimer.client.gui.controller;
 import java.awt.Toolkit;
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import org.codehaus.jackson.map.ObjectMapper;

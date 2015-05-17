@@ -7,12 +7,16 @@ import java.util.List;
 
 
 
+
+
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 
 import ch.claimer.client.proxy.SubcontractorProxy;
+import ch.claimer.client.util.AuthenticationUtil;
 import ch.claimer.client.util.ResteasyClientUtil;
 import ch.claimer.shared.models.Company;
+import ch.claimer.shared.models.SCEmployee;
 import ch.claimer.shared.models.Subcontractor;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -40,6 +44,7 @@ public class SubcontractorController {
 	
 	ObservableList<Company> data = FXCollections.observableArrayList(); //Beinhaltet alle Subunternehmen bei der Initialisation
 	ObservableList<Company> filteredData = FXCollections.observableArrayList(); //Beinhaltet alle Subunternehmen, die dem Suchkriterium entsprechen.
+	Integer roleValue = AuthenticationUtil.getLogin().getRole().getValue();
 	
 	@FXML
 	private Pane mainContent;
@@ -81,10 +86,24 @@ public class SubcontractorController {
 		SubcontractorProxy subcontractorProxy = ResteasyClientUtil.getTarget().proxy(SubcontractorProxy.class);
 	    ObjectMapper mapper = new ObjectMapper();
 	    List<Subcontractor> subcontractorList = null;
-		try {
-			subcontractorList = mapper.readValue(subcontractorProxy.getAll(), new TypeReference<List<Subcontractor>>(){});
-		} catch (IOException e1) {
-			e1.printStackTrace();
+		
+		if(roleValue == 15) {
+			SCEmployee sce = new SCEmployee();
+			sce = (SCEmployee)AuthenticationUtil.getPerson();
+
+			try {
+				subcontractorList = mapper.readValue(subcontractorProxy.getById(sce.getSubcontractor().getId()), new TypeReference<List<Subcontractor>>(){});
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			
+		} else {
+			
+			try {
+				subcontractorList = mapper.readValue(subcontractorProxy.getAll(), new TypeReference<List<Subcontractor>>(){});
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		}
 		
 		

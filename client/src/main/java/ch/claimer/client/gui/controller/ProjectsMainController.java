@@ -10,8 +10,6 @@ import java.util.ResourceBundle;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
-import org.pmw.tinylog.Logger;
-
 import ch.claimer.client.proxy.ProjectProxy;
 import ch.claimer.client.util.AuthenticationUtil;
 import ch.claimer.client.util.ResteasyClientUtil;
@@ -38,9 +36,9 @@ import javafx.util.Callback;
 /**
  * Kontroller für die Projekt-Übersicht
  * 
- * @author Michael Lötscher
+ * @author Michael Lötscher, Alexander Hauck
  * @since 1.0
- * @version 1.1
+ * @version 2.0
  *
  */
 public class ProjectsMainController implements Initializable{
@@ -94,16 +92,16 @@ public class ProjectsMainController implements Initializable{
 	 */
 	@Override
 	public void initialize (URL location, ResourceBundle resources) {
-		
+
 	    //Projekte aus DB laden
 	    ResteasyWebTarget rtarget = ResteasyClientUtil.getTarget();
 	    ObjectMapper mapper = new ObjectMapper();	    	
 	    ProjectProxy projectProxy = rtarget.proxy(ProjectProxy.class);
 	    
 	    //Rolle des eingeloggten Benutzers auslesen und je nach dem die Projekte auslesen.
-	    String roleName = AuthenticationUtil.getLogin().getRole().getName();
+	    Integer roleValue = AuthenticationUtil.getLogin().getRole().getValue();
 	    
-	    if(roleName.equals("superadmin") || roleName.equals(("admin"))) {
+	    if(roleValue >= 20) {
 	    
 		    try {
 		    	List<Project> projectsToShow = mapper.readValue(projectProxy.getAll(), new TypeReference<List<Project>>(){});
@@ -116,7 +114,7 @@ public class ProjectsMainController implements Initializable{
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
-	    } else if(roleName.equals("editor-intern")) {
+	    } else if(roleValue == 10) {
 	    	
 	    	bttn_addProject.setVisible(false);
 	    	
@@ -128,10 +126,26 @@ public class ProjectsMainController implements Initializable{
 			    		filteredData.add(p);
 			    	}
 		
-				} catch (IOException e1) {
+			} catch (IOException e1) {
 					e1.printStackTrace();
-				}
-	    }
+			}
+	    	
+	    } else if(roleValue == 5) {
+	    	
+	    	bttn_addProject.setVisible(false);
+	    	
+	    	try {
+		    	List<Project> projectsToShow = mapper.readValue(projectProxy.getByContact(AuthenticationUtil.getPerson().getId()), new TypeReference<List<Project>>(){});
+				
+		    	for(Project p: projectsToShow) {
+		    		data.add(p);
+		    		filteredData.add(p);
+		    }
+	
+			} catch (IOException e1) {
+					e1.printStackTrace();
+			}
+		}
 		
 		// Spalten-Values definieren (müssen den Parameter des Company-Objekts entsprechen)
 	    colState.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Project, String>, ObservableValue<String>>() {
