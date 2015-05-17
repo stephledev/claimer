@@ -921,37 +921,38 @@ public class ProjectAddController implements Initializable {
 	 */
 	@FXML
 	public void export() throws Exception {
-		System.out.println("Hallo");
+
 		ObservableList<Issue> data = FXCollections.observableArrayList(); 
-			Writer writer = null;
-			File file = new File("Y:\\Mangel.csv");
-			writer = new BufferedWriter(new FileWriter(file));
+		
+		Writer writer = null;
+		File file = new File("C:\\Users/Alexander/Mangel.csv");
+		writer = new BufferedWriter(new FileWriter(file));
 
-			Issue is = new Issue();	    
-			IssueProxy issueProxy = rtarget.proxy(IssueProxy.class);
-			ObjectMapper mapper = new ObjectMapper();
-			List<Issue> issuesToShow = mapper.readValue(issueProxy.getByProject(projectId), new TypeReference<List<Issue>>(){});
+		Issue is = new Issue();	    
+		IssueProxy issueProxy = rtarget.proxy(IssueProxy.class);
+		ObjectMapper mapper = new ObjectMapper();
+		List<Issue> issuesToShow = mapper.readValue(issueProxy.getByProject(projectId), new TypeReference<List<Issue>>(){});
+		
+		for(int i = 0; i < issuesToShow.size(); i++) {
+			is = issuesToShow.get(i);
+			System.out.println(issuesToShow.get(i));
+			data.add(is);
+			is = null;
 			
-			for(int i = 0; i < issuesToShow.size(); i++) {
-				is = issuesToShow.get(i);
-				System.out.println(issuesToShow.get(i));
-				data.add(is);
-				is = null;
-				
-				i++;
-			}
+			i++;
+		}
+		
+		for(Issue issue : data) {
 			
-			for(Issue issue : data) {
-				
-				String text = issue.getProject().getName() + ";"  + issue.getId() + ";" + issue.getDescription()+ ";" + issue.getCreated().getTime().toString()+ ";" + issue.getSolved().getTime().toString() + ";" + issue.getState().getName()+ "\n";
-				writer.write(text);
-				System.out.println(text);
-			}
+			String text = issue.getProject().getName() + ";"  + issue.getId() + ";" + issue.getDescription()+ ";" + issue.getCreated().getTime().toString()+ ";" + issue.getSolved().getTime().toString() + ";" + issue.getState().getName()+ "\n";
+			writer.write(text);
+			System.out.println(text);
+		}
 
-			writer.flush();
-			writer.close();
-			
-			lbl_issueExport.setText("Die Mängelliste wurde dem Laufwerk C gespeichert");
-		} 
+		writer.flush();
+		writer.close();
+		
+		lbl_issueExport.setText("Die Mängelliste wurde dem Laufwerk C gespeichert");
+	} 
 
 }

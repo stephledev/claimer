@@ -63,7 +63,6 @@
                         <Label fx:id="lblName" styleClass="header-name" text="Max Muster" />
                         <SplitMenuButton fx:id="splitMenuButton" mnemonicParsing="false" styleClass="header-button">
                           <items>
-                            <MenuItem fx:id="menuEditUser" mnemonicParsing="false" onAction="#editUser" styleClass="header-button-item" text="Profildaten bearbeiten" />
                             <MenuItem fx:id="menuLogout" mnemonicParsing="false" onAction="#logout" styleClass="header-button-item" text="Abmelden" />
                               <MenuItem fx:id="menuClose" mnemonicParsing="false" onAction="#closeClaimer" styleClass="header-button-item" text="Schliessen" />
                           </items>

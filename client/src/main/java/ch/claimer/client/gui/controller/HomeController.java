@@ -32,7 +32,6 @@ import javafx.util.Callback;
 import ch.claimer.client.proxy.IssueProxy;
 import ch.claimer.client.util.ResteasyClientUtil;
 import ch.claimer.shared.models.Issue;
-import ch.claimer.shared.models.Project;
 
 /**
  * Kontroller für die Home-Ansicht

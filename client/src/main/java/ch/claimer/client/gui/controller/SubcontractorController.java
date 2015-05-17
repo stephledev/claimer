@@ -90,6 +90,7 @@ public class SubcontractorController {
 		if(roleValue == 15) {
 			SCEmployee sce = new SCEmployee();
 			sce = (SCEmployee)AuthenticationUtil.getPerson();
+			System.out.println(sce.getSubcontractor().getId());
 
 			try {
 				subcontractorList = mapper.readValue(subcontractorProxy.getById(sce.getSubcontractor().getId()), new TypeReference<List<Subcontractor>>(){});

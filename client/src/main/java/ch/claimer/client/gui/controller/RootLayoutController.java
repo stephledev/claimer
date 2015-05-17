@@ -9,16 +9,10 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 
 import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
-import ch.claimer.client.proxy.GCEmployeeProxy;
-import ch.claimer.client.proxy.SupervisorProxy;
 import ch.claimer.client.util.AuthenticationUtil;
-import ch.claimer.client.util.ResteasyClientUtil;
-import ch.claimer.shared.models.GCEmployee;
 import ch.claimer.shared.models.Person;
-import ch.claimer.shared.models.Supervisor;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -61,9 +55,6 @@ public class RootLayoutController implements Initializable {
 	
 	@FXML
 	private MenuItem menuLogout;
-	
-	@FXML
-	private MenuItem menuEditUser;
 	
 	@FXML
 	private MenuItem menuClose;
@@ -190,72 +181,5 @@ public class RootLayoutController implements Initializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-	}
-	
-	
-	//User Profil bearbeiten
-	@FXML
-	private void editUser(ActionEvent event) throws IOException {
-		String username = AuthenticationUtil.getLogin().getUsername();
-		System.out.println(username);
-		//FXMLLoader erstelen
-		FXMLLoader loader = new FXMLLoader(
-				getClass().getResource("../view/UserAddView.fxml")
-				);
-
-		//Neuen View laden
-		Pane myPane = loader.load();
-		//Neuen View einfügen
-		mainContent.getChildren().clear();
-		mainContent.getChildren().setAll(myPane);
-
-		// Falls der User ein GCEmployee ist
-		if(AuthenticationUtil.getLogin().getRole().getName().equals("superadmin")){
-			GCEmployeeProxy gceProxy = ResteasyClientUtil.getTarget().proxy(GCEmployeeProxy.class);
-			ObjectMapper mapper = new ObjectMapper();
-			List<GCEmployee> personList1 = null;
-			personList1 = mapper.readValue(gceProxy.getAll(), new TypeReference<List<GCEmployee>>(){});
-			System.out.println(personList1.get(4).getLogin().getUsername());
-			int i=0;
-			for(personList1.get(i); i < personList1.size(); i++){
-
-				if(personList1.get(i).getLogin().getUsername().equals(username)){
-					System.out.println(personList1.get(i).getLogin().getUsername());
-
-
-					//UserAddController holen
-					UserAddController controller = loader.<UserAddController>getController();
-
-					//Controller starten
-					controller.initData(personList1.get(i));			
-				}
-				i++;
-			}
-		}
-		// Falls der User ein Supervisor ist
-		//TODO funktioniert nicht
-		else {
-			SupervisorProxy svProxy = ResteasyClientUtil.getTarget().proxy(SupervisorProxy.class);
-			List<Supervisor> personList = null;
-			personList = mapper.readValue(svProxy.getAll(), new TypeReference<List<Supervisor>>(){});
-			int i = 0;
-			for(personList.get(i); i < personList.size(); i++){
-
-				if(personList.get(i).getLogin().getUsername().equals(username)){
-					System.out.println(personList.get(i).getLogin().getUsername());
-
-
-					//UserAddController holen
-					UserAddController controller = loader.<UserAddController>getController();
-
-					//Controller starten
-					controller.initData(personList.get(i));			
-				}
-				i++;
-			}
-		}
-
-
 	}
 }

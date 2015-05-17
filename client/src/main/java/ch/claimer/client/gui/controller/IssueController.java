@@ -27,7 +27,6 @@ import ch.claimer.shared.models.Comment;
 import ch.claimer.shared.models.Contact;
 import ch.claimer.shared.models.Issue;
 import ch.claimer.shared.models.LogEntry;
-import ch.claimer.shared.models.SCEmployee;
 import ch.claimer.shared.models.State;
 import ch.claimer.shared.models.Subcontractor;
 import ch.claimer.shared.models.Supervisor;
