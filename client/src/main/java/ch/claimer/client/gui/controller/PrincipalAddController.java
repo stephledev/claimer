@@ -22,11 +22,12 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
- * Controller für das Verwalten von Bauherren
+ * Kontroller für das Hinzufügen und Ändern von Bauherren
  * 
  * @author Alexander Hauck
- * @since 10.04.2015
+ * @since 1.0
  * @version 2.0
+ *
  */
 
 public class PrincipalAddController implements Initializable {
@@ -109,12 +110,13 @@ public class PrincipalAddController implements Initializable {
 	
 	/**
 	 * Füllt den View mit den Daten von dem zu bearbeitenden Bauherr.
-	 * @param principalToEdit Bauherr, der bearbeitet werden soll
+	 * @param principalToEdit
 	 */
 	public void initData(Principal principalToEdit) {
 		
 		principalContainer = principalToEdit;
 		principalID = principalToEdit.getId();
+		
 		
 		//Texte im View anpassen
 		lblTitel.setText("Bauherr bearbeiten");
@@ -163,7 +165,7 @@ public class PrincipalAddController implements Initializable {
 	
 	/**
 	 * Kehrt zurück zum Bauherren Hauptview und gibt dort eine Meldung aus.
-	 * @param message Meldung, die ausgegeben werden soll
+	 * @param message 
 	 */
 	private void loadPrincipalMainViewWithMessage(String message) {
 
@@ -187,6 +189,7 @@ public class PrincipalAddController implements Initializable {
 	 */
 	@FXML
 	public void deletePrincipal() {
+		//TODO Confirmation Dialog
 		try {
   			Stage stage = new Stage();
   			stage.setTitle("Bauleiter löschen");
@@ -212,10 +215,10 @@ public class PrincipalAddController implements Initializable {
 	
 	/**
 	 * Überprüft beim übergebenen Parameter, ob dieser die Mindest- und Maximallänge besitzt.
-	 * @param text String, der überprüft werden soll
-	 * @param minLength Mindestlänge
-	 * @param maxLength Maximallänge
-	 * @return True oder False
+	 * @param text
+	 * @param minLength
+	 * @param maxLength
+	 * @return
 	 */
 	private Boolean checkLength(String text, int minLength, int maxLength) {
 		
@@ -228,7 +231,7 @@ public class PrincipalAddController implements Initializable {
 	}
 	
 	/**
-	 * Speichert einen Bauherr als Person
+	 * Principal als Person speichern
 	 */
 	@FXML
 	private void savePrincipalPerson() {
@@ -237,6 +240,7 @@ public class PrincipalAddController implements Initializable {
 		
 		//Eingegebene Daten auslesen und überprüfen
 		Principal pr1 = new Principal();
+		
 		
 		String lastname = txtPersonLastname.getText();
 		if(checkLength(lastname, 1, 255)) {
@@ -294,6 +298,7 @@ public class PrincipalAddController implements Initializable {
 			pr1.setPlace(place);
 		}
 		
+		
 		//Wenn kein Validations-Fehler: Bauherr speichern oder updaten
 		if(hasError == false) {		
 			if(principalID != null) {
@@ -308,7 +313,7 @@ public class PrincipalAddController implements Initializable {
 	}
 	
 	/**
-	 * Bauherr als Firma speichern
+	 * Principal als Company speichern
 	 */
 	@FXML
 	private void savePrincipalCompany() {
@@ -381,16 +386,17 @@ public class PrincipalAddController implements Initializable {
 	
 	/**
 	 * Aktualisiert einen bestehenden Bauherr in der Datenbank.
-	 * @param principal Bauherr, der aktualisiert werden soll
+	 * @param principal
 	 */
 	private void updatePrincipal(Principal principal) {
 		PrincipalProxy principalProxy = ResteasyClientUtil.getTarget().proxy(PrincipalProxy.class);
 		principalProxy.update(principal);
 	}
 	
+	
 	/**
 	 * Speichert einen neuen Bauherr in der Datenbank.
-	 * @param principal Bauherr, der gespeichert werden soll
+	 * @param principal
 	 */
 	private void createPrincipal(Principal principal) {
 		PrincipalProxy principalProxy = ResteasyClientUtil.getTarget().proxy(PrincipalProxy.class);

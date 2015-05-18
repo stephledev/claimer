@@ -6,8 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.WebTarget;
+
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 import org.pmw.tinylog.Logger;
 
 import ch.claimer.client.proxy.GCEmployeeProxy;
@@ -37,17 +41,24 @@ import javafx.util.Callback;
 
 
 /**
- * Controller für die Anzeige von Benutzern
+ * Controller für den UserMainView
  * @author Alexander Hauck
- * @since 10.04.2015
+ * @since 1.0
  * @version 2.0
  *
  */
 
 public class UserController implements Initializable {
 	
-	private ObservableList<Person> data = FXCollections.observableArrayList();
-	private ObservableList<Person> filteredData = FXCollections.observableArrayList();
+	Client client;
+    WebTarget target;
+    ResteasyWebTarget rtarget;
+    
+    ObjectMapper mapper;
+    List<Person> personsToShow = null;
+
+	ObservableList<Person> data = FXCollections.observableArrayList();
+	ObservableList<Person> filteredData = FXCollections.observableArrayList();
 	
 	@FXML
 	private Pane mainContent;

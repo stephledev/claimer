@@ -47,10 +47,10 @@ import ch.claimer.shared.models.SCEmployee;
 import ch.claimer.shared.models.Subcontractor;
 
 /**
- * Controller für das Verwalten von Subunternehmen
+ * Controller für das Hinzufügen und Ändern von Subunternehmen
  * @author Alexander Hauck
- * @since 10.04.2015
- * @version 1.4
+ * @since 1.0
+ * @version 1.0
  */
 
 public class SubcontractorAddController implements Initializable {
@@ -144,6 +144,7 @@ public class SubcontractorAddController implements Initializable {
 					fillTableView();
 				}
 			}
+		 
 		 });
 		
 		if(roleValue == 15) {
@@ -154,7 +155,9 @@ public class SubcontractorAddController implements Initializable {
 			txtPhone.setEditable(false);
 			txtPlace.setEditable(false);
 			txtZip.setEditable(false);
+			
 		}
+		
 	}
 	
 	/**
@@ -210,7 +213,8 @@ public class SubcontractorAddController implements Initializable {
 	    fillTableView();
 
 	}
-
+	
+	
 	/**
 	 * Lädt den Subunternehmen Hauptview mit einer Nachricht.
 	 * @param message - Mitteilung die angezeigt werden soll.
@@ -343,10 +347,10 @@ public class SubcontractorAddController implements Initializable {
 	
 	/**
 	 * Überprüft beim übergebenen Parameter, ob dieser die Mindest- und Maximallänge besitzt.
-	 * @param text String der überprüft werden soll
-	 * @param minLength Minimallänge
-	 * @param maxLength Maximallänge
-	 * @return True oder false
+	 * @param text
+	 * @param minLength
+	 * @param maxLength
+	 * @return
 	 */
 	private Boolean checkLength(String text, Integer minLength, Integer maxLength) {
 		
@@ -355,6 +359,7 @@ public class SubcontractorAddController implements Initializable {
 		} else {
 			return false;
 		}
+		
 	}
 	
 	/**
@@ -463,9 +468,6 @@ public class SubcontractorAddController implements Initializable {
 			
 	}
 	
-	/**
-	 * Speichert die Mitarbeiter eines Subunternehmens
-	 */
 	private void saveSCEmployees() {
 		// Subcontractor Mitarbeiter auslesen und Speichern / Updaten
 		ObservableList<Person> olp = sceTableView.getItems();

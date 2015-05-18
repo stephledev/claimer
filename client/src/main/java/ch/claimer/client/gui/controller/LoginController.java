@@ -15,6 +15,7 @@ import ch.claimer.client.util.AuthenticationUtil;
 import ch.claimer.client.util.ResteasyClientUtil;
 import ch.claimer.shared.models.Login;
 import ch.claimer.shared.models.Person;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -27,11 +28,12 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
- * Controller für den Login.
+ * Kontroller für die Login-Ansicht
  * 
  * @author Michael Lötscher, Stephan Beeler
- * @since 10.04.2015
+ * @since 1.0
  * @version 1.2
+ *
  */
 
 public class LoginController extends Main implements Initializable {
@@ -65,9 +67,11 @@ public class LoginController extends Main implements Initializable {
 	/**
 	 * Druch das Klicken auf den "Anmelden"-Button, werden der Benutzername und das Passwort überprüft und
 	 * falls richtig wird der Benutzer angemelden.
-	*/
+	 * 
+	 * @param event - ActionEvent wird durch einen Klick auf den Button ausgelöst.
+	 */
 	@FXML
-	private void anmelden() {
+	private void anmelden(ActionEvent event) {
 		
 		//Eingegebenen Benutzernamen und Passwort auslesen
 		String password = psw.getText();
@@ -111,7 +115,10 @@ public class LoginController extends Main implements Initializable {
 
 	
 	/**
-	 * Ruft die Startseite des Claimers auf.
+	 * Diese Methode ruft die "Home"-Seite auf.
+	 * 
+	 * @param event - ActionEvent
+	 * @throws IOException
 	 */
 	public void go(){
 		
@@ -143,6 +150,7 @@ public class LoginController extends Main implements Initializable {
 	
 		
 	}
+	
 	
 	/* (non-Javadoc)
 	 * @see javafx.fxml.Initializable#initialize(java.net.URL, java.util.ResourceBundle)

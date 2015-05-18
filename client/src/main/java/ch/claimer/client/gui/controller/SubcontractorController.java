@@ -35,18 +35,18 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 /**
- * Controller für die Verwaltung von Subunternehmen
+ * Controller der Subunternehmen-Seite
  * @author Alexander Hauck
- * @since 10.04.2015
- * @version 1.3
+ * @since 1.0
+ * @version 1.1
  *
  */
 
 public class SubcontractorController {
 	
-	private ObservableList<Company> data = FXCollections.observableArrayList(); //Beinhaltet alle Subunternehmen bei der Initialisation
-	private ObservableList<Company> filteredData = FXCollections.observableArrayList(); //Beinhaltet alle Subunternehmen, die dem Suchkriterium entsprechen.
-	private Integer roleValue = AuthenticationUtil.getLogin().getRole().getValue();
+	ObservableList<Company> data = FXCollections.observableArrayList(); //Beinhaltet alle Subunternehmen bei der Initialisation
+	ObservableList<Company> filteredData = FXCollections.observableArrayList(); //Beinhaltet alle Subunternehmen, die dem Suchkriterium entsprechen.
+	Integer roleValue = AuthenticationUtil.getLogin().getRole().getValue();
 	
 	@FXML
 	private Pane mainContent;
@@ -153,6 +153,7 @@ public class SubcontractorController {
 	
 	/**
 	 * Lädt einen neuen View, in dem ein neues Subunternehmen hinzugefügt werden kann.
+	 * 
 	 */
 	@FXML
 	private void loadSubcontractorAddView() {
@@ -164,11 +165,13 @@ public class SubcontractorController {
 		} catch (IOException | NullPointerException e) {
 			Logger.error("View \"SubcontractorAddView.fxml\" kann nicht geladen werden.");
 		}
+		
 	}
 	
 	/**
 	 * Lädt einen neuen View, in dem das angeklickte Subunternehmen bearbeitet werden kann.
 	 * @param t - MouseEvent = Klick auf Subunternehmen
+	 * @throws IOException
 	 */
 	@FXML
 	private void editSubcontractor(MouseEvent t) {

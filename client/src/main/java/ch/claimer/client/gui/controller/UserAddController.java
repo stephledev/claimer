@@ -36,10 +36,11 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
- * Controller für die Verwaltung von Benutzern.
- * @author Alexander Hauck
- * @since 10.04.2015
+ * Controller für das Hinzufügen und Bearbeiten von Benutzern.
+ * @author Alexander
+ * @since 1.0
  * @version 2.0
+ *
  */
 public class UserAddController implements Initializable{
 		
@@ -178,8 +179,10 @@ public class UserAddController implements Initializable{
 		} catch (IOException | NullPointerException e) {
 			Logger.error("View \"UserMainView.fxml\" kann nicht geladen werden.");
 		}
+		
 	}
 	
+
 	/**
 	 * Lädt den Benutzer Hauptview und gibt eine Meldung aus.
 	 * @param String - Mitteilung die angezeigt werden soll.
@@ -214,6 +217,7 @@ public class UserAddController implements Initializable{
 	@FXML
 	private void deleteUser() {
 		toDelete = true;
+		//TODO Confirmation Window
 		try {
   			Stage stage = new Stage();
   			stage.setTitle("Benutzer löschen");
@@ -235,9 +239,11 @@ public class UserAddController implements Initializable{
 	
 	/**
 	 * Speichert einen User.
+	 * @param event - ActionEvent = Klick auf Button
+	 * @throws IOException
 	 */
 	@FXML
-	private void saveUser() {
+	private void saveUser(ActionEvent event) throws IOException {
 		
 		personHandler();
 	}
@@ -268,7 +274,6 @@ public class UserAddController implements Initializable{
 
 	/**
 	 * Liest alle Inputs aus, validiert diese und gibt das Objekt an die entsprechende Speicher-Funktion weiter.
-	 * @param person Person, deren Felder validiert werden sollen
 	 */
 	private Person validateInputs(Person person) {
 		// Alle Felder auslesen, Validieren und dem Personen-Objekt zuweisen
@@ -350,7 +355,8 @@ public class UserAddController implements Initializable{
 			 try {
 					roleList = mapper.readValue(roleProxy.getAll(), new TypeReference<List<Role>>(){});
 			} catch (IOException e) {
-					Logger.error("Rollen können nicht aus der Datenbank geladen werden");
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 			}
 			 
 			 //Rolle bestimmen und zuweisen
@@ -546,10 +552,10 @@ public class UserAddController implements Initializable{
 	
 	/**
 	 * Überprüft beim übergebenen Parameter, ob dieser die Mindest- und Maximallänge besitzt.
-	 * @param text String, der überprüft werden soll
-	 * @param minLength Minimallänge
-	 * @param maxLength Maximallänge
-	 * @return True oder False
+	 * @param text
+	 * @param minLength
+	 * @param maxLength
+	 * @return
 	 */	
 	private boolean checkLength(String text, int minLength, int maxLength) {
 		if((text.length() > maxLength) || (text.length() < minLength)) {

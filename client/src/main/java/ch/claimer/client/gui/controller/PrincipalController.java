@@ -18,6 +18,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -135,19 +136,16 @@ public class PrincipalController implements Initializable {
 	 * @throws IOException
 	 */
 	@FXML
-	private void loadPrincipalAddView(){
-		try {
-			Pane myPane = FXMLLoader.load(getClass().getResource("/PrincipalAddView.fxml"));
-			mainContent.getChildren().clear();
-			mainContent.getChildren().setAll(myPane);
-		} catch(IOException | NullPointerException e) {
-			Logger.error("View \"PrincipalAddView.fxml\" kann nicht geladen werden.");
-		}
+	private void loadPrincipalAddView(ActionEvent event) throws IOException {
+		Pane myPane = FXMLLoader.load(getClass().getResource("/PrincipalAddView.fxml"));
+		mainContent.getChildren().clear();
+		mainContent.getChildren().setAll(myPane);
 	}
 	
 	/**
 	 * Wechselt zum PrincipalAddView, um einen Bauherr zu bearbeiten
-	 * @param event - Doppelklick auf einen Bauherr
+	 * @param event - Klick auf den Bauherr
+	 * @throws IOException
 	 */
 	@FXML
 	private void editPrincipal(MouseEvent t) {
