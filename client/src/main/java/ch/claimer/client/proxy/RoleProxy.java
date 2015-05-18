@@ -6,7 +6,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 /**
- * Definiert die Proxies der Rollen
+ * Bindet die verfügbaren HTTP-Routes und Methoden für Rollen an den Client.
+ * Nimmt den HTTP-Content als String entgegen.
  * 
  * @author Momcilo Bekcic
  * @since 1.0
@@ -15,6 +16,11 @@ import javax.ws.rs.core.MediaType;
  */
 
 public interface RoleProxy {
+	/**
+	 * Holt alle Rollen
+	 * 
+	 * @return String von Rollen
+	 */
 	@GET
 	@Path("role")
 	@Produces(MediaType.APPLICATION_JSON)

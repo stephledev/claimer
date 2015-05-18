@@ -7,6 +7,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 /**
+ * Bindet die verfügbaren HTTP-Routes und Methoden für Status an den Client.
+ * Nimmt den HTTP-Content als String entgegen.
  * 
  * @author Kevin Stadelmann
  * @author Momcilo Bekcic
@@ -17,11 +19,22 @@ import javax.ws.rs.core.MediaType;
  */
 
 public interface StateProxy {
+	/**
+	 * Holt alle bestehenden Status
+	 * 
+	 * @return String von Status
+	 */
 	@GET
 	@Path("state")
 	@Produces(MediaType.APPLICATION_JSON)
 	String getAll();
 	
+	/**
+	 * Holt einen bestimmten Status
+	 * 
+	 * @param id Identifikator eines bestimmten Status'
+	 * @return String des Statuses
+	 */
 	@GET
 	@Path("state/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
