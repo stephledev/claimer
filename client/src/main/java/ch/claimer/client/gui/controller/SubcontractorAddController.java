@@ -50,7 +50,7 @@ import ch.claimer.shared.models.Subcontractor;
  * Controller für das Hinzufügen und Ändern von Subunternehmen
  * @author Alexander Hauck
  * @since 1.0
- * @version 1.0
+ * @version 1.3
  */
 
 public class SubcontractorAddController implements Initializable {

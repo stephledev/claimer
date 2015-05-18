@@ -2,21 +2,11 @@ package ch.claimer.client.gui.controller;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.WebTarget;
-
-import org.codehaus.jackson.map.ObjectMapper;
-import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 import org.pmw.tinylog.Logger;
 
 import ch.claimer.client.util.AuthenticationUtil;
-import ch.claimer.shared.models.Person;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -29,6 +19,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
+ * Controller für das RootLayout. Stellt die Navigation zur Verfügung.
  * @author Alexander Hauck
  * @since 10.04.2015
  * @version 1.1
@@ -36,14 +27,7 @@ import javafx.stage.Stage;
  */
 
 public class RootLayoutController implements Initializable {
-	ObservableList<Person> data = FXCollections.observableArrayList();
-	Client client;
-    WebTarget target;
-    ResteasyWebTarget rtarget;
-    
-    ObjectMapper mapper;
-    List<Person> personsToShow = null;
-	public static Person personToTransmit;
+
 	
 	@FXML
 	private SplitMenuButton splitMenuButton;
@@ -75,12 +59,12 @@ public class RootLayoutController implements Initializable {
 	@FXML
 	private Button naviUsers;
 	
-	//Maincontent, hierhin werden die verschiedenen Views geladen
 	@FXML
 	private Pane mainContent;
 
-	
-
+	/**
+	 * Initialisiert den View
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		//Namen setzen
@@ -102,7 +86,9 @@ public class RootLayoutController implements Initializable {
 		}		
 	}
 	
-	//Zur Projekte-Hauptansicht (projectsMainView.xml) wechseln
+	/**
+	 * Wechselt zur Projekte-Hauptansicht
+	 */
 	@FXML
 	private void loadProjectsMainView() {
 		try {
@@ -114,19 +100,9 @@ public class RootLayoutController implements Initializable {
 		}
 	}
 	
-	//Zur Bauleiter-Hauptansicht wechseln (supervisorMainView.xml)
-	@FXML
-	private void loadSupervisorMainView() {
-		try {
-			Pane myPane = FXMLLoader.load(getClass().getResource("/SupervisorMainView.fxml"));
-			mainContent.getChildren().clear();
-			mainContent.getChildren().setAll(myPane);
-		} catch (IOException | NullPointerException e) {
-			Logger.error("View \"SupervisorMainView.fxml\" kannn nicht geladen werden.");
-		}
-	}
-	
-	//Zur Subunternehmen-Hauptansicht wechseln (supervisorMainView.xml)
+	/**
+	 * Wechselt zur Subunternehmen-Hauptansicht
+	 */
 	@FXML
 	private void loadSubcontractorMainView() {
 		try {
@@ -138,7 +114,9 @@ public class RootLayoutController implements Initializable {
 		}
 	}
 	
-	//Zur Kunden-Hauptansicht wechseln  (principalMainView.xml)
+	/**
+	 * Wechselt zur Bauherren-Hauptansicht
+	 */
 	@FXML
 	private void loadPrincipalMainView(){
 		try {
@@ -150,7 +128,9 @@ public class RootLayoutController implements Initializable {
 		}
 	}
 	
-	//Zur Benutzer-Hauptansicht wechseln  (userMainView.xml)
+	/**
+	 * Wechselt zur User-Hauptansicht
+	 */
 	@FXML
 	private void loadUserMainView(){
 		try {
@@ -162,15 +142,19 @@ public class RootLayoutController implements Initializable {
 		}
 	}
 	
-	//GUI schliessen
+	/**
+	 * Schliesst das GUI
+	 */
 	@FXML
-	private void closeClaimer(ActionEvent event) throws IOException {
+	private void closeClaimer() {
 		System.exit(0);
 	}
 	
-	//Logout und Login-Seite laden
+	/**
+	 * Logout aus der Applikation und öffnen des Login-Fensters
+	 */
 	@FXML
-	private void logout(ActionEvent event) throws IOException {
+	private void logout() {
 		
 			try {
 			

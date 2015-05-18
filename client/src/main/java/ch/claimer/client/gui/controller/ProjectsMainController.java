@@ -21,7 +21,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -36,7 +35,7 @@ import javafx.scene.layout.Pane;
 import javafx.util.Callback;
 
 /**
- * Kontroller für die Projekt-Übersicht
+ * Controller für die Projekt-Übersicht
  * 
  * @author Michael Lötscher, Alexander Hauck
  * @since 1.0
@@ -45,8 +44,8 @@ import javafx.util.Callback;
  */
 public class ProjectsMainController implements Initializable{
 
-	ObservableList<Project> data = FXCollections.observableArrayList(); 
-	ObservableList<Project> filteredData = FXCollections.observableArrayList(); 
+	private ObservableList<Project> data = FXCollections.observableArrayList(); 
+	private ObservableList<Project> filteredData = FXCollections.observableArrayList(); 
 		
 	// Maincontent, hierhin werden die verschiedenen Views geladen
 	@FXML
@@ -225,21 +224,22 @@ public class ProjectsMainController implements Initializable{
 	
 	/**
 	 * Öffnet einen neuen View, um ein neues Projekt hinzuzufügen.
-	 * @param event - ActionEvent = Klick auf Button
-	 * @throws IOException
 	 */
 	@FXML
-	private void loadProjectAddView(ActionEvent event) throws IOException {
-		Pane myPane = FXMLLoader.load(getClass().getResource("/ProjectAddView.fxml"));
-		mainContent.getChildren().clear();
-		mainContent.getChildren().setAll(myPane);		
+	private void loadProjectAddView(){
+		try {
+			Pane myPane = FXMLLoader.load(getClass().getResource("/ProjectAddView.fxml"));
+			mainContent.getChildren().clear();
+			mainContent.getChildren().setAll(myPane);
+		} catch(IOException | NullPointerException e) {
+			Logger.error("View \"ProjectAddView.fxml\" kann nicht geladen werden");
+		}
 	}
 	
 	
 	/**
 	 * Öffnet die ProjectAdd-Ansicht, um das angeklickte Projekt zu bearbeiten.
 	 * @param t - MouseEvent = Klick auf das Projekt
-	 * @throws IOException
 	 */
 	@FXML
 	private void editProject(MouseEvent t){
@@ -267,7 +267,6 @@ public class ProjectsMainController implements Initializable{
 
 	/**
 	 * Liste wird mit den gefilterten Daten aktualisieren
-	 * 
 	 */
 	public void updateFilteredData() {
 		filteredData.clear();

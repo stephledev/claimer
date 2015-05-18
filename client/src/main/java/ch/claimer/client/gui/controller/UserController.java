@@ -6,12 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.WebTarget;
-
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
-import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 import org.pmw.tinylog.Logger;
 
 import ch.claimer.client.proxy.GCEmployeeProxy;
@@ -25,7 +21,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -50,15 +45,8 @@ import javafx.util.Callback;
 
 public class UserController implements Initializable {
 	
-	Client client;
-    WebTarget target;
-    ResteasyWebTarget rtarget;
-    
-    ObjectMapper mapper;
-    List<Person> personsToShow = null;
-
-	ObservableList<Person> data = FXCollections.observableArrayList();
-	ObservableList<Person> filteredData = FXCollections.observableArrayList();
+	private ObservableList<Person> data = FXCollections.observableArrayList();
+	private ObservableList<Person> filteredData = FXCollections.observableArrayList();
 	
 	@FXML
 	private Pane mainContent;
@@ -160,20 +148,22 @@ public class UserController implements Initializable {
 	
 	/**
 	 * Öffnen einen neuen View, in dem ein neuer Benutzer erfasst werden kann.
-	 * @param event - ActionEvent = Klick auf Button
-	 * @throws IOException
 	 */
 	@FXML
-	private void loadUserAddView(ActionEvent event) throws IOException {
-		Pane myPane = FXMLLoader.load(getClass().getResource("/UserAddView.fxml"));
-		mainContent.getChildren().clear();
-		mainContent.getChildren().setAll(myPane);		
+	private void loadUserAddView() {
+		try {
+			Pane myPane = FXMLLoader.load(getClass().getResource("/UserAddView.fxml"));
+			mainContent.getChildren().clear();
+			mainContent.getChildren().setAll(myPane);
+		} catch(IOException | NullPointerException e) {
+			Logger.error("View \"UserAddView.fxml\" kann nicht geladen werden.");
+		}
+				
 	}
 	
 	/**
 	 * Öffnet einen neuen View, in dem der angeklickte Benutzer bearbeitet werden kann.
 	 * @param t - MouseEvent = Klick auf Benutzer
-	 * @throws IOException
 	 */
 	@FXML
 	private void editUser(MouseEvent t) {
