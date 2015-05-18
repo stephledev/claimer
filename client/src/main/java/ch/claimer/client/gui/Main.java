@@ -11,8 +11,7 @@ import javafx.scene.layout.Pane;
 
 
 /**
- * @author Michael Lötscher
- * @author Alexander Hauck
+ * @author Michael Lötscher, Alexandar Hauck
  * @version 1.1
  *
  */
