@@ -97,6 +97,7 @@ public class LoginController extends Main implements Initializable {
 				return;
 			}
 			AuthenticationUtil.load(person);
+			System.out.println(person.getEmail());
 			go(event);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -127,12 +128,12 @@ public class LoginController extends Main implements Initializable {
 		Stage stage = new Stage();
 		stage.setTitle("Mängelmanager");
 		Pane myPane = null;
-		myPane = FXMLLoader.load(getClass().getResource("../view/RootLayout.fxml"));
+		myPane = FXMLLoader.load(getClass().getResource("/RootLayout.fxml"));
 	
 		Scene scene = new Scene(myPane);
-		scene.getStylesheets().add(getClass().getResource("../claimer_styles.css").toExternalForm()); // CSS-File wird geladen
+		scene.getStylesheets().add(getClass().getResource("/claimer_styles.css").toExternalForm()); // CSS-File wird geladen
 		if(screenWidth > 1500) {
-			scene.getStylesheets().add(getClass().getResource("../big_font.css").toExternalForm()); /// CSS-File für grosse Bildschirme
+			scene.getStylesheets().add(getClass().getResource("/big_font.css").toExternalForm()); /// CSS-File für grosse Bildschirme
 		}
 		stage.setMaximized(true);
 		stage.setScene(scene);

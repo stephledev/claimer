@@ -136,7 +136,7 @@ public class PrincipalController implements Initializable {
 	 */
 	@FXML
 	private void loadPrincipalAddView(ActionEvent event) throws IOException {
-		Pane myPane = FXMLLoader.load(getClass().getResource("../view/PrincipalAddView.fxml"));
+		Pane myPane = FXMLLoader.load(getClass().getResource("/PrincipalAddView.fxml"));
 		mainContent.getChildren().clear();
 		mainContent.getChildren().setAll(myPane);
 	}
@@ -156,7 +156,7 @@ public class PrincipalController implements Initializable {
 				Principal principalToEdit = (Principal) principalTableView.getSelectionModel().getSelectedItem();
 	
 				//FXMLLoader erstellen
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/PrincipalAddView.fxml"));
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("/PrincipalAddView.fxml"));
 				
 				//Neuen View laden
 				Pane myPane = loader.load();

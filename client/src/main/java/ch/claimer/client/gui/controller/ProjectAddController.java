@@ -436,7 +436,7 @@ public class ProjectAddController implements Initializable {
 	                            super.updateItem(value, empty);
 
 	                            final VBox vbox = new VBox(0);
-	                            Image image = new Image(getClass().getResourceAsStream("../../../../../delete.png"));
+	                            Image image = new Image(getClass().getResourceAsStream("/delete.png"));
 	                            Button button = new Button("", new ImageView(image));
 	                            button.getStyleClass().add("deleteButton");
 	                            final TableCell<Issue, String> c = this;
@@ -489,7 +489,7 @@ public class ProjectAddController implements Initializable {
 	                            super.updateItem(value, empty);
 
 	                            final VBox vbox = new VBox(0);
-	                            Image image = new Image(getClass().getResourceAsStream("../../../../../delete.png"));
+	                            Image image = new Image(getClass().getResourceAsStream("/delete.png"));
 	                            Button button = new Button("", new ImageView(image));
 	                            button.getStyleClass().add("deleteButton");
 	                            final TableCell<Principal, String> c = this;
@@ -549,7 +549,7 @@ public class ProjectAddController implements Initializable {
 	// "Abbrechen"-Button: zur ProjectMain-Ansicht wechseln 
 	@FXML
 	private void loadProjectMainView(ActionEvent event) throws IOException {
-		Pane myPane = FXMLLoader.load(getClass().getResource("../view/ProjectsMainView.fxml"));
+		Pane myPane = FXMLLoader.load(getClass().getResource("/ProjectsMainView.fxml"));
 		mainContent.getChildren().clear();
 		mainContent.getChildren().setAll(myPane);
 	}
@@ -840,7 +840,7 @@ public class ProjectAddController implements Initializable {
 			Stage stage = new Stage();
 			stage.setTitle("Bauherr zu Projekt hinzufügen");
 			
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/PrincipalMainView.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/PrincipalMainView.fxml"));
 			Pane myPane = loader.load();
 			
 			PrincipalController controller = loader.<PrincipalController>getController();
@@ -849,7 +849,7 @@ public class ProjectAddController implements Initializable {
 			controller.loadPrincipalForProject(principalTableView.getItems());
 
 			Scene scene = new Scene(myPane);
-			scene.getStylesheets().add(getClass().getResource("../claimer_styles.css").toExternalForm()); // CSS-File wird geladen
+			scene.getStylesheets().add(getClass().getResource("/claimer_styles.css").toExternalForm()); // CSS-File wird geladen
 			stage.setScene(scene);
 		    
 		    //Open new Stage
@@ -874,11 +874,11 @@ public class ProjectAddController implements Initializable {
 			Stage stage = new Stage();
 			stage.setTitle("Mangel erfassen");
 			
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/IssueView.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/IssueView.fxml"));
 			Pane myPane = loader.load();
 
 			Scene scene = new Scene(myPane);
-			scene.getStylesheets().add(getClass().getResource("../claimer_styles.css").toExternalForm()); // CSS-File wird geladen
+			scene.getStylesheets().add(getClass().getResource("/claimer_styles.css").toExternalForm()); // CSS-File wird geladen
 			stage.setScene(scene);
 		    
 		    //Open new Stage
@@ -908,7 +908,7 @@ public class ProjectAddController implements Initializable {
 				Stage stage = new Stage();
 				stage.setTitle("Mangel bearbeiten");
 				
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/IssueView.fxml"));
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("/IssueView.fxml"));
 				Pane myPane = loader.load();
 				IssueController controller = loader.<IssueController>getController();
 				
@@ -916,7 +916,7 @@ public class ProjectAddController implements Initializable {
 				controller.initData(issueToEdit);
 
 				Scene scene = new Scene(myPane);
-				scene.getStylesheets().add(getClass().getResource("../claimer_styles.css").toExternalForm()); // CSS-File wird geladen
+				scene.getStylesheets().add(getClass().getResource("/claimer_styles.css").toExternalForm()); // CSS-File wird geladen
 				stage.setScene(scene);
 			    
 			    //Open new Stage
@@ -937,7 +937,7 @@ public class ProjectAddController implements Initializable {
 
 		try {
 			//FXMLLoader erstellen
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/ProjectsMainView.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/ProjectsMainView.fxml"));
 
 			//Neuen View laden
 			Pane myPane;

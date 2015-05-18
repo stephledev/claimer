@@ -36,17 +36,17 @@ public class Main extends Application {
 		
 		primaryStage.setTitle("Claimer");
 		FXMLLoader myLoader = new FXMLLoader(getClass().getResource(
-				"view/Login.fxml")); // FXML File kann von myLoader geladen werden
+				"/Login.fxml")); // FXML File kann von myLoader geladen werden
 
 		
 		try {
 			Pane pane = (Pane) myLoader.load(); // FXML File wird auf das login-Pane geladen
 			Scene login = new Scene(pane);
 			login.getStylesheets().add("http://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,700");
-			login.getStylesheets().add(getClass().getResource("claimer_styles.css").toExternalForm()); // CSS-File wird geladen
+			login.getStylesheets().add(getClass().getResource("/claimer_styles.css").toExternalForm()); // CSS-File wird geladen
 			
 			if(screenWidth > 1500) {
-				login.getStylesheets().add(getClass().getResource("big_font.css").toExternalForm()); /// CSS-File für grosse Bildschirme
+				login.getStylesheets().add(getClass().getResource("/big_font.css").toExternalForm()); /// CSS-File für grosse Bildschirme
 			}
 			
 			primaryStage.setScene(login);			

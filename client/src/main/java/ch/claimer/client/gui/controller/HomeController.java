@@ -97,7 +97,7 @@ public class HomeController implements Initializable {
 			Issue issueId = (Issue) homeTableView.getSelectionModel().getSelectedItem();
 
 			//FXMLLoader erstelen
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/IssueController.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/IssueController.fxml"));
 
 			//Neuen View laden
 			Pane myPane = loader.load();

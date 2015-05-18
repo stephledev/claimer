@@ -207,7 +207,7 @@ public class SubcontractorAddController implements Initializable {
 	private void showMainViewWithMessage(String message) {
 		try {
 			//FXMLLoader erstellen
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/SubcontractorMainView.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/SubcontractorMainView.fxml"));
 			
 			//Neuen View laden
 			Pane myPane;
@@ -235,7 +235,7 @@ public class SubcontractorAddController implements Initializable {
 	@FXML
 	private void loadSubcontractorMainView() {
 		try {
-			Pane myPane = FXMLLoader.load(getClass().getResource("../view/SubcontractorMainView.fxml"));
+			Pane myPane = FXMLLoader.load(getClass().getResource("/SubcontractorMainView.fxml"));
 			mainContent.getChildren().clear();
 			mainContent.getChildren().setAll(myPane);
 		} catch (NullPointerException npe) {
@@ -286,7 +286,7 @@ public class SubcontractorAddController implements Initializable {
 	                            if(!empty) {
 	
 		                            final VBox vbox = new VBox(0);
-		                            Image image = new Image(getClass().getResourceAsStream("../../../../../delete.png"));
+		                            Image image = new Image(getClass().getResourceAsStream("/delete.png"));
 		                            Button button = new Button("", new ImageView(image));
 		                            button.getStyleClass().add("deleteButton");
 		                            final TableCell<Person, String> c = this;
@@ -479,7 +479,7 @@ public class SubcontractorAddController implements Initializable {
 			Stage stage = new Stage();
 			stage.setTitle("Mitarbeiter für Subunternehmen erfassen");
 			
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/UserAddView.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/UserAddView.fxml"));
 			Pane myPane = loader.load();
 			UserAddController controller = loader.<UserAddController>getController();
 			
@@ -487,7 +487,7 @@ public class SubcontractorAddController implements Initializable {
 			controller.initScStaffAdd();
 
 			Scene scene = new Scene(myPane);
-			scene.getStylesheets().add(getClass().getResource("../claimer_styles.css").toExternalForm()); // CSS-File wird geladen
+			scene.getStylesheets().add(getClass().getResource("/claimer_styles.css").toExternalForm()); // CSS-File wird geladen
 			stage.setScene(scene);
 		    
 		    //Open new Stage
@@ -512,7 +512,7 @@ public class SubcontractorAddController implements Initializable {
 				Stage stage = new Stage();
 				stage.setTitle("Mitarbeiter von Subunternehmen bearbeiten");
 				
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/UserAddView.fxml"));
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("/UserAddView.fxml"));
 				Pane myPane = loader.load();
 				UserAddController controller = loader.<UserAddController>getController();
 				
@@ -520,7 +520,7 @@ public class SubcontractorAddController implements Initializable {
 				controller.initscStaffEdit(persontoEdit);
 	
 				Scene scene = new Scene(myPane);
-				scene.getStylesheets().add(getClass().getResource("../claimer_styles.css").toExternalForm()); // CSS-File wird geladen
+				scene.getStylesheets().add(getClass().getResource("/claimer_styles.css").toExternalForm()); // CSS-File wird geladen
 				
 				stage.setScene(scene);
 			    
