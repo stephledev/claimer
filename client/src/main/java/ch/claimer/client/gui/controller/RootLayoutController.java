@@ -99,23 +99,22 @@ public class RootLayoutController implements Initializable {
 		if(roleValue < 15) {
 			naviSubcontractors.setVisible(false); // Subunternehmen-Menupunkt für alle editor-ussuers ausblenden.
 		}		
+		
+		loadProjectsMainView();
 	}
 	
-	//Zur Home-Ansicht wechseln (mainView.xml)
-	@FXML
-	private void loadHomeView(ActionEvent event) throws IOException {
-		Pane myPane = FXMLLoader.load(getClass().getResource("../view/HomeView.fxml"));
-		mainContent.getChildren().clear();
-		mainContent.getChildren().setAll(myPane);
-		
-	}
 	
 	//Zur Projekte-Hauptansicht (projectsMainView.xml) wechseln
 	@FXML
-	private void loadProjectsMainView(ActionEvent event) throws IOException {
-		Pane myPane = FXMLLoader.load(getClass().getResource("../view/ProjectsMainView.fxml"));
-		mainContent.getChildren().clear();
-		mainContent.getChildren().setAll(myPane);
+	private void loadProjectsMainView(){
+		try {
+			Pane myPane = FXMLLoader.load(getClass().getResource("../view/ProjectsMainView.fxml"));
+			mainContent.getChildren().clear();
+			mainContent.getChildren().setAll(myPane);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	//Zur Bauleiter-Hauptansicht wechseln (supervisorMainView.xml)
