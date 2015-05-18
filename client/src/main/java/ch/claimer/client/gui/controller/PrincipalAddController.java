@@ -10,12 +10,14 @@ import ch.claimer.shared.models.Principal;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 /**
  * Kontroller für das Hinzufügen und Ändern von Bauherren
@@ -190,7 +192,23 @@ public class PrincipalAddController implements Initializable {
 	@FXML
 	public void deletePrincipal() {
 		//TODO Confirmation Dialog
-		
+		try {
+  			Stage stage = new Stage();
+  			stage.setTitle("Bauleiter löschen");
+  			
+  			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/DeleteConfirmation.fxml"));
+  			Pane myPane = loader.load();
+
+  			Scene scene = new Scene(myPane);
+  			scene.getStylesheets().add(getClass().getResource("../claimer_styles.css").toExternalForm()); // CSS-File wird geladen
+  			stage.setScene(scene);
+  		    
+  		    //Open new Stage
+  			stage.show();
+		} catch (IOException e) {
+  			// TODO Auto-generated catch block
+  			e.printStackTrace();
+  		}
 		principalContainer.setActive(false);
 		updatePrincipal(principalContainer);
 		loadPrincipalMainViewWithMessage("Bauherr erfolgreich gelöscht.");

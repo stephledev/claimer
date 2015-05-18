@@ -93,26 +93,33 @@ public class SubcontractorController {
 			System.out.println(sce.getSubcontractor().getId());
 
 			try {
-				subcontractorList = mapper.readValue(subcontractorProxy.getById(sce.getSubcontractor().getId()), new TypeReference<List<Subcontractor>>(){});
+				Subcontractor sc = mapper.readValue(subcontractorProxy.getById(sce.getSubcontractor().getId()), new TypeReference<Subcontractor>(){});
+				data.add(sc);
+				filteredData.add(sc);
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
+			
+			
 			
 		} else {
 			
 			try {
 				subcontractorList = mapper.readValue(subcontractorProxy.getAll(), new TypeReference<List<Subcontractor>>(){});
+				
+				//Subunternhemen der ObservableList zuweisen
+				for(Subcontractor sc : subcontractorList) {
+					data.add(sc);
+					filteredData.add(sc);
+				}
+				
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
 		}
 		
 		
-		//Subunternhemen der ObservableList zuweisen
-		for(Subcontractor sc : subcontractorList) {
-			data.add(sc);
-			filteredData.add(sc);
-		}
+		
 		
 		//Spalten-Values definieren
 		colName.setCellValueFactory(new PropertyValueFactory<Company, String>("name"));

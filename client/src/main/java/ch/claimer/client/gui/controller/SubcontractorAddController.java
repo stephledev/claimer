@@ -37,6 +37,7 @@ import javafx.util.Callback;
 import ch.claimer.client.proxy.ContactProxy;
 import ch.claimer.client.proxy.SCEmployeeProxy;
 import ch.claimer.client.proxy.SubcontractorProxy;
+import ch.claimer.client.util.AuthenticationUtil;
 import ch.claimer.client.util.ResteasyClientUtil;
 import ch.claimer.shared.models.Company;
 import ch.claimer.shared.models.Contact;
@@ -58,7 +59,7 @@ public class SubcontractorAddController implements Initializable {
 	private ObservableList<Person> personToDelete = FXCollections.observableArrayList(); 
 	private Subcontractor subcontractorContainer = null;
 	private Person persontoEdit = null;
-	
+	private Integer roleValue = AuthenticationUtil.getLogin().getRole().getValue();
 	private Integer subcontractorID = null;
 	
 	@FXML
@@ -115,6 +116,9 @@ public class SubcontractorAddController implements Initializable {
 	@FXML
 	private Button btnDelete;
 	
+	@FXML
+	private Button btnSave;
+	
 	/**
 	 * Initialisiert den View.
 	 */
@@ -142,6 +146,19 @@ public class SubcontractorAddController implements Initializable {
 			}
 		 
 		 });
+		
+		if(roleValue == 15) {
+			btnDelete.setVisible(false);
+			txtName.setEditable(false);
+			txtAdress.setEditable(false);
+			txtEmail.setEditable(false);
+			txtPhone.setEditable(false);
+			txtPlace.setEditable(false);
+			txtZip.setEditable(false);
+			
+			
+			
+		}
 		
 	}
 	
@@ -175,13 +192,14 @@ public class SubcontractorAddController implements Initializable {
 	    List<Person> personList = null;
 	    
 	    try {
-	    	
-			personList = mapper.readValue(sceProxy.getBySubcontractor(subcontractorID), new TypeReference<List<SCEmployee>>(){});
-			for(Person p : personList) {
-				if(p.isActive()) {
-					data.add(p);
+	    	if(roleValue != 15) {
+				personList = mapper.readValue(sceProxy.getBySubcontractor(subcontractorID), new TypeReference<List<SCEmployee>>(){});
+				for(Person p : personList) {
+					if(p.isActive()) {
+						data.add(p);
+					}
 				}
-			}
+	    	}
 			
 			personList = mapper.readValue(cProxy.getBySubcontractor(subcontractorID), new TypeReference<List<Contact>>(){});
 			for(Person p : personList) {
@@ -293,7 +311,24 @@ public class SubcontractorAddController implements Initializable {
 		                            button.setOnAction(new EventHandler<ActionEvent>() {
 		                                  @Override
 		                                  public void handle(ActionEvent event) {
-		                                          @SuppressWarnings("unchecked")
+		                                	  try {
+		                                  			Stage stage = new Stage();
+		                                  			stage.setTitle("Subunternehmen löschen");
+		                                  			
+		                                  			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/DeleteConfirmation.fxml"));
+		                                  			Pane myPane = loader.load();
+
+		                                  			Scene scene = new Scene(myPane);
+		                                  			scene.getStylesheets().add(getClass().getResource("../claimer_styles.css").toExternalForm()); // CSS-File wird geladen
+		                                  			stage.setScene(scene);
+		                                  		    
+		                                  		    //Open new Stage
+		                                  			stage.show();
+			                            		} catch (IOException e) {
+		                                  			// TODO Auto-generated catch block
+		                                  			e.printStackTrace();
+		                                  		} 
+		                                	  	@SuppressWarnings("unchecked")
 												TableRow<Person> tableRow = c.getTableRow();
 		                                          Person person= (Person)tableRow.getTableView().getItems().get(tableRow.getIndex());
 		                                          
@@ -341,6 +376,23 @@ public class SubcontractorAddController implements Initializable {
 	 */
 	@FXML
 	private void deleteSubcontractor() {
+		try {
+  			Stage stage = new Stage();
+  			stage.setTitle("Subunternehmen löschen");
+  			
+  			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/DeleteConfirmation.fxml"));
+  			Pane myPane = loader.load();
+
+  			Scene scene = new Scene(myPane);
+  			scene.getStylesheets().add(getClass().getResource("../claimer_styles.css").toExternalForm()); // CSS-File wird geladen
+  			stage.setScene(scene);
+  		    
+  		    //Open new Stage
+  			stage.show();
+		} catch (IOException e) {
+  			// TODO Auto-generated catch block
+  			e.printStackTrace();
+  		}
 		subcontractorContainer.setActive(false);
 		SubcontractorProxy scProxy = ResteasyClientUtil.getTarget().proxy(SubcontractorProxy.class);
 		scProxy.update(subcontractorContainer);
@@ -408,58 +460,17 @@ public class SubcontractorAddController implements Initializable {
 	
 		//Wenn kein Fehler bei Validation: Subunternehmen speichern oder updaten.
 		if(!hasError) {
-
-			SubcontractorProxy scProxy = ResteasyClientUtil.getTarget().proxy(SubcontractorProxy.class);
-			
-			if(subcontractorID != null) {
-				sc.setId(subcontractorID);
-				scProxy.update(sc);
-			} else {
-				scProxy.create(sc);
-			}
-
-			// Subcontractor Mitarbeiter auslesen und Speichern / Updaten
-			ObservableList<Person> olp = sceTableView.getItems();
-			olp.addAll(personToDelete);
-			SCEmployeeProxy sceProxy = ResteasyClientUtil.getTarget().proxy(SCEmployeeProxy.class);
-			ContactProxy cProxy = ResteasyClientUtil.getTarget().proxy(ContactProxy.class);
-			SCEmployee sce = null;
-			Contact contact = null;
-			for(Person p : olp) {
+			if(roleValue != 15) {
+				SubcontractorProxy scProxy = ResteasyClientUtil.getTarget().proxy(SubcontractorProxy.class);
 				
-				if(personToDelete.contains(p)) {
-					p.setActive(false);
+				if(subcontractorID != null) {
+					sc.setId(subcontractorID);
+					scProxy.update(sc);
 				} else {
-					p.setActive(true);
+					scProxy.create(sc);
 				}
-				
-				switch(p.getLogin().getRole().getName()) {
-					case("power"): {
-						sce = (SCEmployee)p;
-						sce.setSubcontractor(sc);
-						if(sce.getId() != 0) {
-							//SCEmployee updaten
-							sceProxy.update(sce);
-						} else {
-							//Neuen SCEmployee erstellen
-							sceProxy.create(sce);
-						}
-					} break;
-					case("editor-extern"): {
-						contact = (Contact)p;
-						contact.setSubcontractor(sc);
-						if(contact.getId() != 0) {
-							//Contact updaten
-							cProxy.update(contact);
-						} else {
-							//Neuen Contact erstellen
-							cProxy.create(contact);
-						}
-					}
-					break;
-				}
-					
 			}
+			saveSCEmployees();
 			
 			showMainViewWithMessage("Änderungen erfolgreich gespeichert.");
 					
@@ -467,7 +478,50 @@ public class SubcontractorAddController implements Initializable {
 			
 	}
 	
-	
+	private void saveSCEmployees() {
+		// Subcontractor Mitarbeiter auslesen und Speichern / Updaten
+		ObservableList<Person> olp = sceTableView.getItems();
+		olp.addAll(personToDelete);
+		SCEmployeeProxy sceProxy = ResteasyClientUtil.getTarget().proxy(SCEmployeeProxy.class);
+		ContactProxy cProxy = ResteasyClientUtil.getTarget().proxy(ContactProxy.class);
+		SCEmployee sce = null;
+		Contact contact = null;
+		for(Person p : olp) {
+			
+			if(personToDelete.contains(p)) {
+				p.setActive(false);
+			} else {
+				p.setActive(true);
+			}
+			
+			switch(p.getLogin().getRole().getName()) {
+				case("power"): {
+					sce = (SCEmployee)p;
+					sce.setSubcontractor(subcontractorContainer);
+					if(sce.getId() != 0) {
+						//SCEmployee updaten
+						sceProxy.update(sce);
+					} else {
+						//Neuen SCEmployee erstellen
+						sceProxy.create(sce);
+					}
+				} break;
+				case("editor-extern"): {
+					contact = (Contact)p;
+					contact.setSubcontractor(subcontractorContainer);
+					if(contact.getId() != 0) {
+						//Contact updaten
+						cProxy.update(contact);
+					} else {
+						//Neuen Contact erstellen
+						cProxy.create(contact);
+					}
+				}
+				break;
+			}
+				
+		}
+	}
 
 	/**
 	 * Öffnet ein neues Fenster, um einen Subunternehmen-Mitarbeiter zu erfassen

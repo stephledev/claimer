@@ -116,7 +116,7 @@
             </GridPane>
             <HBox GridPane.rowIndex="8">
                <children>
-                  <Button mnemonicParsing="false" onAction="#saveSubcontractor" styleClass="save-button" text="Speichern">
+                  <Button fx:id="btnSave" mnemonicParsing="false" onAction="#saveSubcontractor" styleClass="save-button" text="Speichern">
                      <HBox.margin>
                         <Insets right="20.0" />
                      </HBox.margin></Button>

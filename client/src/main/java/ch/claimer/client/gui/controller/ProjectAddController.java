@@ -441,17 +441,36 @@ public class ProjectAddController implements Initializable {
 	                            button.getStyleClass().add("deleteButton");
 	                            final TableCell<Issue, String> c = this;
 	                            button.setOnAction(new EventHandler<ActionEvent>() {
-	                                  @Override
-	                                  public void handle(ActionEvent event) {
-	                                          @SuppressWarnings("unchecked")
-	                                          TableRow<Issue> tableRow = c.getTableRow();
-	                                          Issue issue= (Issue)tableRow.getTableView().getItems().get(tableRow.getIndex());
-	                                          if((Integer)issue.getId() != null) {
-	                                        	  issuesToDeleteList.add(issue);
-	                                          }
-	                                          data.remove(issue);
-	                                          fillIssueTableView();
-	                                  }
+	                            	@Override
+	                            	public void handle(ActionEvent event) {
+	                            		
+	                            		try {
+                                  			Stage stage = new Stage();
+                                  			stage.setTitle("Mangel löschen");
+                                  			
+                                  			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/DeleteConfirmation.fxml"));
+                                  			Pane myPane = loader.load();
+
+                                  			Scene scene = new Scene(myPane);
+                                  			scene.getStylesheets().add(getClass().getResource("../claimer_styles.css").toExternalForm()); // CSS-File wird geladen
+                                  			stage.setScene(scene);
+                                  		    
+                                  		    //Open new Stage
+                                  			stage.show();
+	                            		} catch (IOException e) {
+                                  			// TODO Auto-generated catch block
+                                  			e.printStackTrace();
+                                  		}
+
+	                            		@SuppressWarnings("unchecked")
+	                            		TableRow<Issue> tableRow = c.getTableRow();
+	                            		Issue issue= (Issue)tableRow.getTableView().getItems().get(tableRow.getIndex());
+	                            		if((Integer)issue.getId() != null) {
+	                            			issuesToDeleteList.add(issue);
+	                            		}
+	                            		data.remove(issue);
+	                            		fillIssueTableView();
+	                            	}
 	                            });
 	                      vbox.getChildren().add(button);
 	                      setGraphic(vbox);
@@ -501,6 +520,24 @@ public class ProjectAddController implements Initializable {
 	                                          Principal principal= (Principal)tableRow.getTableView().getItems().get(tableRow.getIndex());
 	                                          
 	                                          // TODO Confirmation Window
+	                                          
+	                                          try {
+	                                  			Stage stage = new Stage();
+	                                  			stage.setTitle("Kunde löschen");
+	                                  			
+	                                  			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/DeleteConfirmation.fxml"));
+	                                  			Pane myPane = loader.load();
+
+	                                  			Scene scene = new Scene(myPane);
+	                                  			scene.getStylesheets().add(getClass().getResource("../claimer_styles.css").toExternalForm()); // CSS-File wird geladen
+	                                  			stage.setScene(scene);
+	                                  		    
+	                                  		    //Open new Stage
+	                                  			stage.show();
+	                                  		} catch (IOException e) {
+	                                  			// TODO Auto-generated catch block
+	                                  			e.printStackTrace();
+	                                  		}
 	                                        	  
 	                                          principalList.remove(principal);
 	                                          fillPrincipalTableView();

@@ -69,7 +69,7 @@ public class SCEmployeeRoute {
 	 * @return Response HTTP-Antwort mit SU-Angestellten
 	 */
 	@GET
-	@RolesAllowed("admin")
+	@RolesAllowed("power")
 	@Path("scemployee/subcontractor/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showBySubcontractor(@PathParam("id") int id) {

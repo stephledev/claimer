@@ -3,6 +3,9 @@ package ch.claimer.client.gui;
 import java.awt.Toolkit;
 import java.io.IOException;
 
+import org.pmw.tinylog.Logger;
+
+import ch.claimer.shared.util.LoggerUtil;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
@@ -22,10 +25,10 @@ public class Main extends Application {
 
 	public static void main(String[] args) {
 		launch(args);
-
+		LoggerUtil.loadConfig();
+		Logger.error("asdfasdf");
 	}
 
-	
 	/** 
 	 * Startet die Applikation, ruft Login-Seite auf und übergibt das Design
 	 */
@@ -38,7 +41,6 @@ public class Main extends Application {
 		FXMLLoader myLoader = new FXMLLoader(getClass().getResource(
 				"/Login.fxml")); // FXML File kann von myLoader geladen werden
 
-		
 		try {
 			Pane pane = (Pane) myLoader.load(); // FXML File wird auf das login-Pane geladen
 			Scene login = new Scene(pane);
@@ -58,8 +60,5 @@ public class Main extends Application {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
-	
-
 }
