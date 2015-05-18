@@ -18,6 +18,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -28,6 +29,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 /**
  * Controller für den Bauherren Hauptview.
@@ -187,8 +189,20 @@ public class PrincipalController implements Initializable {
 					break;
 				}
 			}
-
 		}
+		
+		principalTableView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent t) {
+                if (t.getClickCount() == 2) {
+                	Principal selectedPrincipal = (Principal) principalTableView.getSelectionModel().getSelectedItem();
+                	ProjectAddController.principalContainerList.add(selectedPrincipal);
+                	Stage stage = (Stage) principalTableView.getScene().getWindow();
+				    stage.close();
+                }
+            }
+        });
+		
 		fillTableView();
 		
 	}

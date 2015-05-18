@@ -265,8 +265,8 @@ public class ProjectAddController implements Initializable {
 			public void onChanged(javafx.collections.ListChangeListener.Change<? extends Principal> c) {
 				if(principalContainerList.size() > 0) {
 					
-					principalList.addAll(principalContainerList);	//den aktualisierten aus der Liste entfernen	
-					principalContainerList = null;
+					principalList.addAll(principalContainerList);	//den aktualisierten aus der Liste entfernen
+					principalContainerList.clear();
 					fillPrincipalTableView();
 				}	
 			}
