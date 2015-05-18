@@ -18,7 +18,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -38,7 +37,7 @@ import javafx.stage.Stage;
  * Controller für den Bauherren Hauptview.
  * 
  * @author Alexander Hauck
- * @since 20.04.2015
+ * @since 1.0
  * @version 2.1
  */
 
@@ -132,20 +131,21 @@ public class PrincipalController implements Initializable {
 	
 	/**
 	 * Wechselt zum PrincipalAddView, um einen neuen Bauherr hinzuzufügen.
-	 * @param event - Klick auf den Button
-	 * @throws IOException
 	 */
 	@FXML
-	private void loadPrincipalAddView(ActionEvent event) throws IOException {
-		Pane myPane = FXMLLoader.load(getClass().getResource("/PrincipalAddView.fxml"));
-		mainContent.getChildren().clear();
-		mainContent.getChildren().setAll(myPane);
+	private void loadPrincipalAddView(){
+		try {
+			Pane myPane = FXMLLoader.load(getClass().getResource("/PrincipalAddView.fxml"));
+			mainContent.getChildren().clear();
+			mainContent.getChildren().setAll(myPane);
+		} catch(IOException | NullPointerException e) {
+			Logger.error("View \"PrincipalAddView.fxml\" kann nicht geladen werden");
+		}
 	}
 	
 	/**
 	 * Wechselt zum PrincipalAddView, um einen Bauherr zu bearbeiten
 	 * @param event - Klick auf den Bauherr
-	 * @throws IOException
 	 */
 	@FXML
 	private void editPrincipal(MouseEvent t) {
@@ -182,7 +182,7 @@ public class PrincipalController implements Initializable {
 	
 	/**
 	 * View, um Bauherren für ein Projekt auszwählen.
-	 * @param principalList
+	 * @param principalList Übergibt eine Liste der Bauherren, die bereits dem Projekt zugewiesen wurden
 	 */
 	public void loadPrincipalForProject(List<Principal> principalList) {
 
@@ -239,7 +239,7 @@ public class PrincipalController implements Initializable {
 			
 	/**
 	 * Überprüft, ob ein Bauherr dem "Suchen..." - Kriterium entspricht. Gehört zur "Suchen..." - Funktion
-	 * @param p - Der Kunde der übergeben wird
+	 * @param p - Der Bauherr der übergeben wird
 	 * @return true oder false
 	 */
 	private boolean matchesFilter(Principal p) {
