@@ -39,12 +39,7 @@ public class Main extends Application {
 		Integer screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
 		
 		primaryStage.setTitle("Claimer");
-<<<<<<< HEAD
-		FXMLLoader myLoader = new FXMLLoader(getClass().getResource("view/Login.fxml")); // FXML File kann von myLoader geladen werden
-=======
-		FXMLLoader myLoader = new FXMLLoader(getClass().getResource(
-				"/Login.fxml")); // FXML File kann von myLoader geladen werden
->>>>>>> origin/master
+		FXMLLoader myLoader = new FXMLLoader(getClass().getResource("/Login.fxml")); // FXML File kann von myLoader geladen werden
 
 		try {
 			Pane pane = (Pane) myLoader.load(); // FXML File wird auf das login-Pane geladen

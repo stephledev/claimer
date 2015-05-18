@@ -585,23 +585,15 @@ public class ProjectAddController implements Initializable {
 	
 	// "Abbrechen"-Button: zur ProjectMain-Ansicht wechseln 
 	@FXML
-<<<<<<< HEAD
 	private void loadProjectMainView(){
 		
 		try {
-			Pane myPane = FXMLLoader.load(getClass().getResource("../view/ProjectsMainView.fxml"));
+			Pane myPane = FXMLLoader.load(getClass().getResource("/ProjectsMainView.fxml"));
 			mainContent.getChildren().clear();
 			mainContent.getChildren().setAll(myPane);
 		} catch (IOException | NullPointerException e) {
 			Logger.error("View \"ProjectsMainView.fxml\" kann nicht geladen werden.");
 		}
-		
-=======
-	private void loadProjectMainView(ActionEvent event) throws IOException {
-		Pane myPane = FXMLLoader.load(getClass().getResource("/ProjectsMainView.fxml"));
-		mainContent.getChildren().clear();
-		mainContent.getChildren().setAll(myPane);
->>>>>>> origin/master
 	}
 
 	/**

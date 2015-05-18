@@ -153,19 +153,10 @@ public class PrincipalController implements Initializable {
         //Wenn Doppelklick auf Person
         if(t.getClickCount() == 2) {
         		
-<<<<<<< HEAD
     		try {
 				Principal principalToEdit = (Principal) principalTableView.getSelectionModel().getSelectedItem(); //Angeklickte Firma auslesen
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/PrincipalAddView.fxml"));
-=======
-	        	//Angeklickte Firma laden
-				Principal principalToEdit = (Principal) principalTableView.getSelectionModel().getSelectedItem();
-	
-				//FXMLLoader erstellen
 				FXMLLoader loader = new FXMLLoader(getClass().getResource("/PrincipalAddView.fxml"));
-				
-				//Neuen View laden
->>>>>>> origin/master
+
 				Pane myPane = loader.load();
 				PrincipalAddController controller = loader.<PrincipalAddController>getController();
 				controller.initData(principalToEdit);	//Controller starten		
