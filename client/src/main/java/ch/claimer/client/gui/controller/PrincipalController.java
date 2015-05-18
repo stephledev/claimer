@@ -22,6 +22,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -73,6 +75,9 @@ public class PrincipalController implements Initializable {
 	
 	@FXML
 	private Pane mainContent;
+	
+	@FXML
+	private Button btnAddPrincipal;
 
 	/** 
 	 * Wird automatisch aufgerufen. Füllt den TableView mit den Bauherren-Daten aus der Datenbank
@@ -178,8 +183,15 @@ public class PrincipalController implements Initializable {
 	}
 	
 	
+	/**
+	 * View, um Bauherren für ein Projekt auszwählen.
+	 * @param principalList
+	 */
 	public void loadPrincipalForProject(List<Principal> principalList) {
 
+		mainContent.setPadding(new Insets(20));
+		btnAddPrincipal.setVisible(false);
+		
 		for(Principal principal : principalList) {
 			Integer principalId = principal.getId();
 			for(Principal principal2 : data) {
@@ -191,14 +203,19 @@ public class PrincipalController implements Initializable {
 			}
 		}
 		
+		//Bei Doppelklick: Bauherr in andere Tabelle übertragen
 		principalTableView.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent t) {
                 if (t.getClickCount() == 2) {
                 	Principal selectedPrincipal = (Principal) principalTableView.getSelectionModel().getSelectedItem();
-                	ProjectAddController.principalContainerList.add(selectedPrincipal);
-                	Stage stage = (Stage) principalTableView.getScene().getWindow();
-				    stage.close();
+                	System.out.println(selectedPrincipal);
+                	if(selectedPrincipal != null) {
+	                	ProjectAddController.principalContainerList.add(selectedPrincipal);
+	                	ProjectAddController.principalContainerList.clear();
+	                	Stage stage = (Stage) principalTableView.getScene().getWindow();
+					    stage.close();
+                	}
                 }
             }
         });

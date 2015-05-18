@@ -42,6 +42,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -263,10 +264,11 @@ public class ProjectAddController implements Initializable {
 
 			@Override
 			public void onChanged(javafx.collections.ListChangeListener.Change<? extends Principal> c) {
+			
 				if(principalContainerList.size() > 0) {
-					
-					principalList.addAll(principalContainerList);	//den aktualisierten aus der Liste entfernen
-					principalContainerList.clear();
+					System.out.println("änderung");
+					principalList.addAll(principalContainerList);
+					//principalContainerList.clear();
 					fillPrincipalTableView();
 				}	
 			}

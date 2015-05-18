@@ -521,6 +521,7 @@ public class SubcontractorAddController implements Initializable {
 	
 				Scene scene = new Scene(myPane);
 				scene.getStylesheets().add(getClass().getResource("../claimer_styles.css").toExternalForm()); // CSS-File wird geladen
+				
 				stage.setScene(scene);
 			    
 			    //Open new Stage
