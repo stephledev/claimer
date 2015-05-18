@@ -55,9 +55,9 @@ public interface LoginProxy {
 	void create(Login login);
 	
 	/**
-	 * asd
+	 * 	Meldet das übergeben Login an
 	 * 
-	 * @param login zu erstellendes Login
+	 * @param login zu anmeldendes Login
 	 */
 	
 	@POST
