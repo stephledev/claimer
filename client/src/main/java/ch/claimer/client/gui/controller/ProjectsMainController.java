@@ -224,7 +224,7 @@ public class ProjectsMainController implements Initializable{
 	 */
 	@FXML
 	private void loadProjectAddView(ActionEvent event) throws IOException {
-		Pane myPane = FXMLLoader.load(getClass().getResource("../view/ProjectAddView.fxml"));
+		Pane myPane = FXMLLoader.load(getClass().getResource("/ProjectAddView.fxml"));
 		mainContent.getChildren().clear();
 		mainContent.getChildren().setAll(myPane);		
 	}
@@ -247,7 +247,7 @@ public class ProjectsMainController implements Initializable{
 			//Neuen View laden
 			Pane myPane;
 			try {
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/ProjectAddView.fxml"));
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("/ProjectAddView.fxml"));
 				myPane = loader.load();
 				ProjectAddController controller = loader.<ProjectAddController>getController(); //UserAddController holen
 				controller.initData(projectID); //Controller starten	

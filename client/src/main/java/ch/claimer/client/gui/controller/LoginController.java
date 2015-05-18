@@ -98,7 +98,12 @@ public class LoginController extends Main implements Initializable {
 				return;
 			}
 			AuthenticationUtil.load(person);
+<<<<<<< HEAD
 			go();
+=======
+			System.out.println(person.getEmail());
+			go(event);
+>>>>>>> origin/master
 		} catch (IOException e) {
 			Logger.error("Logins können nicht aus der Datenbank geladen werden.");
 		}
@@ -123,6 +128,7 @@ public class LoginController extends Main implements Initializable {
 	public void go(){
 		
 		
+<<<<<<< HEAD
 		try {
 			//Bildschirmauflösung auslesen
 			Integer screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -146,6 +152,17 @@ public class LoginController extends Main implements Initializable {
 			stage.show();
 		} catch (IOException | IllegalStateException | NullPointerException e) {
 			Logger.error("View \"RootLayout.fxml\" kann nicht geladen werden.");
+=======
+		Stage stage = new Stage();
+		stage.setTitle("Mängelmanager");
+		Pane myPane = null;
+		myPane = FXMLLoader.load(getClass().getResource("/RootLayout.fxml"));
+	
+		Scene scene = new Scene(myPane);
+		scene.getStylesheets().add(getClass().getResource("/claimer_styles.css").toExternalForm()); // CSS-File wird geladen
+		if(screenWidth > 1500) {
+			scene.getStylesheets().add(getClass().getResource("/big_font.css").toExternalForm()); /// CSS-File für grosse Bildschirme
+>>>>>>> origin/master
 		}
 	
 		

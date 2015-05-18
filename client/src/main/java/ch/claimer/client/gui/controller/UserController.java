@@ -163,7 +163,7 @@ public class UserController implements Initializable {
 	 */
 	@FXML
 	private void loadUserAddView(ActionEvent event) throws IOException {
-		Pane myPane = FXMLLoader.load(getClass().getResource("../view/UserAddView.fxml"));
+		Pane myPane = FXMLLoader.load(getClass().getResource("/UserAddView.fxml"));
 		mainContent.getChildren().clear();
 		mainContent.getChildren().setAll(myPane);		
 	}
@@ -184,7 +184,7 @@ public class UserController implements Initializable {
 
 			//FXMLLoader erstelen
 			FXMLLoader loader = new FXMLLoader(
-					getClass().getResource("../view/UserAddView.fxml")
+					getClass().getResource("/UserAddView.fxml")
 				);
 			
 			//Neuen View laden

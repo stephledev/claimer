@@ -154,7 +154,7 @@ public class PrincipalAddController implements Initializable {
 	@FXML
 	private void loadPrincipalMainView() {
 		try {
-			Pane myPane = FXMLLoader.load(getClass().getResource("../view/PrincipalMainView.fxml"));
+			Pane myPane = FXMLLoader.load(getClass().getResource("/PrincipalMainView.fxml"));
 			mainContent.getChildren().clear();
 			mainContent.getChildren().setAll(myPane);
 		} catch (IOException | NullPointerException e) {
@@ -171,7 +171,7 @@ public class PrincipalAddController implements Initializable {
 
 		try {
 
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/PrincipalMainView.fxml")); //FXMLLoader erstellen
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/PrincipalMainView.fxml")); //FXMLLoader erstellen
 			Pane myPane = loader.load(); //Neuen View laden
 			PrincipalController controller = loader.<PrincipalController>getController(); //PrincipalController holen
 			controller.initWithMessage(message); //Controller starten			

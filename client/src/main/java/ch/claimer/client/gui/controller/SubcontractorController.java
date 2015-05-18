@@ -157,7 +157,7 @@ public class SubcontractorController {
 	private void loadSubcontractorAddView() {
 
 		try {
-			Pane myPane = FXMLLoader.load(getClass().getResource("../view/SubcontractorAddView.fxml"));
+			Pane myPane = FXMLLoader.load(getClass().getResource("/SubcontractorAddView.fxml"));
 			mainContent.getChildren().clear();
 			mainContent.getChildren().setAll(myPane);	
 		} catch (IOException e) {
@@ -183,7 +183,7 @@ public class SubcontractorController {
 	
 				try {
 					//FXMLLoader erstellen
-					FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/SubcontractorAddView.fxml"));
+					FXMLLoader loader = new FXMLLoader(getClass().getResource("/SubcontractorAddView.fxml"));
 					
 					//Neuen View laden
 					Pane myPane = loader.load();

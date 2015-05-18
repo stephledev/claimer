@@ -175,7 +175,7 @@ public class UserAddController implements Initializable{
 	@FXML
 	private void loadUserMainView() {
 		try {
-			Pane myPane = FXMLLoader.load(getClass().getResource("../view/UserMainView.fxml"));
+			Pane myPane = FXMLLoader.load(getClass().getResource("/UserMainView.fxml"));
 			mainContent.getChildren().clear();
 			mainContent.getChildren().setAll(myPane);
 		} catch (NullPointerException npe) {
@@ -197,7 +197,7 @@ public class UserAddController implements Initializable{
 
 		try {
 			//FXMLLoader erstellen
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/UserMainView.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/UserMainView.fxml"));
 			
 			//Neuen View laden
 			Pane myPane;

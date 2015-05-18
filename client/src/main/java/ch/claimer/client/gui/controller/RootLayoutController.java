@@ -99,28 +99,29 @@ public class RootLayoutController implements Initializable {
 		if(roleValue < 15) {
 			naviSubcontractors.setVisible(false); // Subunternehmen-Menupunkt für alle editor-ussuers ausblenden.
 		}		
-		
-		loadProjectsMainView();
 	}
 	
+	//Zur Home-Ansicht wechseln (mainView.xml)
+	@FXML
+	private void loadHomeView(ActionEvent event) throws IOException {
+		Pane myPane = FXMLLoader.load(getClass().getResource("/HomeView.fxml"));
+		mainContent.getChildren().clear();
+		mainContent.getChildren().setAll(myPane);
+		
+	}
 	
 	//Zur Projekte-Hauptansicht (projectsMainView.xml) wechseln
 	@FXML
-	private void loadProjectsMainView(){
-		try {
-			Pane myPane = FXMLLoader.load(getClass().getResource("../view/ProjectsMainView.fxml"));
-			mainContent.getChildren().clear();
-			mainContent.getChildren().setAll(myPane);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	private void loadProjectsMainView(ActionEvent event) throws IOException {
+		Pane myPane = FXMLLoader.load(getClass().getResource("/ProjectsMainView.fxml"));
+		mainContent.getChildren().clear();
+		mainContent.getChildren().setAll(myPane);
 	}
 	
 	//Zur Bauleiter-Hauptansicht wechseln (supervisorMainView.xml)
 	@FXML
 	private void loadSupervisorMainView(ActionEvent event) throws IOException {
-		Pane myPane = FXMLLoader.load(getClass().getResource("../view/SupervisorMainView.fxml"));
+		Pane myPane = FXMLLoader.load(getClass().getResource("/SupervisorMainView.fxml"));
 		mainContent.getChildren().clear();
 		mainContent.getChildren().setAll(myPane);
 	}
@@ -128,7 +129,7 @@ public class RootLayoutController implements Initializable {
 	//Zur Subunternehmen-Hauptansicht wechseln (supervisorMainView.xml)
 		@FXML
 		private void loadSubcontractorMainView(ActionEvent event) throws IOException {
-			Pane myPane = FXMLLoader.load(getClass().getResource("../view/SubcontractorMainView.fxml"));
+			Pane myPane = FXMLLoader.load(getClass().getResource("/SubcontractorMainView.fxml"));
 			mainContent.getChildren().clear();
 			mainContent.getChildren().setAll(myPane);
 		}
@@ -136,7 +137,7 @@ public class RootLayoutController implements Initializable {
 	//Zur Kunden-Hauptansicht wechseln  (principalMainView.xml)
 	@FXML
 	private void loadPrincipalMainView(ActionEvent event) throws IOException {
-		Pane myPane = FXMLLoader.load(getClass().getResource("../view/PrincipalMainView.fxml"));
+		Pane myPane = FXMLLoader.load(getClass().getResource("/PrincipalMainView.fxml"));
 		mainContent.getChildren().clear();
 		mainContent.getChildren().setAll(myPane);
 	}
@@ -144,7 +145,7 @@ public class RootLayoutController implements Initializable {
 	//Zur Benutzer-Hauptansicht wechseln  (userMainView.xml)
 	@FXML
 	private void loadUserMainView(ActionEvent event) throws IOException {
-		Pane myPane = FXMLLoader.load(getClass().getResource("../view/UserMainView.fxml"));
+		Pane myPane = FXMLLoader.load(getClass().getResource("/UserMainView.fxml"));
 		mainContent.getChildren().clear();
 		mainContent.getChildren().setAll(myPane);
 	}
@@ -167,11 +168,11 @@ public class RootLayoutController implements Initializable {
 			Stage stage = new Stage();
 			stage.setTitle("Claimer");
 			
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/Login.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/Login.fxml"));
 			Pane myPane = loader.load();
 
 			Scene scene = new Scene(myPane);
-			scene.getStylesheets().add(getClass().getResource("../claimer_styles.css").toExternalForm()); // CSS-File wird geladen
+			scene.getStylesheets().add(getClass().getResource("/claimer_styles.css").toExternalForm()); // CSS-File wird geladen
 			stage.setScene(scene);
 		    
 		    //Open new Stage

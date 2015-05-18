@@ -73,27 +73,27 @@
 }
 
 .add-button {
-	  -fx-graphic: url('../../../../add.png');
+	  -fx-graphic: url('add.png');
 	  -fx-graphic-text-gap: 10px;
 }
 
 .delete-button {
-	-fx-graphic: url('../../../../delete.png');
+	-fx-graphic: url('delete.png');
 	-fx-graphic-text-gap: 10px;
 }
 
 .upload-button {
-	-fx-graphic: url('../../../../upload.png');
+	-fx-graphic: url('upload.png');
 	-fx-graphic-text-gap: 10px;
 }
 
 .save-button {
-	-fx-graphic: url('../../../../save.png');
+	-fx-graphic: url('save.png');
 	-fx-graphic-text-gap: 10px;
 }
 
 .back-button {
-	-fx-graphic: url('../../../../back.png');
+	-fx-graphic: url('back.png');
 	-fx-graphic-text-gap: 10px;
 }
    

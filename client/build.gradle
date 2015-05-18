@@ -1,14 +1,30 @@
-apply from: "http://dl.bintray.com/content/shemnon/javafx-gradle/0.4.0/javafx.plugin"
-
-javafx {
-
-    // Main class of application
-    mainClass 'gui.Main'
-
+plugins {
+  id 'com.github.johnrengelman.shadow' version '1.2.1'
 }
+
 
 dependencies {
     compile project(':shared')
     compile 'org.jboss.resteasy:resteasy-client:3.0.5.Final'
     compile 'org.codehaus.jackson:jackson-jaxrs:1.9.13'
+}
+
+shadowJar {
+  mergeServiceFiles()
+  manifest {
+        attributes 'Implementation-Title': 'Client',  
+        	'Implementation-Version': version,
+        	'Main-Class': 'ch.claimer.client.gui.Main'
+    }
+}
+
+task fatJar(type: Jar) {
+	manifest {
+        attributes 'Implementation-Title': 'Client',  
+        	'Implementation-Version': version,
+        	'Main-Class': 'ch.claimer.client.gui.Main'
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
 }
