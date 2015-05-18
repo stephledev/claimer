@@ -9,8 +9,10 @@ import java.util.List;
 
 
 
+
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+import org.pmw.tinylog.Logger;
 
 import ch.claimer.client.proxy.SubcontractorProxy;
 import ch.claimer.client.util.AuthenticationUtil;
@@ -97,7 +99,7 @@ public class SubcontractorController {
 				data.add(sc);
 				filteredData.add(sc);
 			} catch (IOException e1) {
-				e1.printStackTrace();
+				Logger.error("Subunternehmen können nicht aus der Datenbank geladen werden.");
 			}
 			
 			
@@ -114,7 +116,7 @@ public class SubcontractorController {
 				}
 				
 			} catch (IOException e1) {
-				e1.printStackTrace();
+				Logger.error("Subunternehmen können nicht aus der Datenbank geladen werden.");
 			}
 		}
 		
@@ -160,9 +162,8 @@ public class SubcontractorController {
 			Pane myPane = FXMLLoader.load(getClass().getResource("/SubcontractorAddView.fxml"));
 			mainContent.getChildren().clear();
 			mainContent.getChildren().setAll(myPane);	
-		} catch (IOException e) {
-			// TODO ERROR-LOGGING
-			e.printStackTrace();
+		} catch (IOException | NullPointerException e) {
+			Logger.error("View \"SubcontractorAddView.fxml\" kann nicht geladen werden.");
 		}
 		
 	}
@@ -199,9 +200,8 @@ public class SubcontractorController {
 					mainContent.getChildren().setAll(myPane);
 					
 					
-				} catch (IOException e) {
-					// TODO ERROR-LOGGIN
-					e.printStackTrace();
+				} catch (IOException | NullPointerException e) {
+					Logger.error("View \"SubcontractorAddView.fxml\" kann nicht geladen werden.");
 				}
         }
 	}

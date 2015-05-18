@@ -12,6 +12,7 @@ import javax.ws.rs.client.WebTarget;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
+import org.pmw.tinylog.Logger;
 
 import ch.claimer.client.proxy.GCEmployeeProxy;
 import ch.claimer.client.proxy.SupervisorProxy;
@@ -117,6 +118,7 @@ public class UserController implements Initializable {
 					}
 					return new SimpleStringProperty(roleName);
 				} catch(NullPointerException e) {
+					Logger.error("Problem beim Befüllen der User-Tabelle, Funktions-Spalte.");
 					return null;
 				}
 			}
@@ -127,6 +129,7 @@ public class UserController implements Initializable {
 				try {
 					return new SimpleStringProperty(data.getValue().getLogin().getUsername());
 				} catch(NullPointerException e) {
+					Logger.error("Problem beim Befüllen der User-Tabelle, Username-Spalte.");
 					return null;
 				}
 			}
@@ -139,7 +142,6 @@ public class UserController implements Initializable {
 		txtSearch.textProperty().addListener(new ChangeListener<String>() {
 	
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				// TODO Auto-generated method stub
 				updateFilteredData();				
 			}
 			
@@ -174,31 +176,34 @@ public class UserController implements Initializable {
 	 * @throws IOException
 	 */
 	@FXML
-	private void editUser(MouseEvent t) throws IOException {
+	private void editUser(MouseEvent t) {
 		
 		//Wenn Doppelklick auf Person
 		if(t.getClickCount() == 2) {
-			
-			//Angeklickte Person laden
-			Person personID = (Person) userTableView.getSelectionModel().getSelectedItem();
-
-			//FXMLLoader erstelen
-			FXMLLoader loader = new FXMLLoader(
-					getClass().getResource("/UserAddView.fxml")
-				);
-			
-			//Neuen View laden
-			Pane myPane = loader.load();
-
-			//UserAddController holen
-			UserAddController controller = loader.<UserAddController>getController();
-			
-			//Controller starten
-			controller.initData(personID);			
-			
-			//Neuen View einfügen
-			mainContent.getChildren().clear();
-			mainContent.getChildren().setAll(myPane);
+			try {
+				//Angeklickte Person laden
+				Person personID = (Person) userTableView.getSelectionModel().getSelectedItem();
+	
+				//FXMLLoader erstelen
+				FXMLLoader loader = new FXMLLoader(
+						getClass().getResource("/UserAddView.fxml")
+					);
+				
+				//Neuen View laden
+				Pane myPane = loader.load();
+	
+				//UserAddController holen
+				UserAddController controller = loader.<UserAddController>getController();
+				
+				//Controller starten
+				controller.initData(personID);			
+				
+				//Neuen View einfügen
+				mainContent.getChildren().clear();
+				mainContent.getChildren().setAll(myPane);
+			} catch(IOException | NullPointerException e) {
+				Logger.error("View \"UserAddView.fxml\" kann nicht geladen werden.");
+			}
 
 		}
 	}
@@ -220,8 +225,7 @@ public class UserController implements Initializable {
 		    }
 	    }
 	    catch (IOException e1) {
-	    	// TODO ERROR-LOGGIN
-	    	e1.printStackTrace();
+	    	Logger.error("GCEmployees können nicht aus der Datenbank geladen werden.");
 	    }
 	    
 	}	
@@ -242,8 +246,7 @@ public class UserController implements Initializable {
 		    }
 
 	    } catch (IOException e1) {
-	    	//TODO ERROR LOGGIN
-	    	e1.printStackTrace();
+	    	Logger.error("Bauleiter können nicht aus der Datenbank geladen werden.");
 	    }
 	}
 	

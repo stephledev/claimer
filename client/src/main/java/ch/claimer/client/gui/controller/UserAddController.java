@@ -1,7 +1,5 @@
 package ch.claimer.client.gui.controller;
 
-import java.awt.Desktop;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -9,6 +7,7 @@ import java.util.ResourceBundle;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+import org.pmw.tinylog.Logger;
 
 import ch.claimer.client.proxy.GCEmployeeProxy;
 import ch.claimer.client.proxy.RoleProxy;
@@ -34,7 +33,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 /**
@@ -178,12 +176,8 @@ public class UserAddController implements Initializable{
 			Pane myPane = FXMLLoader.load(getClass().getResource("/UserMainView.fxml"));
 			mainContent.getChildren().clear();
 			mainContent.getChildren().setAll(myPane);
-		} catch (NullPointerException npe) {
-			System.out.println("Fehler: View konnte nicht geladen werden");
-			// TODO Eintrag in Log-Datei
-			npe.printStackTrace();
-		}	catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException | NullPointerException e) {
+			Logger.error("View \"UserMainView.fxml\" kann nicht geladen werden.");
 		}
 		
 	}
@@ -212,9 +206,8 @@ public class UserAddController implements Initializable{
 			//Neuen View einfügen
 			mainContent.getChildren().clear();
 			mainContent.getChildren().setAll(myPane);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (IOException | NullPointerException e) {
+			Logger.error("View \"UserMainView.fxml\" kann nicht geladen werden.");
 		}
 	}
 	
@@ -239,8 +232,7 @@ public class UserAddController implements Initializable{
   		    //Open new Stage
   			stage.show();
 		} catch (IOException e) {
-  			// TODO Auto-generated catch block
-  			e.printStackTrace();
+			Logger.error("View \"DeleteConfirmation.fxml\" kannn nicht geladen werden.");
   		}
 		personHandler();
 	}
@@ -443,24 +435,7 @@ public class UserAddController implements Initializable{
 		}
 	}
 
-	/**
-	 * Öffnet ein Updload-Fenster, um ein Profilbild hochzuladen.
-	 * @param event - ActionEvent = Klick auf Button
-	 * @throws IOException
-	 */
-	@FXML
-	private void uploadImage(ActionEvent event) throws IOException {
-        final FileChooser fileChooser = new FileChooser();
-        Desktop desktop = Desktop.getDesktop();
-        Stage stage = new Stage();
-		System.out.println("Klick auf Button.");
-		// ToDo: Upload-Fenster öffnen, Bild überprüfen, bild speichern
-		File file = fileChooser.showOpenDialog(stage);
-        if (file != null) {
-        	 desktop.open(file);
-        }
-	} 
-	
+
 	/**
 	 * Initialisiert den View, um einen Subunternehmen-Mitarbeiter zu erfassen.
 	 */
