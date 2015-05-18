@@ -22,7 +22,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
- * Kontroller für das Hinzufügen und Ändern von Bauherren
+ * Controller für das Hinzufügen und Ändern von Bauherren
  * 
  * @author Alexander Hauck
  * @since 1.0
@@ -110,13 +110,12 @@ public class PrincipalAddController implements Initializable {
 	
 	/**
 	 * Füllt den View mit den Daten von dem zu bearbeitenden Bauherr.
-	 * @param principalToEdit
+	 * @param principalToEdit Bauherr, der Bearbeitet werden soll
 	 */
 	public void initData(Principal principalToEdit) {
 		
 		principalContainer = principalToEdit;
 		principalID = principalToEdit.getId();
-		
 		
 		//Texte im View anpassen
 		lblTitel.setText("Bauherr bearbeiten");
@@ -165,7 +164,7 @@ public class PrincipalAddController implements Initializable {
 	
 	/**
 	 * Kehrt zurück zum Bauherren Hauptview und gibt dort eine Meldung aus.
-	 * @param message 
+	 * @param message Nachricht, die ausgegeben werden soll
 	 */
 	private void loadPrincipalMainViewWithMessage(String message) {
 
@@ -189,7 +188,6 @@ public class PrincipalAddController implements Initializable {
 	 */
 	@FXML
 	public void deletePrincipal() {
-		//TODO Confirmation Dialog
 		try {
   			Stage stage = new Stage();
   			stage.setTitle("Bauleiter löschen");
@@ -215,9 +213,9 @@ public class PrincipalAddController implements Initializable {
 	
 	/**
 	 * Überprüft beim übergebenen Parameter, ob dieser die Mindest- und Maximallänge besitzt.
-	 * @param text
-	 * @param minLength
-	 * @param maxLength
+	 * @param text String, der überprüft werden soll
+	 * @param minLength Minimallänge
+	 * @param maxLength Maximallänge
 	 * @return
 	 */
 	private Boolean checkLength(String text, int minLength, int maxLength) {
@@ -231,7 +229,7 @@ public class PrincipalAddController implements Initializable {
 	}
 	
 	/**
-	 * Principal als Person speichern
+	 * Bauherr als Person speichern
 	 */
 	@FXML
 	private void savePrincipalPerson() {
@@ -313,7 +311,7 @@ public class PrincipalAddController implements Initializable {
 	}
 	
 	/**
-	 * Principal als Company speichern
+	 * Bauherr als Firma speichern
 	 */
 	@FXML
 	private void savePrincipalCompany() {
@@ -386,7 +384,7 @@ public class PrincipalAddController implements Initializable {
 	
 	/**
 	 * Aktualisiert einen bestehenden Bauherr in der Datenbank.
-	 * @param principal
+	 * @param principal Bauherr, der aktualisiert werden soll
 	 */
 	private void updatePrincipal(Principal principal) {
 		PrincipalProxy principalProxy = ResteasyClientUtil.getTarget().proxy(PrincipalProxy.class);
@@ -396,7 +394,7 @@ public class PrincipalAddController implements Initializable {
 	
 	/**
 	 * Speichert einen neuen Bauherr in der Datenbank.
-	 * @param principal
+	 * @param principal Bauherr, der neu eingefügt werden soll
 	 */
 	private void createPrincipal(Principal principal) {
 		PrincipalProxy principalProxy = ResteasyClientUtil.getTarget().proxy(PrincipalProxy.class);

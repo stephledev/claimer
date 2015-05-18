@@ -28,7 +28,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
- * Kontroller für die Login-Ansicht
+ * Controller für das Login
  * 
  * @author Michael Lötscher, Stephan Beeler
  * @since 1.0
@@ -116,9 +116,6 @@ public class LoginController extends Main implements Initializable {
 	
 	/**
 	 * Diese Methode ruft die "Home"-Seite auf.
-	 * 
-	 * @param event - ActionEvent
-	 * @throws IOException
 	 */
 	public void go(){
 		

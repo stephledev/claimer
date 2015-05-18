@@ -16,6 +16,7 @@ import javafx.scene.layout.Pane;
 
 
 /**
+ * Hauptklasse der Applikation
  * @author Michael Lötscher
  * @author Alexander Hauck
  * @version 1.1

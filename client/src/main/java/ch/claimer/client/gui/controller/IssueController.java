@@ -50,7 +50,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 /**
- * Kontroller für die MangelVerwalten-Ansicht
+ * Controller für die MangelVerwalten-Ansicht
  * 
  * @author Michael Lötscher, Alexander Hauck
  * @since 1.0
@@ -60,10 +60,7 @@ import javafx.util.Callback;
 
 public class IssueController implements Initializable {
 	
-	Client client;
-    WebTarget target;
-    ResteasyWebTarget rtarget = ResteasyClientUtil.getTarget();
-    ObjectMapper mapper =  new ObjectMapper();
+    private ObjectMapper mapper =  new ObjectMapper();
     private ObservableList<LogEntry> logEntryList = FXCollections.observableArrayList();
     private Integer issueId = null;
     private List<Subcontractor> subcontractorList = null;
@@ -346,7 +343,6 @@ public class IssueController implements Initializable {
 			dropdownSubcontractor.getStyleClass().add("txtError");
 		}
 		
-		//TODO Ansprechperson zuweisen.
 		if(!dropdownContact.getValue().equals("")) {
 			
 			String contactName = dropdownContact.getValue();
@@ -541,6 +537,9 @@ public class IssueController implements Initializable {
 		
 	}
 	
+	/**
+	 * Befüllt die Protokoll-Tabelle mit Daten
+	 */
 	private void fillLogTableView() {
 		
 		for(LogEntry logEntry : issueContainer.getLogEntries()) {
@@ -566,7 +565,7 @@ public class IssueController implements Initializable {
 	}
 	
 	/**
-	 * Klick auf den "Speicher"-Button, speichert den Mangel.
+	 * Speichert einen Kommentar
 	 */
 	@FXML
 	private void saveComment() {
