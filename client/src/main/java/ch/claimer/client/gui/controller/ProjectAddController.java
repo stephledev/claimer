@@ -15,6 +15,7 @@ import java.util.ResourceBundle;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
+import org.pmw.tinylog.Logger;
 
 import ch.claimer.client.proxy.CategoryProxy;
 import ch.claimer.client.proxy.IssueProxy;
@@ -354,8 +355,7 @@ public class ProjectAddController implements Initializable {
 				}
 		
 			} catch (IOException e1) {
-				// TODO LOGGING-Eintrag
-				e1.printStackTrace();
+				Logger.error("Mängel können nicht aus der Datenbank geladen werden.");
 			}
 			
 		} else {
@@ -368,8 +368,7 @@ public class ProjectAddController implements Initializable {
 				}
 		
 			} catch (IOException e1) {
-				// TODO LOGGING-Eintrag
-				e1.printStackTrace();
+				Logger.error("Mängel können nicht aus der Datenbank geladen werden.");
 			}
 		}
 		fillIssueTableView();
@@ -389,6 +388,7 @@ public class ProjectAddController implements Initializable {
 				try {
 					return new SimpleStringProperty(data.getValue().getSubcontractor().getName());
 				} catch(NullPointerException e) {
+					Logger.error("Problem beim Befüllen der Mängel-Tabelle, Subunternehmen-Spalte.");
 					return null;
 				}
 			}
@@ -399,6 +399,7 @@ public class ProjectAddController implements Initializable {
 					try {
 						return new SimpleStringProperty(data.getValue().getContact().getFirstname() + " " + data.getValue().getContact().getLastname());
 					} catch(NullPointerException e) {
+						Logger.error("Problem bem Befüllen der Mängel-Tabelle, Ansprechperson-Spalte.");
 						return null;
 					}
 				}
@@ -411,6 +412,7 @@ public class ProjectAddController implements Initializable {
 					String a = format.format(data.getValue().getSolved().getTime());
 					return new SimpleStringProperty(a);
 				} catch(NullPointerException e) {
+					Logger.error("Problem bem Befüllen der Mängel-Tabelle, Datums-Spalte.");
 					return null;
 				}
 			}
@@ -421,6 +423,7 @@ public class ProjectAddController implements Initializable {
 				try {
 					return new SimpleStringProperty(data.getValue().getState().getName());
 				} catch(NullPointerException e) {
+					Logger.error("Problem bem Befüllen der Mängel-Tabelle, Status-Spalte.");
 					return null;
 				}
 			}
@@ -457,9 +460,8 @@ public class ProjectAddController implements Initializable {
                                   		    
                                   		    //Open new Stage
                                   			stage.show();
-	                            		} catch (IOException e) {
-                                  			// TODO Auto-generated catch block
-                                  			e.printStackTrace();
+	                            		} catch (IOException | NullPointerException e) {
+	                						Logger.error("View \"DeleteConfirmation.fxml\" kann nicht geladen werden.");
                                   		}
 
 	                            		@SuppressWarnings("unchecked")
@@ -518,9 +520,7 @@ public class ProjectAddController implements Initializable {
 	                                          @SuppressWarnings("unchecked")
 	                                          TableRow<Principal> tableRow = c.getTableRow();
 	                                          Principal principal= (Principal)tableRow.getTableView().getItems().get(tableRow.getIndex());
-	                                          
-	                                          // TODO Confirmation Window
-	                                          
+	                                         	                                          
 	                                          try {
 	                                  			Stage stage = new Stage();
 	                                  			stage.setTitle("Kunde löschen");
@@ -534,9 +534,8 @@ public class ProjectAddController implements Initializable {
 	                                  		    
 	                                  		    //Open new Stage
 	                                  			stage.show();
-	                                  		} catch (IOException e) {
-	                                  			// TODO Auto-generated catch block
-	                                  			e.printStackTrace();
+	                                  		} catch (IOException | NullPointerException e) {
+	                                  			Logger.error("View \"DeleteConfirmation.fxml\" kann nicht geladen werden.");
 	                                  		}
 	                                        	  
 	                                          principalList.remove(principal);
@@ -572,6 +571,7 @@ public class ProjectAddController implements Initializable {
 					String a = format.format(data.getValue().getDate().getTime());
 					return new SimpleStringProperty(a);
 				} catch(NullPointerException e) {
+					Logger.error("Problem beim Befüllen der Protokoll-Tabelle, Datums-Spalte.");
 					return null;
 				}
 			}
@@ -585,10 +585,16 @@ public class ProjectAddController implements Initializable {
 	
 	// "Abbrechen"-Button: zur ProjectMain-Ansicht wechseln 
 	@FXML
-	private void loadProjectMainView(ActionEvent event) throws IOException {
-		Pane myPane = FXMLLoader.load(getClass().getResource("../view/ProjectsMainView.fxml"));
-		mainContent.getChildren().clear();
-		mainContent.getChildren().setAll(myPane);
+	private void loadProjectMainView(){
+		
+		try {
+			Pane myPane = FXMLLoader.load(getClass().getResource("../view/ProjectsMainView.fxml"));
+			mainContent.getChildren().clear();
+			mainContent.getChildren().setAll(myPane);
+		} catch (IOException | NullPointerException e) {
+			Logger.error("View \"ProjectsMainView.fxml\" kann nicht geladen werden.");
+		}
+		
 	}
 
 	/**
@@ -791,8 +797,8 @@ public class ProjectAddController implements Initializable {
 						p1.setState(state);	
 					}
 			} catch (IOException e1) {
-				e1.printStackTrace();
-				}
+				Logger.error("Status können nicht aus der Datenbank geladen werden.");
+			}
 		} else {
 			validationError = true;
 			dropdownState.getStyleClass().add("txtError");
@@ -806,12 +812,12 @@ public class ProjectAddController implements Initializable {
 				TypeProxy typeProxy = ResteasyClientUtil.getTarget().proxy(TypeProxy.class);		
 				 List<Type> typeList = mapper.readValue(typeProxy.getAll(), new TypeReference<List<Type>>(){});
 				 for(Type type: typeList) {
-						if(type.getName().equals(dropdownType.getValue()))
-							p1.setType(type);	
-						}
+					if(type.getName().equals(dropdownType.getValue()))
+						p1.setType(type);	
+					}
 			} catch (IOException e1) {
-				e1.printStackTrace();
-				}
+				Logger.error("Types können nicht aus der Datenbank geladen werden.");
+			}
 		} else {
 			validationError = true;
 			dropdownType.getStyleClass().add("txtError");
@@ -827,7 +833,7 @@ public class ProjectAddController implements Initializable {
 						p1.setCategory(category);
 					}
 			} catch (IOException e1) {
-				e1.printStackTrace();
+				Logger.error("Kategorien können nicht aus der Datenbank geladen werden.");
 			}
 		} else {
 			validationError = true;
@@ -851,7 +857,7 @@ public class ProjectAddController implements Initializable {
 					}
 				}
 			} catch(IOException e1) {
-				e1.printStackTrace();
+				Logger.error("Bauleiter könnnen nicht aus der Datenbank geladen werden.");
 			}
 		} else {
 			validationError = true;
@@ -892,9 +898,8 @@ public class ProjectAddController implements Initializable {
 		    //Open new Stage
 			stage.show();
 			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (IOException | NullPointerException e) {
+			Logger.error("View \"PrincipalMainView.fxml\" kann nicht geladen werden.");
 		}
 		
 	}
@@ -920,9 +925,8 @@ public class ProjectAddController implements Initializable {
 		    
 		    //Open new Stage
 			stage.show();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (IOException | NullPointerException e) {
+			Logger.error("View \"IssueView.fxml\" kann nicht geladen werden.");
 		}
 	}
 	
@@ -958,9 +962,8 @@ public class ProjectAddController implements Initializable {
 			    
 			    //Open new Stage
 				stage.show();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (IOException | NullPointerException e) {
+				Logger.error("Der View \"IssueView\" kann nicht geladen werden.");
 			}
 		}
 	}
@@ -989,8 +992,8 @@ public class ProjectAddController implements Initializable {
 			//Neuen View einfügen
 			mainContent.getChildren().clear();
 			mainContent.getChildren().setAll(myPane);
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException | NullPointerException e) {
+			Logger.error("View \"ProjectsMainView.fxml\" kann nicht geladen werden.");
 		}
 	}
 
@@ -1006,7 +1009,7 @@ public class ProjectAddController implements Initializable {
 				dropdownSupervisor.getItems().add(supervisor.getLastname() + ", " + supervisor.getFirstname());
 			}
 		} catch (IOException e1) {
-			e1.printStackTrace();
+			Logger.error("Bauleiter können nicht aus der Datenbank geladen werden.");
 		}		
 	}
 
@@ -1021,7 +1024,7 @@ public class ProjectAddController implements Initializable {
 		try {
 			stateList = mapper.readValue(stateProxy.getAll(), new TypeReference<List<State>>(){});
 		} catch (IOException e1) {
-			e1.printStackTrace();
+			Logger.error("Status können nicht aus der Datenbank geladen werden.");
 		}
 		
 		//Status dem Dropdown hinzufügen
@@ -1044,7 +1047,7 @@ public class ProjectAddController implements Initializable {
 				dropdownType.getItems().add(type.getName());
 			}
 		} catch (IOException e1) {
-			e1.printStackTrace();
+			Logger.error("Types können nicht aus der Datenbank geladen werden.");
 		}
 
 		
@@ -1061,7 +1064,7 @@ public class ProjectAddController implements Initializable {
 		try {
 			categoryList = mapper.readValue(categoryProxy.getAll(), new TypeReference<List<Category>>(){});
 		} catch (IOException e1) {
-			e1.printStackTrace();
+			Logger.error("Kategorien können nicht aus der Datenbank geladen werden.");
 		}
 
 		//Kategorie dem Dropdown hinzufügen
@@ -1077,39 +1080,43 @@ public class ProjectAddController implements Initializable {
 	 */
 	@FXML
 	public void export() throws Exception {
-		Stage stage = new Stage();
-		FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Mängelliste speichern");
-        ExtensionFilter extFilter = new ExtensionFilter("CSV-Datei (*.csv)", "*.csv");
-        fileChooser.getExtensionFilters().add(extFilter);
-        File file = fileChooser.showSaveDialog(stage);
-        
-		Writer writer = new BufferedWriter(new FileWriter(file));
-
-		List<Issue> issuesToExport = mangleTableView.getItems();
-		
-		String titelZeile = "Projektname:" + ";"  + "Mangel Id:" + ";" + "Mangelbeschrieb:" + ";" + "Erfasst am:" + ";" + "Zu erledigen bis:" + ";" + "Status:" + "\n";
+	
 		try {
+			Stage stage = new Stage();
+			FileChooser fileChooser = new FileChooser();
+	        fileChooser.setTitle("Mängelliste speichern");
+	        ExtensionFilter extFilter = new ExtensionFilter("CSV-Datei (*.csv)", "*.csv");
+	        fileChooser.getExtensionFilters().add(extFilter);
+	        File file = fileChooser.showSaveDialog(stage);
+	        
+			Writer writer = new BufferedWriter(new FileWriter(file));
+
+			List<Issue> issuesToExport = mangleTableView.getItems();
+			
+			String titelZeile = "Projektname:" + ";"  + "Mangel Id:" + ";" + "Mangelbeschrieb:" + ";" + "Erfasst am:" + ";" + "Zu erledigen bis:" + ";" + "Status:" + "\n";
             writer.write(titelZeile);
             writer.flush();
+            
+            for(Issue issue : issuesToExport) {
+   			 String issueDescription = issue.getProject().getName() + ";"  + issue.getId() + ";" + issue.getDescription()+ ";" + issue.getCreated().getTime().toString()+ ";" + issue.getSolved().getTime().toString() + ";" + issue.getState().getName()+ "\n";
+   			if (file != null) {
+   		        try {
+   		            writer.write(issueDescription);
+   		            writer.flush();
+   		        } catch (IOException ex) {
+   		            System.out.println(ex.getMessage());
+   		        }
+   		    }
+   		}
+   		writer.close();
+   		
+   		lbl_issueExport.setText("Die Mängelliste wurde gespeichert");
+            
         } catch (IOException ex) {
-            System.out.println(ex.getMessage());
+            Logger.error("Problem beim Export der Mängelliste.");
         }
 		
-		for(Issue issue : issuesToExport) {
-			 String issueDescription = issue.getProject().getName() + ";"  + issue.getId() + ";" + issue.getDescription()+ ";" + issue.getCreated().getTime().toString()+ ";" + issue.getSolved().getTime().toString() + ";" + issue.getState().getName()+ "\n";
-			if (file != null) {
-		        try {
-		            writer.write(issueDescription);
-		            writer.flush();
-		        } catch (IOException ex) {
-		            System.out.println(ex.getMessage());
-		        }
-		    }
-		}
-		writer.close();
 		
-		lbl_issueExport.setText("Die Mängelliste wurde gespeichert");
 	} 
 
 }

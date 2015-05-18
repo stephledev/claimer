@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import org.pmw.tinylog.Logger;
+
 import ch.claimer.client.proxy.PrincipalProxy;
 import ch.claimer.client.util.ResteasyClientUtil;
 import ch.claimer.shared.models.Principal;
@@ -155,11 +157,8 @@ public class PrincipalAddController implements Initializable {
 			Pane myPane = FXMLLoader.load(getClass().getResource("../view/PrincipalMainView.fxml"));
 			mainContent.getChildren().clear();
 			mainContent.getChildren().setAll(myPane);
-		} catch (NullPointerException npe) {
-			// TODO Eintrag in Log-Datei
-			npe.printStackTrace();
-		}	catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException | NullPointerException e) {
+			Logger.error("View \"PrincipalMainView.fxml\" kann nicht geladen werden.");
 		}
 		
 	}
@@ -180,9 +179,8 @@ public class PrincipalAddController implements Initializable {
 			//Neuen View einfügen
 			mainContent.getChildren().clear();
 			mainContent.getChildren().setAll(myPane);
-		} catch (IOException e) {
-			// TODO LOGGIN-EINTRAG
-			e.printStackTrace();
+		} catch (IOException | NullPointerException e) {
+			Logger.error("View \"PrincipalMainView.fxml\" kann nicht geladen werden.");
 		}
 	}
 
@@ -205,16 +203,16 @@ public class PrincipalAddController implements Initializable {
   		    
   		    //Open new Stage
   			stage.show();
-		} catch (IOException e) {
-  			// TODO Auto-generated catch block
-  			e.printStackTrace();
-  		}
-		principalContainer.setActive(false);
-		updatePrincipal(principalContainer);
-		loadPrincipalMainViewWithMessage("Bauherr erfolgreich gelöscht.");
+  			
+  			principalContainer.setActive(false);
+  			updatePrincipal(principalContainer);
+  			loadPrincipalMainViewWithMessage("Bauherr erfolgreich gelöscht.");
+  			
+		} catch (IOException | NullPointerException e) {
+			Logger.error("View \"DeleteConfirmation.fxml\" kann nicht geladen werden.");
+  		}	
 	}
 	
-
 	/**
 	 * Überprüft beim übergebenen Parameter, ob dieser die Mindest- und Maximallänge besitzt.
 	 * @param text

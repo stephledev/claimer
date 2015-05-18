@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+import org.pmw.tinylog.Logger;
 
 import ch.claimer.client.proxy.PrincipalProxy;
 import ch.claimer.client.util.ResteasyClientUtil;
@@ -85,23 +86,23 @@ public class PrincipalController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
-		//Bauherren aus Datenbank laden
-		PrincipalProxy principalProxy = ResteasyClientUtil.getTarget().proxy(PrincipalProxy.class);
-	    ObjectMapper mapper = new ObjectMapper();
-	    List<Principal> principalList = null;
 		try {
-			principalList = mapper.readValue(principalProxy.getAll(), new TypeReference<List<Principal>>(){});
+			//Bauherren aus Datenbank laden
+			PrincipalProxy principalProxy = ResteasyClientUtil.getTarget().proxy(PrincipalProxy.class);
+		    ObjectMapper mapper = new ObjectMapper();
+		    List<Principal> principalList  = mapper.readValue(principalProxy.getAll(), new TypeReference<List<Principal>>(){});
+		    
+		    //Bauherren der ObservableList zuweisen
+			for(Principal principal : principalList) {
+				data.add(principal);
+				filteredData.add(principal);
+			}
+			
+			fillTableView();
+			
 		} catch (IOException e1) {
-			e1.printStackTrace();
+			Logger.info("Bauherren können nicht aus der Datenbank geladen werden.");
 		}
-		
-		//Bauherren der ObservableList zuweisen
-		for(Principal principal : principalList) {
-			data.add(principal);
-			filteredData.add(principal);
-		}
-		
-		fillTableView();
 		
 		//Listener für Änderungen im Suchenfeld
 		txtSearch.textProperty().addListener(new ChangeListener<String>() {
@@ -147,30 +148,25 @@ public class PrincipalController implements Initializable {
 	 * @throws IOException
 	 */
 	@FXML
-	private void editPrincipal(MouseEvent t) throws IOException {
+	private void editPrincipal(MouseEvent t) {
         
         //Wenn Doppelklick auf Person
         if(t.getClickCount() == 2) {
         		
-	        	//Angeklickte Firma laden
-				Principal principalToEdit = (Principal) principalTableView.getSelectionModel().getSelectedItem();
-	
-				//FXMLLoader erstellen
+    		try {
+				Principal principalToEdit = (Principal) principalTableView.getSelectionModel().getSelectedItem(); //Angeklickte Firma auslesen
 				FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/PrincipalAddView.fxml"));
-				
-				//Neuen View laden
 				Pane myPane = loader.load();
-	
-				//UserAddController holen
 				PrincipalAddController controller = loader.<PrincipalAddController>getController();
-				
-				//Controller starten
-				controller.initData(principalToEdit);			
+				controller.initData(principalToEdit);	//Controller starten		
 				
 				//Neuen View einfügen
 				mainContent.getChildren().clear();
 				mainContent.getChildren().setAll(myPane);
-        
+				
+			} catch (IOException | NullPointerException e) {
+				Logger.error("View \"PrincipalAddView.fxml\" kann nicht geladen werden.");
+			}
         }
 	}
 	

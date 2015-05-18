@@ -8,13 +8,15 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.ResourceBundle;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
+
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
+import org.pmw.tinylog.Logger;
+
 import ch.claimer.client.proxy.ContactProxy;
 import ch.claimer.client.proxy.StateProxy;
 import ch.claimer.client.proxy.SubcontractorProxy;
@@ -335,7 +337,7 @@ public class IssueController implements Initializable {
 						}
 					}
 					} catch (IOException e1) {
-						e1.printStackTrace();
+						Logger.error("Subunternehmen können nicht aus der Datenbank geladen werden.");
 					}
 			}
 			
@@ -361,7 +363,7 @@ public class IssueController implements Initializable {
 						issue.setContact(contact);;	
 				}
 			} catch (IOException e1) {
-				e1.printStackTrace();
+				Logger.error("Ansprechpersonen können nicht aus der Datenbank geladen werden.");
 			}
 		} else {
 			validationError = true;
@@ -380,7 +382,7 @@ public class IssueController implements Initializable {
 						issue.setState(state);	
 				}
 			} catch (IOException e1) {
-				e1.printStackTrace();
+				Logger.error("Status können nicht aus der Datenbank geladen werden.");
 			}
 		} else {
 			validationError = true;
@@ -438,20 +440,20 @@ public class IssueController implements Initializable {
 	 */
 	public void setDropdownState()  {
 
-		StateProxy stateProxy = ResteasyClientUtil.getTarget().proxy(StateProxy.class);		
-		ObjectMapper mapper = new ObjectMapper();	    
-		List<State> stateList = null;
-
 		try {
-			stateList = mapper.readValue(stateProxy.getAll(), new TypeReference<List<State>>(){});
+
+			StateProxy stateProxy = ResteasyClientUtil.getTarget().proxy(StateProxy.class);		
+			ObjectMapper mapper = new ObjectMapper();	    
+			List<State> stateList = mapper.readValue(stateProxy.getAll(), new TypeReference<List<State>>(){});
+
+			for(State state: stateList) {
+				dropdownState.getItems().add(state.getName());
+			}
 		} catch (IOException e1) {
-			e1.printStackTrace();
+			Logger.error("Status können nicht aus der Datenbank geladen werden.");
 		}
 
-		//Status dem Dropdown hinzufügen
-		for(State state: stateList) {
-			dropdownState.getItems().add(state.getName());
-		}
+		
 	}
 
 	/**
@@ -468,10 +470,8 @@ public class IssueController implements Initializable {
 			}
 			
 		} catch (IOException e1) {
-			e1.printStackTrace();
+			Logger.error("Subunternehmen können nicht aus der Datenbank geladen werden.");
 		}
-
-		
 	}
 	
 	/**
@@ -491,15 +491,8 @@ public class IssueController implements Initializable {
 					dropdownContact.getItems().add(contact.getLastname() + ", " + contact.getFirstname());
 				}
 			}
-		} catch (JsonParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Logger.error("Ansprechpersonen können nicht aus der Datenbank geladen werden.");
 		}
 	}
 	
@@ -524,6 +517,7 @@ public class IssueController implements Initializable {
 					
 					return new SimpleStringProperty(output);
 				} catch(NullPointerException e) {
+					Logger.error("Problem beim Befüllen der Kommentare-Tabelle, Spalte \"Author\".");
 					return null;
 				}
 			}
@@ -536,6 +530,7 @@ public class IssueController implements Initializable {
 					String a = format.format(data.getValue().getCreated().getTime());
 					return new SimpleStringProperty(a);
 				} catch(NullPointerException e) {
+					Logger.error("Problem beim Befüllen der Kommentare-Tabelle, Spalte \"Datum\"");
 					return null;
 				}
 			}
@@ -559,6 +554,7 @@ public class IssueController implements Initializable {
 					String a = format.format(data.getValue().getDate().getTime());
 					return new SimpleStringProperty(a);
 				} catch(NullPointerException e) {
+					Logger.error("Problem beim Befüllen der Log-Tabelle, Spalte \"Datum\".");
 					return null;
 				}
 			}
@@ -566,11 +562,8 @@ public class IssueController implements Initializable {
 		
 		colLogDescription.setCellValueFactory(new PropertyValueFactory<LogEntry, String>("description"));
 		
-		logTableView.setItems(logEntryList);
-		
+		logTableView.setItems(logEntryList);	
 	}
-	
-	
 	
 	/**
 	 * Klick auf den "Speicher"-Button, speichert den Mangel.

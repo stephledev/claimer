@@ -3,6 +3,8 @@ package ch.claimer.client.gui;
 import java.awt.Toolkit;
 import java.io.IOException;
 
+
+
 import org.pmw.tinylog.Logger;
 
 import ch.claimer.shared.util.LoggerUtil;
@@ -26,7 +28,6 @@ public class Main extends Application {
 	public static void main(String[] args) {
 		launch(args);
 		LoggerUtil.loadConfig();
-		Logger.error("asdfasdf");
 	}
 
 	/** 
@@ -38,8 +39,7 @@ public class Main extends Application {
 		Integer screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
 		
 		primaryStage.setTitle("Claimer");
-		FXMLLoader myLoader = new FXMLLoader(getClass().getResource(
-				"view/Login.fxml")); // FXML File kann von myLoader geladen werden
+		FXMLLoader myLoader = new FXMLLoader(getClass().getResource("view/Login.fxml")); // FXML File kann von myLoader geladen werden
 
 		try {
 			Pane pane = (Pane) myLoader.load(); // FXML File wird auf das login-Pane geladen
@@ -53,12 +53,10 @@ public class Main extends Application {
 			
 			primaryStage.setScene(login);			
 			primaryStage.show();
-
 		}
 
-		catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		catch (IOException | IllegalStateException e) {
+			Logger.info("View \"Login.fxml\" kann nicht geladen werden.");
+		} 
 	}
 }
