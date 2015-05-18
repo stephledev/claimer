@@ -12,14 +12,14 @@ import ch.claimer.shared.models.Category;
 import ch.claimer.webservice.controller.Controller;
 
 /**
- * Definiert die verfügbaren HTTP-Routes der Kategorien.
+ * Definiert die verfügbaren HTTP-Routes der Kommentare.
  * Lädt anhand der URL und der HTTP-Anfrage die entsprechende Controller-Methode.
  * Liefert eine HTTP-Antwort mit Statuscode zurück.
  * 
  * @author Stephan Beeler
- *
+ * @version 1.0
+ * @since 1.0
  */
-
 @Path("/")
 public class CategoryRoute {	
 	
@@ -29,6 +29,11 @@ public class CategoryRoute {
 		this.controller = new Controller<Category>(Category.class);
 	}
 	
+	/**
+	 * Zeigt alle Kategorien an
+	 * 
+	 * @return Response HTTP-Antwort mit Kategorien
+	 */
 	@GET
 	@RolesAllowed("admin")
 	@Path("category") 
@@ -37,6 +42,12 @@ public class CategoryRoute {
 		return controller.showAll();
 	}
 	
+	/**
+	 * Zeigt ein bestimmte Kategorie an
+	 *  
+	 * @param id Identifikator der anzuzeigenden Kategorie
+	 * @return Response HTTP-Antwort mit Kategorie
+	 */
 	@GET
 	@RolesAllowed("admin")
 	@Path("category/{id}")

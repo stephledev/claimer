@@ -11,6 +11,18 @@ import org.pmw.tinylog.Logger;
 import ch.claimer.shared.models.SCEmployee;
 import ch.claimer.webservice.services.ResponseHandlerService;
 
+/**
+ * Behandelt Anfragen spezifisch für Sachbearbeiter Subunternehmen, die
+ * über die HTTP-Routes vermittelt wurden. Initiert eine Verbindung zur
+ * RMI-Schnittstelle und ruft die entsprechenden Methoden. Nötig da
+ * GenericEntity nicht mit generischen Typen ausgestattet werden knann.
+ * 
+ * @see <a href="http://docs.oracle.com/javaee/6/api/javax/ws/rs/core/GenericEntity.html">GenericEntity</a>
+ * 
+ * @author Stephan Beeler
+ * @version 1.0
+ * @since 1.0
+ */
 public class SCEmployeeController extends Controller<SCEmployee> {
 	
 	public SCEmployeeController() {

@@ -8,6 +8,14 @@ import org.pmw.tinylog.Logger;
 
 import ch.claimer.shared.util.LoggerUtil;
 
+/**
+ * Lädt die Logging-Konfiguration beim Start des Webservers.
+ * 
+ * @author Stephan Beeler
+ * @version 1.0
+ * @since 1.0
+ *
+ */
 @WebListener
 public class EventListener implements ServletContextListener {
 	

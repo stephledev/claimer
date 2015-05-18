@@ -19,6 +19,14 @@ import ch.claimer.shared.models.Login;
 import ch.claimer.shared.models.Person;
 import ch.claimer.webservice.services.ResponseHandlerService;
 
+/**
+ * Behandelt Anfragen spezifisch für Logins. Behandelt die Prüfung des Anmeldeverfahren über die
+ * RMI-Schnittstelle. 
+ * 
+ * @author Stephan Beeler
+ * @version 1.0
+ * @since 1.0
+ */
 public class LoginController extends Controller<Login> {
 	
 	private Method<Person> personMethod;
@@ -36,6 +44,12 @@ public class LoginController extends Controller<Login> {
 		}
 	}
 
+	/**
+	 * Überprüft ob das eingehende Login in der Datenbank vorhanden ist.
+	 * 
+	 * @param login zu prüfendes Login
+	 * @return Response HTTP-Antwort mit zugehöriger Person zum Login
+	 */
 	public Response check(Login login) {
 		List<Login> checkLogin = null;
 		try {
