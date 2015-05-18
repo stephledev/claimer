@@ -2,5 +2,10 @@
   "webservice": {
     "host": "http://127.0.0.1:8080",
     "path": "webservice"
+  },
+  "tinylog": {
+    "filename": "log.txt",
+    "backups": "7",
+    "level": "INFO"
   }
 }

@@ -22,6 +22,5 @@ public class EventListener implements ServletContextListener {
 
 	@Override
 	public void contextDestroyed(ServletContextEvent event) {
-		Logger.info("Webservice beendet");
 	}
 }
