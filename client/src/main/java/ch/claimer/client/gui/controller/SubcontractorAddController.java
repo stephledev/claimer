@@ -311,7 +311,24 @@ public class SubcontractorAddController implements Initializable {
 		                            button.setOnAction(new EventHandler<ActionEvent>() {
 		                                  @Override
 		                                  public void handle(ActionEvent event) {
-		                                          @SuppressWarnings("unchecked")
+		                                	  try {
+		                                  			Stage stage = new Stage();
+		                                  			stage.setTitle("Subunternehmen löschen");
+		                                  			
+		                                  			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/DeleteConfirmation.fxml"));
+		                                  			Pane myPane = loader.load();
+
+		                                  			Scene scene = new Scene(myPane);
+		                                  			scene.getStylesheets().add(getClass().getResource("../claimer_styles.css").toExternalForm()); // CSS-File wird geladen
+		                                  			stage.setScene(scene);
+		                                  		    
+		                                  		    //Open new Stage
+		                                  			stage.show();
+			                            		} catch (IOException e) {
+		                                  			// TODO Auto-generated catch block
+		                                  			e.printStackTrace();
+		                                  		} 
+		                                	  	@SuppressWarnings("unchecked")
 												TableRow<Person> tableRow = c.getTableRow();
 		                                          Person person= (Person)tableRow.getTableView().getItems().get(tableRow.getIndex());
 		                                          
@@ -359,6 +376,23 @@ public class SubcontractorAddController implements Initializable {
 	 */
 	@FXML
 	private void deleteSubcontractor() {
+		try {
+  			Stage stage = new Stage();
+  			stage.setTitle("Subunternehmen löschen");
+  			
+  			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/DeleteConfirmation.fxml"));
+  			Pane myPane = loader.load();
+
+  			Scene scene = new Scene(myPane);
+  			scene.getStylesheets().add(getClass().getResource("../claimer_styles.css").toExternalForm()); // CSS-File wird geladen
+  			stage.setScene(scene);
+  		    
+  		    //Open new Stage
+  			stage.show();
+		} catch (IOException e) {
+  			// TODO Auto-generated catch block
+  			e.printStackTrace();
+  		}
 		subcontractorContainer.setActive(false);
 		SubcontractorProxy scProxy = ResteasyClientUtil.getTarget().proxy(SubcontractorProxy.class);
 		scProxy.update(subcontractorContainer);
