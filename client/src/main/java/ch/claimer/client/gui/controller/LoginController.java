@@ -30,7 +30,8 @@ import javafx.stage.Stage;
 /**
  * Kontroller für die Login-Ansicht
  * 
- * @author Michael Lötscher, Stephan Beeler
+ * @author Michael Lötscher
+ * @author Stephan Beeler
  * @since 1.0
  * @version 1.2
  *

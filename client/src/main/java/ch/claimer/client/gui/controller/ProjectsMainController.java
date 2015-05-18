@@ -38,7 +38,8 @@ import javafx.util.Callback;
 /**
  * Kontroller für die Projekt-Übersicht
  * 
- * @author Michael Lötscher, Alexander Hauck
+ * @author Michael Lötscher
+ * @author Alexander Hauck
  * @since 1.0
  * @version 2.0
  *

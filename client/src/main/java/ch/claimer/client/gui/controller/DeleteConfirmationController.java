@@ -17,7 +17,7 @@ import javafx.stage.Stage;
  * 
  * @author Michael Lötscher
  * @since 1.0
- * @version 1.1
+ * @version 1.0
  *
  */
 
@@ -29,11 +29,21 @@ public class DeleteConfirmationController implements Initializable {
 	@FXML
 	private Button bttn_cancel;
 
+	/**
+	 * Speichert die Datei
+	 * @param event - ActionEvent = Klick auf den Button
+	 * @throws IOException
+	 */
 	@FXML
 	private void agree(ActionEvent event) throws IOException{
-		
+	//TODO	
 	}
 
+	/**
+	 * Beim Klick auf den "Abbrechen"-Button schliesst sich das Fenster wieder.
+	 * @param event - ActionEvent = Klick auf den Button
+	 * @throws IOException
+	 */
 	@FXML
 	private void cancel(ActionEvent event) throws IOException{
 		Stage stage = (Stage) bttn_cancel.getScene().getWindow();
@@ -43,6 +53,9 @@ public class DeleteConfirmationController implements Initializable {
 	
 	
 
+	/* (non-Javadoc)
+	 * @see javafx.fxml.Initializable#initialize(java.net.URL, java.util.ResourceBundle)
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub

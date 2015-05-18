@@ -67,7 +67,8 @@ import javafx.util.Callback;
 /**
  * Kontroller für die ProjektVerwalten-Übersicht 
  * 
- * @author Michael Lötscher, Alexander Hauck
+ * @author Michael Lötscher
+ * @author Alexander Hauck
  * @since 1.0
  * @version 2.0
  *
@@ -583,7 +584,10 @@ public class ProjectAddController implements Initializable {
 		
 	}
 	
-	// "Abbrechen"-Button: zur ProjectMain-Ansicht wechseln 
+	
+	/**
+	 * "Abbrechen"-Button: zur ProjectMain-Ansicht wechseln 
+	 */
 	@FXML
 	private void loadProjectMainView(){
 		

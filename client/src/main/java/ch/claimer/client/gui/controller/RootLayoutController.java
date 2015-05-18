@@ -30,7 +30,8 @@ import javafx.stage.Stage;
 
 /**
  * @author Alexander Hauck
- * @since 10.04.2015
+ * @author Michael Lötscher
+ * @since 1.0
  * @version 1.1
  *
  */
@@ -81,6 +82,9 @@ public class RootLayoutController implements Initializable {
 
 	
 
+	/* (non-Javadoc)
+	 * @see javafx.fxml.Initializable#initialize(java.net.URL, java.util.ResourceBundle)
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		//Namen setzen
@@ -102,7 +106,10 @@ public class RootLayoutController implements Initializable {
 		}		
 	}
 	
-	//Zur Projekte-Hauptansicht (projectsMainView.xml) wechseln
+	
+	/**
+	 * Zur Projekte-Hauptansicht (projectsMainView.xml) wechseln
+	 */
 	@FXML
 	private void loadProjectsMainView() {
 		try {
@@ -114,7 +121,10 @@ public class RootLayoutController implements Initializable {
 		}
 	}
 	
-	//Zur Bauleiter-Hauptansicht wechseln (supervisorMainView.xml)
+	
+	/**
+	 * Zur Bauleiter-Hauptansicht wechseln (supervisorMainView.xml)
+	 */
 	@FXML
 	private void loadSupervisorMainView() {
 		try {
@@ -126,7 +136,10 @@ public class RootLayoutController implements Initializable {
 		}
 	}
 	
-	//Zur Subunternehmen-Hauptansicht wechseln (supervisorMainView.xml)
+	
+	/**
+	 * Zur Subunternehmen-Hauptansicht wechseln (supervisorMainView.xml)
+	 */
 	@FXML
 	private void loadSubcontractorMainView() {
 		try {
@@ -138,7 +151,9 @@ public class RootLayoutController implements Initializable {
 		}
 	}
 	
-	//Zur Kunden-Hauptansicht wechseln  (principalMainView.xml)
+	/**
+	 * 	Zur Kunden-Hauptansicht wechseln  (principalMainView.xml)
+	 */
 	@FXML
 	private void loadPrincipalMainView(){
 		try {
@@ -150,7 +165,9 @@ public class RootLayoutController implements Initializable {
 		}
 	}
 	
-	//Zur Benutzer-Hauptansicht wechseln  (userMainView.xml)
+	/**
+	 * 	Zur Benutzer-Hauptansicht wechseln  (userMainView.xml)
+	 */
 	@FXML
 	private void loadUserMainView(){
 		try {
@@ -162,13 +179,25 @@ public class RootLayoutController implements Initializable {
 		}
 	}
 	
-	//GUI schliessen
+	
+	/**
+	 * GUI schliessen
+	 * 
+	 * @param event - ActionEvent = Klick auf Button
+	 * @throws IOException
+	 */
 	@FXML
 	private void closeClaimer(ActionEvent event) throws IOException {
 		System.exit(0);
 	}
 	
-	//Logout und Login-Seite laden
+	
+	/**
+	 * Logout und Login-Seite laden
+	 * 
+	 * @param event - ActionEvent = Klick auf Button
+	 * @throws IOException
+	 */
 	@FXML
 	private void logout(ActionEvent event) throws IOException {
 		

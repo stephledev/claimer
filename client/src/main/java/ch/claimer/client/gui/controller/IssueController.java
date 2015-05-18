@@ -52,7 +52,8 @@ import javafx.util.Callback;
 /**
  * Kontroller für die MangelVerwalten-Ansicht
  * 
- * @author Michael Lötscher, Alexander Hauck
+ * @author Michael Lötscher
+ * @author Alexander Hauck
  * @since 1.0
  * @version 2.0
  *
@@ -541,6 +542,9 @@ public class IssueController implements Initializable {
 		
 	}
 	
+	/**
+	 * Füllt die LogTabelle
+	 */
 	private void fillLogTableView() {
 		
 		for(LogEntry logEntry : issueContainer.getLogEntries()) {

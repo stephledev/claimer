@@ -38,7 +38,7 @@ import javafx.stage.Stage;
  * Controller für den Bauherren Hauptview.
  * 
  * @author Alexander Hauck
- * @since 20.04.2015
+ * @since 1.0
  * @version 2.1
  */
 
