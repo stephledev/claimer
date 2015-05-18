@@ -48,14 +48,6 @@
                   </Label>
                   <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
                      <children>
-                        <ImageView fitHeight="41.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@/img3680.jpg" />
-                           </image>
-                           <HBox.margin>
-                              <Insets right="20.0" />
-                           </HBox.margin>
-                        </ImageView>
                         <Label fx:id="lblName" styleClass="header-name" text="Max Muster" />
                         <SplitMenuButton fx:id="splitMenuButton" mnemonicParsing="false" styleClass="header-button">
                           <items>

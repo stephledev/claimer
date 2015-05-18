@@ -40,31 +40,11 @@
             <GridPane GridPane.rowIndex="1">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="NEVER" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
-                <ColumnConstraints hgrow="NEVER" maxWidth="150.0" minWidth="10.0" prefWidth="150.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints fillHeight="false" valignment="TOP" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <GridPane GridPane.columnIndex="2">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints fillHeight="false" valignment="TOP" vgrow="NEVER" />
-                        <RowConstraints fillHeight="false" maxHeight="10.0" minHeight="10.0" prefHeight="10.0" valignment="TOP" vgrow="NEVER" />
-                      <RowConstraints fillHeight="false" vgrow="NEVER" />
-                    </rowConstraints>
-                     <children>
-                        <Button mnemonicParsing="false" onAction="#uploadImage" styleClass="upload-button" text="Upload" GridPane.rowIndex="2" />
-                        <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../../img3680.jpg" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </GridPane>
                   <GridPane>
                     <columnConstraints>
                         <ColumnConstraints fillWidth="false" hgrow="NEVER" />
