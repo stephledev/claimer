@@ -10,6 +10,7 @@ import javax.ws.rs.client.WebTarget;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
+import org.pmw.tinylog.Logger;
 
 import ch.claimer.client.util.AuthenticationUtil;
 import ch.claimer.shared.models.Person;
@@ -101,53 +102,64 @@ public class RootLayoutController implements Initializable {
 		}		
 	}
 	
-	//Zur Home-Ansicht wechseln (mainView.xml)
-	@FXML
-	private void loadHomeView(ActionEvent event) throws IOException {
-		Pane myPane = FXMLLoader.load(getClass().getResource("/HomeView.fxml"));
-		mainContent.getChildren().clear();
-		mainContent.getChildren().setAll(myPane);
-		
-	}
-	
 	//Zur Projekte-Hauptansicht (projectsMainView.xml) wechseln
 	@FXML
-	private void loadProjectsMainView(ActionEvent event) throws IOException {
-		Pane myPane = FXMLLoader.load(getClass().getResource("/ProjectsMainView.fxml"));
-		mainContent.getChildren().clear();
-		mainContent.getChildren().setAll(myPane);
+	private void loadProjectsMainView() {
+		try {
+			Pane myPane = FXMLLoader.load(getClass().getResource("/ProjectsMainView.fxml"));
+			mainContent.getChildren().clear();
+			mainContent.getChildren().setAll(myPane);
+		} catch (IOException | NullPointerException e) {
+			Logger.error("View \"ProjectsMainView.fxml\" kannn nicht geladen werden.");
+		}
 	}
 	
 	//Zur Bauleiter-Hauptansicht wechseln (supervisorMainView.xml)
 	@FXML
-	private void loadSupervisorMainView(ActionEvent event) throws IOException {
-		Pane myPane = FXMLLoader.load(getClass().getResource("/SupervisorMainView.fxml"));
-		mainContent.getChildren().clear();
-		mainContent.getChildren().setAll(myPane);
+	private void loadSupervisorMainView() {
+		try {
+			Pane myPane = FXMLLoader.load(getClass().getResource("/SupervisorMainView.fxml"));
+			mainContent.getChildren().clear();
+			mainContent.getChildren().setAll(myPane);
+		} catch (IOException | NullPointerException e) {
+			Logger.error("View \"SupervisorMainView.fxml\" kannn nicht geladen werden.");
+		}
 	}
 	
 	//Zur Subunternehmen-Hauptansicht wechseln (supervisorMainView.xml)
-		@FXML
-		private void loadSubcontractorMainView(ActionEvent event) throws IOException {
+	@FXML
+	private void loadSubcontractorMainView() {
+		try {
 			Pane myPane = FXMLLoader.load(getClass().getResource("/SubcontractorMainView.fxml"));
 			mainContent.getChildren().clear();
 			mainContent.getChildren().setAll(myPane);
+		} catch (IOException | NullPointerException e) {
+			Logger.error("View \"SubcontractorMainView.fxml\" kannn nicht geladen werden.");
 		}
+	}
 	
 	//Zur Kunden-Hauptansicht wechseln  (principalMainView.xml)
 	@FXML
-	private void loadPrincipalMainView(ActionEvent event) throws IOException {
-		Pane myPane = FXMLLoader.load(getClass().getResource("/PrincipalMainView.fxml"));
-		mainContent.getChildren().clear();
-		mainContent.getChildren().setAll(myPane);
+	private void loadPrincipalMainView(){
+		try {
+			Pane myPane = FXMLLoader.load(getClass().getResource("/PrincipalMainView.fxml"));
+			mainContent.getChildren().clear();
+			mainContent.getChildren().setAll(myPane);
+		} catch (IOException | NullPointerException e) {
+			Logger.error("View \"PrincipalMainView.fxml\" kannn nicht geladen werden.");
+		}
 	}
 	
 	//Zur Benutzer-Hauptansicht wechseln  (userMainView.xml)
 	@FXML
-	private void loadUserMainView(ActionEvent event) throws IOException {
-		Pane myPane = FXMLLoader.load(getClass().getResource("/UserMainView.fxml"));
-		mainContent.getChildren().clear();
-		mainContent.getChildren().setAll(myPane);
+	private void loadUserMainView(){
+		try {
+			Pane myPane = FXMLLoader.load(getClass().getResource("/UserMainView.fxml"));
+			mainContent.getChildren().clear();
+			mainContent.getChildren().setAll(myPane);
+		} catch (IOException | NullPointerException e) {
+			Logger.error("View \"UserMainView.fxml\" kannn nicht geladen werden.");
+		}
 	}
 	
 	//GUI schliessen
@@ -177,9 +189,8 @@ public class RootLayoutController implements Initializable {
 		    
 		    //Open new Stage
 			stage.show();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (IOException | NullPointerException e) {
+			Logger.error("View \"Login.fxml\" kannn nicht geladen werden.");
 		}
 	}
 }

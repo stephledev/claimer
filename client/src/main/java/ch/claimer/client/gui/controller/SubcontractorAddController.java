@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+import org.pmw.tinylog.Logger;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -142,7 +143,6 @@ public class SubcontractorAddController implements Initializable {
 					data.addAll(data2);
 					fillTableView();
 				}
-				
 			}
 		 
 		 });
@@ -155,8 +155,6 @@ public class SubcontractorAddController implements Initializable {
 			txtPhone.setEditable(false);
 			txtPlace.setEditable(false);
 			txtZip.setEditable(false);
-			
-			
 			
 		}
 		
@@ -209,8 +207,7 @@ public class SubcontractorAddController implements Initializable {
 			}	
 			
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			Logger.error("Ansprechpersonen und SCEmployees können nicht aus der Datenbank geladen werden.");
 		}
 		
 	    fillTableView();
@@ -240,9 +237,8 @@ public class SubcontractorAddController implements Initializable {
 			//Neuen View einfügen
 			mainContent.getChildren().clear();
 			mainContent.getChildren().setAll(myPane);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (IOException | NullPointerException e) {
+			Logger.error("View \"SubcontractorMainView.fxml\" kann nicht geladen werden.");
 		}
 		
 	}
@@ -256,14 +252,9 @@ public class SubcontractorAddController implements Initializable {
 			Pane myPane = FXMLLoader.load(getClass().getResource("/SubcontractorMainView.fxml"));
 			mainContent.getChildren().clear();
 			mainContent.getChildren().setAll(myPane);
-		} catch (NullPointerException npe) {
-			System.out.println("Fehler: View konnte nicht geladen werden");
-			// ToDo Eintrag in Log-Datei
-			npe.printStackTrace();
-		}	catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException | NullPointerException e) {
+			Logger.error("View \"SubcontractorMainView.fxml\" kann nicht geladen werden.");
 		}
-		
 	}
 	
 	/**
@@ -289,6 +280,7 @@ public class SubcontractorAddController implements Initializable {
 					
 					return new SimpleStringProperty(roleName);
 				} catch(NullPointerException e) {
+					Logger.error("Probleme beim Befüllen der Subunternehmen Mitarbeiter-Tabelle, Funktions-Spalte.");
 					return null;
 				}
 			}
@@ -324,9 +316,8 @@ public class SubcontractorAddController implements Initializable {
 		                                  		    
 		                                  		    //Open new Stage
 		                                  			stage.show();
-			                            		} catch (IOException e) {
-		                                  			// TODO Auto-generated catch block
-		                                  			e.printStackTrace();
+			                            		} catch (IOException | NullPointerException e) {
+			                            			Logger.error("View \"DeleteConfirmation.fxml\" kann nicht geladen werden.");
 		                                  		} 
 		                                	  	@SuppressWarnings("unchecked")
 												TableRow<Person> tableRow = c.getTableRow();
@@ -389,9 +380,8 @@ public class SubcontractorAddController implements Initializable {
   		    
   		    //Open new Stage
   			stage.show();
-		} catch (IOException e) {
-  			// TODO Auto-generated catch block
-  			e.printStackTrace();
+		} catch (IOException | NullPointerException e) {
+			Logger.error("View \"DeleteConfirmation.fxml\" kann nicht geladen werden.");
   		}
 		subcontractorContainer.setActive(false);
 		SubcontractorProxy scProxy = ResteasyClientUtil.getTarget().proxy(SubcontractorProxy.class);
@@ -546,9 +536,8 @@ public class SubcontractorAddController implements Initializable {
 		    
 		    //Open new Stage
 			stage.show();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (IOException | NullPointerException e) {
+			Logger.error("View \"UserAddView.fxml\" kann nicht geladen werden.");
 		}
 	}
 	
@@ -580,9 +569,8 @@ public class SubcontractorAddController implements Initializable {
 			    
 			    //Open new Stage
 				stage.show();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (IOException | NullPointerException e) {
+				Logger.error("View \"UserAddView.fxml\" kann nicht geladen werden.");
 			}
 		}
 	}	

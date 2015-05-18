@@ -10,6 +10,8 @@ import java.util.ResourceBundle;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
+import org.pmw.tinylog.Logger;
+
 import ch.claimer.client.proxy.ProjectProxy;
 import ch.claimer.client.util.AuthenticationUtil;
 import ch.claimer.client.util.ResteasyClientUtil;
@@ -112,22 +114,22 @@ public class ProjectsMainController implements Initializable{
 		    	}
 	
 			} catch (IOException e1) {
-				e1.printStackTrace();
+				Logger.error("Projekte können nicht aus der Datenbank geladen werden.");
 			}
 	    } else if(roleValue == 10) {
 	    	
 	    	bttn_addProject.setVisible(false);
 	    	
 	    	try {
-			    	List<Project> projectsToShow = mapper.readValue(projectProxy.getBySupervisor(AuthenticationUtil.getPerson().getId()), new TypeReference<List<Project>>(){});
-					
-			    	for(Project p: projectsToShow) {
-			    		data.add(p);
-			    		filteredData.add(p);
-			    	}
+		    	List<Project> projectsToShow = mapper.readValue(projectProxy.getBySupervisor(AuthenticationUtil.getPerson().getId()), new TypeReference<List<Project>>(){});
+				
+		    	for(Project p: projectsToShow) {
+		    		data.add(p);
+		    		filteredData.add(p);
+		    	}
 		
 			} catch (IOException e1) {
-					e1.printStackTrace();
+				Logger.error("Projekte können nicht aus der Datenbank geladen werden.");
 			}
 	    	
 	    } else if(roleValue == 5) {
@@ -143,7 +145,7 @@ public class ProjectsMainController implements Initializable{
 		    }
 	
 			} catch (IOException e1) {
-					e1.printStackTrace();
+				Logger.error("Projekte können nicht aus der Datenbank geladen werden.");
 			}
 		}
 		
@@ -153,6 +155,7 @@ public class ProjectsMainController implements Initializable{
 				try {
 					return new SimpleStringProperty(data.getValue().getState().getName());
 				} catch(NullPointerException e) {
+					Logger.error("Problem beim Befüllen der Projekte-Tabelle, Status-Spalte.");
 					return null;
 				}
 			}
@@ -165,6 +168,7 @@ public class ProjectsMainController implements Initializable{
 				try {
 					return new SimpleStringProperty(data.getValue().getSupervisor().getFirstname() + " " + data.getValue().getSupervisor().getLastname());
 				} catch(NullPointerException e) {
+					Logger.error("Problem beim Befüllen der Projekte-Tabelle, Projektnamen-Spalte.");
 					return null;
 				}
 			}
@@ -177,6 +181,7 @@ public class ProjectsMainController implements Initializable{
 					String a = format.format(data.getValue().getStart().getTime());
 					return new SimpleStringProperty(a);
 				} catch(NullPointerException e) {
+					Logger.error("Probleme beim Befüllen der Projekte-Tabelle, Startdatum-Spalte.");
 					return null;
 				}
 			}
@@ -188,6 +193,7 @@ public class ProjectsMainController implements Initializable{
 					String a = format.format(data.getValue().getEnd().getTime());
 					return new SimpleStringProperty(a);
 				} catch(NullPointerException e) {
+					Logger.error("Probleme beim Befüllen der Projekte-Tabelle, Enddatum-Spalte.");
 					return null;
 				}
 			}
@@ -253,9 +259,8 @@ public class ProjectsMainController implements Initializable{
 				controller.initData(projectID); //Controller starten	
 				mainContent.getChildren().clear();
 				mainContent.getChildren().setAll(myPane); //Neuen View einfügen
-			} catch (IOException e) {
-				// TODO LOG Entry
-				e.printStackTrace();
+			} catch (IOException | NullPointerException e) {
+				Logger.error("View \"ProjectAddView.fxml\" kann nicht geladen werden.");
 			}
 		}
 	}	
