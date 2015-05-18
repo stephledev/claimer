@@ -42,7 +42,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -60,6 +59,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -1043,41 +1043,33 @@ public class ProjectAddController implements Initializable {
 		Stage stage = new Stage();
 		FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Mängelliste speichern");
+        ExtensionFilter extFilter = new ExtensionFilter("CSV-Datei (*.csv)", "*.csv");
+        fileChooser.getExtensionFilters().add(extFilter);
         File file = fileChooser.showSaveDialog(stage);
         
-		ObservableList<Issue> data = FXCollections.observableArrayList(); 
-		Writer writer = null;
-		writer = new BufferedWriter(new FileWriter(file));
+		Writer writer = new BufferedWriter(new FileWriter(file));
 
-		Issue is = new Issue();	    
-		IssueProxy issueProxy = rtarget.proxy(IssueProxy.class);
-		ObjectMapper mapper = new ObjectMapper();
-		List<Issue> issuesToShow = mapper.readValue(issueProxy.getByProject(projectId), new TypeReference<List<Issue>>(){});
+		List<Issue> issuesToExport = mangleTableView.getItems();
 		
-		for(int i = 0; i < issuesToShow.size(); i++) {
-			is = issuesToShow.get(i);
-			System.out.println(issuesToShow.get(i));
-			data.add(is);
-			is = null;
-			
-			i++;
-		}
+		String titelZeile = "Projektname:" + ";"  + "Mangel Id:" + ";" + "Mangelbeschrieb:" + ";" + "Erfasst am:" + ";" + "Zu erledigen bis:" + ";" + "Status:" + "\n";
+		try {
+            writer.write(titelZeile);
+            writer.flush();
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
 		
-		for(Issue issue : data) {
-			
-			String text = 	"Projektname:" + ";"  + "Mangel Id:" + ";" + "Mangelbeschrieb:" + ";" + "Erfasst am:" + ";" + "Zu erledigen bis:" + ";" + "Status:" + "\n" + 
-							issue.getProject().getName() + ";"  + issue.getId() + ";" + issue.getDescription()+ ";" + issue.getCreated().getTime().toString()+ ";" + issue.getSolved().getTime().toString() + ";" + issue.getState().getName()+ "\n";
+		for(Issue issue : issuesToExport) {
+			 String issueDescription = issue.getProject().getName() + ";"  + issue.getId() + ";" + issue.getDescription()+ ";" + issue.getCreated().getTime().toString()+ ";" + issue.getSolved().getTime().toString() + ";" + issue.getState().getName()+ "\n";
 			if (file != null) {
-	            try {
-	                writer.write(text);
-	            } catch (IOException ex) {
-	                System.out.println(ex.getMessage());
-	            }
-	        }
-			System.out.println(text);
+		        try {
+		            writer.write(issueDescription);
+		            writer.flush();
+		        } catch (IOException ex) {
+		            System.out.println(ex.getMessage());
+		        }
+		    }
 		}
-
-		writer.flush();
 		writer.close();
 		
 		lbl_issueExport.setText("Die Mängelliste wurde gespeichert");
