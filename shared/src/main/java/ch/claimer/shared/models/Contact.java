@@ -9,6 +9,7 @@ import javax.persistence.ManyToOne;
  * Setter-Methoden.
  * 
  * @author Stephan Beeler
+ * @author Fabio Baviera
  * @version 1.0
  * @since 1.0
  */
