@@ -9,12 +9,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.WebTarget;
-
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
-import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 import org.pmw.tinylog.Logger;
 
 import ch.claimer.client.proxy.ContactProxy;
@@ -50,25 +46,23 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 /**
- * Kontroller für die MangelVerwalten-Ansicht
+ * Controller für die Mängel-Verwaltung
  * 
  * @author Michael Lötscher, Alexander Hauck
- * @since 1.0
+ * @since 20.04.2015
  * @version 2.0
  *
  */
 
 public class IssueController implements Initializable {
 	
-	Client client;
-    WebTarget target;
-    ResteasyWebTarget rtarget = ResteasyClientUtil.getTarget();
-    ObjectMapper mapper =  new ObjectMapper();
-    private ObservableList<LogEntry> logEntryList = FXCollections.observableArrayList();
-    private Integer issueId = null;
+	private Integer issueId = null;
     private List<Subcontractor> subcontractorList = null;
     private Issue issueContainer = null;
-    ObservableList<Comment> commentsList = FXCollections.observableArrayList();
+	private ObjectMapper mapper =  new ObjectMapper();
+    private ObservableList<LogEntry> logEntryList = FXCollections.observableArrayList();
+   
+    private ObservableList<Comment> commentsList = FXCollections.observableArrayList();
     private Integer dropdownValue = AuthenticationUtil.getLogin().getRole().getValue();
 
 	@FXML
@@ -147,7 +141,6 @@ public class IssueController implements Initializable {
 			txtIssueDescription.setEditable(false);
 			dateCreated.setEditable(false);
 			dateEnd.setEditable(false);
-			
 		}
 		
 		setDropdownState();
@@ -165,13 +158,11 @@ public class IssueController implements Initializable {
 				}
 			}
 		 });
-		
 	}
-	
 	
 	/**
 	 * Füllt die Textfelder mit den Daten des zu bearbeitenden Mangels.
-	 * @param issueToEdit - Der zu bearbeitende Mangel wird hier mitgegeben.
+	 * @param issueToEdit - zu bearbeitender Mangel
 	 */
 	public void initData(Issue issueToEdit) {
 		issueId = issueToEdit.getId();
@@ -208,7 +199,6 @@ public class IssueController implements Initializable {
 	
 	}
 
-	
 	/**
 	 * Speichert den Mangel.
 	 */
@@ -228,11 +218,11 @@ public class IssueController implements Initializable {
 	}
 	
 	/**
-	 * Die Methode überprüft, ob beim übergeben String die Mindest- und Maximumlänge stimmt.
+	 * Die Methode überprüft, ob beim übergeben String die Mindest- und Maximallänge stimmt.
 	 * 
-	 * @param text - Text der übergeben wird.
-	 * @param minLength - Minimumlänge die überprüft werden soll.
-	 * @param maxLength - Maximumlänge die überprüft werden soll.
+	 * @param text - String, der zu überprüfen ist
+	 * @param minLength - Minimallänge die überprüft werden soll.
+	 * @param maxLength - Maximallänge die überprüft werden soll.
 	 * @return true oder false
 	 */
 	private Boolean checkLength(String text, int minLength, int maxLength) {
@@ -245,7 +235,7 @@ public class IssueController implements Initializable {
 	
 	/**
 	 * Überprüft Änderungen am Mangel und protokolliert diese.
-	 * @param issue - Das zu protokollierende Projekt.
+	 * @param issue - Mangel, an dem überprüft werden soll, ob Änderungen vorliegen.
 	 */
 	private void logEntryHandler(Issue issue) {
 		
@@ -298,10 +288,9 @@ public class IssueController implements Initializable {
 		
 	}
 	
-	
 	/**
 	 * Liest die Textfelder aus und validiert diese.
-	 * @return issue - Gibt den Mangel mit den ausgelesenen Textfeldern zurück.
+	 * @return issue - Gibt den Mangel mit den ausgelesenen Textfeldern zurück, sofern alles in Ordnung.
 	 */
 	private Issue getTextfieldProperties() {
 
@@ -326,7 +315,6 @@ public class IssueController implements Initializable {
 				issue.setSubcontractor(issueContainer.getSubcontractor());
 			} else {
 				try {
-					
 					SubcontractorProxy scProxy = ResteasyClientUtil.getTarget().proxy(SubcontractorProxy.class);		
 					ObjectMapper mapper = new ObjectMapper();	    
 					List<Subcontractor> scList = mapper.readValue(scProxy.getAll(), new TypeReference<List<Subcontractor>>(){});
@@ -346,7 +334,6 @@ public class IssueController implements Initializable {
 			dropdownSubcontractor.getStyleClass().add("txtError");
 		}
 		
-		//TODO Ansprechperson zuweisen.
 		if(!dropdownContact.getValue().equals("")) {
 			
 			String contactName = dropdownContact.getValue();
@@ -369,7 +356,6 @@ public class IssueController implements Initializable {
 			validationError = true;
 			dropdownContact.getStyleClass().add("txtError");
 		}
-		
 		
 		// Status dem Mangel zuweisen
 		if(dropdownState.getValue() != null) {
@@ -403,7 +389,7 @@ public class IssueController implements Initializable {
 			dateCreated.getStyleClass().add("txtError");
 		}
 	    
-	    //Startdatum generieren
+	    //Enddatum generieren
 		if(dateEnd.getValue() != null) {
 	  		Integer dayEnd = dateEnd.getValue().getDayOfMonth();
 	  	    Integer monthEnd = dateEnd.getValue().getMonthValue();
@@ -424,9 +410,8 @@ public class IssueController implements Initializable {
 		}
 	}
 		
-	
 	/**
-	 * Schliesst das aktuelle Fenster.
+	 * Schliesst das aktuelle Fenster, sobald ein Mangel gespeichert wurde.
 	 */
 	@FXML
 	private void closeStage() {
@@ -434,14 +419,12 @@ public class IssueController implements Initializable {
 	    stage.close();
 	}
 
-		
 	/**
 	 * Befüllt das "Status"-Dropdown mit den Inhalten aus der Datenbank.
 	 */
 	public void setDropdownState()  {
 
 		try {
-
 			StateProxy stateProxy = ResteasyClientUtil.getTarget().proxy(StateProxy.class);		
 			ObjectMapper mapper = new ObjectMapper();	    
 			List<State> stateList = mapper.readValue(stateProxy.getAll(), new TypeReference<List<State>>(){});
@@ -452,8 +435,6 @@ public class IssueController implements Initializable {
 		} catch (IOException e1) {
 			Logger.error("Status können nicht aus der Datenbank geladen werden.");
 		}
-
-		
 	}
 
 	/**
@@ -479,7 +460,6 @@ public class IssueController implements Initializable {
 	 */
 	private void setDropdownContact(Integer subcontractorId) {
 		
-		
 		try {
 			ContactProxy cProxy = ResteasyClientUtil.getTarget().proxy(ContactProxy.class);		
 			List<Contact> contactList = mapper.readValue(cProxy.getBySubcontractor(subcontractorId), new TypeReference<List<Contact>>(){});
@@ -497,9 +477,8 @@ public class IssueController implements Initializable {
 	}
 	
 	/**
-	 * Lädt alle Kommentare aus der Datenbank und befüllt die Tabelle
+	 * Befüllt die "Kommentare"-Tabelle mit den Daten aus der Datenbank.
 	 */
-	
 	private void fillCommentTableView() {
 	
 		// Spalten-Values definieren
@@ -537,10 +516,11 @@ public class IssueController implements Initializable {
 		});
 
 		commentTableView.setItems(commentsList);
-
-		
 	}
 	
+	/**
+	 * Befüllt die "Protokoll"-Tabelle mit den Daten aus der Datenbank.
+	 */
 	private void fillLogTableView() {
 		
 		for(LogEntry logEntry : issueContainer.getLogEntries()) {
@@ -561,12 +541,11 @@ public class IssueController implements Initializable {
 		});
 		
 		colLogDescription.setCellValueFactory(new PropertyValueFactory<LogEntry, String>("description"));
-		
 		logTableView.setItems(logEntryList);	
 	}
 	
 	/**
-	 * Klick auf den "Speicher"-Button, speichert den Mangel.
+	 * Speichert den Mangel.
 	 */
 	@FXML
 	private void saveComment() {

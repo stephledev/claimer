@@ -14,7 +14,6 @@ import java.util.ResourceBundle;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
-import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 import org.pmw.tinylog.Logger;
 
 import ch.claimer.client.proxy.CategoryProxy;
@@ -65,17 +64,15 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 /**
- * Kontroller für die ProjektVerwalten-Übersicht 
+ * Controller für die Verwaltung von Projekten
  * 
  * @author Michael Lötscher, Alexander Hauck
- * @since 1.0
+ * @since 20.04.2015
  * @version 2.0
  *
  */
 public class ProjectAddController implements Initializable {
 
-    ResteasyWebTarget rtarget = ResteasyClientUtil.getTarget();
-	SupervisorProxy supervisorProxy = ResteasyClientUtil.getTarget().proxy(SupervisorProxy.class);		
     private ObjectMapper mapper = new ObjectMapper();
 	private ObservableList<Issue> data = FXCollections.observableArrayList();
 	public static ObservableList<Issue> dataTransfer = FXCollections.observableArrayList();
@@ -279,7 +276,7 @@ public class ProjectAddController implements Initializable {
 	
 	/**
 	 * Initialisiert den View mit den Daten des zu bearbeitenden Projekts sowie den dazugehörigen Mängeln.
-	 * @param project - Project welches geladen wird
+	 * @param project - Project welches bearbeitet werden soll
 	 */
 	public void initData(Project project) {
 		
@@ -378,7 +375,7 @@ public class ProjectAddController implements Initializable {
 	}
 	
 	/**
-	 * Füllt die Tabelle mit den Mängel mit Daten
+	 * Befüllt die Mängel-Tabelle mit Daten aus der Datenbank
 	 */
 	private void fillIssueTableView() {
 		//Mängel-Tabelle initialisieren
@@ -556,7 +553,7 @@ public class ProjectAddController implements Initializable {
 	}
 	
 	/**
-	 * Füllt die Tabelle mit den Protokollen mit Daten
+	 * Füllt die Protokoll-Tabelle mit Daten
 	 */
 	private void fillLogTableView() {
 		
@@ -579,11 +576,12 @@ public class ProjectAddController implements Initializable {
 		
 		colLogDescription.setCellValueFactory(new PropertyValueFactory<LogEntry, String>("description"));
 		
-		logTableView.setItems(logEntryList);
-		
+		logTableView.setItems(logEntryList);	
 	}
 	
-	// "Abbrechen"-Button: zur ProjectMain-Ansicht wechseln 
+	/**
+	 * Lädt den Projekt-Hauptview
+	 */
 	@FXML
 	private void loadProjectMainView(){
 		
@@ -612,11 +610,13 @@ public class ProjectAddController implements Initializable {
 				project.setLogEntries(logEntryList);
 				project.setPrincipals(principalList);
 				
-				//Contacts dem Projekt hinzufügen
-				for(Issue issue: issueList) {
-					if(!project.getContacts().contains(issue.getContact()))
-						{
-						project.getContacts().add(issue.getContact());
+				if(issueList != null) {
+					//Contacts dem Projekt hinzufügen
+					for(Issue issue: issueList) {
+						if(!project.getContacts().contains(issue.getContact()))
+							{
+							project.getContacts().add(issue.getContact());
+						}
 					}
 				}
 				ProjectProxy projectProxy = ResteasyClientUtil.getTarget().proxy(ProjectProxy.class);
@@ -637,7 +637,10 @@ public class ProjectAddController implements Initializable {
 			showMainViewWithMessage("Änderungen erfolgreich gespeichert.");
 		}
 	}
-		
+	
+	/**
+	 * Speichert die Mängel eines Projekts
+	 */
 	private void saveIssues() {
 		//Mängel speichern.
 		List<Issue> issueList = mangleTableView.getItems();
@@ -660,7 +663,7 @@ public class ProjectAddController implements Initializable {
 	
 	/**
 	 * Überprüft Änderungen am Projekt und protokolliert diese.
-	 * @param project - Das zu protokollierende Projekt.
+	 * @param project - Projekt, an dem Änderungen überprüft werden
 	 */
 	private void logEntryHandler(Project project) {
 		if(projectContainer != null) {
@@ -692,16 +695,14 @@ public class ProjectAddController implements Initializable {
 			logEntry.setDescription("Erfassung des Projekts \"" + project.getName() + "\" mit dem Bauleiter " + project.getSupervisor().getFirstname() + " " + project.getSupervisor().getLastname());
 			logEntryList.add(logEntry);
 		}
-		
-		
 	}
 	
 	/**
 	 * Die Methode überprüft, ob beim übergeben String die Mindest- und Maximumlänge stimmt.
 	 * 
-	 * @param text - Text der übergeben wird.
-	 * @param minLength - Minimumlänge die überprüft werden soll.
-	 * @param maxLength - Maximumlänge die überprüft werden soll.
+	 * @param text - String, der überprüft wird
+	 * @param minLength - Minimallänge
+	 * @param maxLength - Maximallänge
 	 * @return true oder false
 	 */
 	private Boolean checkLength(String text, int minLength, int maxLength) {
@@ -711,7 +712,6 @@ public class ProjectAddController implements Initializable {
 		} else {
 			return false;
 		}
-
 	}
 	
 	/**
@@ -719,7 +719,6 @@ public class ProjectAddController implements Initializable {
 	 * @return p1 - Gibt das Projekt mit den ausgelesenen Textfeldern zurück.
 	 * 
 	 */
-
 	private Project getTextfieldProperties(Project p1) {
 		
 		Boolean validationError = false;
@@ -868,12 +867,11 @@ public class ProjectAddController implements Initializable {
 			return p1;
 		} else {
 			return null;
-		}
-		
+		}	
 	}
 	
 	/**
-	 * Öffent ein neues Fenster, um einen neuen Bauherr hinzuzufügen.
+	 * Öffent ein neues Fenster, um einen neuen Bauherr dem Projekt zuzuordnen.
 	 */
 	@FXML
 	private void addPrincipalToTableView() {
@@ -905,11 +903,9 @@ public class ProjectAddController implements Initializable {
 	
 	/**
 	 * Öffnet ein neues Fenster, um einen Mangel zu erfassen.
-	 * @param event - Klick auf "Mangel erfassen"-Button
-	 * @throws IOException
 	 */
 	@FXML
-	private void loadIssueView(ActionEvent event) throws IOException {
+	private void loadIssueView() {
 		
 		try {
 			Stage stage = new Stage();
@@ -930,13 +926,12 @@ public class ProjectAddController implements Initializable {
 	}
 	
 	/**
-	 * Doppelklick in der Tabelle auf einen Mangel öffnet die Mangel-Ansicht
+	 * Doppelklick in der Tabelle auf einen Mangel öffnet die Mangel-Bearbeiten-Ansicht
 	 * 
 	 * @param t - MouseEvent = Klick auf den Mangel
-	 * @throws IOException
 	 */
 	@FXML
-	private void editIssue(MouseEvent t) throws IOException {
+	private void editIssue(MouseEvent t){
 
 		// Wenn Doppelklick auf Mangel
 		if (t.getClickCount() == 2) {
@@ -1073,12 +1068,11 @@ public class ProjectAddController implements Initializable {
 	}
 
 	/**
-	 * Alle Mängel eines Projektes werden auf dem Laufwerk C in einer .scv Datei gepeichert
+	 * Alle Mängel eines Projektes werden in eine csv-Datei geschrieben. Öffnet ein Fenster zum Speichern der Datei.
 	 * 
-	 * @throws Exception
 	 */
 	@FXML
-	public void export() throws Exception {
+	public void export() {
 	
 		try {
 			Stage stage = new Stage();
@@ -1114,8 +1108,6 @@ public class ProjectAddController implements Initializable {
         } catch (IOException ex) {
             Logger.error("Problem beim Export der Mängelliste.");
         }
-		
-		
 	} 
 
 }

@@ -29,13 +29,14 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
+ * Controller für das RootLayout. Stellt die Navigation zur Verfügung.
  * @author Alexander Hauck
  * @since 10.04.2015
- * @version 1.1
- *
+ * @version 1.3
  */
 
 public class RootLayoutController implements Initializable {
+	
 	ObservableList<Person> data = FXCollections.observableArrayList();
 	Client client;
     WebTarget target;
@@ -78,9 +79,10 @@ public class RootLayoutController implements Initializable {
 	//Maincontent, hierhin werden die verschiedenen Views geladen
 	@FXML
 	private Pane mainContent;
-
 	
-
+	/**
+	 * Initialisiert den View.
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		//Namen setzen
@@ -102,7 +104,9 @@ public class RootLayoutController implements Initializable {
 		}		
 	}
 	
-	//Zur Projekte-Hauptansicht (projectsMainView.xml) wechseln
+	/**
+	 * Wechselt zur Projektübersicht
+	 */
 	@FXML
 	private void loadProjectsMainView() {
 		try {
@@ -114,19 +118,9 @@ public class RootLayoutController implements Initializable {
 		}
 	}
 	
-	//Zur Bauleiter-Hauptansicht wechseln (supervisorMainView.xml)
-	@FXML
-	private void loadSupervisorMainView() {
-		try {
-			Pane myPane = FXMLLoader.load(getClass().getResource("/SupervisorMainView.fxml"));
-			mainContent.getChildren().clear();
-			mainContent.getChildren().setAll(myPane);
-		} catch (IOException | NullPointerException e) {
-			Logger.error("View \"SupervisorMainView.fxml\" kannn nicht geladen werden.");
-		}
-	}
-	
-	//Zur Subunternehmen-Hauptansicht wechseln (supervisorMainView.xml)
+	/**
+	 * Wechselt zur Subunternehmen-Übersicht
+	 */
 	@FXML
 	private void loadSubcontractorMainView() {
 		try {
@@ -138,7 +132,9 @@ public class RootLayoutController implements Initializable {
 		}
 	}
 	
-	//Zur Kunden-Hauptansicht wechseln  (principalMainView.xml)
+	/**
+	 * Wechselt zur Bauherren-Übersicht
+	 */
 	@FXML
 	private void loadPrincipalMainView(){
 		try {
@@ -150,7 +146,9 @@ public class RootLayoutController implements Initializable {
 		}
 	}
 	
-	//Zur Benutzer-Hauptansicht wechseln  (userMainView.xml)
+	/**
+	 * Wechselt zur User-Übersicht
+	 */
 	@FXML
 	private void loadUserMainView(){
 		try {
@@ -162,17 +160,23 @@ public class RootLayoutController implements Initializable {
 		}
 	}
 	
-	//GUI schliessen
+	/**
+	 * Schliesst die gesamte Applikation
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	private void closeClaimer(ActionEvent event) throws IOException {
 		System.exit(0);
 	}
 	
-	//Logout und Login-Seite laden
+	/**
+	 * Meldet den aktuellen Benutzer vom System ab und öffnet das Login-Fenster.
+	 */
 	@FXML
-	private void logout(ActionEvent event) throws IOException {
+	private void logout(){
 		
-			try {
+		try {
 			
 			Stage stage1 = (Stage) lblTitel.getScene().getWindow();
 		    stage1.close();

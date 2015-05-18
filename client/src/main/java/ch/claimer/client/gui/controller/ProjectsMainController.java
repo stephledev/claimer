@@ -21,7 +21,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -36,10 +35,10 @@ import javafx.scene.layout.Pane;
 import javafx.util.Callback;
 
 /**
- * Kontroller für die Projekt-Übersicht
+ * Controller für Anzeige von Projekten
  * 
  * @author Michael Lötscher, Alexander Hauck
- * @since 1.0
+ * @since 20.04.2015
  * @version 2.0
  *
  */
@@ -212,34 +211,31 @@ public class ProjectsMainController implements Initializable{
 		});
 	}
 	
-	
 	/**
 	 * Initialisiert die Ansicht und gibt die übergebene Meldung im GUI aus.
 	 * @param string - Mitteilung die angezeigt werden soll.
 	 */
 	public void initWithMessage(String string) {
-		lblMessage.setText(string);
-		
+		lblMessage.setText(string);	
 	}
-
 	
 	/**
 	 * Öffnet einen neuen View, um ein neues Projekt hinzuzufügen.
-	 * @param event - ActionEvent = Klick auf Button
-	 * @throws IOException
 	 */
 	@FXML
-	private void loadProjectAddView(ActionEvent event) throws IOException {
-		Pane myPane = FXMLLoader.load(getClass().getResource("/ProjectAddView.fxml"));
-		mainContent.getChildren().clear();
-		mainContent.getChildren().setAll(myPane);		
+	private void loadProjectAddView(){
+		try {
+			Pane myPane = FXMLLoader.load(getClass().getResource("/ProjectAddView.fxml"));
+			mainContent.getChildren().clear();
+			mainContent.getChildren().setAll(myPane);	
+		} catch(IOException | NullPointerException e) {
+			Logger.error("View \"ProjectAddView.fxml\" kann nicht geladen werden.");
+		}
 	}
-	
 	
 	/**
 	 * Öffnet die ProjectAdd-Ansicht, um das angeklickte Projekt zu bearbeiten.
-	 * @param t - MouseEvent = Klick auf das Projekt
-	 * @throws IOException
+	 * @param t - MouseEvent = Doppelklick auf das Projekt
 	 */
 	@FXML
 	private void editProject(MouseEvent t){
@@ -283,7 +279,7 @@ public class ProjectsMainController implements Initializable{
 	
 
 	/**
-	 * Überprüft, ob ein Projekt dem Kriterium entspricht. Gehört zur Such - Funktion
+	 * Überprüft, ob ein Projekt dem Kriterium entspricht. Gehört zur "Suchen.." - Funktion
 	 * @param p - Das Projekt das übergeben wird.
 	 * @return true oder false
 	 */

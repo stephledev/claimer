@@ -16,22 +16,26 @@ import javafx.scene.layout.Pane;
 
 
 /**
- * @author Michael Lötscher
- * @author Alexander Hauck
+ * Main-Klasse der Applikation. Öffnet das Login-Fenster.
+ * @author Michael Lötscher, Alexander Hauck
+ * @since 10.04.2015
  * @version 1.1
- *
  */
 public class Main extends Application {
 
 	Scene scene;
 
+	/**
+	 * Start des GUI.
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		launch(args);
 		LoggerUtil.loadConfig();
 	}
 
 	/** 
-	 * Startet die Applikation, ruft Login-Seite auf und übergibt das Design
+	 * Öffnet das Login-Fenster, setzt das CSS und die Schriftart.
 	 */
 	public void start(Stage primaryStage) {
 
