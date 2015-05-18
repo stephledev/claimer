@@ -8,7 +8,13 @@ import javax.ws.rs.client.ClientRequestFilter;
 import javax.ws.rs.ext.Provider;
 
 import ch.claimer.client.util.AuthenticationUtil;
- 
+
+/**
+ * @author Stephan Beeler
+ * @since 1.0
+ * @version 1.0
+ */
+
 @Provider
 public class AuthenticationFilter implements ClientRequestFilter {
 
