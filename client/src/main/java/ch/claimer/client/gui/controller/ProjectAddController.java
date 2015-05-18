@@ -613,10 +613,12 @@ public class ProjectAddController implements Initializable {
 				project.setPrincipals(principalList);
 				
 				//Contacts dem Projekt hinzufügen
-				for(Issue issue: issueList) {
-					if(!project.getContacts().contains(issue.getContact()))
-						{
-						project.getContacts().add(issue.getContact());
+				if(issueList != null) {
+					for(Issue issue: issueList) {
+						if(!project.getContacts().contains(issue.getContact()))
+							{
+							project.getContacts().add(issue.getContact());
+						}
 					}
 				}
 				ProjectProxy projectProxy = ResteasyClientUtil.getTarget().proxy(ProjectProxy.class);
