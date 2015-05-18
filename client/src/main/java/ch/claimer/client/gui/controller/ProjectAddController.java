@@ -57,11 +57,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
 /**
- * Kontroller für die ProjektVerwalten-Überischt 
+ * Kontroller für die ProjektVerwalten-Übersicht 
  * 
  * @author Michael Lötscher, Alexander Hauck
  * @since 1.0
@@ -921,11 +922,13 @@ public class ProjectAddController implements Initializable {
 	 */
 	@FXML
 	public void export() throws Exception {
-
+		Stage stage = new Stage();
+		FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Mängelliste speichern");
+        File file = fileChooser.showSaveDialog(stage);
+        
 		ObservableList<Issue> data = FXCollections.observableArrayList(); 
-		
 		Writer writer = null;
-		File file = new File("C:\\Users/Alexander/Mangel.csv");
 		writer = new BufferedWriter(new FileWriter(file));
 
 		Issue is = new Issue();	    
@@ -944,15 +947,22 @@ public class ProjectAddController implements Initializable {
 		
 		for(Issue issue : data) {
 			
-			String text = issue.getProject().getName() + ";"  + issue.getId() + ";" + issue.getDescription()+ ";" + issue.getCreated().getTime().toString()+ ";" + issue.getSolved().getTime().toString() + ";" + issue.getState().getName()+ "\n";
-			writer.write(text);
+			String text = 	"Projektname:" + ";"  + "Mangel Id:" + ";" + "Mangelbeschrieb:" + ";" + "Erfasst am:" + ";" + "Zu erledigen bis:" + ";" + "Status:" + "\n" + 
+							issue.getProject().getName() + ";"  + issue.getId() + ";" + issue.getDescription()+ ";" + issue.getCreated().getTime().toString()+ ";" + issue.getSolved().getTime().toString() + ";" + issue.getState().getName()+ "\n";
+			if (file != null) {
+	            try {
+	                writer.write(text);
+	            } catch (IOException ex) {
+	                System.out.println(ex.getMessage());
+	            }
+	        }
 			System.out.println(text);
 		}
 
 		writer.flush();
 		writer.close();
 		
-		lbl_issueExport.setText("Die Mängelliste wurde dem Laufwerk C gespeichert");
+		lbl_issueExport.setText("Die Mängelliste wurde gespeichert");
 	} 
 
 }

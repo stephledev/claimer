@@ -8,16 +8,13 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
-
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
-
 import ch.claimer.client.proxy.ContactProxy;
 import ch.claimer.client.proxy.StateProxy;
 import ch.claimer.client.proxy.SubcontractorProxy;
