@@ -1,4 +1,4 @@
-package ch.claimer.client.proxy;
+package ch.claimer.client.filter;
 
 import java.io.IOException;
 import java.util.Base64;

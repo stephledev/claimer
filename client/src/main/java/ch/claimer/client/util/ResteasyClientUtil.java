@@ -9,7 +9,7 @@ import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 
-import ch.claimer.client.proxy.AuthenticationFilter;
+import ch.claimer.client.filter.AuthenticationFilter;
 
 public class ResteasyClientUtil {
 	
