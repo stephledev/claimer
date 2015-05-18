@@ -94,6 +94,22 @@ public class PrincipalController implements Initializable {
 			filteredData.add(principal);
 		}
 		
+		fillTableView();
+		
+		//Listener für Änderungen im Suchenfeld
+		txtSearch.textProperty().addListener(new ChangeListener<String>() {
+
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				updateFilteredData();				
+			}
+		});
+		
+	}
+	
+	/**
+	 * Befüllt die Tabelle mit den Bauherren-Daten.
+	 */
+	private void fillTableView() {
 		//Spalten-Values definieren (müssen den Parameter des Principal-Objekts entsprechen)
 		colFirstname.setCellValueFactory(new PropertyValueFactory<Principal, String>("firstname"));
 		colLastname.setCellValueFactory(new PropertyValueFactory<Principal, String>("lastname"));
@@ -104,15 +120,6 @@ public class PrincipalController implements Initializable {
 
 		//Observable-List, welche die Daten beinhaltet, an die Tabelle übergeben
 		principalTableView.setItems(filteredData);
-		
-		//Listener für Änderungen im Suchenfeld
-		txtSearch.textProperty().addListener(new ChangeListener<String>() {
-
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				updateFilteredData();				
-			}
-		});
-		
 	}
 	
 	/**
@@ -167,6 +174,25 @@ public class PrincipalController implements Initializable {
 	public void initWithMessage(String message) {
 		lblMeldung.setText(message);
 	}
+	
+	
+	public void loadPrincipalForProject(List<Principal> principalList) {
+
+		for(Principal principal : principalList) {
+			Integer principalId = principal.getId();
+			for(Principal principal2 : data) {
+				if(principalId == principal2.getId()) {
+					data.remove(principal2);
+					filteredData.remove(principal2);
+					break;
+				}
+			}
+
+		}
+		fillTableView();
+		
+	}
+	
 	
 	/**
 	 * Aktualisiert die angezeigten Bauherren. Gehört zur "Suchen.." - Funktion.

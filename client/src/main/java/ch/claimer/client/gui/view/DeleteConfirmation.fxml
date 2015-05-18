@@ -9,6 +9,6 @@
    <children>
       <Label layoutX="37.0" layoutY="46.0" prefHeight="17.0" prefWidth="227.0" text="Soll die gewählte Datei gelöscht werden?" />
       <Button fx:id="txt_ja" layoutX="46.0" layoutY="88.0" mnemonicParsing="false" onAction="#ja" prefHeight="25.0" prefWidth="90.0" text="Ja" />
-      <Button fx:id="txt_abbrechen" layoutX="159.0" layoutY="88.0" mnemonicParsing="false" onAction="#abbrechen" prefHeight="25.0" prefWidth="90.0" text="Abbrechen" />
+      <Button fx:id="txt_abbrechen" layoutX="159.0" layoutY="88.0" mnemonicParsing="false" onAction="#abbrechen" prefHeight="25.0" prefWidth="90.0" styleClass="back-button" text="Abbrechen" />
    </children>
 </AnchorPane>

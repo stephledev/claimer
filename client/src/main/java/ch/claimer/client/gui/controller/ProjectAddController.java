@@ -27,6 +27,7 @@ import ch.claimer.client.util.ResteasyClientUtil;
 import ch.claimer.shared.models.Category;
 import ch.claimer.shared.models.Issue;
 import ch.claimer.shared.models.LogEntry;
+import ch.claimer.shared.models.Principal;
 import ch.claimer.shared.models.Project;
 import ch.claimer.shared.models.State;
 import ch.claimer.shared.models.Supervisor;
@@ -78,6 +79,8 @@ public class ProjectAddController implements Initializable {
 	public static ObservableList<Issue> dataTransfer = FXCollections.observableArrayList();
 	private ObservableList<Issue> issuesToDeleteList = FXCollections.observableArrayList();
 	private ObservableList<LogEntry> logEntryList = FXCollections.observableArrayList();
+	private ObservableList<Principal> principalList = FXCollections.observableArrayList();
+	public static ObservableList<Principal> principalContainerList = FXCollections.observableArrayList();
 	private  Integer projectId = null;
 	private Project projectContainer = null;
 	private Issue issueToEdit = null;
@@ -174,7 +177,37 @@ public class ProjectAddController implements Initializable {
 	
 	@FXML
 	private TableColumn<LogEntry, String> colLogDescription;
+	
+	@FXML
+	private TableView<Principal> principalTableView;
+	
+	@FXML
+	private TableColumn<Principal, String> colPrincipalName;
+	
+	@FXML
+	private TableColumn<Principal, String> colPrincipalFirstname;
+	
+	@FXML
+	private TableColumn<Principal, String> colPrincipalCompany;
 
+	@FXML
+	private TableColumn<Principal, String> colPrincipalStreet;
+	
+	@FXML
+	private TableColumn<Principal, String> colPrincipalZip;
+	
+	@FXML
+	private TableColumn<Principal, String> colPrincipalPlace;
+	
+	@FXML
+	private TableColumn<Principal, String> colPrincipalPhone;
+	
+	@FXML
+	private TableColumn<Principal, String> colPrincipalEmail;
+	
+	@FXML
+	private TableColumn<Principal, String> colPrincipalDeleteButton;
+	
 	/**
 	 * Initialisiert den View.
 	 */
@@ -186,8 +219,6 @@ public class ProjectAddController implements Initializable {
 		if(roleValue >= 20) {
 		
 			setDropdownSupervisor();
-			//TODO	
-	//		setDropdownPrincipal();
 			setDropdownCategory();
 			setDropdownState();
 			setDropdownType();
@@ -221,7 +252,22 @@ public class ProjectAddController implements Initializable {
 					issueToEdit = null;
 					data.addAll(dataTransfer);
 
-					fillTableView();
+					fillIssueTableView();
+				}	
+			}
+		 });
+		
+		
+		//Listener, um zu überprüfen, ob ein neuer Bauherr hinzugefügt wurde.
+		principalContainerList.addListener(new ListChangeListener<Principal>() {
+
+			@Override
+			public void onChanged(javafx.collections.ListChangeListener.Change<? extends Principal> c) {
+				if(principalContainerList.size() > 0) {
+					
+					principalList.addAll(principalContainerList);	//den aktualisierten aus der Liste entfernen	
+					principalContainerList = null;
+					fillPrincipalTableView();
 				}	
 			}
 		 });
@@ -290,10 +336,9 @@ public class ProjectAddController implements Initializable {
 			dropdownType.setValue(project.getType().getName());
 		}
 
-		//TODO Bauherren anzeigen.
-		//	if(project.getPrincipals() != null) { 
-		//	combo_principal.setValue(project.getPrincipals().get(0).getLastname());
-		//	}	
+		for(Principal principal : project.getPrincipals()) {
+			principalList.add(principal);
+		}
 		
 		//Mängel aus der Datenbank laden.
 		if(roleValue == 5) {
@@ -325,15 +370,16 @@ public class ProjectAddController implements Initializable {
 				e1.printStackTrace();
 			}
 		}
-		fillTableView();
+		fillIssueTableView();
 		fillLogTableView();
+		fillPrincipalTableView();
 	
 	}
 	
 	/**
 	 * Füllt die Tabelle mit den Mängel mit Daten
 	 */
-	private void fillTableView() {
+	private void fillIssueTableView() {
 		//Mängel-Tabelle initialisieren
 		colMangle.setCellValueFactory(new PropertyValueFactory<Issue, String>("description"));
 		colSubcontractor.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Issue, String>, ObservableValue<String>>() {
@@ -402,7 +448,7 @@ public class ProjectAddController implements Initializable {
 	                                        	  issuesToDeleteList.add(issue);
 	                                          }
 	                                          data.remove(issue);
-	                                          fillTableView();
+	                                          fillIssueTableView();
 	                                  }
 	                            });
 	                      vbox.getChildren().add(button);
@@ -416,6 +462,59 @@ public class ProjectAddController implements Initializable {
 	
 		//Observable-List, welche die Daten beinhaltet, an die Tabelle übergeben
 		mangleTableView.setItems(data);
+	}
+	
+	/**
+	 * Befüllt die Bauherren-Tabelle mit Daten
+	 */
+	private void fillPrincipalTableView() {
+		
+		colPrincipalFirstname.setCellValueFactory(new PropertyValueFactory<Principal, String>("firstname"));
+		colPrincipalName.setCellValueFactory(new PropertyValueFactory<Principal, String>("lastname"));
+		colPrincipalCompany.setCellValueFactory(new PropertyValueFactory<Principal, String>("company"));
+		colPrincipalStreet.setCellValueFactory(new PropertyValueFactory<Principal, String>("street"));
+		colPrincipalZip.setCellValueFactory(new PropertyValueFactory<Principal, String>("zip"));
+		colPrincipalPlace.setCellValueFactory(new PropertyValueFactory<Principal, String>("place"));
+		colPrincipalPhone.setCellValueFactory(new PropertyValueFactory<Principal, String>("phone"));
+		colPrincipalEmail.setCellValueFactory(new PropertyValueFactory<Principal, String>("email"));
+		colPrincipalDeleteButton.setCellFactory(new Callback<TableColumn<Principal, String>, TableCell<Principal, String>>() {
+		      @Override
+		      public TableCell<Principal, String> call(TableColumn<Principal, String> param) {
+		             final TableCell<Principal, String> cell = new TableCell<Principal, String>() {
+	                      @Override
+	                      public void updateItem(String value, boolean empty) {
+	                    	  if(!empty) {
+	                            super.updateItem(value, empty);
+
+	                            final VBox vbox = new VBox(0);
+	                            Image image = new Image(getClass().getResourceAsStream("../../../../../delete.png"));
+	                            Button button = new Button("", new ImageView(image));
+	                            button.getStyleClass().add("deleteButton");
+	                            final TableCell<Principal, String> c = this;
+	                            button.setOnAction(new EventHandler<ActionEvent>() {
+	                                  @Override
+	                                  public void handle(ActionEvent event) {
+	                                          @SuppressWarnings("unchecked")
+	                                          TableRow<Principal> tableRow = c.getTableRow();
+	                                          Principal principal= (Principal)tableRow.getTableView().getItems().get(tableRow.getIndex());
+	                                          
+	                                          // TODO Confirmation Window
+	                                        	  
+	                                          principalList.remove(principal);
+	                                          fillPrincipalTableView();
+	                                  }
+	                            });
+	                      vbox.getChildren().add(button);
+	                      setGraphic(vbox);
+	                    	  }
+		               }
+		        };
+		        return cell;
+		    }
+		});
+		
+		principalTableView.setItems(principalList);
+		
 	}
 	
 	/**
@@ -467,6 +566,7 @@ public class ProjectAddController implements Initializable {
 			if(project != null) {
 				logEntryHandler(project);
 				project.setLogEntries(logEntryList);
+				project.setPrincipals(principalList);
 				
 				//Contacts dem Projekt hinzufügen
 				for(Issue issue: issueList) {
@@ -694,21 +794,6 @@ public class ProjectAddController implements Initializable {
 			validationError = true;
 			dropdownCategory.getStyleClass().add("txtError");
 		}
-		/*
-		//Kunde hinzufügen
-		try {
-			PrincipalProxy principalProxy = ResteasyClientUtil.getTarget().proxy(PrincipalProxy.class);		
-			List<Principal> principalList = mapper.readValue(principalProxy.getAll(), new TypeReference<List<Principal>>(){});
-			for(Principal principal: principalList) {
-				if(principal.getLastname().equals(combo_principal.getValue())) {
-					p1.setPrincipals(principalList);
-				}
-			}
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		*/
 		
 		// Bauleiter hinzufügen
 		if(dropdownSupervisor.getValue() != null) {
@@ -743,6 +828,37 @@ public class ProjectAddController implements Initializable {
 		
 	}
 	
+	/**
+	 * Öffent ein neues Fenster, um einen neuen Bauherr hinzuzufügen.
+	 */
+	@FXML
+	private void addPrincipalToTableView() {
+		
+		try {
+			Stage stage = new Stage();
+			stage.setTitle("Bauherr zu Projekt hinzufügen");
+			
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/PrincipalMainView.fxml"));
+			Pane myPane = loader.load();
+			
+			PrincipalController controller = loader.<PrincipalController>getController();
+			
+			//Controller starten
+			controller.loadPrincipalForProject(principalTableView.getItems());
+
+			Scene scene = new Scene(myPane);
+			scene.getStylesheets().add(getClass().getResource("../claimer_styles.css").toExternalForm()); // CSS-File wird geladen
+			stage.setScene(scene);
+		    
+		    //Open new Stage
+			stage.show();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	
 	/**
 	 * Öffnet ein neues Fenster, um einen Mangel zu erfassen.
