@@ -9,7 +9,6 @@ import javax.persistence.ManyToOne;
  * Getter- und Setter-Methoden.
  * 
  * 
- * @author Stephan Beeler
  * @author Raoul Ackermann
  * @version 1.0
  * @since 1.0

@@ -11,7 +11,6 @@ import javax.persistence.Id;
  * Repräsentiert die Entität Status und gewährleistet Zugriff auf die
  * Eigenschaften der Klasse via Getter- und Setter-Methoden.
  * 
- * @author Stephan Beeler
  * @author Raoul Ackermann
  * @version 1.0
  * @since 1.0
