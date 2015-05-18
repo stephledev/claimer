@@ -7,7 +7,6 @@ import javax.persistence.Entity;
  * Generalunternehmung und gewährleistet Zugriff auf die Eigenschaften der
  * Klasse via Getter- und Setter-Methoden.
  * 
- * @author Stephan Beeler
  * @author Fabio Baviera
  * @version 1.0
  * @since 1.0
