@@ -34,9 +34,4 @@ public interface CommentProxy {
 	@Produces(MediaType.APPLICATION_JSON)
 	String getByIssue(@PathParam("id")int id);
 	
-	@POST
-	@Path("comment")
-	@Consumes(MediaType.APPLICATION_JSON)
-	void create(Comment comment);
-	
 }
