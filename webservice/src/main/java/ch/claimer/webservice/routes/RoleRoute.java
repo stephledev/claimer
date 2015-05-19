@@ -35,7 +35,7 @@ public class RoleRoute {
 	 * @return Response HTTP-Antwort mit Rollen
 	 */
 	@GET
-	@RolesAllowed("admin")
+	@RolesAllowed("power")
 	@Path("role") 
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showAll() {

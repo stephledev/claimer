@@ -92,8 +92,7 @@ public class SubcontractorController {
 		if(roleValue == 15) {
 			SCEmployee sce = new SCEmployee();
 			sce = (SCEmployee)AuthenticationUtil.getPerson();
-			System.out.println(sce.getSubcontractor().getId());
-
+			
 			try {
 				Subcontractor sc = mapper.readValue(subcontractorProxy.getById(sce.getSubcontractor().getId()), new TypeReference<Subcontractor>(){});
 				data.add(sc);
@@ -101,9 +100,7 @@ public class SubcontractorController {
 			} catch (IOException e1) {
 				Logger.error("Subunternehmen können nicht aus der Datenbank geladen werden.");
 			}
-			
-			
-			
+		
 		} else {
 			
 			try {

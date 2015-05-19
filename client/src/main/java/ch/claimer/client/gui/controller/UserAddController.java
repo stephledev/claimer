@@ -12,6 +12,7 @@ import org.pmw.tinylog.Logger;
 import ch.claimer.client.proxy.GCEmployeeProxy;
 import ch.claimer.client.proxy.RoleProxy;
 import ch.claimer.client.proxy.SupervisorProxy;
+import ch.claimer.client.util.AuthenticationUtil;
 import ch.claimer.client.util.ResteasyClientUtil;
 import ch.claimer.shared.models.Contact;
 import ch.claimer.shared.models.GCEmployee;
@@ -428,7 +429,10 @@ public class UserAddController implements Initializable{
 		
 		mainContent.setPadding(new Insets(20));
 		dropdownFunction.getItems().clear();
-		dropdownFunction.getItems().add("Sachbearbeiter");
+		if(AuthenticationUtil.getLogin().getRole().getValue() != 15) 
+		{
+			dropdownFunction.getItems().add("Sachbearbeiter");
+		}
 		dropdownFunction.getItems().add("Ansprechperson");
 		
 		btnSave.setOnAction(new EventHandler<ActionEvent>() {

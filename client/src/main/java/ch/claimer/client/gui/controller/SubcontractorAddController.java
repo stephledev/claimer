@@ -129,7 +129,6 @@ public class SubcontractorAddController implements Initializable {
 		sceTableView.setVisible(false);
 		lblEmployees.setVisible(false);
 		btnAddSCEmployee.setVisible(false);
-		btnDelete.setVisible(false);
 		
 		//Listener,um Änderungen zu überprüfen.
 		data2.addListener(new ListChangeListener<Person>() {
@@ -156,8 +155,7 @@ public class SubcontractorAddController implements Initializable {
 			txtPlace.setEditable(false);
 			txtZip.setEditable(false);
 			
-		}
-		
+		}	
 	}
 	
 	/**
@@ -169,7 +167,6 @@ public class SubcontractorAddController implements Initializable {
 		lblEmployees.setVisible(true);
 		sceTableView.setVisible(true);
 		btnAddSCEmployee.setVisible(true);
-		btnDelete.setVisible(true);
 		subcontractorContainer = (Subcontractor) subcontractor;
 		subcontractorID = subcontractor.getId();
 	
