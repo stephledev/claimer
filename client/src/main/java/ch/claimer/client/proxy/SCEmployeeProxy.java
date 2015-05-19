@@ -38,7 +38,7 @@ public interface SCEmployeeProxy {
 	 * Holt einen bestimmten SU-Angestellten
 	 * 
 	 * @param id Identfikator eines bestimmten SU-Angestellten
-	 * @return
+	 * @return String von SU-Angestellten
 	 */
 	@GET
 	@Path("scemployee/{id}")
@@ -49,7 +49,7 @@ public interface SCEmployeeProxy {
 	 * Holt alle SU-Angestellten einer Subunternehmung 
 	 * 
 	 * @param id Identfikator es des Subunternehmens der anzuzigenden SU-Angestellten
-	 * @return String von SU-Angestellten
+	 * @return String von SU-Angestelltem
 	 */
 	@GET
 	@Path("scemployee/subcontractor/{id}")

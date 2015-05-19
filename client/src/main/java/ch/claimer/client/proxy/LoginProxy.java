@@ -5,6 +5,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -43,7 +44,7 @@ public interface LoginProxy {
 	@GET
 	@Path("login/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	String getById();
+	String getById(@PathParam("id")int id);
 	
 	/**
 	 * Legt ein neues Login an
@@ -60,8 +61,8 @@ public interface LoginProxy {
 	 * Meldet ein Login an
 	 * 
 	 * @param login zu anmeldentes Login
-	 */
-	
+	 * @return String der Person, welcher das Login gehört
+	 */	
 	@POST
 	@Path("check")
 	@Consumes(MediaType.APPLICATION_JSON)

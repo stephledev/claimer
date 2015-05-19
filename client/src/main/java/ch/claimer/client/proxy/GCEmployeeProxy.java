@@ -29,7 +29,6 @@ public interface GCEmployeeProxy {
 	 * 
 	 * @return String von Mitarbeiter
 	 */
-	
 	@GET
 	@Path("gcemployee")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -41,7 +40,6 @@ public interface GCEmployeeProxy {
 	 * @param id Identifikator eines bestimmten Mitarbeiter der GU
 	 * @return String des Mitarbeiters
 	 */
-	
 	@GET
 	@Path("gcemployee/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -50,9 +48,8 @@ public interface GCEmployeeProxy {
 	/**
 	 * Legt einen neuen Mitarbeiter der GU an
 	 * 
-	 * @param gcemployee zu erstellender Mitarbeiter der GU
+	 * @param gcEmployee zu erstellender Mitarbeiter der GU
 	 */
-	
 	@POST
 	@Path("gcemployee")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -61,9 +58,8 @@ public interface GCEmployeeProxy {
 	 /**
      * Aktualisiert ein bestehender Mitarbeiter der GU
      * 
-     * @param gcemployee zu aktualisierender Mitarbeiter der GU
+     * @param gcEmployee zu aktualisierender Mitarbeiter der GU
      */
-	
 	@PUT
 	@Path("gcemployee")
 	@Consumes(MediaType.APPLICATION_JSON)
