@@ -27,6 +27,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -37,7 +38,7 @@ import javafx.stage.Stage;
 
 /**
  * Controller für das Hinzufügen und Bearbeiten von Benutzern.
- * @author Alexander
+ * @author Alexander Hauck
  * @since 1.0
  * @version 2.0
  *
@@ -207,7 +208,8 @@ public class UserAddController implements Initializable{
 			mainContent.getChildren().clear();
 			mainContent.getChildren().setAll(myPane);
 		} catch (IOException | NullPointerException e) {
-			Logger.error("View \"UserMainView.fxml\" kann nicht geladen werden.");
+			e.printStackTrace();
+			//Logger.error("View \"UserMainView.fxml\" kann nicht geladen werden.");
 		}
 	}
 	
@@ -244,7 +246,6 @@ public class UserAddController implements Initializable{
 				gce = (GCEmployee)validateInputs(gce);
 				if(gce != null) {
 					saveGCEmployee(gce);
-					showMainViewWithMessage("Änderungen erfolgreich gespeichert.");
 				}
 			} else if(personType.equals("Bauleiter")) {
 				Supervisor sv = new Supervisor();
@@ -341,7 +342,6 @@ public class UserAddController implements Initializable{
 			 try {
 					roleList = mapper.readValue(roleProxy.getAll(), new TypeReference<List<Role>>(){});
 			} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 			}
 			 
@@ -403,7 +403,6 @@ public class UserAddController implements Initializable{
 	 * @param person - Generalunternehmen-Mitarbeiter der gespeichert werden soll.
 	 */
 	private void saveGCEmployee(Person person) {
-
 		GCEmployee gcEmployee = new GCEmployee();
 		gcEmployee = (GCEmployee)person;
 
@@ -419,6 +418,33 @@ public class UserAddController implements Initializable{
 		} else {
 			gceProxy.create(gcEmployee);
 		}
+		
+		//Wenn man seinen eigenen Benutzer bearbeitet, ist ein Relogin notwendig.
+		if(personId == AuthenticationUtil.getPerson().getId()) {
+			try {
+				
+				Stage stage1 = (Stage) lblTitel.getScene().getWindow();
+			    stage1.close();
+				
+				Stage stage = new Stage();
+				stage.setTitle("Claimer");
+				
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("/Login.fxml"));
+				Pane myPane = loader.load();
+
+				Scene scene = new Scene(myPane);
+				scene.getStylesheets().add(getClass().getResource("/claimer_styles.css").toExternalForm()); // CSS-File wird geladen
+				stage.setScene(scene);
+			    
+			    //Open new Stage
+				stage.show();
+			} catch (IOException | NullPointerException e) {
+				Logger.error("View \"Login.fxml\" kannn nicht geladen werden.");
+			}
+		} else {
+			showMainViewWithMessage("Änderungen erfolgreich gespeichert.");
+		}
+		
 	}
 
 

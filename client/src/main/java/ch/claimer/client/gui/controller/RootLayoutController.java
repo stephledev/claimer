@@ -161,7 +161,7 @@ public class RootLayoutController implements Initializable {
 	 * Logout aus der Applikation und öffnen des Login-Fensters
 	 */
 	@FXML
-	private void logout() {
+	public void logout() {
 		
 			try {
 			
