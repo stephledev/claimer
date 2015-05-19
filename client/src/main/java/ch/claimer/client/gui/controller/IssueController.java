@@ -150,7 +150,6 @@ public class IssueController implements Initializable {
 			@Override
 			public void changed(ObservableValue<? extends String> arg0, String oldValue, String newValue) {
 				dropdownContact.getItems().clear();
-				dropdownContact.setValue("");
 				for(Subcontractor sc : subcontractorList) {
 					if(sc.getName().equals(newValue)) {
 						setDropdownContact(sc.getId());
@@ -174,9 +173,13 @@ public class IssueController implements Initializable {
 
 		dropdownState.setValue(issueToEdit.getState().getName());	
 		txtIssueDescription.setText(issueToEdit.getDescription());
-		dropdownSubcontractor.setValue(issueToEdit.getSubcontractor().getName());
-		dropdownContact.setValue(issueToEdit.getContact().getLastname() + ", " + issueToEdit.getContact().getFirstname());
-		
+		if(issueToEdit.getSubcontractor() != null) {
+			dropdownSubcontractor.setValue(issueToEdit.getSubcontractor().getName());
+		}
+		if(issueToEdit.getContact() != null) {
+			dropdownContact.setValue(issueToEdit.getContact().getLastname() + ", " + issueToEdit.getContact().getFirstname());
+		}
+			
 		long timeStart;
 		long timeEnd;
 		long days;
@@ -215,7 +218,6 @@ public class IssueController implements Initializable {
 			issue.setLogEntries(logEntryList);
 			ProjectAddController.dataTransfer.add(issue);
 			ProjectAddController.dataTransfer.clear();
-			fillCommentTableView();
 			closeStage();
 		}
 	}
@@ -257,20 +259,24 @@ public class IssueController implements Initializable {
 				logEntryList.add(logEntry);
 			}
 			
-			if(!issue.getSubcontractor().getName().equals(issueContainer.getSubcontractor().getName())) {
-				LogEntry logEntry = new LogEntry();
-				logEntry.setDate(new GregorianCalendar());
-				logEntry.setDescription("Das zuständige Subunternehmen wurde von \"" + issueContainer.getSubcontractor().getName() + "\" auf \"" + issue.getSubcontractor().getName() + "\" geändert.");
-				logEntryList.add(logEntry);
+			if(issue.getSubcontractor() != null && issueContainer.getSubcontractor() != null) {
+				if(!issue.getSubcontractor().getName().equals(issueContainer.getSubcontractor().getName())) {
+					LogEntry logEntry = new LogEntry();
+					logEntry.setDate(new GregorianCalendar());
+					logEntry.setDescription("Das zuständige Subunternehmen wurde von \"" + issueContainer.getSubcontractor().getName() + "\" auf \"" + issue.getSubcontractor().getName() + "\" geändert.");
+					logEntryList.add(logEntry);
+				}
 			}
 			
-			if((!issue.getContact().getFirstname().equals(issueContainer.getContact().getFirstname()) && 
-					(!issue.getContact().getLastname().equals(issueContainer.getContact().getLastname())))) {
-				LogEntry logEntry = new LogEntry();
-				logEntry.setDate(new GregorianCalendar());
-				logEntry.setDescription("Die Ansprechperson wurde von \"" + issueContainer.getContact().getFirstname() + " " + issueContainer.getContact().getLastname() + 
-						"\" auf \"" + issue.getContact().getFirstname() + " " + issue.getContact().getLastname() + "\" geändert.");
-				logEntryList.add(logEntry);
+			if(issue.getContact() != null && issueContainer.getContact() != null) {
+				if((!issue.getContact().getFirstname().equals(issueContainer.getContact().getFirstname()) && 
+						(!issue.getContact().getLastname().equals(issueContainer.getContact().getLastname())))) {
+					LogEntry logEntry = new LogEntry();
+					logEntry.setDate(new GregorianCalendar());
+					logEntry.setDescription("Die Ansprechperson wurde von \"" + issueContainer.getContact().getFirstname() + " " + issueContainer.getContact().getLastname() + 
+							"\" auf \"" + issue.getContact().getFirstname() + " " + issue.getContact().getLastname() + "\" geändert.");
+					logEntryList.add(logEntry);
+				}
 			}
 			
 			for(Comment comment : commentsList) {
@@ -335,7 +341,7 @@ public class IssueController implements Initializable {
 			}
 			
 		}
-		if(dropdownContact.getValue() != null) {
+		if(dropdownContact.getValue() != null && dropdownContact.getValue() != "") {
 			
 			String contactName = dropdownContact.getValue();
 			String[] parts = contactName.split(",");

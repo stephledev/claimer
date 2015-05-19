@@ -207,6 +207,9 @@ public class ProjectAddController implements Initializable {
 	@FXML
 	private TableColumn<Principal, String> colPrincipalDeleteButton;
 	
+	@FXML
+	private Button btnAddPrincipal;
+	
 	/**
 	 * Initialisiert den View.
 	 */
@@ -236,8 +239,12 @@ public class ProjectAddController implements Initializable {
 			dropdownSupervisor.setEditable(false);
 			btnAddIssue.setVisible(false);
 			colDeleteButton.setVisible(false);
-			
+			btnAddPrincipal.setVisible(false);
 		
+		}
+		
+		if(roleValue == 10) {
+			btnAddIssue.setVisible(true);
 		}
 		
 		//Listener,um Änderungen zu überprüfen.
@@ -904,7 +911,6 @@ public class ProjectAddController implements Initializable {
 
 		// Wenn Doppelklick auf Mangel
 		if (t.getClickCount() == 2) {
-
 			try {
 				
 				issueToEdit = (Issue)mangleTableView.getSelectionModel().getSelectedItem();
@@ -926,6 +932,7 @@ public class ProjectAddController implements Initializable {
 			    //Open new Stage
 				stage.show();
 			} catch (IOException | NullPointerException e) {
+				e.printStackTrace();
 				Logger.error("Der View \"IssueView\" kann nicht geladen werden.");
 			}
 		}
