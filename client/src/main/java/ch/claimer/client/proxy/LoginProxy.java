@@ -11,6 +11,9 @@ import javax.ws.rs.core.MediaType;
 import ch.claimer.shared.models.Login;
 
 /**
+ * Bindet die verfügbaren HTTP-Routes und Methoden für Projekte an den Client.
+ * Nimmt den HTTP-Content als String entgegen.
+ * 
  * @author Kevin Stadelmann
  * @author Stephan Beeler
  * @since 1.0
@@ -18,25 +21,57 @@ import ch.claimer.shared.models.Login;
  */
 
 public interface LoginProxy {
+	
+	/**
+	 * Holt alle Logins
+	 * 
+	 * @return String des Logins
+	 */
+	
 	@GET
 	@Path("login")
 	@Produces(MediaType.APPLICATION_JSON)
 	String getAll();
+	
+	/**
+	 * Holt einen bestimmtes Login
+	 * 
+	 * @param id Identifikator eines bestimmten Logins
+	 * @return String des Logins
+	 */
 	
 	@GET
 	@Path("login/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	String getById();
 	
+	/**
+	 * Legt ein neues Login an
+	 * 
+	 * @param login zu erstellendes Login
+	 */
+	
 	@POST
 	@Path("login")
 	@Consumes(MediaType.APPLICATION_JSON)
 	void create(Login login);
 	
+	/**
+	 * Meldet ein Login an
+	 * 
+	 * @param login zu anmeldentes Login
+	 */
+	
 	@POST
 	@Path("check")
 	@Consumes(MediaType.APPLICATION_JSON)
 	String check(Login login);
+	
+	/**
+	 * Aktualisiert ein bestehendes Login
+	 * 
+	 * @param login zu aktualisierendes Login
+	 */
 	
 	@PUT
 	@Path("login")
