@@ -83,7 +83,11 @@ public class RootLayoutController implements Initializable {
 		
 		if(roleValue < 15) {
 			naviSubcontractors.setVisible(false); // Subunternehmen-Menupunkt für alle editor-ussuers ausblenden.
-		}		
+		}
+		
+		if(roleValue == 15) {
+			naviProjects.setVisible(false);
+		}
 	}
 	
 	/**

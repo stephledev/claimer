@@ -25,6 +25,7 @@ import ch.claimer.client.proxy.TypeProxy;
 import ch.claimer.client.util.AuthenticationUtil;
 import ch.claimer.client.util.ResteasyClientUtil;
 import ch.claimer.shared.models.Category;
+import ch.claimer.shared.models.Contact;
 import ch.claimer.shared.models.Issue;
 import ch.claimer.shared.models.LogEntry;
 import ch.claimer.shared.models.Principal;
@@ -79,6 +80,7 @@ public class ProjectAddController implements Initializable {
 	private ObservableList<Issue> issuesToDeleteList = FXCollections.observableArrayList();
 	private ObservableList<LogEntry> logEntryList = FXCollections.observableArrayList();
 	private ObservableList<Principal> principalList = FXCollections.observableArrayList();
+	private ObservableList<Contact> contactList = FXCollections.observableArrayList();
 	public static ObservableList<Principal> principalContainerList = FXCollections.observableArrayList();
 	private  Integer projectId = null;
 	private Project projectContainer = null;
@@ -602,11 +604,13 @@ public class ProjectAddController implements Initializable {
 				}
 				
 				saveIssues();
+				project.setContacts(contactList);
 			
 				showMainViewWithMessage("Änderungen erfolgreich gespeichert.");
 			}
 		} else {
 			saveIssues();
+			projectContainer.setContacts(contactList);
 			logEntryHandler(projectContainer);
 			showMainViewWithMessage("Änderungen erfolgreich gespeichert.");
 		}
@@ -621,6 +625,11 @@ public class ProjectAddController implements Initializable {
 		IssueProxy issueProxy = ResteasyClientUtil.getTarget().proxy(IssueProxy.class);
 		for(Issue issue : issueList) {
 			issue.setProject(projectContainer);
+			
+			if(issue.getContact() != null) {
+				contactList.add(issue.getContact());
+			}
+			
 			if((Integer)issue.getId() != null) {
 				issueProxy.update(issue);
 			} else {
