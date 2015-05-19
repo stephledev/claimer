@@ -9,12 +9,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.WebTarget;
-
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
-import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 import org.pmw.tinylog.Logger;
 
 import ch.claimer.client.proxy.ContactProxy;
@@ -338,12 +334,8 @@ public class IssueController implements Initializable {
 					}
 			}
 			
-		} else {
-			validationError = true;
-			dropdownSubcontractor.getStyleClass().add("txtError");
 		}
-		
-		if(!dropdownContact.getValue().equals("")) {
+		if(dropdownContact.getValue() != null) {
 			
 			String contactName = dropdownContact.getValue();
 			String[] parts = contactName.split(",");
@@ -361,11 +353,7 @@ public class IssueController implements Initializable {
 			} catch (IOException e1) {
 				Logger.error("Ansprechpersonen können nicht aus der Datenbank geladen werden.");
 			}
-		} else {
-			validationError = true;
-			dropdownContact.getStyleClass().add("txtError");
 		}
-		
 		
 		// Status dem Mangel zuweisen
 		if(dropdownState.getValue() != null) {

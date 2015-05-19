@@ -281,7 +281,6 @@ public class ProjectAddController implements Initializable {
 	public void initData(Project project) {
 		
 		lbl_title.setText("Projekt \"" + project.getName() +"\" bearbeiten");
-		
 		projectId = project.getId();
 		projectContainer = project;
 		lblProjectID.setText(projectId.toString());
@@ -625,6 +624,7 @@ public class ProjectAddController implements Initializable {
 					project.setId(projectId);
 					projectProxy.update(project);
 				} else {
+					projectContainer = project;
 					projectProxy.create(project);
 				}
 				
