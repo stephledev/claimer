@@ -443,23 +443,6 @@ public class ProjectAddController implements Initializable {
 	                            	@Override
 	                            	public void handle(ActionEvent event) {
 	                            		
-	                            		try {
-                                  			Stage stage = new Stage();
-                                  			stage.setTitle("Mangel löschen");
-                                  			
-                                  			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/DeleteConfirmation.fxml"));
-                                  			Pane myPane = loader.load();
-
-                                  			Scene scene = new Scene(myPane);
-                                  			scene.getStylesheets().add(getClass().getResource("../claimer_styles.css").toExternalForm()); // CSS-File wird geladen
-                                  			stage.setScene(scene);
-                                  		    
-                                  		    //Open new Stage
-                                  			stage.show();
-	                            		} catch (IOException | NullPointerException e) {
-	                						Logger.error("View \"DeleteConfirmation.fxml\" kann nicht geladen werden.");
-                                  		}
-
 	                            		@SuppressWarnings("unchecked")
 	                            		TableRow<Issue> tableRow = c.getTableRow();
 	                            		Issue issue= (Issue)tableRow.getTableView().getItems().get(tableRow.getIndex());
@@ -516,24 +499,7 @@ public class ProjectAddController implements Initializable {
 	                                          @SuppressWarnings("unchecked")
 	                                          TableRow<Principal> tableRow = c.getTableRow();
 	                                          Principal principal= (Principal)tableRow.getTableView().getItems().get(tableRow.getIndex());
-	                                         	                                          
-	                                          try {
-	                                  			Stage stage = new Stage();
-	                                  			stage.setTitle("Kunde löschen");
-	                                  			
-	                                  			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/DeleteConfirmation.fxml"));
-	                                  			Pane myPane = loader.load();
-
-	                                  			Scene scene = new Scene(myPane);
-	                                  			scene.getStylesheets().add(getClass().getResource("../claimer_styles.css").toExternalForm()); // CSS-File wird geladen
-	                                  			stage.setScene(scene);
-	                                  		    
-	                                  		    //Open new Stage
-	                                  			stage.show();
-	                                  		} catch (IOException | NullPointerException e) {
-	                                  			Logger.error("View \"DeleteConfirmation.fxml\" kann nicht geladen werden.");
-	                                  		}
-	                                        	  
+	                                         	                                         
 	                                          principalList.remove(principal);
 	                                          fillPrincipalTableView();
 	                                  }

@@ -26,7 +26,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -217,23 +216,6 @@ public class UserAddController implements Initializable{
 	@FXML
 	private void deleteUser() {
 		toDelete = true;
-		//TODO Confirmation Window
-		try {
-  			Stage stage = new Stage();
-  			stage.setTitle("Benutzer löschen");
-  			
-  			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/DeleteConfirmation.fxml"));
-  			Pane myPane = loader.load();
-
-  			Scene scene = new Scene(myPane);
-  			scene.getStylesheets().add(getClass().getResource("../claimer_styles.css").toExternalForm()); // CSS-File wird geladen
-  			stage.setScene(scene);
-  		    
-  		    //Open new Stage
-  			stage.show();
-		} catch (IOException e) {
-			Logger.error("View \"DeleteConfirmation.fxml\" kannn nicht geladen werden.");
-  		}
 		personHandler();
 	}
 	
@@ -254,22 +236,24 @@ public class UserAddController implements Initializable{
 	private void personHandler() {
 		// Typ des Personenobjekts bestimmen und passende funktion aufrufen
 		personType = dropdownFunction.getValue();
+		if(personType != null) {
 	
-		if(personType.equals("Sachbearbeiter GU") || personType.equals("Sachbearbeiter GU Admin")) {
-			GCEmployee gce = new GCEmployee();
-			gce = (GCEmployee)validateInputs(gce);
-			if(gce != null) {
-				saveGCEmployee(gce);
-				showMainViewWithMessage("Änderungen erfolgreich gespeichert.");
-			}
-		} else if(personType.equals("Bauleiter")) {
-			Supervisor sv = new Supervisor();
-			sv = (Supervisor) validateInputs(sv);
-			if(sv != null) {
-				saveSupervisor(sv);
-				showMainViewWithMessage("Änderungen erfolgreich gespeichert.");
-			}
-		} 
+			if(personType.equals("Sachbearbeiter GU") || personType.equals("Sachbearbeiter GU Admin")) {
+				GCEmployee gce = new GCEmployee();
+				gce = (GCEmployee)validateInputs(gce);
+				if(gce != null) {
+					saveGCEmployee(gce);
+					showMainViewWithMessage("Änderungen erfolgreich gespeichert.");
+				}
+			} else if(personType.equals("Bauleiter")) {
+				Supervisor sv = new Supervisor();
+				sv = (Supervisor) validateInputs(sv);
+				if(sv != null) {
+					saveSupervisor(sv);
+					showMainViewWithMessage("Änderungen erfolgreich gespeichert.");
+				}
+			} 
+		}
 	}
 
 	/**
@@ -346,6 +330,7 @@ public class UserAddController implements Initializable{
 		
 		if(dropdownFunction.getValue() == null) {
 			validationError = true;
+			dropdownFunction.getStyleClass().add("txtError");
 		} else {
 			//Rollen aus DB holen und dem Login zuweisen
 			RoleProxy roleProxy = ResteasyClientUtil.getTarget().proxy(RoleProxy.class);		

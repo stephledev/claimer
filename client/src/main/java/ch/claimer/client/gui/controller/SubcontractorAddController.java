@@ -302,23 +302,7 @@ public class SubcontractorAddController implements Initializable {
 		                            final TableCell<Person, String> c = this;
 		                            button.setOnAction(new EventHandler<ActionEvent>() {
 		                                  @Override
-		                                  public void handle(ActionEvent event) {
-		                                	  try {
-		                                  			Stage stage = new Stage();
-		                                  			stage.setTitle("Subunternehmen löschen");
-		                                  			
-		                                  			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/DeleteConfirmation.fxml"));
-		                                  			Pane myPane = loader.load();
-
-		                                  			Scene scene = new Scene(myPane);
-		                                  			scene.getStylesheets().add(getClass().getResource("../claimer_styles.css").toExternalForm()); // CSS-File wird geladen
-		                                  			stage.setScene(scene);
-		                                  		    
-		                                  		    //Open new Stage
-		                                  			stage.show();
-			                            		} catch (IOException | NullPointerException e) {
-			                            			Logger.error("View \"DeleteConfirmation.fxml\" kann nicht geladen werden.");
-		                                  		} 
+		                                  public void handle(ActionEvent event) { 
 		                                	  	@SuppressWarnings("unchecked")
 												TableRow<Person> tableRow = c.getTableRow();
 		                                          Person person= (Person)tableRow.getTableView().getItems().get(tableRow.getIndex());
@@ -367,22 +351,6 @@ public class SubcontractorAddController implements Initializable {
 	 */
 	@FXML
 	private void deleteSubcontractor() {
-		try {
-  			Stage stage = new Stage();
-  			stage.setTitle("Subunternehmen löschen");
-  			
-  			FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/DeleteConfirmation.fxml"));
-  			Pane myPane = loader.load();
-
-  			Scene scene = new Scene(myPane);
-  			scene.getStylesheets().add(getClass().getResource("../claimer_styles.css").toExternalForm()); // CSS-File wird geladen
-  			stage.setScene(scene);
-  		    
-  		    //Open new Stage
-  			stage.show();
-		} catch (IOException | NullPointerException e) {
-			Logger.error("View \"DeleteConfirmation.fxml\" kann nicht geladen werden.");
-  		}
 		subcontractorContainer.setActive(false);
 		SubcontractorProxy scProxy = ResteasyClientUtil.getTarget().proxy(SubcontractorProxy.class);
 		scProxy.update(subcontractorContainer);
@@ -477,7 +445,6 @@ public class SubcontractorAddController implements Initializable {
 		SCEmployee sce = null;
 		Contact contact = null;
 		for(Person p : olp) {
-			
 			if(personToDelete.contains(p)) {
 				p.setActive(false);
 			} else {
