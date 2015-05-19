@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.pmw.tinylog.Logger;
@@ -93,12 +94,15 @@ public class LoginController extends Main implements Initializable {
 	    
 		try {
 			Person person = mapper.readValue(loginProxy.check(login), new TypeReference<Person>(){});
+			System.out.println(person.getId());
 			if(person.getId() == 0) {
 				lbl_warnung.setText("Login nicht korrekt!");
 				return;
 			}
 			AuthenticationUtil.load(person);
 			go();
+		}  catch(JsonMappingException e) {
+			lbl_warnung.setText("Login nicht korrekt!");
 		} catch (IOException e) {
 			Logger.error("Logins können nicht aus der Datenbank geladen werden.");
 		}

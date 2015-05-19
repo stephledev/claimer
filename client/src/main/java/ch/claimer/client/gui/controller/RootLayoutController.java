@@ -87,8 +87,11 @@ public class RootLayoutController implements Initializable {
 		
 		if(roleValue == 15) {
 			naviProjects.setVisible(false);
+			loadSubcontractorMainView();
+		} else {
+			loadProjectsMainView();
 		}
-	}
+}
 	
 	/**
 	 * Wechselt zur Projekte-Hauptansicht
