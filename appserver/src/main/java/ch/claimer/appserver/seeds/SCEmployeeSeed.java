@@ -71,12 +71,20 @@ public class SCEmployeeSeed extends Seed<SCEmployee> {
 		SCEmployee5.setSubcontractor((Subcontractor) seeds.get("Subcontractor")
 				.get(4));
 		SCEmployee5.setLogin((Login) seeds.get("Login").get(15));
+		
+		SCEmployee SCEmployee6 = new SCEmployee();
+		SCEmployee6.setLastname("SU");
+		SCEmployee6.setFirstname("Standard");
+		SCEmployee6.setSubcontractor((Subcontractor) seeds.get("Subcontractor")
+				.get(0));
+		SCEmployee6.setLogin((Login) seeds.get("Login").get(23));
 
 		seed.add(SCEmployee1);
 		seed.add(SCEmployee2);
 		seed.add(SCEmployee3);
 		seed.add(SCEmployee4);
 		seed.add(SCEmployee5);
+		seed.add(SCEmployee6);
 
 		Seed.seeds.put("SCEmployee", seed);
 	}

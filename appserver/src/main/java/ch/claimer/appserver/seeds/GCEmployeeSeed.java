@@ -75,6 +75,16 @@ public class GCEmployeeSeed extends Seed<GCEmployee> {
 		GCEmployee7.setEmail("alexander.hauck@stud.hslu.ch");
 		GCEmployee7.setPhone("0446754354");
 		GCEmployee7.setLogin((Login) Seed.seeds.get("Login").get(6));
+		
+		GCEmployee GCEmployee8 = new GCEmployee();
+		GCEmployee6.setLastname("GU Admin");
+		GCEmployee6.setFirstname("Standard");
+		GCEmployee6.setLogin((Login) Seed.seeds.get("Login").get(21));
+
+		GCEmployee GCEmployee9 = new GCEmployee();
+		GCEmployee7.setLastname("GU");
+		GCEmployee7.setFirstname("Standard");
+		GCEmployee7.setLogin((Login) Seed.seeds.get("Login").get(22));
 
 		seed.add(GCEmployee1);
 		seed.add(GCEmployee2);
@@ -83,6 +93,8 @@ public class GCEmployeeSeed extends Seed<GCEmployee> {
 		seed.add(GCEmployee5);
 		seed.add(GCEmployee6);
 		seed.add(GCEmployee7);
+		seed.add(GCEmployee8);
+		seed.add(GCEmployee9);
 
 		Seed.seeds.put("GCEmployee", seed);
 	}

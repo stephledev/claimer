@@ -70,12 +70,20 @@ public class ContactSeed extends Seed<Contact> {
 		Contact5.setLogin((Login) Seed.seeds.get("Login").get(19));
 		Contact5.setSubcontractor((Subcontractor) Seed.seeds.get(
 				"Subcontractor").get(4));
+		
+		Contact Contact6 = new Contact();
+		Contact6.setLastname("Ansprechperson");
+		Contact6.setFirstname("Standard");
+		Contact6.setLogin((Login) Seed.seeds.get("Login").get(24));
+		Contact6.setSubcontractor((Subcontractor) Seed.seeds.get(
+				"Subcontractor").get(0));
 
 		seed.add(Contact1);
 		seed.add(Contact2);
 		seed.add(Contact3);
 		seed.add(Contact4);
 		seed.add(Contact5);
+		seed.add(Contact6);
 
 		Seed.seeds.put("Contact", seed);
 	}

@@ -144,6 +144,32 @@ public class LoginSeed extends Seed<Login> {
 		log21.setUsername("Ferrari_Enzo");
 		log21.setPassword("enzo01");
 		log21.setRole((Role) seeds.get("Role").get(3));
+		
+		//Default Credentials
+		Login log22 = new Login();
+		log22.setUsername("generaladmin");
+		log22.setPassword("generaladmin");
+		log22.setRole((Role) seeds.get("Role").get(0));
+		
+		Login log23 = new Login();
+		log23.setUsername("general");
+		log23.setPassword("general");
+		log23.setRole((Role) seeds.get("Role").get(1));
+		
+		Login log24 = new Login();
+		log24.setUsername("sub");
+		log24.setPassword("sub");
+		log24.setRole((Role) seeds.get("Role").get(2));
+		
+		Login log25 = new Login();
+		log25.setUsername("ansprech");
+		log25.setPassword("ansprech");
+		log25.setRole((Role) seeds.get("Role").get(3));
+		
+		Login log26 = new Login();
+		log26.setUsername("bau");
+		log26.setPassword("bau");
+		log26.setRole((Role) seeds.get("Role").get(4));
 
 		seed.add(log1);
 		seed.add(log2);
@@ -166,6 +192,11 @@ public class LoginSeed extends Seed<Login> {
 		seed.add(log19);
 		seed.add(log20);
 		seed.add(log21);
+		seed.add(log22);
+		seed.add(log23);
+		seed.add(log24);
+		seed.add(log25);
+		seed.add(log26);
 
 		Seed.seeds.put("Login", seed);
 	}
